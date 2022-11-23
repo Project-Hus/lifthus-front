@@ -8,21 +8,83 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Schedule from '../component/schedule';
 
-const sex_option = ['Male' , 'Female']
-const leg_length_option = ["상","중","하"]
-const arm_length_option = ["상","중","하"]
+
+const arm_length_option = {
+    "long" : '상',
+    "medium" : "중",
+    "short" : "하",
+}
+
+const sex_option = {
+    "여" : 'female',
+    "남" : "male",
+}
+
+const leg_length_option = {
+    "long" : '상',
+    "medium" : "중",
+    "short" : "하",
+}
+
+const statics = Array(24).fill({
+}).map((i)=>{
+    return {
+        weight: 0,
+        fat_rate: 0,
+        program: 0, // 그 주에 한 프로그램 인덱스
+        squat: 0, // 그 주의 프로그램을 끝내고 스쿼트, 벤치, 데드 무게
+        benchpress: 0,
+        deadlift: 0
+    }
+})
+
 
 const Home = () => {
 
     const [age , setAge] = useState(0)
     const [sex,setSex] = useState('Male')
-    const [height,setHeight] = useState(0)
-    const [squrt , setSqurt] = useState(0)
+    const [height,setHeight] = useState()
+    const [squrt , setSqurt] = useState()
     const [dead,setDead] = useState(0)
     const [bodyFatPercentage , setBodyFatPercentage] = useState(0)
     const [armLength , setArmLength] = useState("상")
     const [legLength , setLegLength] = useState("상")
+    const [schedules , setSchedules ] = useState(statics)
     const swiperRef = useRef()
+
+    const handleAge = (e) => {
+        const regex = /^[0-9\b]+$/;
+        if (e.target.value === "" || regex.test(e.target.value)) {
+            setAge(e.target.value);
+        }else {
+            setAge(0)
+        }
+    }
+
+    const handleHeight = (e) => {
+        const regex = /^[0-9\b]+$/;
+        if (e.target.value === "" || regex.test(e.target.value)) {
+            setHeight(e.target.value);
+        }else{
+            setHeight(0)
+        }
+    }
+
+    const handleSchedules = () => {
+
+    }
+
+    const updateSchedules = () => {
+
+    }
+
+    const addSchedules = () => {
+
+    }
+
+    const getTraingResult =  () => {
+
+    }
 
     return (
         <FullPage>
@@ -35,58 +97,59 @@ const Home = () => {
                     }}
                     slidesPerView={1}
                     >
-                    <SwiperSlide>
+                    <SwiperSlide style={{height : '400px'}}>
                         <SwiperContainer>
+                            <div style={{height : 20}}/>
                             <div>
                                 성별
                             </div>
                             <CheckBoxContainer>
-                                {sex_option.map((data)=>{
-                                    return <FormControlLabel control={<Checkbox checked={sex === data} onChange={()=>{
-                                        setSex(data)
-                                    }}/>} label={data}/>
-                                })}
+                            {Object.keys(sex_option).map((keys)=>{
+                                return <FormControlLabel control={<Checkbox checked={sex === sex_option[keys]} onChange={()=>{
+                                    setLegLength(sex_option[keys])
+                                }}/>} label={keys}/>                                    
+                            })}
                             </CheckBoxContainer>
                             <div>
                                 팔 길이
                             </div>
                             <CheckBoxContainer>
-                                {arm_length_option.map((data,index)=>{
-                                    return <FormControlLabel control={<Checkbox checked={armLength === data} onChange={()=>{
-                                        setArmLength(data)
-                                    }}/>} label={data}/>
-                                })}
+                            {Object.keys(arm_length_option).map((keys)=>{
+                                return <FormControlLabel control={<Checkbox checked={armLength === keys} onChange={()=>{
+                                    setArmLength(keys)
+                                }}/>} label={arm_length_option[keys]}/>                                    
+                            })}
                             </CheckBoxContainer>
                             <div>
                                 다리 길이
                             </div>
                             <CheckBoxContainer>
-                                {leg_length_option.map((data,index)=>{
-                                    return <FormControlLabel control={<Checkbox checked={legLength === data} onChange={()=>{
-                                        setLegLength(data)
-                                    }}/>} label={data}/>
-                                })}
+                            {Object.keys(leg_length_option).map((keys)=>{
+                                return <FormControlLabel control={<Checkbox checked={legLength === keys} onChange={()=>{
+                                    setLegLength(keys)
+                                }}/>} label={leg_length_option[keys]}/>                                    
+                            })}
                             </CheckBoxContainer>
-                            <StyledInput placeholder='나이를 입력해 주세요'></StyledInput>
+                            <div style={{height : 30}}/>
+                            <StyledInput inputMode='numeric' value={age} onChange={handleAge} placeholder='나이를 입력해 주세요'></StyledInput>
                             <div style={{height : 10}}/>
-                            <StyledInput placeholder='신장을 입력해 주세요(Cm)'></StyledInput>
+                            <StyledInput inputMode='numeric' value={height} onChange={handleHeight} placeholder='신장을 입력해 주세요(Cm)'></StyledInput>
                             <div style={{height : 10}}/>
-                            <StyledInput placeholder='몸무게를 입력해 주세요(Kg)'></StyledInput>
-                            <div style={{height : 10}}/>
-                            <StyledInput placeholder='체지방률을 입력해 주세요(%)'></StyledInput>
-                            <div style={{height : 10}}/>
-                            <StartButton onClick={()=>{
-                                swiperRef.current.slideNext()
-                            }}>
-                                Start!
-                            </StartButton>
+                            <ButtonContainer>
+                                <StartButton onClick={()=>{
+                                    swiperRef.current.slideNext()
+                                }}>
+                                    Start!
+                                </StartButton>
+                            </ButtonContainer>
                         </SwiperContainer>
                     </SwiperSlide>
                     <SwiperSlide style={{}}>
                         <SwiperContainer>
                             루틴 입력
                             <div style={{height : 10}}/>
-                            <Schedule/>
+                            <Schedule schedules={schedules} handleSchedules={setSchedules}/>
+                            <div style={{height : 30}}/>
                             <ButtonContainer>
                                 <StartButton onClick={()=>{
                                     swiperRef.current.slidePrev()
@@ -110,6 +173,7 @@ const Home = () => {
 
 const ButtonContainer = styled('div')(()=>({
     width : '100%',
+    height : '100%',
     alignItems : 'flex-end',
     justifyContent : 'flex-start',
     display : 'flex',
@@ -117,6 +181,8 @@ const ButtonContainer = styled('div')(()=>({
 }))
 
 const StyledSwiper = styled(Swiper)(()=>({
+    display : 'flex',
+    flex : 1,
     width : '100%',
     height : '100%',
     overflow : 'scroll'
@@ -151,16 +217,16 @@ const FullPage = styled('div')(() => ({
 
 const SwiperContainer = styled('div')(()=>({
     display : 'flex',
+    flex : 1,
     height : '100%',
-    height : '400px',
     flexDirection : 'column',
     alignItems : 'flex-start',
     justifyContent : 'flex-start',    
-    overflowY : 'scroll'
+    overflowY : 'scroll',
 }))
 
 const PageContainer = styled('div')(() => ({
-    maxWidth : 600,
+    maxWidth : 1000,
     flex : 1,
     display : 'flex',
     flexDirection : 'column',
