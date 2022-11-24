@@ -24,8 +24,6 @@ const ITEM_PADDING_TOP = 8;
 const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: 100,
-        width: 100,
       },
     },
 };
@@ -49,14 +47,15 @@ const ScheduleItem = (props) => {
                 <FormControl sx={{width : 150 }}>
                     <Select
                         style={{height : 30 , fontSize : 10}}
-                        displayEmpty
                         onChange={(event)=>{
-                            props.handleSchedules('program',props.index,event)
+                            onHandleValue('program',event)
                         }}
                         renderValue={(selected) => {
                             return program_option[selected === 242 ? 13: selected]
                         }}
-                        MenuProps={MenuProps}
+                        MenuProps={{
+                            ...MenuProps,
+                        }}
                         input={<OutlinedInput/>}
                         value={props.data.program}
                     >

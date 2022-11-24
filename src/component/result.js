@@ -4,25 +4,25 @@ import { styled , Grid } from '@mui/material'
 
 const ex = { method: 'Wendler 531', sqaut: 162.3, benchpress: 120.1, deadlift: 181.5 }
 
-const Result = () => {
+const Result = (props) => {
     return(
         <Grid container styled={{height : 400}}>
             <StyledContainer>
                 <StyledText>
-                    Recommanded Method :  {ex.method}
+                    Recommanded Method :  {props.data.method}
                 </StyledText>
                 <div style={{height : 10}}/>
                 <StyledText>
-                    예측 스쿼트 중량 :  {ex.sqaut}
+                    예측 스쿼트 중량 :  {props.data.method}
                 </StyledText>                    
                 <StyledText>
-                    예측 벤치 중량 :  {ex.benchpress}
+                    예측 벤치 중량 :  {props.data.method}
                 </StyledText>              
                 <StyledText>
-                    예측 데드 중량 :  {ex.deadlift}
+                    예측 데드 중량 :  {props.data.method}
                 </StyledText>    
                 <StyledText>
-                    예측 총합 :  {ex.deadlift+ex.sqaut+ex.benchpress}
+                    예측 총합 :  {props.data.method}
                 </StyledText>                    
                 
             </StyledContainer>
@@ -42,7 +42,7 @@ const StyledContainer = styled('div')(({})=>({
     marginTop : 10,
     borderRadius : 10,
     ':hover' : {
-        backgroundColor : 'gray'
+        backgroundColor : '#C9DCE6'
     }
 }))
 

@@ -52,6 +52,8 @@ const Home = () => {
     const [armLength , setArmLength] = useState("상")
     const [legLength , setLegLength] = useState("상")
     const [schedules , setSchedules ] = useState(statics)
+    const [results , setResults] = useState([])
+    const [loading,setLoading] = useState(false)
     const swiperRef = useRef()
 
     // const [program, setProgram] = useState('')
@@ -123,6 +125,7 @@ const Home = () => {
                 recordWeekly :newArray
             })
             console.log(result)
+            setLoading(false)
         }catch(e){
             console.log(e)
         }
@@ -257,11 +260,9 @@ const Home = () => {
                     </SwiperSlide>
                     <SwiperSlide style={{}}>
                         <SwiperContainer>
-                            <Result/>
-                            <Result/>
-                            <Result/>
-                            <Result/>
-                            <Result/>
+                            {!loading && results.map((res)=>{
+                                return <Result data={res}/>
+                            })}
                             <div style={{height : 30}}/>
                             <ButtonContainer>
                                 <StartButton onClick={()=>{
