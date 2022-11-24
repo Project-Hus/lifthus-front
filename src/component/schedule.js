@@ -47,10 +47,9 @@ const ScheduleItem = (props) => {
         }
     }
     const handlefatPerWeight = (e) => {
-        const regex = /^[0-9\b]+$/;
-        if (e.target.value === "" || regex.test(e.target.value)) {
-            setFatPerWeight(e.target.value);
-        }
+        const i = props.data[props.index]
+        
+        props.setData()
     }
 
     const handleBenchpress = (e) => {
@@ -71,16 +70,16 @@ const ScheduleItem = (props) => {
             setDeadlift(e.target.value);
         }
     }
-
+    console.log(props.data)
     return (<ItemContainer>
-        {props.index ?? 0+1}주차
+        {props.index+1}주차
         <div style={{width : 20}}/>
         <FormControl sx={{width : 150 }}>
             <Select
                 style={{height : 30 , fontSize : 10}}
                 displayEmpty
                 onChange={(event)=>{
-                    setProgram(event.target.value)
+                    props.handleSchedules('program',props.index,event)
                 }}
                 renderValue={(selected) => {
                     if (selected === '') {
@@ -90,7 +89,7 @@ const ScheduleItem = (props) => {
                 }}       
                 MenuProps={MenuProps}
                 input={<OutlinedInput/>}
-                value={program}
+                value={props.data.program}
             >
                 <MenuItem disabled value="">프로그램 선택</MenuItem>
                 {program_option.map((data,index)=>{
@@ -102,24 +101,34 @@ const ScheduleItem = (props) => {
         </FormControl>
         <div style={{height : 10}}/>
         <StyledInputContainer>
-            <StyledInput onChange={handlefatPerWeight} value ={fatPerWeight} style={{border : '1px solid'}} placeholder={`체지방률을 입력해 주세요`}></StyledInput>
-            <StyledInput onChange={handleweight} value ={weight} style={{border : '1px solid'}} placeholder={`몸무게를 입력해 주세요(KG)`}></StyledInput>
-            <StyledInput onChange={handleSquat} value ={squat} style={{border : '1px solid'}} placeholder={`스쿼트(KG)`}></StyledInput>
-            <StyledInput onChange={handleDead} value ={deadlift} style={{border : '1px solid'}} placeholder={`데드(KG)`}></StyledInput>
-            <StyledInput onChange={handleBenchpress} value ={benchpress} style={{border : '1px solid'}} placeholder={`벤치(KG)`}></StyledInput>
+            <StyledInput onChange={(e)=>{
+                props.handleSchedules('fat_rate',props.index,e)
+            }} value ={props.data.fat_rate} style={{border : '1px solid'}} placeholder={`체지방률을 입력해 주세요`}></StyledInput>
+            <StyledInput onChange={(e)=>{
+                props.handleSchedules('fat_rate',props.index,e)
+            }}  value ={props.data.weight} style={{border : '1px solid'}} placeholder={`몸무게를 입력해 주세요(KG)`}></StyledInput>
+            <StyledInput onChange={(e)=>{
+                props.handleSchedules('fat_rate',props.index,e)
+            }}  value ={props.data.squat} style={{border : '1px solid'}} placeholder={`스쿼트(KG)`}></StyledInput>
+            <StyledInput onChange={(e)=>{
+                props.handleSchedules('fat_rate',props.index,e)
+            }}  value ={props.data.deadlift} style={{border : '1px solid'}} placeholder={`데드(KG)`}></StyledInput>
+            <StyledInput onChange={(e)=>{
+                props.handleSchedules('fat_rate',props.index,e)
+            }}  value ={props.data.benchpress} style={{border : '1px solid'}} placeholder={`벤치(KG)`}></StyledInput>
         </StyledInputContainer>
     </ItemContainer>)
 }
 
 
 const Schedule = (props) => {
-
+    
     return (
         <Container>
             {props.schedules.map((data,index)=>{
                 return ( 
                     <Wrapper>
-                        <ScheduleItem index={index}/>
+                        <ScheduleItem data={data} handleSchedules={props.handleSchedules} index={index}/>
                     </Wrapper>)
             })}
             {/* {props.schedules.length === 24 ? null :

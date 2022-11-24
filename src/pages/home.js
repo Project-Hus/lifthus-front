@@ -6,7 +6,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import Schedule from '../component/schedule';
+import ScheduleItem from '../component/scheduleItem';
+import Result from '../component/result';
+import Logo from '../logo.svg';
+
 
 
 const arm_length_option = {
@@ -27,8 +30,9 @@ const leg_length_option = {
 }
 
 const statics = Array(24).fill({
-}).map((i)=>{
+}).map((i,index)=>{
     return {
+        id : index,
         weight: 0,
         fat_rate: 0,
         program: 0, // 그 주에 한 프로그램 인덱스
@@ -41,36 +45,86 @@ const statics = Array(24).fill({
 
 const Home = () => {
 
-    const [age , setAge] = useState(0)
+    const [age , setAge] = useState()
     const [sex,setSex] = useState('Male')
     const [height,setHeight] = useState()
-    const [squrt , setSqurt] = useState()
-    const [dead,setDead] = useState(0)
-    const [bodyFatPercentage , setBodyFatPercentage] = useState(0)
     const [armLength , setArmLength] = useState("상")
     const [legLength , setLegLength] = useState("상")
     const [schedules , setSchedules ] = useState(statics)
     const swiperRef = useRef()
 
+    // const [program, setProgram] = useState('')
+    // const [weight , setWeight] = useState()
+    // const [fatPerWeight , setFatPerWeight] = useState()
+    // const [squat , setSquat] = useState()
+    // const [benchpress , setBenchpress] = useState()
+    // const [deadlift , setDeadlift] = useState()
+
+    const [input1,setInput1] = useState({})
+
+    const [input2,setInput2] = useState({})
+
+    const [input3,setInput3] = useState({})
+
+    const [input4,setInput4] = useState({})
+
+    const [input5,setInput5] = useState({})
+
+    const [input6,setInput6] = useState({})
+
+    const [input7,setInput7] = useState({})
+
+    const [input8,setInput8] = useState({})
+
+    const [input9,setInput9] = useState({})
+
+    const [input10,setInput10] = useState({})
+
+    const [input11,setInput11] = useState({})
+
+    const [input12,setInput12] = useState({})
+
+    const [input13,setInput13] = useState({})
+
+    const [input14,setInput14] = useState({})
+
+    const [input15,setInput15] = useState({})
+
+    const [input16,setInput16] = useState({})
+
+    const [input17,setInput17] = useState({})
+
+    const [input18,setInput18] = useState({})
+
+    const [input19,setInput19] = useState({})
+
+    const [input20,setInput20] = useState({})
+
+    const [input21,setInput21] = useState({})
+
+    const [input22,setInput22] = useState({})
+
+    const [input23,setInput23] = useState({})
+
+    const [input24,setInput24] = useState({})
+
+    
+
     const handleAge = (e) => {
-        const regex = /^[0-9\b]+$/;
-        if (e.target.value === "" || regex.test(e.target.value)) {
-            setAge(e.target.value);
-        }else {
-            setAge(0)
-        }
+        setAge(e.target.value);
     }
 
     const handleHeight = (e) => {
-        const regex = /^[0-9\b]+$/;
-        if (e.target.value === "" || regex.test(e.target.value)) {
-            setHeight(e.target.value);
-        }else{
-            setHeight(0)
-        }
+        setHeight(e.target.value);
     }
 
-    const handleSchedules = () => {
+    const handleSchedules = (key,index,e) => {
+        const newValue =  [...schedules.slice(0,index),{
+            ...schedules[index],
+            [key.toString()] : e.target.value
+        }, ...schedules.slice(index+1)]
+
+        setSchedules(newValue)
 
     }
 
@@ -89,6 +143,7 @@ const Home = () => {
     return (
         <FullPage>
             <PageContainer>
+                <img src={Logo} style={{position : 'absolute' , width : 150, height : 100 , top : 80, left : '44%'}}/>
                 <StyledSwiper
                     allowTouchMove={false}
                     onSlideChange={() => console.log('slide change')}
@@ -97,7 +152,7 @@ const Home = () => {
                     }}
                     slidesPerView={1}
                     >
-                    <SwiperSlide style={{height : '400px'}}>
+                    <SwiperSlide style={{}}>
                         <SwiperContainer>
                             <div style={{height : 20}}/>
                             <div>
@@ -106,7 +161,7 @@ const Home = () => {
                             <CheckBoxContainer>
                             {Object.keys(sex_option).map((keys)=>{
                                 return <FormControlLabel control={<Checkbox checked={sex === sex_option[keys]} onChange={()=>{
-                                    setLegLength(sex_option[keys])
+                                    setSex(sex_option[keys])
                                 }}/>} label={keys}/>                                    
                             })}
                             </CheckBoxContainer>
@@ -131,10 +186,10 @@ const Home = () => {
                             })}
                             </CheckBoxContainer>
                             <div style={{height : 30}}/>
-                            <StyledInput inputMode='numeric' value={age} onChange={handleAge} placeholder='나이를 입력해 주세요'></StyledInput>
+                            <StyledInput style={{width : 200}} inputMode='numeric' value={age} onChange={handleAge} placeholder='나이를 입력해 주세요'></StyledInput>
                             <div style={{height : 10}}/>
-                            <StyledInput inputMode='numeric' value={height} onChange={handleHeight} placeholder='신장을 입력해 주세요(Cm)'></StyledInput>
-                            <div style={{height : 10}}/>
+                            <StyledInput style={{width : 200}} inputMode='numeric' value={height} onChange={handleHeight} placeholder='신장을 입력해 주세요(Cm)'></StyledInput>
+                            <div style={{height : 50}}/>
                             <ButtonContainer>
                                 <StartButton onClick={()=>{
                                     swiperRef.current.slideNext()
@@ -148,7 +203,53 @@ const Home = () => {
                         <SwiperContainer>
                             루틴 입력
                             <div style={{height : 10}}/>
-                            <Schedule schedules={schedules} handleSchedules={setSchedules}/>
+                            <ScheduleItem index={1} data={input1} handler={setInput1}/>
+                            <ScheduleItem index={2} data={input2} handler={setInput2}/>
+                            <ScheduleItem index={3} data={input3} handler={setInput3}/>
+                            <ScheduleItem index={4} data={input4} handler={setInput4}/>
+                            <ScheduleItem index={5} data={input5} handler={setInput5}/>
+                            <ScheduleItem index={6} data={input6} handler={setInput6}/>
+                            <ScheduleItem index={7} data={input7} handler={setInput7}/>
+                            <ScheduleItem index={8} data={input8} handler={setInput8}/>
+                            <ScheduleItem index={9} data={input9} handler={setInput9}/>
+                            <ScheduleItem index={10} data={input10} handler={setInput10}/>
+                            <ScheduleItem index={11} data={input11} handler={setInput11}/>
+                            <ScheduleItem index={12} data={input12} handler={setInput12}/>
+                            <ScheduleItem index={13} data={input13} handler={setInput13}/>
+                            <ScheduleItem index={14} data={input14} handler={setInput14}/>
+                            <ScheduleItem index={15} data={input15} handler={setInput15}/>
+                            <ScheduleItem index={16} data={input16} handler={setInput16}/>
+                            <ScheduleItem index={17} data={input17} handler={setInput17}/>
+                            <ScheduleItem index={18} data={input18} handler={setInput18}/>
+                            <ScheduleItem index={19} data={input19} handler={setInput19}/>
+                            <ScheduleItem index={20} data={input20} handler={setInput20}/>
+                            <ScheduleItem index={21} data={input21} handler={setInput21}/>
+                            <ScheduleItem index={22} data={input22} handler={setInput22}/>
+                            <ScheduleItem index={23} data={input23} handler={setInput23}/>
+                            <ScheduleItem index={24} data={input24} handler={setInput24}/>
+                            <div style={{height : 30}}/>
+                            <ButtonContainer>
+                                <StartButton onClick={()=>{
+                                    swiperRef.current.slidePrev()
+                                }}>
+                                    Back
+                                </StartButton>
+                                <div style={{width : 8}}/>
+                                <StartButton onClick={()=>{
+                                    swiperRef.current.slideNext()
+                                }}>
+                                    Start
+                                </StartButton>
+                            </ButtonContainer>
+                        </SwiperContainer>
+                    </SwiperSlide>
+                    <SwiperSlide style={{}}>
+                        <SwiperContainer>
+                            <Result/>
+                            <Result/>
+                            <Result/>
+                            <Result/>
+                            <Result/>
                             <div style={{height : 30}}/>
                             <ButtonContainer>
                                 <StartButton onClick={()=>{
@@ -171,13 +272,23 @@ const Home = () => {
     )
 }
 
-const ButtonContainer = styled('div')(()=>({
+
+const Container = styled('div')(()=>({
+    display : 'flex',
     width : '100%',
-    height : '100%',
+    height : 400,
+    flexDirection : 'column',
+    overflowY : 'scroll'
+}))
+
+const ButtonContainer = styled('div')(()=>({
     alignItems : 'flex-end',
     justifyContent : 'flex-start',
     display : 'flex',
     flex : 1,
+    position : 'absolute',
+    bottom : 0,
+    left : 0
 }))
 
 const StyledSwiper = styled(Swiper)(()=>({
@@ -218,15 +329,15 @@ const FullPage = styled('div')(() => ({
 const SwiperContainer = styled('div')(()=>({
     display : 'flex',
     flex : 1,
-    height : '100%',
     flexDirection : 'column',
     alignItems : 'flex-start',
-    justifyContent : 'flex-start',    
-    overflowY : 'scroll',
+    justifyContent : 'flex-start',
+    position : 'relative'
 }))
 
 const PageContainer = styled('div')(() => ({
     maxWidth : 1000,
+    maxHeight : 400,
     flex : 1,
     display : 'flex',
     flexDirection : 'column',
