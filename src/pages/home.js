@@ -124,6 +124,7 @@ const Home = () => {
                 },
                 recordWeekly :newArray
             })
+            setResults(result.data)
             console.log(result)
             setLoading(false)
         }catch(e){
@@ -263,6 +264,7 @@ const Home = () => {
                             {!loading && results.map((res)=>{
                                 return <Result data={res}/>
                             })}
+                            {loading ? <p>Loading . . . .</p> : null}
                             <div style={{height : 30}}/>
                             <ButtonContainer>
                                 <StartButton onClick={()=>{

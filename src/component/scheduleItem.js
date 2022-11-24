@@ -32,7 +32,6 @@ const MenuProps = {
 const ScheduleItem = (props) => {
 
     const onHandleValue = (key,e) => {
-        console.log(e.target.value())
         let newValue
 
         if(key === 'program'){
