@@ -3,21 +3,20 @@ import { InputBase, Select ,styled , FormControl ,  MenuItem , OutlinedInput } f
 
 
 const program_option = [
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
-    'One',
+    '휴식', // 0
+    'Kizen Powerlifting Peaking Program', // 1
+    'nSuns Programs',
+    'Jim Wendler 5/3/1 Programs',
+    'Calgary Barbell Programs',
+    'Sheiko Programs',
+    'Candito Program',
+    'Juggernaut Method Base Template',
+    'Greg Nuckols 28 Programs',
+    'Beginner Powerlifting Programs',
+    'Intermediate Powerlifting Programs',
+    'Madcow 5x5 Program',
+    'General 5x5 Program',
+    '기타(etc)' // 기타는 index 242로 설정 [ 주의 ]
 ]
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -56,17 +55,23 @@ const ScheduleItem = (props) => {
                         }}
                         renderValue={(selected) => {
                             if (selected === '') {
-                            return <em>프로그램 선택</em>;
+                                return <em>프로그램 선택</em>;
                             }
-                            return program_option[selected]
-                        }}       
+                            return program_option[selected === 242 ? 13: selected]
+                        }}
                         MenuProps={MenuProps}
                         input={<OutlinedInput/>}
                         value={props.data.program}
                     >
                         <MenuItem disabled value="">프로그램 선택</MenuItem>
                         {program_option.map((data,index)=>{
-                            return <MenuItem value={index+1}>
+                            return <MenuItem value={()=>{
+                                if(data === '기타(etc)'){
+                                    return 242
+                                }else{
+                                    return index
+                                }
+                            }}>
                                 {data}
                             </MenuItem>
                         })}
