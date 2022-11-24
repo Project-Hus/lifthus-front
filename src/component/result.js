@@ -13,16 +13,16 @@ const Result = (props) => {
                 </StyledText>
                 <div style={{height : 10}}/>
                 <StyledText>
-                    예측 스쿼트 중량 :  {props.data.method}
+                    예측 스쿼트 중량 :  {props.data.sqaut}
                 </StyledText>                    
                 <StyledText>
-                    예측 벤치 중량 :  {props.data.method}
+                    예측 벤치 중량 :  {props.data.benchpress}
                 </StyledText>              
                 <StyledText>
-                    예측 데드 중량 :  {props.data.method}
+                    예측 데드 중량 :  {props.data.deadlift}
                 </StyledText>    
                 <StyledText>
-                    예측 총합 :  {props.data.method}
+                    예측 총합 :  {props.data.sqaut + props.data.benchpress+props.data.deadlifts}
                 </StyledText>                    
                 
             </StyledContainer>
