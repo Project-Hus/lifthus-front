@@ -9,6 +9,7 @@ import 'swiper/css/scrollbar';
 import ScheduleItem from '../component/scheduleItem';
 import Result from '../component/result';
 import Logo from '../logo.svg';
+import axios from 'axios';
 
 
 
@@ -108,7 +109,24 @@ const Home = () => {
 
     const [input24,setInput24] = useState({})
 
-    
+
+    const predict = async () => {
+        try{
+            const result = await axios.get(env.APIURL,{
+                recordFixed : {
+                    sex : parseInt(sex),
+                    age : parseInt(age),
+                    height : parseInt(height),
+                    arm_length : armLength,
+                    leg_length : legLength
+                },
+                recordWeekly :[input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11,input12,input13,input14,input15,input16,input17,input18,input19,input20,input21,input22,input23,input24]
+            })
+            console.log(result)
+        }catch(e){
+            console.log(e)
+        }
+    }
 
     const handleAge = (e) => {
         setAge(e.target.value);
@@ -127,18 +145,7 @@ const Home = () => {
         setSchedules(newValue)
 
     }
-
-    const updateSchedules = () => {
-
-    }
-
-    const addSchedules = () => {
-
-    }
-
-    const getTraingResult =  () => {
-
-    }
+    
 
     return (
         <FullPage>

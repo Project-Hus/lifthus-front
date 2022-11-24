@@ -37,7 +37,7 @@ const ScheduleItem = (props) => {
     const onHandleValue = (key,e) => {
         const newValue = {
             ...props.data,
-            [key.toString()] : e.target.value
+            [key.toString()] : parseInt(e.target.value)
         }
         props.handler(newValue)
     }
