@@ -22,7 +22,7 @@ const Result = (props) => {
                     예측 데드 중량 :  {props.data.deadlift}
                 </StyledText>    
                 <StyledText>
-                    예측 총합 :  {props.data.squat + props.data.benchpress+props.data.deadlifts}
+                    예측 총합 :  {props.data.squat + props.data.benchpress + props.data.deadlift}
                 </StyledText>                    
                 
             </StyledContainer>
