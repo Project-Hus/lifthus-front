@@ -112,7 +112,7 @@ const Home = () => {
 
     const predict = async () => {
         try{
-            const result = await axios.get(env.APIURL,{
+            const result = await axios.get(process.env.APIURL,{
                 recordFixed : {
                     sex : parseInt(sex),
                     age : parseInt(age),
