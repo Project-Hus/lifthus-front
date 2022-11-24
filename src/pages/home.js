@@ -117,8 +117,8 @@ const Home = () => {
             const result = await axios.post(process.env.APIURL,{
                 recordFixed : {
                     sex : sex,
-                    age : parseInt(age),
-                    height : parseInt(height),
+                    age : parseInt(age) ?? 25,
+                    height : parseInt(height) ?? 180,
                     arm_length : armLength,
                     leg_length : legLength
                 },
