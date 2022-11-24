@@ -54,9 +54,6 @@ const ScheduleItem = (props) => {
                             props.handleSchedules('program',props.index,event)
                         }}
                         renderValue={(selected) => {
-                            if (selected === '') {
-                                return <em>프로그램 선택</em>;
-                            }
                             return program_option[selected === 242 ? 13: selected]
                         }}
                         MenuProps={MenuProps}
