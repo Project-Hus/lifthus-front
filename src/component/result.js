@@ -9,11 +9,11 @@ const Result = (props) => {
         <Grid container styled={{height : 400}}>
             <StyledContainer>
                 <StyledText>
-                    Recommanded Method :  {props.data.method}
+                    추천 프로그램 :  {props.data.method}
                 </StyledText>
                 <div style={{height : 10}}/>
                 <StyledText>
-                    예측 스쿼트 중량 :  {props.data.sqaut}
+                    예측 스쿼트 중량 :  {props.data.squat}
                 </StyledText>                    
                 <StyledText>
                     예측 벤치 중량 :  {props.data.benchpress}
@@ -22,7 +22,7 @@ const Result = (props) => {
                     예측 데드 중량 :  {props.data.deadlift}
                 </StyledText>    
                 <StyledText>
-                    예측 총합 :  {props.data.sqaut + props.data.benchpress+props.data.deadlifts}
+                    예측 총합 :  {props.data.squat + props.data.benchpress+props.data.deadlifts}
                 </StyledText>                    
                 
             </StyledContainer>
