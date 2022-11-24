@@ -32,9 +32,19 @@ const MenuProps = {
 const ScheduleItem = (props) => {
 
     const onHandleValue = (key,e) => {
-        const newValue = {
-            ...props.data,
-            [key.toString()] : parseInt(e.target.value)
+        console.log(e.target.value())
+        let newValue
+
+        if(key === 'program'){
+            newValue = {
+                ...props.data,
+                [key.toString()] : parseInt(e.target.value())
+            }
+        }else{
+            newValue = {
+                ...props.data,
+                [key.toString()] : parseInt(e.target.value)
+            }
         }
         props.handler(newValue)
     }
@@ -48,6 +58,7 @@ const ScheduleItem = (props) => {
                     <Select
                         style={{height : 30 , fontSize : 10}}
                         onChange={(event)=>{
+                            console.log(event)
                             onHandleValue('program',event)
                         }}
                         renderValue={(selected) => {
