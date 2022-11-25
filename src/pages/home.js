@@ -246,11 +246,7 @@ const Home = () => {
                                     Back
                                 </StartButton>
                                 <div style={{width : 8}}/>
-<<<<<<< HEAD
                                 <StartButton onClick={async()=>{
-=======
-                                <StartButton onClick={async ()=>{
->>>>>>> f6cceaf (잦)
                                     swiperRef.current.slideNext()
                                     await predict()
                                 }}>
