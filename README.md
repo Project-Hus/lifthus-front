@@ -1,3 +1,3 @@
-<Center>
+<center>
  hi
-</Center>
+</center>
