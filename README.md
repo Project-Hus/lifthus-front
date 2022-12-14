@@ -1,3 +1,3 @@
-<center>
- hi
-</center>
+<p align="center">
+ Hello
+</p>
