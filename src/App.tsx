@@ -5,6 +5,8 @@ import "./App.css";
 import styled from "styled-components";
 import { ThemeColor } from "./common/styles/theme.style";
 
+import { useTranslation } from "react-i18next";
+
 const AppStyled = styled.div`
   text-align: center;
   background-color: ${ThemeColor.backgroundColor};
@@ -19,6 +21,7 @@ const AppStyled = styled.div`
 `;
 
 function App() {
+  const { t, i18n } = useTranslation();
   return (
     <AppStyled>
       <header></header>
@@ -33,7 +36,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          {t("Work out!")}
         </a>
       </section>
       <footer></footer>
