@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { ThemeColor } from "./common/styles/theme.style";
 
 import { useTranslation } from "react-i18next";
+import { Route, Routes } from "react-router-dom";
 
 const AppStyled = styled.div`
   text-align: center;
@@ -22,22 +23,24 @@ const AppStyled = styled.div`
 
 function App() {
   const { t, i18n } = useTranslation();
+
+  const userId = useState(undefined);
   return (
     <AppStyled>
       <header></header>
       <section>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t("Work out!")}
-        </a>
+        <Routes>
+          <Route path="/register/*" element={<Register />} />
+
+          <Route path="/*" element={<Main />} />
+          {userId === undefined && (
+            <Route>
+              <Route path="/sign" element={<Sign />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signin/up" element={<SignIn />} />
+            </Route>
+          )}
+        </Routes>
       </section>
       <footer></footer>
     </AppStyled>
