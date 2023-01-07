@@ -7,6 +7,7 @@ import { ThemeColor } from "./common/styles/theme.style";
 
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
+import Main from "./contents/main/containers/Main";
 
 const AppStyled = styled.div`
   text-align: center;
@@ -30,14 +31,13 @@ function App() {
       <header></header>
       <section>
         <Routes>
-          <Route path="/register/*" element={<Register />} />
-
           <Route path="/*" element={<Main />} />
           {userId === undefined && (
             <Route>
-              <Route path="/sign" element={<Sign />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signin/up" element={<SignIn />} />
+              <Route path="/register/*" element={<div />} />
+              <Route path="/sign" element={<div />} />
+              <Route path="/signin" element={<div />} />
+              <Route path="/signin/up" element={<div />} />
             </Route>
           )}
         </Routes>
