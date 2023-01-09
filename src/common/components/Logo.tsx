@@ -1,43 +1,47 @@
-// import React from 'react';
-// import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-// import logo from '/logo.svg';
+import styled, { css, keyframes } from "styled-components";
 
-// /* if this Logo hides another component, should set the component css position relative*/ 
-// /* free like {width:'30vmax', cursor:'pointer'} */
+import logo from "../../logo.svg";
 
-// interface Props {
-//     link: string
-// }
+const lifting = keyframes`
+    0% {width:50vmax;}
+    20% {width:46vmax;}
+    25% {width:45vmax;}
+    50% {width:50vmax;}
+    100% {width:50vmax;}
+`;
+const LogoStyled = styled.img<{ mov: boolean }>`
+  position: absolute;
+  top: 20vh;
+  max-width: 100vw;
+  cursor: pointer;
 
-// export default function Logo({link, free}: Props) {
-//     let to, cN;
-//     if(link===undefined) to='/'
-//     else to = link;
-//     if(free===undefined) cN = `${style.AppLogo}`;
-//     else cN = '';
-//     let navigate = useNavigate();
-//     return (
-//             <React.Fragment>
-//                 <img src={logo} 
-//                 className={`${cN}`} 
-//                 style={free}
-//                 alt="lifthus logo" 
-//                 onClick={()=> {
-//                     navigate(to);
-//                 }   
-//                 }/>
-//             </React.Fragment>
-//     );
-// }
+  ${(props) =>
+    props.mov &&
+    css`
+      animation: ${lifting} 4s infinite;
+    `}
+`;
 
-
-import React from 'react'
-
-const Logo = () => {
+type LogoType = {
+  to?: string;
+  mov?: boolean;
+};
+/* if this Logo covers another component, should be set the component css position relative*/
+const Logo = ({ to = "/", mov = false }: LogoType) => {
+  let navigate = useNavigate();
   return (
-    <div>Logo</div>
-  )
-}
+    <LogoStyled
+      src={logo}
+      alt="lifthus logo"
+      onClick={() => {
+        navigate(to);
+      }}
+      mov={mov}
+    />
+  );
+};
 
-export default Logo
+export default Logo;

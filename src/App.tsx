@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import Main from "./contents/main/containers/Main";
 
-const AppStyled = styled.div`
+const AppStyled = styled.section`
   text-align: center;
   background-color: ${ThemeColor.backgroundColor};
   min-height: 100vh;
@@ -28,9 +28,9 @@ const App = () => {
   const userId = useState(undefined);
 
   return (
-    <AppStyled>
+    <div className="App">
       <header></header>
-      <section>
+      <AppStyled>
         <Routes>
           {/* If the user signed in but not registered, the user needs to be registered. */}
           <Route path="/register/*" element={<div />} />
@@ -45,9 +45,9 @@ const App = () => {
             </Route>
           )}
         </Routes>
-      </section>
+      </AppStyled>
       <footer></footer>
-    </AppStyled>
+    </div>
   );
 };
 
