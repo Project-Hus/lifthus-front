@@ -8,6 +8,7 @@ import { ThemeColor } from "./common/styles/theme.style";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import Main from "./contents/main/containers/Main";
+import Sign from "./contents/main/components/Sign";
 
 const AppStyled = styled.section`
   text-align: center;
@@ -25,7 +26,7 @@ const AppStyled = styled.section`
 const App = () => {
   const { t, i18n } = useTranslation();
 
-  const userId = useState(undefined);
+  const [userId, setUserId] = useState("");
 
   return (
     <div className="App">
@@ -37,9 +38,9 @@ const App = () => {
 
           <Route path="/*" element={<Main />} />
           {/* If the user haven't signed in, the user needs to be authenticated */}
-          {userId === undefined && (
+          {userId === "" && (
             <Route>
-              <Route path="/sign" element={<div />} />
+              <Route path="/sign" element={<Sign />} />
               <Route path="/signin" element={<div />} />
               <Route path="/signin/up" element={<div />} />
             </Route>
