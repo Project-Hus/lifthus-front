@@ -33,7 +33,7 @@ const Sign = () => {
   const { t, i18n } = useTranslation();
   return (
     <React.Fragment>
-      <Logo />
+      <Logo mov={true} />
       <p>&nbsp;</p>
       <p>&nbsp;</p>
       <Link to="/error">
