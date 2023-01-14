@@ -7,7 +7,7 @@ import { ThemeColor } from "./common/styles/theme.style";
 
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
-import Main from "./contents/main/containers/Main";
+import Main from "./contents/main/Main";
 import Sign from "./contents/main/components/Sign";
 
 const AppStyled = styled.section`

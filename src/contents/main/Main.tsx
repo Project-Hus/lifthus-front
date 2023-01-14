@@ -1,13 +1,13 @@
 import React from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 
-import Logo from "../../../logo.svg";
+import Logo from "../../logo.svg";
 
-import FirstPage from "../components/FirstPage";
+import FirstPage from "./components/FirstPage";
 
 import BottomNav from "./BottomNav";
 
-import ErrorPage from "../../../common/components/ErrorPage";
+import ErrorPage from "../../common/components/ErrorPage";
 
 const Main = () => {
   const app = { id: null, registered: false };
