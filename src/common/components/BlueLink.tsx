@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
 
 const LinkStyled = styled.a`
@@ -13,12 +13,12 @@ const LinkStyled = styled.a`
   }
 `;
 
-type BlueLinkProp = {
+interface Props {
   href: string;
-  content: string;
-};
-const BlueLink = ({ href, content }: BlueLinkProp) => {
-  return <LinkStyled href={href}>{content}</LinkStyled>;
+}
+
+const BlueLink = ({ href, children }: PropsWithChildren<Props>) => {
+  return <LinkStyled href={href}>{children}</LinkStyled>;
 };
 
 export default BlueLink;

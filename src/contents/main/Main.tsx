@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, Link } from "react-router-dom";
 
 import Logo from "../../logo.svg";
 
-import FirstPage from "./components/FirstPage";
+import FirstPage from "./pages/FirstPage";
 
 import BottomNav from "./BottomNav";
 
@@ -32,7 +32,7 @@ const Main = () => {
   return (
     // Main page(signed in)
     <React.Fragment>
-      {app.registered === false && <Navigate to="/regioster" />}
+      {app.registered === false && <Navigate to="/register" />}
       <BottomNav />
       <Routes>
         <Route index element={<Link to="/">abc</Link>} />

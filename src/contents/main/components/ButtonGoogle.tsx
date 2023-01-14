@@ -1,12 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
 import { useTranslation } from "react-i18next";
-
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-import Logo from "../../../common/components/Logo";
-import BlueLink from "../../../common/components/BlueLink";
 
 const BtnGoogle = styled.button`
   position: relative;
@@ -29,21 +24,13 @@ const BtnGoogle = styled.button`
   }
 `;
 
-const Sign = () => {
+const ButtonGoogle = ({ to = "/" }: { to?: string }) => {
   const { t, i18n } = useTranslation();
   return (
-    <React.Fragment>
-      <Logo mov={true} />
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-      <Link to="/error">
-        <BtnGoogle>{t("Google Login")}</BtnGoogle>
-      </Link>
-      <p></p>
-      <BlueLink href="/signin" content={t("Sign in")} />
-      <BlueLink href="/signup" content={t("Sign up")} />
-    </React.Fragment>
+    <Link to={to}>
+      <BtnGoogle>{t("Google Login")}</BtnGoogle>
+    </Link>
   );
 };
 
-export default Sign;
+export default ButtonGoogle;

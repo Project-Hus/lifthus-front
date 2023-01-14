@@ -12,11 +12,17 @@ const lifting = keyframes`
     50% {width:50vmax;}
     100% {width:50vmax;}
 `;
-const LogoStyled = styled.img<{ mov: boolean }>`
+const LogoStyled = styled.img<{ mov: boolean; small: boolean }>`
   position: absolute;
   top: 20vh;
   max-width: 100vw;
   cursor: pointer;
+
+  ${(props) =>
+    props.small &&
+    css`
+      width: 30vmax;
+    `}
 
   ${(props) =>
     props.mov &&
@@ -28,9 +34,10 @@ const LogoStyled = styled.img<{ mov: boolean }>`
 type LogoType = {
   to?: string;
   mov?: boolean;
+  small?: boolean;
 };
 /* if this Logo covers another component, should be set the component css position relative*/
-const Logo = ({ to = "/", mov = false }: LogoType) => {
+const Logo = ({ to = "/", mov = false, small = true }: LogoType) => {
   let navigate = useNavigate();
   return (
     <LogoStyled
@@ -40,6 +47,7 @@ const Logo = ({ to = "/", mov = false }: LogoType) => {
         navigate(to);
       }}
       mov={mov}
+      small={small}
     />
   );
 };

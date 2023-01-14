@@ -8,7 +8,8 @@ import { ThemeColor } from "./common/styles/theme.style";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import Main from "./contents/main/Main";
-import Sign from "./contents/main/components/Sign";
+import Sign from "./contents/main/pages/Sign";
+import SignUp from "./contents/main/pages/SignUp";
 
 const AppStyled = styled.section`
   text-align: center;
@@ -42,7 +43,7 @@ const App = () => {
             <Route>
               <Route path="/sign" element={<Sign />} />
               <Route path="/signin" element={<div />} />
-              <Route path="/signin/up" element={<div />} />
+              <Route path="/signup" element={<SignUp />} />
             </Route>
           )}
         </Routes>

@@ -6,12 +6,7 @@ import { initReactI18next } from "react-i18next";
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
 const resources = {
   en: {
-    translation: {
-      "Work out!": "Work out!",
-      "Google Login": "Google Login",
-      "Sign in": "Sign in",
-      "Sign up": "Sign up",
-    },
+    translation: {},
   },
   kr: {
     translation: {
@@ -19,6 +14,9 @@ const resources = {
       "Google Login": "Google 로그인",
       "Sign in": "로그인",
       "Sign up": "회원가입",
+      ID: "아이디",
+      Password: "비밀번호",
+      "Check your password": "비밀번호 확인",
     },
   },
 };
