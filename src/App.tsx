@@ -14,7 +14,6 @@ import SignUp from "./contents/sign/SignUp";
 import useAppStore from "./common/store/app.zustand";
 
 const AppStyled = styled.section`
-  text-align: center;
   background-color: ${ThemeColor.backgroundColor};
   min-height: 100vh;
   display: flex;
@@ -32,7 +31,7 @@ const App = () => {
   const user_id = useAppStore((state) => state.user_id);
 
   return (
-    <div className="App">
+    <div className="App" style={{ textAlign: "center" }}>
       <header></header>
       <AppStyled>
         <Routes>

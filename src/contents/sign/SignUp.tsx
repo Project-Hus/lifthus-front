@@ -78,7 +78,7 @@ const SignUp = () => {
       >
         check password
       </FormInput>
-      <p />
+      <div>&nbsp;</div>
       {id.length > 3 && checkPW === pw && pw.length > 3 && (
         <BlueLink
           onClick={() => {
