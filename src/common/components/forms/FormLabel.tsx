@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
 
-const SignLabel_ = styled.label`
+const FormLabel_ = styled.label`
   font-size: 0.55em;
   font-weight: bold;
   color: rgb(191, 225, 235);
@@ -9,8 +9,8 @@ const SignLabel_ = styled.label`
   margin-bottom: 0.2em;
 `;
 
-const SignLabel = ({ children }: PropsWithChildren) => {
-  return <SignLabel_>{children}</SignLabel_>;
+const FormLabel = ({ children }: PropsWithChildren) => {
+  return <FormLabel_>{children}</FormLabel_>;
 };
 
-export default SignLabel;
+export default FormLabel;

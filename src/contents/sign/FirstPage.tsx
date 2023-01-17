@@ -1,9 +1,9 @@
 import React from "react";
 
 import { useTranslation } from "react-i18next";
+import BigThemeBtn from "../../common/components/buttons/BigThemeBtn";
 
-import Logo from "../../../common/components/Logo";
-import BigThemeBtn from "../../../common/components/BigThemeBtn";
+import Logo from "../../common/components/Logo";
 
 const FirstPage = () => {
   const { t, i18n } = useTranslation();

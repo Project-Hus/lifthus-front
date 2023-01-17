@@ -8,8 +8,10 @@ import { ThemeColor } from "./common/styles/theme.style";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import Main from "./contents/main/Main";
-import Sign from "./contents/main/pages/Sign";
-import SignUp from "./contents/main/pages/SignUp";
+import Sign from "./contents/sign/Sign";
+import SignUp from "./contents/sign/SignUp";
+
+import useAppStore from "./common/store/app.zustand";
 
 const AppStyled = styled.section`
   text-align: center;
@@ -27,7 +29,7 @@ const AppStyled = styled.section`
 const App = () => {
   const { t, i18n } = useTranslation();
 
-  const [userId, setUserId] = useState("");
+  const user_id = useAppStore((state) => state.user_id);
 
   return (
     <div className="App">
@@ -36,14 +38,14 @@ const App = () => {
         <Routes>
           {/* If the user signed in but not registered, the user needs to be registered. */}
           <Route path="/register/*" element={<div />} />
-
+          /* If the user is registered */
           <Route path="/*" element={<Main />} />
           {/* If the user haven't signed in, the user needs to be authenticated */}
-          {userId === "" && (
+          {user_id === "" && (
             <Route>
-              <Route path="/sign" element={<Sign />} />
-              <Route path="/signin" element={<div />} />
-              <Route path="/signup" element={<SignUp />} />
+              <Route path="/sign/" element={<Sign />} />
+              <Route path="/sign/in" element={<div />} />
+              <Route path="/sign/up" element={<SignUp />} />
             </Route>
           )}
         </Routes>

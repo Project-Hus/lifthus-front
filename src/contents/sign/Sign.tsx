@@ -5,9 +5,10 @@ import { useTranslation } from "react-i18next";
 
 import styled from "styled-components";
 
-import Logo from "../../../common/components/Logo";
-import BlueLink from "../../../common/components/BlueLink";
-import ButtonGoogle from "../components/ButtonGoogle";
+import Logo from "../../common/components/Logo";
+
+import ButtonGoogle from "./components/ButtonGoogle";
+import BlueLink from "../../common/components/links/BlueLink";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
@@ -18,8 +19,8 @@ const Sign = () => {
       <p>&nbsp;</p>
       <ButtonGoogle to="/error" />
       <p></p>
-      <BlueLink href="/signin">{t("Sign in")}</BlueLink>
-      <BlueLink href="/signup">{t("Sign up")}</BlueLink>
+      <BlueLink href="/sign/in">{t("Sign in")}</BlueLink>
+      <BlueLink href="/sign/up">{t("Sign up")}</BlueLink>
     </React.Fragment>
   );
 };

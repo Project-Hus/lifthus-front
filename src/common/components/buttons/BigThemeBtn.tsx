@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { ThemeColor } from "../styles/theme.style";
+import { ThemeColor } from "../../styles/theme.style";
 
 const ThemeBtn = styled.button`
   position: relative;
