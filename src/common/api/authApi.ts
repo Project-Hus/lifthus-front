@@ -5,6 +5,7 @@ export interface sign_form {
 
 export interface sign_in_out {
   id: string;
+  fid: boolean;
   ok: boolean;
 }
 
@@ -16,20 +17,26 @@ export interface sign_up_out {
 const authTestApi: any = {
   sign_in_local: ({ id, password }: sign_form): sign_in_out => {
     let user_id = "";
+    let fid = false;
     let ok = false;
     switch (id) {
       case "succ":
-        if (password == id) {
-          user_id = "succ";
-          ok = true;
-        }
+        user_id = "succ";
+        fid = false;
+        ok = true;
+        break;
+      case "fidd":
+        user_id = "";
+        fid = true;
+        ok = false;
         break;
       default:
         user_id = "";
+        fid = false;
         ok = false;
         break;
     }
-    return { id: user_id, ok };
+    return { id: user_id, fid, ok };
   },
 
   sign_up_local: ({ id, password }: sign_form): sign_up_out => {
@@ -58,7 +65,7 @@ const authApi: any = {
     if (process.env.NODE_ENV == "development") {
       return authTestApi.sign_in_local({ id, password });
     }
-    return { id: "", ok: false };
+    return { id: "", fid: false, ok: false };
   },
   sign_up_local: ({ id, password }: sign_form): sign_up_out => {
     if (process.env.NODE_ENV == "development") {

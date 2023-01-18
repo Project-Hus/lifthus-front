@@ -7,11 +7,15 @@ import { ThemeColor } from "./common/styles/theme.style";
 
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
+
 import Main from "./contents/main/Main";
 import Sign from "./contents/sign/Sign";
 import SignUp from "./contents/sign/SignUp";
+import ErrorPage from "./common/components/ErrorPage";
 
 import useAppStore from "./common/store/app.zustand";
+import FirstPage from "./contents/sign/FirstPage";
+import SignIn from "./contents/sign/SignIn";
 
 const AppStyled = styled.section`
   background-color: ${ThemeColor.backgroundColor};
@@ -38,13 +42,15 @@ const App = () => {
           {/* If the user signed in but not registered, the user needs to be registered. */}
           <Route path="/register/*" element={<div />} />
           /* If the user is registered */
-          <Route path="/*" element={<Main />} />
+          <Route path="" element={<div />} />
           {/* If the user haven't signed in, the user needs to be authenticated */}
           {user_id === "" && (
             <Route>
+              <Route index path="/" element={<FirstPage />} />
               <Route path="/sign/" element={<Sign />} />
-              <Route path="/sign/in" element={<div />} />
+              <Route path="/sign/in" element={<SignIn />} />
               <Route path="/sign/up" element={<SignUp />} />
+              <Route path="*" element={<ErrorPage />} />
             </Route>
           )}
         </Routes>

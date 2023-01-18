@@ -16,7 +16,9 @@ const resources = {
       "Check your password": "Check your password",
       "*character limit": "{{min}} to {{max}} characters",
       "ID already exists": "ID already exists",
+      "ID doesn't exists": "ID doesn't exists",
       "Failed to sign up": "Failed to sign up",
+      "Failed to sign in": "Failed to sign in",
     },
   },
   kr: {
@@ -30,7 +32,9 @@ const resources = {
       "Check your password": "비밀번호 확인",
       "*character limit": "{{min}}~{{max}}자",
       "ID already exists": "아이디가 이미 존재해요.",
+      "ID doesn't exists": "이런 아이디는 없어요 ㅠ",
       "Failed to sign up": "회원가입 실패, 가입 정보를 확인해주세요.",
+      "Failed to sign in": "로그인에 실패했어요.",
     },
   },
 };
