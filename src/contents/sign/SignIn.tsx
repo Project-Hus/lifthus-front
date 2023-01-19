@@ -79,7 +79,7 @@ const SignIn = () => {
       >
         {t("Sign in")}
       </BlueLink>
-      {failed === true && (
+      {failed && !fid && (
         <div style={{ fontSize: "0.7em" }}>{t("Failed to sign in")}</div>
       )}
     </React.Fragment>
