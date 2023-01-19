@@ -39,20 +39,18 @@ const App = () => {
       <header></header>
       <AppStyled>
         <Routes>
-          {/* If the user signed in but not registered, the user needs to be registered. */}
-          <Route path="/register/*" element={<div />} />
-          /* If the user is registered */
-          <Route path="" element={<div />} />
+          {/* If the user has signed in, Let the Main component handl the whole routing */}
+          {user_id && <Route path="*" element={<Main />} />}
           {/* If the user haven't signed in, the user needs to be authenticated */}
-          {user_id === "" && (
+          {!user_id && (
             <Route>
               <Route index path="/" element={<FirstPage />} />
               <Route path="/sign/" element={<Sign />} />
               <Route path="/sign/in" element={<SignIn />} />
               <Route path="/sign/up" element={<SignUp />} />
-              <Route path="*" element={<ErrorPage />} />
             </Route>
           )}
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </AppStyled>
       <footer></footer>

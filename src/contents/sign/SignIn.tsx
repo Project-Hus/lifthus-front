@@ -10,7 +10,6 @@ import { password_limit } from "../../common/constants";
 import useAppStore from "../../common/store/app.zustand";
 
 const SignIn = () => {
-  const user_id = useAppStore((state) => state.user_id);
   const set_id = useAppStore((state) => state.set_id);
 
   const { t, i18n } = useTranslation();
@@ -65,9 +64,7 @@ const SignIn = () => {
       >
         password
       </FormInput>
-
       <div>&nbsp;</div>
-
       <BlueLink
         onClick={() => {
           const res = authApi.sign_in_local({ id: id, password: pw });
@@ -82,7 +79,6 @@ const SignIn = () => {
       >
         {t("Sign in")}
       </BlueLink>
-
       {failed === true && (
         <div style={{ fontSize: "0.7em" }}>{t("Failed to sign in")}</div>
       )}
