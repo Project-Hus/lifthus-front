@@ -4,7 +4,7 @@ export interface sign_form {
 }
 
 export interface sign_in_out {
-  id: string;
+  user_id: string;
   fid: boolean;
   ok: boolean;
 }

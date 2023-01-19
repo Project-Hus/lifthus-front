@@ -1,3 +1,4 @@
+import { app_info } from "../../store/interfaces/app.interface";
 import {
   sign_form,
   sign_in_out,
@@ -26,7 +27,7 @@ const authTestApi: any = {
         ok = false;
         break;
     }
-    return { id: user_id, fid, ok };
+    return { user_id, fid, ok };
   },
 
   sign_up_local: ({ id, password }: sign_form): sign_up_out => {
@@ -47,6 +48,10 @@ const authTestApi: any = {
         break;
     }
     return { fid, ok };
+  },
+  get_user_info: (id: string): app_info => {
+    const registered = id === "succregi" ? true : false;
+    return { user_id: id, registered };
   },
 };
 export default authTestApi;

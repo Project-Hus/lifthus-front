@@ -16,7 +16,7 @@ const Main = () => {
   return (
     // Main page(signed in)
     <React.Fragment>
-      {registered === false && <Navigate to="/register" />}
+      {/*registered === false && <Navigate to="/register" />*/}
       <BottomNav />
       <Routes>
         <Route index element={<Link to="/">abc</Link>} />

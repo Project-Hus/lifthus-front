@@ -1,13 +1,20 @@
 import { create } from "zustand";
+import { app_info } from "./interfaces/app.interface";
 
 interface AppState {
-  user_id: string | null;
-  set_id: (id: string) => void;
+  user_id: string;
+  registered: boolean;
+  set_user_info: (info: app_info) => void;
 }
 
 const useAppStore = create<AppState>()((set) => ({
   user_id: "",
-  set_id: (id) => set({ user_id: id }),
+  registered: false,
+  set_user_info: (info: app_info) =>
+    set({
+      user_id: info?.user_id,
+      registered: info?.registered,
+    }),
 }));
 
 export default useAppStore;

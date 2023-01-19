@@ -10,8 +10,6 @@ import { password_limit } from "../../common/constants";
 import useAppStore from "../../store/app.zustand";
 
 const SignIn = () => {
-  const set_id = useAppStore((state) => state.set_id);
-
   const { t, i18n } = useTranslation();
 
   const [id, setID] = useState("");
@@ -22,6 +20,8 @@ const SignIn = () => {
 
   let navigate = useNavigate();
   let location = useLocation();
+
+  const set_user_info = useAppStore((state) => state.set_user_info);
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
@@ -69,7 +69,7 @@ const SignIn = () => {
         onClick={() => {
           const res = authApi.sign_in_local({ id: id, password: pw });
           if (res.ok === true) {
-            set_id(res.id);
+            set_user_info(authApi.get_user_info(res.user_id));
             navigate("/");
           } else {
             if (res.fid === true) setFid(true);
