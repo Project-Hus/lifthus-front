@@ -8,31 +8,15 @@ import BottomNav from "./BottomNav";
 import ErrorPage from "../../common/components/ErrorPage";
 
 import FirstPage from "../sign/FirstPage";
+import useAppStore from "../../store/app.zustand";
 
 const Main = () => {
-  const app = { id: null, registered: false };
-  if (app.id === null)
-    // Main page(Not signed in)
-    return (
-      <React.Fragment>
-        <Routes>
-          <Route path="/" element={<FirstPage />} />
-          <Route
-            path="*"
-            element={
-              <React.Fragment>
-                <Logo />
-                <div>에러 발생 ㅠ</div>
-              </React.Fragment>
-            }
-          />
-        </Routes>
-      </React.Fragment>
-    );
+  const user_id = useAppStore((state) => state.user_id);
+  const registered = false;
   return (
     // Main page(signed in)
     <React.Fragment>
-      {app.registered === false && <Navigate to="/register" />}
+      {registered === false && <Navigate to="/register" />}
       <BottomNav />
       <Routes>
         <Route index element={<Link to="/">abc</Link>} />

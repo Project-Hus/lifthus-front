@@ -1,13 +1,13 @@
 import React, { ChangeEvent, PropsWithChildren, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import authApi from "../../common/api/authApi";
+import authApi from "../../api/authApi";
 import FormInput from "../../common/components/forms/FormInput";
 import FormLabel from "../../common/components/forms/FormLabel";
 import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constants";
-import useAppStore from "../../common/store/app.zustand";
+import useAppStore from "../../store/app.zustand";
 
 const SignIn = () => {
   const set_id = useAppStore((state) => state.set_id);

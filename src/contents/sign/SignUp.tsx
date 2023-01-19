@@ -8,7 +8,7 @@ import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constants";
 import { useLocation, useNavigate } from "react-router-dom";
 import BlueLink from "../../common/components/links/BlueLink";
-import authApi from "../../common/api/authApi";
+import authApi from "../../api/authApi";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();

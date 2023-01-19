@@ -13,7 +13,7 @@ import Sign from "./contents/sign/Sign";
 import SignUp from "./contents/sign/SignUp";
 import ErrorPage from "./common/components/ErrorPage";
 
-import useAppStore from "./common/store/app.zustand";
+import useAppStore from "./store/app.zustand";
 import FirstPage from "./contents/sign/FirstPage";
 import SignIn from "./contents/sign/SignIn";
 
@@ -39,7 +39,7 @@ const App = () => {
       <header></header>
       <AppStyled>
         <Routes>
-          {/* If the user has signed in, Let the Main component handl the whole routing */}
+          {/* If the user has signed in, Let the Main component take control. */}
           {user_id && <Route path="*" element={<Main />} />}
           {/* If the user haven't signed in, the user needs to be authenticated */}
           {!user_id && (
