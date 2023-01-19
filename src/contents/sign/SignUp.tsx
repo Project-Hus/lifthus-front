@@ -6,7 +6,7 @@ import FormInput from "../../common/components/forms/FormInput";
 
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BlueLink from "../../common/components/links/BlueLink";
 import authApi from "../../common/api/authApi";
 
@@ -21,6 +21,7 @@ const SignUp = () => {
   const [fid, setFid] = useState(false);
 
   let navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <React.Fragment>
@@ -83,7 +84,8 @@ const SignUp = () => {
         <BlueLink
           onClick={() => {
             const res = authApi.sign_up_local({ id: id, password: pw });
-            if (res.ok === true) navigate("/sign/in");
+            if (res.ok === true)
+              navigate("/sign/in", { state: { from: pathname } });
             else {
               if (res.fid === true) setFid(true);
               setFailed(true);

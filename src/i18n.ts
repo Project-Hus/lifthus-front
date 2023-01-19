@@ -19,6 +19,7 @@ const resources = {
       "ID doesn't exists": "ID doesn't exists",
       "Failed to sign up": "Failed to sign up",
       "Failed to sign in": "Failed to sign in",
+      "Welcome to join us!": "Welcome to join us!",
     },
   },
   kr: {
@@ -35,6 +36,7 @@ const resources = {
       "ID doesn't exists": "이런 아이디는 없어요 ㅠ",
       "Failed to sign up": "회원가입 실패, 가입 정보를 확인해주세요.",
       "Failed to sign in": "로그인에 실패했어요.",
+      "Welcome to join us!": "가입을 환영해요!",
     },
   },
 };

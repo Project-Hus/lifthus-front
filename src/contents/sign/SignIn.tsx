@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, PropsWithChildren, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import authApi from "../../common/api/authApi";
 import FormInput from "../../common/components/forms/FormInput";
 import FormLabel from "../../common/components/forms/FormLabel";
@@ -22,10 +22,13 @@ const SignIn = () => {
   const [fid, setFid] = useState(false);
 
   let navigate = useNavigate();
-
+  let location = useLocation();
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
+      {location.state?.from === "/sign/up" && (
+        <div style={{ marginTop: "0.5em" }}>{t("Welcome to join us!")}</div>
+      )}
       <FormLabel>{t("ID")}</FormLabel>
       <FormInput
         minLength={password_limit.min}
