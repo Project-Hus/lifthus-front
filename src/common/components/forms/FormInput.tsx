@@ -1,5 +1,4 @@
-import React, { InputHTMLAttributes, PropsWithChildren } from "react";
-import { Path, UseFormRegister } from "react-hook-form";
+import React from "react";
 import styled from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
@@ -34,20 +33,11 @@ const FormInput_ = styled.input`
 interface Props {
   children: string;
   focusString: string;
-  password?: boolean;
-
-  register?: any;
 
   [x: string]: any;
 }
-
-const FormInput = ({
-  children,
-  focusString,
-
-  register,
-  ...props
-}: Props) => {
+// !! Found using s-c as Input wrapper is best way !!
+const FormInput = ({ children, focusString, ...props }: Props) => {
   return (
     <FormInput_
       placeholder={children}
@@ -57,7 +47,6 @@ const FormInput = ({
       onBlur={(e) => {
         e.currentTarget.placeholder = children;
       }}
-      {...register}
       {...props}
     />
   );

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import FormLabel from "../../common/components/forms/FormLabel";
@@ -112,7 +112,7 @@ const SignUp = () => {
         </FormInput>
         <div>&nbsp;</div>
         {id.length > 3 && checkPW === pw && pw.length > 3 && (
-          <BlueLink onClick={handleSubmit(onSubmit)}>{t("Sign up")}</BlueLink>
+          <BlueLink onClick={onSubmit}>{t("Sign up")}</BlueLink>
         )}
         {failed === true && (
           <div style={{ fontSize: "0.7em" }}>{t("Failed to sign up")}</div>
