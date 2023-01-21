@@ -1,4 +1,5 @@
 import React, { InputHTMLAttributes, PropsWithChildren } from "react";
+import { Path, UseFormRegister } from "react-hook-form";
 import styled from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
@@ -13,13 +14,20 @@ const FormInput_ = styled.input`
   font-size: 0.6em;
   border-top: 0.2em;
   border-bottom: 0.2em;
+  transition: 0.5s;
+
   &::placeholder {
     color: #363e5069;
     text-align: center;
   }
   &:focus {
     caret-color: #363e509d;
-    background-color: rgba(194, 243, 255, 0.952);
+    background-color: rgba(183, 241, 255, 0.952);
+    border: 0.5em solid ${ThemeColor.linkColor};
+    border-radius: 0.5em;
+    border-top: 0.2em;
+    border-bottom: 0.2em;
+    transition: 0.5s;
   }
 `;
 
@@ -27,13 +35,17 @@ interface Props {
   children: string;
   focusString: string;
   password?: boolean;
+
+  register?: any;
+
   [x: string]: any;
 }
 
 const FormInput = ({
   children,
   focusString,
-  password = false,
+
+  register,
   ...props
 }: Props) => {
   return (
@@ -45,6 +57,7 @@ const FormInput = ({
       onBlur={(e) => {
         e.currentTarget.placeholder = children;
       }}
+      {...register}
       {...props}
     />
   );

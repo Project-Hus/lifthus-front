@@ -7,6 +7,7 @@ const FormLabel_ = styled.label`
   color: rgb(191, 225, 235);
   margin-top: 1.5em;
   margin-bottom: 0.2em;
+  display: block;
 `;
 
 const FormLabel = ({ children }: PropsWithChildren) => {

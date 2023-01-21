@@ -20,10 +20,8 @@ const Main = () => {
       <BottomNav />
       <Routes>
         <Route index element={<Link to="/">abc</Link>} />
-
         <Route path="profile" element={<div />} />
         <Route path="profile/userinfo" element={<div />} />
-
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </React.Fragment>
