@@ -58,70 +58,65 @@ const SignUp = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/*fdasdsagdasgjdglsiufhjoi;sdlkbahfuewifwefeasdfafdsf*/}
         <FormInputRHF
+          {...register("id", {
+            required: true,
+            minLength: password_limit.min,
+            maxLength: password_limit.max,
+            onChange: (e) => {
+              setID(e.currentTarget.value);
+              console.log("Hello");
+              setFailed(false);
+              setFid(false);
+            },
+          })}
           label={t("ID")}
           placeholder="ID"
           focusString={t("*character limit", {
             min: password_limit.min,
             max: password_limit.max,
           })}
-          {...register("id")}
         />
-        <FormLabel>{t("ID")}</FormLabel>
-        <FormInput
-          {...register("id", { required: true })}
-          minLength={password_limit.min}
-          maxLength={password_limit.max}
-          focusString={t("*character limit", {
-            min: password_limit.min,
-            max: password_limit.max,
-          })}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setID(e.currentTarget.value);
-            setFailed(false);
-            setFid(false);
-          }}
-        >
-          ID
-        </FormInput>
         {fid === true && (
           <div style={{ fontSize: "0.6em" }}>{t("ID already exists")}</div>
         )}
-        <FormLabel>{t("Password")}</FormLabel>
-        <FormInput
-          {...register("password", { required: true })}
-          minLength={password_limit.min}
-          maxLength={password_limit.max}
+        <FormInputRHF
+          {...register("password", {
+            required: true,
+            minLength: password_limit.min,
+            maxLength: password_limit.max,
+            onChange: (e: ChangeEvent<HTMLInputElement>) => {
+              setPW(e.currentTarget.value);
+              setFailed(false);
+              setFid(false);
+            },
+          })}
+          label={t("Password")}
+          placeholder="password"
           focusString={t("*character limit", {
             min: password_limit.min,
             max: password_limit.max,
           })}
-          type="password"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setPW(e.currentTarget.value);
-            setFailed(false);
-            setFid(false);
-          }}
-        >
-          password
-        </FormInput>
-        <FormLabel>{t("Check your password")}</FormLabel>
-        <FormInput
-          {...register("check", { required: true })}
-          minLength={password_limit.min}
-          maxLength={password_limit.max}
+          pw={true}
+        />
+        <FormInputRHF
+          {...register("check", {
+            required: true,
+            minLength: password_limit.min,
+            maxLength: password_limit.max,
+            onChange: (e: ChangeEvent<HTMLInputElement>) => {
+              setCheckPW(e.currentTarget.value);
+              setFailed(false);
+              setFid(false);
+            },
+          })}
+          label={t("Check your password")}
+          placeholder="check password"
           focusString={t("*character limit", {
             min: password_limit.min,
             max: password_limit.max,
           })}
-          type="password"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setCheckPW(e.currentTarget.value);
-            setFailed(false);
-            setFid(false);
-          }}
-        >
-          check password
-        </FormInput>
+          pw={true}
+        />
         <div>&nbsp;</div>
         {id.length > 3 && checkPW === pw && pw.length > 3 && (
           <BlueLink onClick={onSubmit}>{t("Sign up")}</BlueLink>

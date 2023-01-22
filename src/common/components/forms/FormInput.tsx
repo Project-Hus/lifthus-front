@@ -1,5 +1,6 @@
+import { DefaultTFuncReturn } from "i18next";
 import React from "react";
-import { Path, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import styled from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
@@ -96,26 +97,29 @@ interface IFormValues {
   password: string;
   check: string;
 }
+
 type InputProps = {
-  label: string;
-  placeholder: string;
-  focusString: string;
+  label?: any;
+  placeholder?: any;
+  focusString?: any;
+  pw?: boolean;
 };
+
 export const FormInputRHF = React.forwardRef<
   HTMLInputElement,
   InputProps & ReturnType<UseFormRegister<IFormValues>>
->(({ onChange, label, placeholder, focusString }, ref) => (
+>(({ label, placeholder = "", focusString = "", pw = false }, ref) => (
   <FormDiv>
-    <label>{label}</label>
+    {label && <label>{label}</label>}
     <input
+      type={pw ? "password" : "text"}
       ref={ref}
       placeholder={placeholder}
-      onChange={onChange}
       onFocus={(e) => {
         e.currentTarget.placeholder = focusString;
       }}
       onBlur={(e) => {
-        e.currentTarget.placeholder = placeholder;
+        if (placeholder) e.currentTarget.placeholder = placeholder;
       }}
     />
   </FormDiv>
