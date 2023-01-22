@@ -2,7 +2,9 @@ import React, { ChangeEvent, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import FormLabel from "../../common/components/forms/FormLabel";
-import FormInput from "../../common/components/forms/FormInput";
+import FormInput, {
+  FormInputRHF,
+} from "../../common/components/forms/FormInput";
 
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constants";
@@ -41,7 +43,7 @@ const SignUp = () => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    console.log(watch("id"));
     const res = authApi.sign_up_local({ id: id, password: pw });
     if (res.ok === true) navigate("/sign/in", { state: { from: pathname } });
     // if the user arrives right after signing up, there will be a welcome message.
@@ -54,6 +56,16 @@ const SignUp = () => {
     <React.Fragment>
       <Logo to="/sign" relative={true} />
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/*fdasdsagdasgjdglsiufhjoi;sdlkbahfuewifwefeasdfafdsf*/}
+        <FormInputRHF
+          label={t("ID")}
+          placeholder="ID"
+          focusString={t("*character limit", {
+            min: password_limit.min,
+            max: password_limit.max,
+          })}
+          {...register("id")}
+        />
         <FormLabel>{t("ID")}</FormLabel>
         <FormInput
           {...register("id", { required: true })}
