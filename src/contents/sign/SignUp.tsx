@@ -37,8 +37,8 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const res = authApi.sign_up_local({
-      id: watch("id"),
-      password: watch("password"),
+      id: getValues("id"),
+      password: getValues("password"),
     });
     if (res.ok === true) navigate("/sign/in", { state: { from: pathname } });
     // if the user arrives right after signing up, there will be a welcome message.
@@ -47,21 +47,26 @@ const SignUp = () => {
       setFailed(true);
     }
   };
+  console.log(watch());
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
+          {...register("id", {
+            required: true,
+            minLength: password_limit.min,
+            maxLength: password_limit.max,
+            onChange: (e) => {
+              setFid(false);
+              setFailed(false);
+            },
+          })}
           label={t("ID")}
           placeholder="ID"
           focusString={t("*character limit", {
             min: password_limit.min,
             max: password_limit.max,
-          })}
-          {...register("id", {
-            required: true,
-            minLength: password_limit.min,
-            maxLength: password_limit.max,
           })}
         />
         {fid === true && (
@@ -72,6 +77,9 @@ const SignUp = () => {
             required: true,
             minLength: password_limit.min,
             maxLength: password_limit.max,
+            onChange: (e) => {
+              setFailed(false);
+            },
           })}
           label={t("Password")}
           type="password"
@@ -86,6 +94,9 @@ const SignUp = () => {
             required: true,
             minLength: password_limit.min,
             maxLength: password_limit.max,
+            onChange: (e) => {
+              setFailed(false);
+            },
           })}
           label={t("Check your password")}
           type="password"
