@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BlueLink from "../../common/components/links/BlueLink";
 import authApi from "../../api/authApi";
 
-import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -17,31 +17,29 @@ const SignUp = () => {
   let navigate = useNavigate();
   const { pathname } = useLocation();
 
-  /* local states */
-  const [id, setID] = useState("");
-  const [pw, setPW] = useState("");
-  const [checkPW, setCheckPW] = useState("");
-
-  const [failed, setFailed] = useState(false);
-  const [fid, setFid] = useState(false);
-
   /* hook-form */
   interface Inputs {
     id: string;
     password: string;
     check: string;
-    abc: string;
   }
   const {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<Inputs>();
 
+  /* local states */
+  const [failed, setFailed] = useState(false);
+  const [fid, setFid] = useState(false);
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(watch("id"));
-    const res = authApi.sign_up_local({ id: id, password: pw });
+    const res = authApi.sign_up_local({
+      id: watch("id"),
+      password: watch("password"),
+    });
     if (res.ok === true) navigate("/sign/in", { state: { from: pathname } });
     // if the user arrives right after signing up, there will be a welcome message.
     else {
@@ -49,8 +47,6 @@ const SignUp = () => {
       setFailed(true);
     }
   };
-
-  console.log(watch());
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
@@ -100,9 +96,11 @@ const SignUp = () => {
           })}
         />
         <div>&nbsp;</div>
-        {id.length > 3 && checkPW === pw && pw.length > 3 && (
-          <BlueLink onClick={handleSubmit(onSubmit)}>{t("Sign up")}</BlueLink>
-        )}
+        {(getValues("id") || "").length > 3 &&
+          (getValues("check") || "") === (getValues("password") || "") &&
+          (getValues("password") || "").length > 3 && (
+            <BlueLink onClick={handleSubmit(onSubmit)}>{t("Sign up")}</BlueLink>
+          )}
         {failed === true && (
           <div style={{ fontSize: "0.7em" }}>{t("Failed to sign up")}</div>
         )}
