@@ -47,7 +47,7 @@ const SignUp = () => {
       setFailed(true);
     }
   };
-  console.log(watch());
+
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
@@ -107,12 +107,12 @@ const SignUp = () => {
           })}
         />
         <div>&nbsp;</div>
-        {(getValues("id") || "").length > 3 &&
-          (getValues("check") || "") === (getValues("password") || "") &&
-          (getValues("password") || "").length > 3 && (
+        {(watch("id") || "").length > 3 &&
+          (watch("check") || "") === (watch("password") || "") &&
+          (watch("password") || "").length > 3 && (
             <BlueLink onClick={handleSubmit(onSubmit)}>{t("Sign up")}</BlueLink>
           )}
-        {failed === true && (
+        {failed && !fid && (
           <div style={{ fontSize: "0.7em" }}>{t("Failed to sign up")}</div>
         )}
       </form>

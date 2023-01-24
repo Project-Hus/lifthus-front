@@ -13,9 +13,6 @@ import useAppStore from "../../store/app.zustand";
 const SignIn = () => {
   const { t, i18n } = useTranslation();
 
-  const [id, setID] = useState("");
-  const [pw, setPW] = useState("");
-
   const [failed, setFailed] = useState(false);
   const [fid, setFid] = useState(false);
 
@@ -25,9 +22,12 @@ const SignIn = () => {
   const set_user_info = useAppStore((state) => state.set_user_info);
 
   /* hook-form */
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch, getValues } = useForm();
   const onSubmit = () => {
-    const res = authApi.sign_in_local({ id: id, password: pw });
+    const res = authApi.sign_in_local({
+      id: getValues("id"),
+      password: getValues("password"),
+    });
     if (res.ok === true) {
       set_user_info(authApi.get_user_info(res.user_id));
       navigate("/");
@@ -36,6 +36,8 @@ const SignIn = () => {
       setFailed(true);
     }
   };
+
+  console.log(watch());
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
@@ -48,15 +50,11 @@ const SignIn = () => {
             required: true,
             minLength: password_limit.min,
             maxLength: password_limit.max,
-          })}
-          onChange={(e) => {
-            return new Promise((resolve, reject) => {
-              setID(e.target.value);
+            onChange: (e) => {
               setFailed(false);
               setFid(false);
-              resolve(true);
-            });
-          }}
+            },
+          })}
           label={t("ID")}
           placeholder="ID"
           focusString={t("*character limit", {
@@ -72,15 +70,10 @@ const SignIn = () => {
             required: true,
             minLength: password_limit.min,
             maxLength: password_limit.max,
-          })}
-          onChange={(e) => {
-            return new Promise((resolve, reject) => {
-              setPW(e.target.value);
+            onChange: (e) => {
               setFailed(false);
-              setFid(false);
-              resolve(true);
-            });
-          }}
+            },
+          })}
           label={t("Password")}
           type="password"
           placeholder="password"
