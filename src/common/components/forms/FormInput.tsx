@@ -1,6 +1,6 @@
 import { DefaultTFuncReturn } from "i18next";
 import React from "react";
-import { UseFormRegister } from "react-hook-form";
+import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import styled from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
@@ -42,12 +42,12 @@ const FormDiv = styled.div`
   }
 `;
 
-interface IFormValues {
+export interface IFormInputValues {
   id: string;
   password: string;
   check: string;
+  abc: string;
 }
-
 type InputProps = {
   label?: any;
   type?: string;
@@ -57,10 +57,19 @@ type InputProps = {
 
 const FormInput = React.forwardRef<
   HTMLInputElement,
-  InputProps & ReturnType<UseFormRegister<IFormValues>>
+  InputProps & ReturnType<UseFormRegister<IFormInputValues>>
 >(
   (
-    { label, type, placeholder = "", focusString = "", name, onChange },
+    {
+      label,
+      type,
+      placeholder = "",
+      focusString = "",
+      name,
+      minLength,
+      maxLength,
+      onChange,
+    },
     ref
   ) => (
     <FormDiv>
@@ -73,6 +82,8 @@ const FormInput = React.forwardRef<
         onFocus={(e) => {
           e.currentTarget.placeholder = focusString;
         }}
+        minLength={minLength}
+        maxLength={maxLength}
         onBlur={(e) => {
           if (placeholder) e.currentTarget.placeholder = placeholder;
         }}

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
-import FormInput from "../../common/components/forms/FormInput";
+import FormInput, {
+  IFormInputValues,
+} from "../../common/components/forms/FormInput";
 
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constants";
@@ -9,7 +11,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BlueLink from "../../common/components/links/BlueLink";
 import authApi from "../../api/authApi";
 
-import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  SubmitHandler,
+  useForm,
+  UseFormRegister,
+  ValidationRule,
+} from "react-hook-form";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -18,24 +25,19 @@ const SignUp = () => {
   const { pathname } = useLocation();
 
   /* hook-form */
-  interface Inputs {
-    id: string;
-    password: string;
-    check: string;
-  }
   const {
     register,
     handleSubmit,
     watch,
     getValues,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<IFormInputValues>();
 
   /* local states */
   const [failed, setFailed] = useState(false);
   const [fid, setFid] = useState(false);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<IFormInputValues> = (data) => {
     const res = authApi.sign_up_local({
       id: getValues("id"),
       password: getValues("password"),
@@ -47,12 +49,18 @@ const SignUp = () => {
       setFailed(true);
     }
   };
-
+  console.log({ ...register("abc", { required: true, minLength: 3 }) });
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
+          label={t("ID")}
+          placeholder="ID"
+          focusString={t("*character limit", {
+            min: password_limit.min,
+            max: password_limit.max,
+          })}
           {...register("id", {
             required: true,
             minLength: password_limit.min,
@@ -61,12 +69,6 @@ const SignUp = () => {
               setFid(false);
               setFailed(false);
             },
-          })}
-          label={t("ID")}
-          placeholder="ID"
-          focusString={t("*character limit", {
-            min: password_limit.min,
-            max: password_limit.max,
           })}
         />
         {fid === true && (

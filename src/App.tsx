@@ -33,14 +33,18 @@ const App = () => {
   const { t, i18n } = useTranslation();
 
   const user_id = useAppStore((state) => state.user_id);
+  const registered = useAppStore((state) => state.registered);
 
   return (
     <div className="App" style={{ textAlign: "center" }}>
       <header></header>
       <AppStyled>
         <Routes>
-          {/* If the user has signed in, Let the Main component take control. */}
-          {user_id && <Route path="*" element={<Main />} />}
+          {/* If the user has signed in and registered Let the Main component take control. */}
+          {user_id && registered && <Route path="*" element={<Main />} />}
+          {user_id && !registered && (
+            <Route path="/register" element={<div>Register</div>} />
+          )}
           {/* If the user haven't signed in, the user needs to be authenticated */}
           {!user_id && (
             <Route>
