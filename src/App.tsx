@@ -16,6 +16,7 @@ import ErrorPage from "./common/components/ErrorPage";
 import useAppStore from "./store/app.zustand";
 import FirstPage from "./contents/sign/FirstPage";
 import SignIn from "./contents/sign/SignIn";
+import Register from "./contents/register/Register";
 
 const AppStyled = styled.section`
   background-color: ${ThemeColor.backgroundColor};
@@ -42,8 +43,9 @@ const App = () => {
         <Routes>
           {/* If the user has signed in and registered Let the Main component take control. */}
           {user_id && registered && <Route path="*" element={<Main />} />}
+          {/* If the user has signed but not registered, the user have to register him or herself */}
           {user_id && !registered && (
-            <Route path="/register" element={<div>Register</div>} />
+            <Route path="/register/*" element={<Register />} />
           )}
           {/* If the user haven't signed in, the user needs to be authenticated */}
           {!user_id && (

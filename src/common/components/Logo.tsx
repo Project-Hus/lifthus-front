@@ -14,7 +14,7 @@ const lifting = keyframes`
 `;
 const LogoStyled = styled.img<{
   mov: boolean;
-  small: boolean;
+  big: boolean;
   relative: boolean;
 }>`
   position: ${(props) => (props.relative ? "relative" : "absolute")};
@@ -23,7 +23,7 @@ const LogoStyled = styled.img<{
   cursor: pointer;
 
   ${(props) =>
-    props.small &&
+    props.big == false &&
     css`
       width: 30vmax;
     `}
@@ -38,14 +38,14 @@ const LogoStyled = styled.img<{
 type LogoType = {
   to?: string;
   mov?: boolean;
-  small?: boolean;
+  big?: boolean;
   relative?: boolean;
 };
 /* if this Logo covers another component, should be set the component css position relative*/
 const Logo = ({
   to = "/",
   mov = false,
-  small = true,
+  big = false,
   relative = false,
 }: LogoType) => {
   let navigate = useNavigate();
@@ -57,7 +57,7 @@ const Logo = ({
         navigate(to);
       }}
       mov={mov}
-      small={small}
+      big={big}
       relative={relative}
     />
   );

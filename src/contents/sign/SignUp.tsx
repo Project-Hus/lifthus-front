@@ -31,7 +31,7 @@ const SignUp = () => {
     watch,
     getValues,
     formState: { errors },
-  } = useForm<IFormInputValues>();
+  } = useForm<IFormInputValues>({ shouldUseNativeValidation: true });
 
   /* local states */
   const [failed, setFailed] = useState(false);
@@ -49,7 +49,6 @@ const SignUp = () => {
       setFailed(true);
     }
   };
-  console.log({ ...register("abc", { required: true, minLength: 3 }) });
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />
@@ -57,7 +56,7 @@ const SignUp = () => {
         <FormInput
           label={t("ID")}
           placeholder="ID"
-          focusString={t("*character limit", {
+          focusString={t("{{min}} to {{max}} characters", {
             min: password_limit.min,
             max: password_limit.max,
           })}
@@ -86,7 +85,7 @@ const SignUp = () => {
           label={t("Password")}
           type="password"
           placeholder="password"
-          focusString={t("*character limit", {
+          focusString={t("{{min}} to {{max}} characters", {
             min: password_limit.min,
             max: password_limit.max,
           })}
@@ -103,7 +102,7 @@ const SignUp = () => {
           label={t("Check your password")}
           type="password"
           placeholder="check password"
-          focusString={t("*character limit", {
+          focusString={t("{{min}} to {{max}} characters", {
             min: password_limit.min,
             max: password_limit.max,
           })}

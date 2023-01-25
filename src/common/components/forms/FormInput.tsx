@@ -46,7 +46,6 @@ export interface IFormInputValues {
   id: string;
   password: string;
   check: string;
-  abc: string;
 }
 type InputProps = {
   label?: any;

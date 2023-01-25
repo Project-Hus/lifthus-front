@@ -22,15 +22,19 @@ const SignIn = () => {
   const set_user_info = useAppStore((state) => state.set_user_info);
 
   /* hook-form */
-  const { register, handleSubmit, watch, getValues } = useForm();
+  const { register, handleSubmit, watch, getValues } = useForm({
+    shouldUseNativeValidation: true,
+  });
   const onSubmit = () => {
     const res = authApi.sign_in_local({
       id: getValues("id"),
       password: getValues("password"),
     });
     if (res.ok === true) {
-      set_user_info(authApi.get_user_info(res.user_id));
-      navigate("/");
+      const user_info = authApi.get_user_info(res.user_id);
+      set_user_info(user_info);
+      if (user_info.registered) navigate("/");
+      else navigate("/register");
     } else {
       if (res.fid === true) setFid(true);
       setFailed(true);
@@ -57,7 +61,7 @@ const SignIn = () => {
           })}
           label={t("ID")}
           placeholder="ID"
-          focusString={t("*character limit", {
+          focusString={t("{{min}} to {{max}} characters", {
             min: password_limit.min,
             max: password_limit.max,
           })}
@@ -77,7 +81,7 @@ const SignIn = () => {
           label={t("Password")}
           type="password"
           placeholder="password"
-          focusString={t("*character limit", {
+          focusString={t("{{min}} to {{max}} characters", {
             min: password_limit.min,
             max: password_limit.max,
           })}
