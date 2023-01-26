@@ -42,11 +42,18 @@ const FormDiv = styled.div`
   }
 `;
 
+/* Interfaces */
 export interface IFormInputValues {
+  /* Sign */
   id: string;
   password: string;
   check: string;
+
+  /* Register */
+  nickname: string;
 }
+
+/* Props */
 type InputProps = {
   label?: any;
   type?: string;

@@ -6,7 +6,7 @@ import FormInput, {
 } from "../../common/components/forms/FormInput";
 
 import Logo from "../../common/components/Logo";
-import { password_limit } from "../../common/constants";
+import { password_limit } from "../../common/constraints";
 import { useLocation, useNavigate } from "react-router-dom";
 import BlueLink from "../../common/components/links/BlueLink";
 import authApi from "../../api/authApi";
@@ -108,9 +108,9 @@ const SignUp = () => {
           })}
         />
         <div>&nbsp;</div>
-        {(watch("id") || "").length > 3 &&
+        {(watch("id") || "").length >= password_limit.min &&
           (watch("check") || "") === (watch("password") || "") &&
-          (watch("password") || "").length > 3 && (
+          (watch("password") || "").length >= password_limit.min && (
             <BlueLink onClick={handleSubmit(onSubmit)}>{t("Sign up")}</BlueLink>
           )}
         {failed && !fid && (

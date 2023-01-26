@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from "react";
+import React, { MouseEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
@@ -18,11 +19,26 @@ const LinkStyled = styled.a`
 
 interface Props {
   children: string;
+  to?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   [x: string]: any;
 }
 
-const BlueLink = ({ children, ...props }: Props) => {
-  return <LinkStyled {...props}>{children}</LinkStyled>;
+const BlueLink = ({ children, to, onClick }: Props) => {
+  const navigate = useNavigate();
+  if (to)
+    return (
+      <LinkStyled
+        onClick={(e) => {
+          navigate(to);
+        }}
+      >
+        {children}
+      </LinkStyled>
+    );
+  else if (onClick)
+    return <LinkStyled onClick={onClick}>{children}</LinkStyled>;
+  else return <LinkStyled>{children}</LinkStyled>;
 };
 
 export default BlueLink;

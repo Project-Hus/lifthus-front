@@ -8,6 +8,8 @@ const Bbtn = styled.button`
   margin-bottom: 1rem;
   text-decoration: none;
 
+  padding: 0em;
+
   cursor: pointer;
 
   border: solid 0.2em;

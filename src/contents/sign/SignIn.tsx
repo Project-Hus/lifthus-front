@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
-import FormInput from "../../common/components/forms/FormInput";
+import FormInput, {
+  IFormInputValues,
+} from "../../common/components/forms/FormInput";
 
 import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
-import { password_limit } from "../../common/constants";
+import { password_limit } from "../../common/constraints";
 import useAppStore from "../../store/app.zustand";
 
 const SignIn = () => {
@@ -22,7 +24,9 @@ const SignIn = () => {
   const set_user_info = useAppStore((state) => state.set_user_info);
 
   /* hook-form */
-  const { register, handleSubmit, watch, getValues } = useForm({
+  const { register, handleSubmit, watch, getValues } = useForm<
+    IFormInputValues
+  >({
     shouldUseNativeValidation: true,
   });
   const onSubmit = () => {
