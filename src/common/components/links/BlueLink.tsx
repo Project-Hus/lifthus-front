@@ -26,19 +26,22 @@ interface Props {
 
 const BlueLink = ({ children, to, onClick }: Props) => {
   const navigate = useNavigate();
-  if (to)
-    return (
-      <LinkStyled
-        onClick={(e) => {
-          navigate(to);
-        }}
-      >
-        {children}
-      </LinkStyled>
-    );
-  else if (onClick)
-    return <LinkStyled onClick={onClick}>{children}</LinkStyled>;
-  else return <LinkStyled>{children}</LinkStyled>;
+
+  return (
+    <LinkStyled
+      {...(to
+        ? {
+            onClick: (e) => {
+              navigate(to);
+            },
+          }
+        : onClick
+        ? { onClick: onClick }
+        : {})}
+    >
+      {children}
+    </LinkStyled>
+  );
 };
 
 export default BlueLink;

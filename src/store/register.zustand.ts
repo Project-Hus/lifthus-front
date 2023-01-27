@@ -1,21 +1,18 @@
 import { create } from "zustand";
-import { app_info } from "./interfaces/app.interface";
+
+import { register_info } from "./interfaces/register.interface";
 
 interface RegisterState {
-  nickname: string;
-  user_id: string;
-  registered: boolean;
-  set_user_info: (info: app_info) => void;
+  register_nickname: string;
+
+  set_register_info: (info: register_info) => void;
 }
 
 const useRegisterStore = create<RegisterState>()((set) => ({
-  nickname: "",
-  user_id: "",
-  registered: false,
-  set_user_info: (info: app_info) =>
+  register_nickname: "",
+  set_register_info: (info: register_info) =>
     set({
-      user_id: info?.user_id,
-      registered: info?.registered,
+      register_nickname: info?.register_nickname,
     }),
 }));
 

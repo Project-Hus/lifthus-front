@@ -1,4 +1,3 @@
-export interface regi_info {
-  user_id?: string;
-  registered?: boolean;
+export interface register_info {
+  register_nickname?: string;
 }

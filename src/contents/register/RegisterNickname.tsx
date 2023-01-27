@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import registerApi from "../../api/registerApi";
 
 import FormInput, {
   IFormInputValues,
@@ -9,19 +12,39 @@ import Logo from "../../common/components/Logo";
 import { nickname_limit } from "../../common/constraints";
 
 import useAppStore from "../../store/app.zustand";
+import useRegisterStore from "../../store/register.zustand";
 
 const RegisterNickname = () => {
+  const { t, i18n } = useTranslation();
+
+  const navigate = useNavigate();
+
   /* store */
   const user_id = useAppStore((state) => state.user_id);
+  const register_nickname = useRegisterStore(
+    (state) => state.register_nickname
+  );
+  const set_register_info = useRegisterStore(
+    (state) => state.set_register_info
+  );
+
   /* hook-form */
-  const { register, watch } = useForm<IFormInputValues>({
+  const { register, watch, getValues } = useForm<IFormInputValues>({
     shouldUseNativeValidation: true,
+    defaultValues: { nickname: register_nickname },
   });
+
+  /* state */
+  const [failed, setFailed] = useState(false);
+
   return (
     <>
       <Logo />
-      <p>안녕하세요, {user_id}님!</p>
-      <p>어떤 닉네임을 사용하시겠어요?</p>
+      <p>{t("{{name}}", { name: user_id })},</p>
+      <p>
+        {!failed && t("What nickname would you like to use?")}
+        {failed && t("This nickname is already existing.")}
+      </p>
       <FormInput
         placeholder={"nickname"}
         focusString={"3~16자"}
@@ -29,11 +52,27 @@ const RegisterNickname = () => {
           required: true,
           minLength: 3,
           maxLength: 16,
+          onChange: (e) => setFailed(false),
         })}
       ></FormInput>
       <p></p>
       {(watch("nickname") || "").length >= nickname_limit.min && (
-        <BlueLink to="/register/type">다음으로</BlueLink>
+        <BlueLink
+          onClick={(e) => {
+            const { ok } = registerApi.register_nickname({
+              id: user_id,
+              nickname: getValues("nickname"),
+            });
+            if (ok) {
+              set_register_info({ register_nickname: getValues("nickname") });
+              navigate("/register/type");
+            } else {
+              setFailed(true);
+            }
+          }}
+        >
+          {t("Next")}
+        </BlueLink>
       )}
     </>
   );

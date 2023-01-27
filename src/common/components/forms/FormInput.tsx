@@ -59,6 +59,7 @@ type InputProps = {
   type?: string;
   placeholder?: any;
   focusString?: any;
+  value?: string;
 };
 
 const FormInput = React.forwardRef<
@@ -75,6 +76,7 @@ const FormInput = React.forwardRef<
       minLength,
       maxLength,
       onChange,
+      value = "",
     },
     ref
   ) => (

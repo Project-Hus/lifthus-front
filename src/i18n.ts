@@ -20,9 +20,15 @@ const resources = {
       "Failed to sign up": "Failed to sign up",
       "Failed to sign in": "Failed to sign in",
       "Welcome to join us!": "Welcome to join us!",
-      "Hi {{user_id}},": "Hi {{user_id}},",
+      Hi: "Hi",
+      "{{name}}": "{{name}}",
       "Let's work out!": "Let's work out!",
       "WORK OUT": "WORK OUT",
+      "What nickname would you like to use?":
+        "What nickname would you like to use?",
+      Next: "Next",
+      "This nickname is already existing.":
+        "This nickname is already existing ToT",
     },
   },
   kr: {
@@ -40,9 +46,13 @@ const resources = {
       "Failed to sign up": "회원가입 실패, 가입 정보를 확인해주세요.",
       "Failed to sign in": "로그인에 실패했어요.",
       "Welcome to join us!": "가입을 환영해요!",
-      "Hi {{user_id}},": "안녕하세요 {{user_id}}님,",
+      Hi: "안녕하세요",
+      "{{name}}": "{{name}}님",
       "Let's work out!": "루틴을 시작해보세요!",
       "WORK OUT": "시작하기",
+      "What nickname would you like to use?": "어떤 닉네임을 사용하시겠어요?",
+      Next: "다음으로",
+      "This nickname is already existing.": "닉네임이 이미 존재해요 ㅠ",
     },
   },
 };

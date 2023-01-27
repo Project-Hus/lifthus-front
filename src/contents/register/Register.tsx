@@ -22,7 +22,9 @@ const Register = () => {
               <Logo to="/register" mov={true} big={true} />
               <p>&nbsp;</p>
               <p>&nbsp;</p>
-              <p>{t("Hi {{user_id}},", { user_id: user_id })}</p>
+              <p>
+                {t("Hi")} {t("{{name}}", { name: user_id })}!
+              </p>
               {t("Let's work out!")}
               <BlueButton to="nickname">{t("WORK OUT")}</BlueButton>
             </>
