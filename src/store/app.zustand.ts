@@ -11,10 +11,10 @@ const useAppStore = create<AppState>()((set) => ({
   user_id: "",
   registered: false,
   set_user_info: (info: app_info) =>
-    set({
-      user_id: info?.user_id,
-      registered: info?.registered,
-    }),
+    set((state) => ({
+      user_id: info?.user_id || state.user_id,
+      registered: info?.registered || state.registered,
+    })),
 }));
 
 export default useAppStore;

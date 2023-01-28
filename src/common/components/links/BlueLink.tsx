@@ -8,7 +8,8 @@ const LinkStyled = styled.a`
 
   cursor: pointer;
 
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+
   margin-bottom: 1rem;
   text-decoration: none;
   color: ${ThemeColor.linkColor};

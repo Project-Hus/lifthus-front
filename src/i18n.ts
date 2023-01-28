@@ -29,6 +29,8 @@ const resources = {
       Next: "Next",
       "This nickname is already existing.":
         "This nickname is already existing ToT",
+      "What kind of training do you usually do?":
+        "What kind of training do you usually do?",
     },
   },
   kr: {
@@ -53,6 +55,7 @@ const resources = {
       "What nickname would you like to use?": "어떤 닉네임을 사용하시겠어요?",
       Next: "다음으로",
       "This nickname is already existing.": "닉네임이 이미 존재해요 ㅠ",
+      "What kind of training do you usually do?": "어떤 훈련을 주로 하세요?",
     },
   },
 };
