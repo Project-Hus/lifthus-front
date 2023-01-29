@@ -5,6 +5,7 @@ import BlueButton from "../../common/components/buttons/BlueButton";
 import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import useAppStore from "../../store/app.zustand";
+import RegisterBodyWeight from "./RegisterBodyWeight";
 import RegisterNickname from "./RegisterNickname";
 import RegisterType from "./RegisterType";
 
@@ -23,7 +24,7 @@ const Register = () => {
               <p>&nbsp;</p>
               <p>&nbsp;</p>
               <p>
-                {t("Hi")} {t("{{name}}", { name: user_id })}!
+                {t("Hi")} {t("{{name}}", { name: user_id })},
               </p>
               {t("Let's work out!")}
               <BlueButton to="nickname">{t("WORK OUT")}</BlueButton>
@@ -32,7 +33,7 @@ const Register = () => {
         />
         <Route path="/nickname" element={<RegisterNickname />} />
         <Route path="/type" element={<RegisterType />} />
-        <Route path="/bodyweight" element={<div>RegisterBodyWeight</div>} />
+        <Route path="/bodyweight" element={<RegisterBodyWeight />} />
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
