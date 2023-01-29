@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import BlueLink from "../../common/components/links/BlueLink";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useRegisterStore from "../../store/register.zustand";
@@ -26,8 +26,11 @@ const TypeBoard = styled.div`
     color: rgb(179, 210, 250);
 
     box-shadow: 0 0 0.5rem 0.3rem;
+
+    transition: 0.3s;
+
     &:hover {
-      background-color: ${ThemeColor.basicColorHover};
+      background-color: ${ThemeColor.linkColor};
       box-shadow: 0 0 0.5rem 0.5rem #3d44a7;
     }
   }
@@ -55,6 +58,17 @@ const TypeBoard = styled.div`
     background-repeat: no-repeat;
     background-position: center;
   }
+  // this had to be placed below above classes.
+  .chosen {
+    background-color: ${ThemeColor.basicColor};
+    box-shadow: 0 0 0.7rem 0.7rem #5136ff;
+    transition: 0.5s;
+    &:hover {
+      background-color: ${ThemeColor.basicColor};
+      box-shadow: 0 0 0.7rem 0.7rem #5136ff;
+      transition: 0.5s;
+    }
+  }
 `;
 
 const RegisterType = () => {
@@ -73,7 +87,9 @@ const RegisterType = () => {
       <p>{t("What kind of training do you usually do?")}</p>
       <TypeBoard>
         <button
-          className="powerlifting"
+          className={`powerlifting ${
+            register_type == "powerlifting" ? "chosen" : ""
+          }`}
           onClick={(e) => {
             set_register_type({ register_type: "powerlifting" });
           }}
@@ -81,7 +97,9 @@ const RegisterType = () => {
           Strength
         </button>
         <button
-          className="bodybuilding"
+          className={`bodybuilding ${
+            register_type == "bodybuilding" ? "chosen" : ""
+          }`}
           onClick={(e) => {
             set_register_type({ register_type: "bodybuilding" });
           }}
@@ -89,7 +107,7 @@ const RegisterType = () => {
           Bodybuilding
         </button>
         <button
-          className="crossfit"
+          className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
           onClick={(e) => {
             set_register_type({ register_type: "crossfit" });
           }}
@@ -97,7 +115,9 @@ const RegisterType = () => {
           Crossfit
         </button>
         <button
-          className="alternatives"
+          className={`alternatives ${
+            register_type == "alternatives" ? "chosen" : ""
+          }`}
           onClick={(e) => {
             set_register_type({ register_type: "alternatives" });
           }}
