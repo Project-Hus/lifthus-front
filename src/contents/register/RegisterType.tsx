@@ -14,7 +14,7 @@ const TypeBoard = styled.div`
   grid-row-gap: 1.5rem;
 
   overflow-y: auto;
-  max-height: 54vh;
+  max-height: 53vh;
   padding: 0.5rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;

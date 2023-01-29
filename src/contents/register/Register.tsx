@@ -2,10 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
 import BlueButton from "../../common/components/buttons/BlueButton";
-import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import useAppStore from "../../store/app.zustand";
-import RegisterBodyWeight from "./RegisterBodyWeight";
+import RegisterNumber from "./RegisterNumber";
 import RegisterNickname from "./RegisterNickname";
 import RegisterType from "./RegisterType";
 
@@ -33,7 +32,30 @@ const Register = () => {
         />
         <Route path="/nickname" element={<RegisterNickname />} />
         <Route path="/type" element={<RegisterType />} />
-        <Route path="/bodyweight" element={<RegisterBodyWeight />} />
+        <Route
+          path="/bodyweight"
+          element={
+            <RegisterNumber
+              content={
+                <>
+                  평소 <strong>체중</strong>은 어떻게 되시나요?
+                </>
+              }
+            />
+          }
+        />
+        <Route
+          path="/bodyheight"
+          element={
+            <RegisterNumber
+              content={
+                <>
+                  <strong>신장</strong>은 어떻게 되세요?
+                </>
+              }
+            />
+          }
+        />
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>

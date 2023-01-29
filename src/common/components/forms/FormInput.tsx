@@ -1,10 +1,10 @@
 import { DefaultTFuncReturn } from "i18next";
 import React from "react";
 import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
-const FormDiv = styled.div`
+const FormDiv = styled.div<{ type?: string }>`
   label {
     font-size: 0.55em;
     font-weight: bold;
@@ -25,6 +25,13 @@ const FormDiv = styled.div`
     border-top: 0.2em;
     border-bottom: 0.2em;
     transition: 0.5s;
+
+    ${(props) =>
+      props.type === "number" &&
+      css`
+        font-weight: bold;
+        font-size: 0.7em;
+      `}
 
     &::placeholder {
       color: #363e5069;
@@ -75,8 +82,9 @@ const FormInput = React.forwardRef<
       name,
       minLength,
       maxLength,
+      min,
+      max,
       onChange,
-      value = "",
     },
     ref
   ) => (
@@ -92,6 +100,8 @@ const FormInput = React.forwardRef<
         }}
         minLength={minLength}
         maxLength={maxLength}
+        min={min}
+        max={max}
         onBlur={(e) => {
           if (placeholder) e.currentTarget.placeholder = placeholder;
         }}
