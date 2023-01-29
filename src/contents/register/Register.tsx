@@ -32,7 +32,7 @@ const Register = () => {
         />
         <Route path="/nickname" element={<RegisterNickname />} />
         <Route path="/type" element={<RegisterType />} />
-        <Route path="/weight" element={<div>RegisterBodyWeight</div>} />
+        <Route path="/bodyweight" element={<div>RegisterBodyWeight</div>} />
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>

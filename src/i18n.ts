@@ -7,6 +7,7 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
+      /* Sign */
       "Work out!": "Work out!",
       "Google Login": "Google Login",
       "Sign in": "Sign in",
@@ -20,10 +21,12 @@ const resources = {
       "Failed to sign up": "Failed to sign up",
       "Failed to sign in": "Failed to sign in",
       "Welcome to join us!": "Welcome to join us!",
+      /* Register */
       Hi: "Hi",
       "{{name}}": "{{name}}",
       "Let's work out!": "Let's work out!",
       "WORK OUT": "WORK OUT",
+      // nickname
       "What nickname would you like to use?":
         "What nickname would you like to use?",
       Next: "Next",
@@ -31,10 +34,29 @@ const resources = {
         "This nickname is already existing ToT",
       "What kind of training do you usually do?":
         "What kind of training do you usually do?",
+      // type
+      Strength: "Strength",
+      Bodybuilding: "Bodybuilding",
+      Crossfit: "Crossfit",
+      Weightlifting: "Weightlifting",
+      Bodyweight: "Bodyweight",
+      Cardio: "Cardio",
+      etc: "etc",
+      undefined: "undefined",
+      "I'd like to have more strength.": "I'd like to have more strength.",
+      "I wanna be in better shape.": "I wanna be in better shape.",
+      "I do crossfit.": "I do crossfit.",
+      "I do clean and jerk, snatch.": "I do clean and jerk, snatch.",
+      "I use my own weight.": "I use my own weight.",
+      "I do run.": "I do run.",
+      "I do something else.": "I do something else.",
+      "I don't do certain training particularly more.":
+        "I don't do certain training particularly more.",
     },
   },
   kr: {
     translation: {
+      /* Sign */
       "Work out!": "Work out!",
       "Google Login": "Google 로그인",
       "Sign in": "로그인",
@@ -48,14 +70,34 @@ const resources = {
       "Failed to sign up": "회원가입 실패, 가입 정보를 확인해주세요.",
       "Failed to sign in": "로그인에 실패했어요.",
       "Welcome to join us!": "가입을 환영해요!",
+      /* Register */
       Hi: "안녕하세요",
       "{{name}}": "{{name}}님",
       "Let's work out!": "루틴을 시작해보세요!",
       "WORK OUT": "시작하기",
+      // nickname
       "What nickname would you like to use?": "어떤 닉네임을 사용하시겠어요?",
       Next: "다음으로",
       "This nickname is already existing.": "닉네임이 이미 존재해요 ㅠ",
+      // type
       "What kind of training do you usually do?": "어떤 훈련을 주로 하세요?",
+      Strength: "스트렝스",
+      Bodybuilding: "바디빌딩",
+      Crossfit: "크로스핏",
+      Weightlifting: "역도",
+      Bodyweight: "맨몸운동",
+      Cardio: "유산소",
+      etc: "etc",
+      undefined: "모름",
+      "I'd like to have more strength.": "더 강한 힘을 원해요.",
+      "I wanna be in better shape.": "더 좋은 몸을 원해요.",
+      "I do crossfit.": "크로스핏을 해요.",
+      "I do clean and jerk, snatch.": "역도를 주로 해요.",
+      "I use my own weight.": "맨몸운동을 주로 해요.",
+      "I do run.": "유산소를 주로 해요.",
+      "I do something else.": "다른 운동을 해요.",
+      "I don't do certain training particularly more.":
+        "특정 운동을 딱히 많이 하지 않아요.",
     },
   },
 };

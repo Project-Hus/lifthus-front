@@ -60,7 +60,7 @@ const TypeBoard = styled.div`
     background-repeat: no-repeat;
     background-position: center;
   }
-  .alternatives {
+  .weightlifting {
     background: url("https://i0.wp.com/physicalculturestudy.com/wp-content/uploads/2018/04/olympics-944950_960_720.png?resize=297%2C425&ssl=1");
     background-size: contain;
     background-repeat: no-repeat;
@@ -74,6 +74,34 @@ const TypeBoard = styled.div`
   }
   .bodybuilding {
     background: url("https://cdn-icons-png.flaticon.com/512/30/30939.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .bodyweight {
+    //background: url("https://cdn-icons-png.flaticon.com/512/30/30939.png");
+    background-color: ${ThemeColor.backgroundColor};
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .cardio {
+    //background: url("https://cdn-icons-png.flaticon.com/512/30/30939.png");
+    background-color: ${ThemeColor.backgroundColor};
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .etc {
+    //background: url("https://cdn-icons-png.flaticon.com/512/30/30939.png");
+    background-color: ${ThemeColor.backgroundColor};
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .undefined {
+    //background: url("https://cdn-icons-png.flaticon.com/512/30/30939.png");
+    background-color: ${ThemeColor.backgroundColor};
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -114,7 +142,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "powerlifting" });
           }}
         >
-          Strength
+          {t("Strength")}
         </button>
         <button
           className={`bodybuilding ${
@@ -124,7 +152,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "bodybuilding" });
           }}
         >
-          Bodybuilding
+          {t("Bodybuilding")}
         </button>
         <button
           className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
@@ -132,61 +160,95 @@ const RegisterType = () => {
             set_register_type({ register_type: "crossfit" });
           }}
         >
-          Crossfit
+          {t("Crossfit")}
         </button>
         <button
-          className={`alternatives ${
-            register_type == "alternatives" ? "chosen" : ""
+          className={`weightlifting ${
+            register_type == "weightlifting" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "alternatives" });
+            set_register_type({ register_type: "weightlifting" });
           }}
         >
-          Alternatives
+          {t("Weightlifting")}
         </button>
         <button
-          className={`powerlifting ${
-            register_type == "powerlifting" ? "chosen" : ""
+          className={`bodyweight ${
+            register_type == "bodyweight" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "powerlifting" });
+            set_register_type({ register_type: "bodyweight" });
           }}
         >
-          Strength
+          {t("Bodyweight")}
         </button>
         <button
-          className={`bodybuilding ${
-            register_type == "bodybuilding" ? "chosen" : ""
+          className={`cardio ${register_type == "cardio" ? "chosen" : ""}`}
+          onClick={(e) => {
+            set_register_type({ register_type: "cardio" });
+          }}
+        >
+          {t("Cardio")}
+        </button>
+        <button
+          className={`etc ${register_type == "etc" ? "chosen" : ""}`}
+          onClick={(e) => {
+            set_register_type({ register_type: "etc" });
+          }}
+        >
+          {t("etc")}
+        </button>
+        <button
+          className={`undefined ${
+            register_type == "undefined" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "bodybuilding" });
+            set_register_type({ register_type: "undefined" });
           }}
         >
-          Bodybuilding
-        </button>
-        <button
-          className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
-          onClick={(e) => {
-            set_register_type({ register_type: "crossfit" });
-          }}
-        >
-          Crossfit
-        </button>
-        <button
-          className={`alternatives ${
-            register_type == "alternatives" ? "chosen" : ""
-          }`}
-          onClick={(e) => {
-            set_register_type({ register_type: "alternatives" });
-          }}
-        >
-          Alternatives
+          ?
         </button>
       </TypeBoard>
       {register_type && (
         <div>
-          <p>{register_type}</p>
-          <BlueLink>{t("Next")}</BlueLink>
+          <p>
+            {(() => {
+              switch (register_type) {
+                case "powerlifting":
+                  return '"' + t("I'd like to have more strength.") + '"';
+                  break;
+                case "bodybuilding":
+                  return '"' + t("I wanna be in better shape.") + '"';
+                  break;
+                case "crossfit":
+                  return '"' + t("I do crossfit.") + '"';
+                  break;
+                case "weightlifting":
+                  return '"' + t("I do clean and jerk, snatch.") + '"';
+                  break;
+                case "bodyweight":
+                  return '"' + t("I use my own weight.") + '"';
+                  break;
+                case "cardio":
+                  return '"' + t("I do run.") + '"';
+                  break;
+                case "etc":
+                  return '"' + t("I do something else.") + '"';
+                  break;
+                case "undefined":
+                  return (
+                    '"' +
+                    t("I don't do certain training particularly more.") +
+                    '"'
+                  );
+                  break;
+                default:
+                  return "";
+                  break;
+              }
+            })()}
+          </p>
+          <BlueLink to="/register/bodyweight">{t("Next")}</BlueLink>
         </div>
       )}
     </>
