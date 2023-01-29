@@ -12,6 +12,26 @@ const TypeBoard = styled.div`
   grid-row: auto auto;
   grid-column-gap: 1.5rem;
   grid-row-gap: 1.5rem;
+
+  overflow-y: auto;
+  max-height: 54vh;
+  padding: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  border-top: solid 0.2em ${ThemeColor.backgroundColorLight};
+  border-bottom: solid 0.2em ${ThemeColor.backgroundColorLight};
+
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${ThemeColor.topButtonColor};
+  }
+  &::-webkit-scrollbar-track {
+    background-color: ${ThemeColor.backgroundColor};
+  }
+
   button {
     height: 25vh;
     width: 25vw;
@@ -86,6 +106,44 @@ const RegisterType = () => {
     <>
       <p>{t("What kind of training do you usually do?")}</p>
       <TypeBoard>
+        <button
+          className={`powerlifting ${
+            register_type == "powerlifting" ? "chosen" : ""
+          }`}
+          onClick={(e) => {
+            set_register_type({ register_type: "powerlifting" });
+          }}
+        >
+          Strength
+        </button>
+        <button
+          className={`bodybuilding ${
+            register_type == "bodybuilding" ? "chosen" : ""
+          }`}
+          onClick={(e) => {
+            set_register_type({ register_type: "bodybuilding" });
+          }}
+        >
+          Bodybuilding
+        </button>
+        <button
+          className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
+          onClick={(e) => {
+            set_register_type({ register_type: "crossfit" });
+          }}
+        >
+          Crossfit
+        </button>
+        <button
+          className={`alternatives ${
+            register_type == "alternatives" ? "chosen" : ""
+          }`}
+          onClick={(e) => {
+            set_register_type({ register_type: "alternatives" });
+          }}
+        >
+          Alternatives
+        </button>
         <button
           className={`powerlifting ${
             register_type == "powerlifting" ? "chosen" : ""
