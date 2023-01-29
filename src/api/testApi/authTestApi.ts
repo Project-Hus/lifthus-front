@@ -5,6 +5,12 @@ import {
   sign_up_out,
 } from "../interfacaes/authApi.interface";
 
+export const user_info = {
+  user_id: "",
+  registered: false,
+  nickname: "",
+};
+
 const authTestApi: any = {
   sign_in_local: ({ id, password }: sign_form): sign_in_out => {
     let user_id = "";
@@ -12,7 +18,18 @@ const authTestApi: any = {
     let ok = false;
     switch (id) {
       case "succ":
+        user_info.user_id = "succ";
+        user_info.registered = false;
+        user_info.nickname = "";
         user_id = "succ";
+        fid = false;
+        ok = true;
+        break;
+      case "succregi":
+        user_info.user_id = "succregi";
+        user_info.registered = true;
+        user_info.nickname = "SuccRegi";
+        user_id = "succregi";
         fid = false;
         ok = true;
         break;
@@ -50,8 +67,11 @@ const authTestApi: any = {
     return { fid, ok };
   },
   get_user_info: (id: string): app_info => {
-    const registered = id === "succregi" ? true : false;
-    return { user_id: id, registered };
+    return {
+      user_id: id,
+      registered: user_info.registered,
+      nickname: user_info.nickname,
+    };
   },
 };
 export default authTestApi;

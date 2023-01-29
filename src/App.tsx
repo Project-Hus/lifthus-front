@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 
 import styled from "styled-components";
 import { ThemeColor } from "./common/styles/theme.style";
 
 import { useTranslation } from "react-i18next";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Main from "./contents/main/Main";
 import Sign from "./contents/sign/Sign";
@@ -45,7 +44,10 @@ const App = () => {
           {user_id && registered && <Route path="*" element={<Main />} />}
           {/* If the user has signed but not registered, the user have to register him or herself */}
           {user_id && !registered && (
-            <Route path="/register/*" element={<Register />} />
+            <Route>
+              <Route path="/" element={<Navigate to="/register/" />} />
+              <Route path="/register/*" element={<Register />} />
+            </Route>
           )}
           {/* If the user haven't signed in, the user needs to be authenticated */}
           {!user_id && (
