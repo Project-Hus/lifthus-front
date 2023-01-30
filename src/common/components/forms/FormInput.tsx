@@ -37,6 +37,13 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
         font-size: 0.8em;
         margin-left: 0em;
         margin-right: -1em;
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          opacity: 1;
+        }
+        &::-webkit-textfield-decoration-container {
+          flex-direction: row-reverse;
+        }
       `}
     &::placeholder {
       color: #363e5069;
