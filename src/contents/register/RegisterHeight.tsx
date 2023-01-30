@@ -13,7 +13,7 @@ const RegisterHeight = () => {
       unit={"cm"}
       min={0}
       max={300}
-      next="/"
+      next="/register/squat"
     />
   );
 };
