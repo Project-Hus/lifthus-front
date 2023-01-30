@@ -46,6 +46,7 @@ const RegisterNumber = ({
         <FormInput
           type="number"
           unit={unit}
+          bold={true}
           {...register("value", {
             min: min,
             max: max,
