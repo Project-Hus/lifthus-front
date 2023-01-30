@@ -36,11 +36,13 @@ const Register = () => {
           path="/bodyweight"
           element={
             <RegisterNumber
+              take={"register_bodyweight"}
               content={
                 <>
                   평소 <strong>체중</strong>은 어떻게 되시나요?
                 </>
               }
+              next="/register/height"
             />
           }
         />
@@ -48,11 +50,13 @@ const Register = () => {
           path="/bodyheight"
           element={
             <RegisterNumber
+              take={"register_height"}
               content={
                 <>
                   <strong>신장</strong>은 어떻게 되세요?
                 </>
               }
+              next="/"
             />
           }
         />

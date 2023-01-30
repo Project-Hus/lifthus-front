@@ -4,7 +4,7 @@ import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import styled, { css } from "styled-components";
 import { ThemeColor } from "../../styles/theme.style";
 
-const FormDiv = styled.div<{ type?: string }>`
+const FormDiv = styled.div`
   label {
     font-size: 0.55em;
     font-weight: bold;
@@ -25,13 +25,6 @@ const FormDiv = styled.div<{ type?: string }>`
     border-top: 0.2em;
     border-bottom: 0.2em;
     transition: 0.5s;
-
-    ${(props) =>
-      props.type === "number" &&
-      css`
-        font-weight: bold;
-        font-size: 0.7em;
-      `}
 
     &::placeholder {
       color: #363e5069;
@@ -58,6 +51,7 @@ export interface IFormInputValues {
 
   /* Register */
   nickname: string;
+  value: number;
 }
 
 /* Props */
@@ -98,6 +92,9 @@ const FormInput = React.forwardRef<
         onFocus={(e) => {
           e.currentTarget.placeholder = focusString;
         }}
+        style={
+          type === "number" ? { fontSize: "0.7em", fontWeight: "bold" } : {}
+        }
         minLength={minLength}
         maxLength={maxLength}
         min={min}
