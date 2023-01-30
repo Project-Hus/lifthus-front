@@ -42,6 +42,7 @@ const Register = () => {
                   평소 <strong>체중</strong>은 어떻게 되시나요?
                 </>
               }
+              unit={"kg"}
               next="/register/height"
             />
           }
@@ -56,6 +57,7 @@ const Register = () => {
                   <strong>신장</strong>은 어떻게 되세요?
                 </>
               }
+              unit={"cm"}
               next="/"
             />
           }

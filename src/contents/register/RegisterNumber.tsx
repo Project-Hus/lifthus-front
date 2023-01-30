@@ -4,8 +4,10 @@ import React, {
   ReactComponentElement,
 } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { isSwitchStatement } from "typescript";
 import FormInput from "../../common/components/forms/FormInput";
+import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import useAppStore from "../../store/app.zustand";
 import useRegisterStore from "../../store/register.zustand";
@@ -13,12 +15,15 @@ import useRegisterStore from "../../store/register.zustand";
 const RegisterNumber = ({
   take,
   content,
+  unit,
   next,
 }: {
   take: "register_bodyweight" | "register_height";
   content: any;
+  unit: string;
   next: string;
 }) => {
+  const { t, i18n } = useTranslation();
   /* store */
   const set_register_info = useRegisterStore(
     (state) => state.set_register_info
@@ -33,9 +38,10 @@ const RegisterNumber = ({
     <>
       <Logo></Logo>
       <p>{content}</p>
-      <div>
+      <div style={{ display: "flex" }}>
         <FormInput
           type="number"
+          unit={unit}
           {...register("value", {
             min: 0,
             max: 200,
@@ -47,6 +53,9 @@ const RegisterNumber = ({
           })}
         />
       </div>
+      <p>
+        <BlueLink to={next}>{t("Next")}</BlueLink>{" "}
+      </p>
     </>
   );
 };

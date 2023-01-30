@@ -26,6 +26,8 @@ const FormDiv = styled.div`
     border-bottom: 0.2em;
     transition: 0.5s;
 
+    margin-left: 0em;
+    margin-right: -1em;
     &::placeholder {
       color: #363e5069;
       text-align: center;
@@ -38,6 +40,9 @@ const FormDiv = styled.div`
       border-top: 0.2em;
       border-bottom: 0.2em;
       transition: 0.5s;
+
+      margin-left: 1em;
+      margin-right: 0em;
     }
   }
 `;
@@ -60,7 +65,7 @@ type InputProps = {
   type?: string;
   placeholder?: any;
   focusString?: any;
-  value?: string;
+  unit?: string;
 };
 
 const FormInput = React.forwardRef<
@@ -73,6 +78,7 @@ const FormInput = React.forwardRef<
       type,
       placeholder = "",
       focusString = "",
+      unit = "",
       name,
       minLength,
       maxLength,
@@ -93,7 +99,7 @@ const FormInput = React.forwardRef<
           e.currentTarget.placeholder = focusString;
         }}
         style={
-          type === "number" ? { fontSize: "0.7em", fontWeight: "bold" } : {}
+          type === "number" ? { fontSize: "0.8em", fontWeight: "bold" } : {}
         }
         minLength={minLength}
         maxLength={maxLength}
@@ -103,7 +109,8 @@ const FormInput = React.forwardRef<
           if (placeholder) e.currentTarget.placeholder = placeholder;
         }}
         ref={ref}
-      />
+      />{" "}
+      {unit && <strong>{unit}</strong>}
     </FormDiv>
   )
 );
