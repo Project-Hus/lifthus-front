@@ -39,10 +39,8 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
         margin-right: -1em;
         &::-webkit-inner-spin-button,
         &::-webkit-outer-spin-button {
-          opacity: 1;
-        }
-        &::-webkit-textfield-decoration-container {
-          flex-direction: row-reverse;
+          margin-left: -0.9em;
+          opacity: 0;
         }
       `}
     &::placeholder {
