@@ -4,7 +4,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import BlueButton from "../../common/components/buttons/BlueButton";
 import Logo from "../../common/components/Logo";
 import useAppStore from "../../store/app.zustand";
-import RegisterNumber from "./RegisterNumber";
+import RegisterNumber from "./components/RegisterNumber";
+import RegisterBodyWeight from "./RegisterBodyWeight";
+import RegisterHeight from "./RegisterHeight";
 import RegisterNickname from "./RegisterNickname";
 import RegisterType from "./RegisterType";
 
@@ -32,36 +34,8 @@ const Register = () => {
         />
         <Route path="/nickname" element={<RegisterNickname />} />
         <Route path="/type" element={<RegisterType />} />
-        <Route
-          path="/bodyweight"
-          element={
-            <RegisterNumber
-              take={"register_bodyweight"}
-              content={
-                <>
-                  평소 <strong>체중</strong>은 어떻게 되시나요?
-                </>
-              }
-              unit={"kg"}
-              next="/register/height"
-            />
-          }
-        />
-        <Route
-          path="/bodyheight"
-          element={
-            <RegisterNumber
-              take={"register_height"}
-              content={
-                <>
-                  <strong>신장</strong>은 어떻게 되세요?
-                </>
-              }
-              unit={"cm"}
-              next="/"
-            />
-          }
-        />
+        <Route path="/bodyweight" element={<RegisterBodyWeight />} />
+        <Route path="/height" element={<RegisterHeight />} />
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>

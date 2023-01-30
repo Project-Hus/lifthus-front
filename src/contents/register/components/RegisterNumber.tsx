@@ -6,22 +6,26 @@ import React, {
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { isSwitchStatement } from "typescript";
-import FormInput from "../../common/components/forms/FormInput";
-import BlueLink from "../../common/components/links/BlueLink";
-import Logo from "../../common/components/Logo";
-import useAppStore from "../../store/app.zustand";
-import useRegisterStore from "../../store/register.zustand";
+import FormInput from "../../../common/components/forms/FormInput";
+import BlueLink from "../../../common/components/links/BlueLink";
+import Logo from "../../../common/components/Logo";
+import useAppStore from "../../../store/app.zustand";
+import useRegisterStore from "../../../store/register.zustand";
 
 const RegisterNumber = ({
   take,
   content,
   unit,
   next,
+  min,
+  max,
 }: {
   take: "register_bodyweight" | "register_height";
   content: any;
   unit: string;
   next: string;
+  min?: number;
+  max?: number;
 }) => {
   const { t, i18n } = useTranslation();
   /* store */
@@ -43,8 +47,8 @@ const RegisterNumber = ({
           type="number"
           unit={unit}
           {...register("value", {
-            min: 0,
-            max: 200,
+            min: min,
+            max: max,
             onChange: (e) => {
               const tmp: any = {};
               tmp[take] = getValues("value");
