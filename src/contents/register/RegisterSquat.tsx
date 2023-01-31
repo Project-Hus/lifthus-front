@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 import RegisterNumber from "./components/RegisterNumber";
 
@@ -10,7 +11,7 @@ const RegisterSquat = () => {
           <strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?
         </>
       }
-      pref={"최대"}
+      pref={t("Max")}
       unit={"kg"}
       min={0}
       max={500}

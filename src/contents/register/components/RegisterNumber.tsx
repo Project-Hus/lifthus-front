@@ -24,7 +24,7 @@ const RegisterNumber = ({
 }: {
   take: register_info_strings;
   content: any;
-  pref?: string;
+  pref?: any;
   unit: string;
   next: string;
   min?: number;

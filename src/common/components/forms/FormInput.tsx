@@ -14,6 +14,7 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
     display: block;
   }
   input {
+    grid-area: b;
     color: #363e50;
     background-color: #afefffc7;
     padding: 0.6em 0em;
@@ -83,7 +84,7 @@ type InputProps = {
   type?: string;
   placeholder?: any;
   focusString?: any;
-  pref?: string;
+  pref?: any;
   unit?: string;
   bold?: boolean;
 };
@@ -114,12 +115,17 @@ const FormInput = React.forwardRef<
       {label && <label>{label}</label>}
       <div
         style={{
-          display: "grid",
-          gridTemplateRows: "1fr",
-          gridTemplateColumns: "repeate(3,fr)",
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {pref}
+        <div
+          style={{ position: "absolute", right: "2.6em", whiteSpace: "nowrap" }}
+        >
+          {pref}
+        </div>
         <input
           name={name}
           type={type}
@@ -137,10 +143,19 @@ const FormInput = React.forwardRef<
           }}
           ref={ref}
         />{" "}
-        {unit && <strong>{unit}</strong>}
+        <div style={{ position: "absolute", left: "2.25em", width: "2em" }}>
+          {unit && <strong>{unit}</strong>}
+        </div>
       </div>
     </FormDiv>
   )
 );
+
+const GridDiv = styled.div`
+  display: grid;
+  grid-template-rows: repeat(1, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: a b c;
+`;
 
 export default FormInput;

@@ -52,6 +52,15 @@ const resources = {
       "I do something else.": "I do something else.",
       "I don't do certain training particularly more.":
         "I don't do certain training particularly more.",
+      "How much do you weigh?": "How much do you weigh?",
+      "How tall are you?": "How tall are you?",
+      "What is you max squat weight?":
+        "What is you max <strong>squat</strong> weight?",
+      "What is you max benchpress weight?":
+        "and what about the <strong>benchpress</strong> max weight?",
+      "What is you max deadlift weight?":
+        "What is you max <strong>deadlift</strong> weight?",
+      Max: "Max",
     },
   },
   kr: {
@@ -98,6 +107,14 @@ const resources = {
       "I do something else.": "다른 운동을 해요.",
       "I don't do certain training particularly more.":
         "특정 운동을 딱히 많이 하지 않아요.",
+      "How much do you weigh?": "평소 <strong>체중</strong>은 어떻게 되시나요?",
+      "How tall are you": "<strong>신장</storng>은 어떻게 되세요?",
+      "What is you max squat weight?":
+        "<strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?",
+      "What is you max benchpress weight?":
+        "<strong>벤치프레스</strong> 최대 중량은요?",
+      "What is you max deadlift weight?": "<strong>데드리프트</strong>는요?",
+      Max: "최대",
     },
   },
 };
