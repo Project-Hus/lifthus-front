@@ -16,6 +16,7 @@ import useRegisterStore from "../../../store/register.zustand";
 const RegisterNumber = ({
   take,
   content,
+  pref,
   unit,
   next,
   min,
@@ -23,6 +24,7 @@ const RegisterNumber = ({
 }: {
   take: register_info_strings;
   content: any;
+  pref?: string;
   unit: string;
   next: string;
   min?: number;
@@ -46,6 +48,7 @@ const RegisterNumber = ({
       <div style={{ display: "flex" }}>
         <FormInput
           type="number"
+          pref={pref}
           unit={unit}
           bold={true}
           {...register("value", {

@@ -49,7 +49,7 @@ const RegisterNickname = () => {
       </p>
       <FormInput
         placeholder={"nickname"}
-        focusString={"3~16자"}
+        focusString={t("{{min}} to {{max}} characters", { min: 3, max: 16 })}
         {...register("nickname", {
           required: true,
           minLength: 3,

@@ -10,6 +10,7 @@ const RegisterSquat = () => {
           <strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?
         </>
       }
+      pref={"최대"}
       unit={"kg"}
       min={0}
       max={500}

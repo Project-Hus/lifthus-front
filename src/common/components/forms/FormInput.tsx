@@ -35,12 +35,11 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
       props.type === "number" &&
       css`
         font-size: 0.8em;
-        margin-left: 0em;
-        margin-right: -1em;
+        //margin-left: -0.5em;
+        //margin-right: -1em;
         &::-webkit-inner-spin-button,
         &::-webkit-outer-spin-button {
-          margin-left: -0.9em;
-          opacity: 0;
+          -webkit-appearance: none;
         }
       `}
     &::placeholder {
@@ -59,8 +58,8 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
       ${(props) =>
         props.type === "number" &&
         css`
-          margin-left: 1em;
-          margin-right: 0em;
+          //margin-left: 1em;
+          //margin-right: 0em;
         `}
     }
   }
@@ -84,6 +83,7 @@ type InputProps = {
   type?: string;
   placeholder?: any;
   focusString?: any;
+  pref?: string;
   unit?: string;
   bold?: boolean;
 };
@@ -99,6 +99,7 @@ const FormInput = React.forwardRef<
       placeholder = "",
       focusString = "",
       bold = false,
+      pref = "",
       unit = "",
       name,
       minLength,
@@ -111,24 +112,33 @@ const FormInput = React.forwardRef<
   ) => (
     <FormDiv type={type} bold={bold}>
       {label && <label>{label}</label>}
-      <input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        onChange={onChange}
-        onFocus={(e) => {
-          e.currentTarget.placeholder = focusString;
+      <div
+        style={{
+          display: "grid",
+          gridTemplateRows: "1fr",
+          gridTemplateColumns: "repeate(3,fr)",
         }}
-        minLength={minLength}
-        maxLength={maxLength}
-        min={min}
-        max={max}
-        onBlur={(e) => {
-          if (placeholder) e.currentTarget.placeholder = placeholder;
-        }}
-        ref={ref}
-      />{" "}
-      {unit && <strong>{unit}</strong>}
+      >
+        {pref}
+        <input
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          onChange={onChange}
+          onFocus={(e) => {
+            e.currentTarget.placeholder = focusString;
+          }}
+          minLength={minLength}
+          maxLength={maxLength}
+          min={min}
+          max={max}
+          onBlur={(e) => {
+            if (placeholder) e.currentTarget.placeholder = placeholder;
+          }}
+          ref={ref}
+        />{" "}
+        {unit && <strong>{unit}</strong>}
+      </div>
     </FormDiv>
   )
 );
