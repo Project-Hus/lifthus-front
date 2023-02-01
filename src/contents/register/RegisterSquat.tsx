@@ -6,11 +6,7 @@ const RegisterSquat = () => {
   return (
     <RegisterNumber
       take={"register_squat"}
-      content={
-        <>
-          <strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?
-        </>
-      }
+      content={<>{t("What is your max squat weight?")}</>}
       pref={t("Max")}
       unit={"kg"}
       min={0}

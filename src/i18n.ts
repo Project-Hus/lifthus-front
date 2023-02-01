@@ -108,6 +108,7 @@ const resources = {
       "I don't do certain training particularly more.":
         "특정 운동을 딱히 많이 하지 않아요.",
       "How much do you weigh?": "평소 <strong>체중</strong>은 어떻게 되시나요?",
+      HamoHamo: "평소 <strong>체중</strong>은 어떻게 되시나요?",
       "How tall are you": "<strong>신장</storng>은 어떻게 되세요?",
       "What is you max squat weight?":
         "<strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?",
