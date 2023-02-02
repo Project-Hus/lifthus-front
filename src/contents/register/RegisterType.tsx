@@ -215,32 +215,28 @@ const RegisterType = () => {
             {(() => {
               switch (register_type) {
                 case "powerlifting":
-                  return '"' + t("I'd like to have more strength.") + '"';
+                  return '"' + t("register.strength_message") + '"';
                   break;
                 case "bodybuilding":
-                  return '"' + t("I wanna be in better shape.") + '"';
+                  return '"' + t("register.bodybuilding_message") + '"';
                   break;
                 case "crossfit":
-                  return '"' + t("I do crossfit.") + '"';
+                  return '"' + t("register.crossfit_message") + '"';
                   break;
                 case "weightlifting":
-                  return '"' + t("I do clean and jerk, snatch.") + '"';
+                  return '"' + t("register.weightlifting_message") + '"';
                   break;
                 case "bodyweight":
-                  return '"' + t("I use my own weight.") + '"';
+                  return '"' + t("register.bodyweight_message") + '"';
                   break;
                 case "cardio":
-                  return '"' + t("I do run.") + '"';
+                  return '"' + t("register.cardio_message") + '"';
                   break;
                 case "etc":
-                  return '"' + t("I do something else.") + '"';
+                  return '"' + t("register.etc_message") + '"';
                   break;
                 case "undefined":
-                  return (
-                    '"' +
-                    t("I don't do certain training particularly more.") +
-                    '"'
-                  );
+                  return '"' + t("register.undefined_message") + '"';
                   break;
                 default:
                   return "";

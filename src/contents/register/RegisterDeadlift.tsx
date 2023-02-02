@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import RegisterNumber from "./components/RegisterNumber";
 
 const RegisterDeadlift = () => {
@@ -7,7 +7,7 @@ const RegisterDeadlift = () => {
   return (
     <RegisterNumber
       take={"register_deadlift"}
-      content={<>{t("What is your max deadlift weight?")}</>}
+      content={<Trans i18nKey={"register.deadliftAsking_message"} />}
       pref={t("Max")}
       unit={"kg"}
       min={0}

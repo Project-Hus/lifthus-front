@@ -10,6 +10,7 @@ const resources = {
       Next: "Next",
       characterLimit_message: "{{min}} to {{max}} characters",
       name_var: "{{name}}",
+      Max: "Max",
       sign: {
         first_button: "Work out!",
         GoogleLogin: "Google Login",
@@ -43,14 +44,13 @@ const resources = {
         etc_message: "I do something else.",
         undefined_message: "I don't do certain training particularly more.",
         // figures
-        weightAsking_message: "How much do you weigh?",
-        heightAsking_message: "How tall are you?",
+        weightAsking_message: "How much do you <strong>weigh</strong>?",
+        heightAsking_message: "<strong>How tall</strong> are you?",
         squatAsking_message: "What is you max <strong>squat</strong> weight?",
         benchpressAsking_message:
           "and what about the <strong>benchpress</strong> max weight?",
         deadliftAsking_message:
           "What is you max <strong>deadlift</strong> weight?",
-        Max: "Max",
       },
       trainingType: {
         Strength: "Strength",
@@ -69,6 +69,7 @@ const resources = {
       Next: "다음으로",
       characterLimit_message: "{{min}}~{{max}}자",
       name_var: "{{name}}님",
+      Max: "최대",
       sign: {
         first_button: "Work out!",
         GoogleLogin: "Google 로그인",
@@ -107,16 +108,15 @@ const resources = {
         weightlifting_message: "역도를 주로 해요.",
         bodyweight_message: "맨몸운동을 주로 해요.",
         cardio_message: "유산소를 주로 해요.",
-        Etc_message: "다른 운동을 해요.",
-        Undefined_message: "특정 운동을 딱히 많이 하지 않아요.",
+        etc_message: "다른 운동을 해요.",
+        undefined_message: "특정 운동을 딱히 많이 하지 않아요.",
         //figures
         weightAsking_message: "평소 <strong>체중</strong>은 어떻게 되시나요?",
-        heightAsking_message: "<strong>신장</storng>은 어떻게 되세요?",
+        heightAsking_message: "<strong>신장</strong>은 어떻게 되세요?",
         squatAsking_message:
           "<strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?",
         benchpressAsking_message: "<strong>벤치프레스</strong> 최대 중량은요?",
         deadliftAsking_message: "<strong>데드리프트</strong>는요?",
-        Max: "최대",
       },
       trainingType: {
         Strength: "스트렝스",
