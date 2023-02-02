@@ -29,10 +29,10 @@ const Register = () => {
               <p>&nbsp;</p>
               <p>&nbsp;</p>
               <p>
-                {t("Hi")} {t("{{name}}", { name: user_id })},
+                {t("register.Hi")} {t("name_var", { name: user_id })},
               </p>
-              {t("Let's work out!")}
-              <BlueButton to="nickname">{t("WORK OUT")}</BlueButton>
+              {t("register.workOut_message")}
+              <BlueButton to="nickname">{t("register.WORK_OUT")}</BlueButton>
             </>
           }
         />

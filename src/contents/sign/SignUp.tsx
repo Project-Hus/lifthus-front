@@ -54,9 +54,9 @@ const SignUp = () => {
       <Logo to="/sign" relative={true} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
-          label={t("ID")}
+          label={t("sign.ID")}
           placeholder="ID"
-          focusString={t("{{min}} to {{max}} characters", {
+          focusString={t("characterLimit_message", {
             min: password_limit.min,
             max: password_limit.max,
           })}
@@ -71,7 +71,7 @@ const SignUp = () => {
           })}
         />
         {fid === true && (
-          <div style={{ fontSize: "0.6em" }}>{t("ID already exists")}</div>
+          <div style={{ fontSize: "0.6em" }}>{t("sign.existingId_error")}</div>
         )}
         <FormInput
           {...register("password", {
@@ -82,10 +82,10 @@ const SignUp = () => {
               setFailed(false);
             },
           })}
-          label={t("Password")}
+          label={t("sign.Password")}
           type="password"
           placeholder="password"
-          focusString={t("{{min}} to {{max}} characters", {
+          focusString={t("characterLimit_message", {
             min: password_limit.min,
             max: password_limit.max,
           })}
@@ -99,10 +99,10 @@ const SignUp = () => {
               setFailed(false);
             },
           })}
-          label={t("Check your password")}
+          label={t("sign.checkPassword_phrase")}
           type="password"
           placeholder="check password"
-          focusString={t("{{min}} to {{max}} characters", {
+          focusString={t("characterLimit_message", {
             min: password_limit.min,
             max: password_limit.max,
           })}
@@ -111,10 +111,12 @@ const SignUp = () => {
         {(watch("id") || "").length >= password_limit.min &&
           (watch("check") || "") === (watch("password") || "") &&
           (watch("password") || "").length >= password_limit.min && (
-            <BlueLink onClick={handleSubmit(onSubmit)}>{t("Sign up")}</BlueLink>
+            <BlueLink onClick={handleSubmit(onSubmit)}>
+              {t("sign.SignUp")}
+            </BlueLink>
           )}
         {failed && !fid && (
-          <div style={{ fontSize: "0.7em" }}>{t("Failed to sign up")}</div>
+          <div style={{ fontSize: "0.7em" }}>{t("sign.signUp_error")}</div>
         )}
       </form>
     </React.Fragment>

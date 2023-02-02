@@ -8,6 +8,7 @@ const RegisterDeadlift = () => {
     <RegisterNumber
       take={"register_deadlift"}
       content={<>{t("What is your max deadlift weight?")}</>}
+      pref={t("Max")}
       unit={"kg"}
       min={0}
       max={500}

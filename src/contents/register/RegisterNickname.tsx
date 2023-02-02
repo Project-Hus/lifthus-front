@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
 import registerApi from "../../api/registerApi";
@@ -42,14 +42,14 @@ const RegisterNickname = () => {
   return (
     <>
       <Logo />
-      <p>{t("{{name}}", { name: user_id })},</p>
+      <p>{t("name_var", { name: user_id })},</p>
       <p>
-        {!failed && t("What nickname would you like to use?")}
-        {failed && t("This nickname is already existing.")}
+        {!failed && <Trans i18nKey={"register.nicknameAsking_message"} />}
+        {failed && t("register.existingNickname_error")}
       </p>
       <FormInput
         placeholder={"nickname"}
-        focusString={t("{{min}} to {{max}} characters", { min: 3, max: 16 })}
+        focusString={t("characterLimit_message", { min: 3, max: 16 })}
         {...register("nickname", {
           required: true,
           minLength: 3,

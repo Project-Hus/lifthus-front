@@ -8,6 +8,7 @@ const RegisterBenchpress = () => {
     <RegisterNumber
       take={"register_benchpress"}
       content={<>{t("What is your max benchpress weight?")}</>}
+      pref={t("Max")}
       unit={"kg"}
       min={0}
       max={500}

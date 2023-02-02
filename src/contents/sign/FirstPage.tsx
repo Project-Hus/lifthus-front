@@ -12,7 +12,7 @@ const FirstPage = () => {
       <Logo mov={true} big={true} />
       <p>&nbsp;</p>
       <p>&nbsp;</p>
-      <BigThemeBtn content={t("Work out!")} to="sign" />
+      <BigThemeBtn content={t("sign.first_button")} to="sign" />
     </React.Fragment>
   );
 };

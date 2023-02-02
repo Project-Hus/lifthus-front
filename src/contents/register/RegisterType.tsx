@@ -132,7 +132,7 @@ const RegisterType = () => {
 
   return (
     <>
-      <p>{t("What kind of training do you usually do?")}</p>
+      <p>{t("register.typeAsking_message")}</p>
       <TypeBoard>
         <button
           className={`powerlifting ${
@@ -142,7 +142,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "powerlifting" });
           }}
         >
-          {t("Strength")}
+          {t("trainingType.Strength")}
         </button>
         <button
           className={`bodybuilding ${
@@ -152,7 +152,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "bodybuilding" });
           }}
         >
-          {t("Bodybuilding")}
+          {t("trainingType.Bodybuilding")}
         </button>
         <button
           className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
@@ -160,7 +160,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "crossfit" });
           }}
         >
-          {t("Crossfit")}
+          {t("trainingType.Crossfit")}
         </button>
         <button
           className={`weightlifting ${
@@ -170,7 +170,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "weightlifting" });
           }}
         >
-          {t("Weightlifting")}
+          {t("trainingType.Weightlifting")}
         </button>
         <button
           className={`bodyweight ${
@@ -180,7 +180,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "bodyweight" });
           }}
         >
-          {t("Bodyweight")}
+          {t("trainingType.Bodyweight")}
         </button>
         <button
           className={`cardio ${register_type == "cardio" ? "chosen" : ""}`}
@@ -188,7 +188,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "cardio" });
           }}
         >
-          {t("Cardio")}
+          {t("trainingType.Cardio")}
         </button>
         <button
           className={`etc ${register_type == "etc" ? "chosen" : ""}`}
@@ -196,7 +196,7 @@ const RegisterType = () => {
             set_register_type({ register_type: "etc" });
           }}
         >
-          {t("etc")}
+          {t("trainingType.Etc")}
         </button>
         <button
           className={`undefined ${

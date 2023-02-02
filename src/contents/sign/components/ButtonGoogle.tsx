@@ -28,7 +28,7 @@ const ButtonGoogle = ({ to = "/" }: { to?: string }) => {
   const { t, i18n } = useTranslation();
   return (
     <Link to={to}>
-      <BtnGoogle>{t("Google Login")}</BtnGoogle>
+      <BtnGoogle>{t("sign.GoogleLogin")}</BtnGoogle>
     </Link>
   );
 };

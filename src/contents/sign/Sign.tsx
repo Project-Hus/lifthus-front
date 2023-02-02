@@ -19,8 +19,8 @@ const Sign = () => {
       <p>&nbsp;</p>
       <ButtonGoogle to="/error" />
       <p></p>
-      <BlueLink to="/sign/in">{t("Sign in")}</BlueLink>
-      <BlueLink to="/sign/up">{t("Sign up")}</BlueLink>
+      <BlueLink to="/sign/in">{t("sign.SignIn")}</BlueLink>
+      <BlueLink to="/sign/up">{t("sign.SignUp")}</BlueLink>
     </React.Fragment>
   );
 };
