@@ -7,6 +7,7 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
+      error_page: "an error occurs 😭",
       Next: "Next",
       characterLimit_message: "{{min}} to {{max}} characters",
       name_var: "{{name}}",
@@ -19,7 +20,7 @@ const resources = {
         ID: "ID",
         Password: "Password",
         checkPassword_phrase: "Check your password",
-        exsistingId_error: "ID already exists",
+        existingId_error: "ID already exists",
         noId_error: "ID doesn't exists",
         signUp_error: "Failed to sign up",
         signIn_error: "Failed to sign in",
@@ -32,7 +33,7 @@ const resources = {
         // nickname
         nicknameAsking_message:
           "What <strong>nickname</strong> would you like to use?",
-        existingNickname_error: "This nickname is already existing ToT",
+        existingNickname_error: "This nickname is already existing 😮",
         //type
         typeAsking_message: "What kind of training do you usually do?",
         strength_message: "I'd like to have more strength.",
@@ -46,11 +47,17 @@ const resources = {
         // figures
         weightAsking_message: "How much do you <strong>weigh</strong>?",
         heightAsking_message: "<strong>How tall</strong> are you?",
-        squatAsking_message: "What is you max <strong>squat</strong> weight?",
+        squatAsking_message: "What is your max <strong>squat</strong> weight?",
         benchpressAsking_message:
           "and what about the <strong>benchpress</strong> max weight?",
         deadliftAsking_message:
-          "What is you max <strong>deadlift</strong> weight?",
+          "What is your max <strong>deadlift</strong> weight?",
+        welcome_message: `
+          <>
+          <p><strong>The Lifter {{nickname}},</strong> who lifts up <strong>{{total}}kg</strong> easily, </p>
+          <p>which is {{weight_ratio}} times your own body weight!</p>
+          </>
+          `,
       },
       trainingType: {
         Strength: "Strength",
@@ -66,6 +73,7 @@ const resources = {
   },
   kr: {
     translation: {
+      error_page: "에러 발생 ㅠ",
       Next: "다음으로",
       characterLimit_message: "{{min}}~{{max}}자",
       name_var: "{{name}}님",
@@ -117,6 +125,14 @@ const resources = {
           "<strong>스쿼트</strong> 최대 중량은 어떻게 되시나요?",
         benchpressAsking_message: "<strong>벤치프레스</strong> 최대 중량은요?",
         deadliftAsking_message: "<strong>데드리프트</strong>는요?",
+        welcome_message: `
+        <>
+        <p>무려 체중의 {{weight_ratio}}배를 들어올리는</p>
+        <p>
+          도합 <strong>3대{{total}}</strong>의 {{nickname}} <strong>리프터</strong>님!
+        </p>
+        </>
+        `,
       },
       trainingType: {
         Strength: "스트렝스",

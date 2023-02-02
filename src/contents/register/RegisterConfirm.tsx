@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import React from "react";
+import { Trans } from "react-i18next";
 import BlueButton from "../../common/components/buttons/BlueButton";
 import useRegisterStore from "../../store/register.zustand";
 
@@ -21,15 +22,18 @@ const RegisterConfirm = () => {
     benchpress: state.register_benchpress,
     deadlift: state.register_deadlift,
   }));
-  const total = squat + benchpress + deadlift;
+  const total = squat * 1 + benchpress * 1 + deadlift * 1;
   return (
     <>
-      {`무려 체중의 ${(total / bodyweight).toFixed(1)}배를 들어올리는`}
       {
-        <p>
-          도합 <strong>3대 {total}</strong>의 {nickname}{" "}
-          <strong>파워리프터</strong>님!
-        </p>
+        <Trans
+          i18nKey={"register.welcome_message"}
+          values={{
+            weight_ratio: (total / bodyweight).toFixed(1),
+            total: total,
+            nickname: nickname,
+          }}
+        />
       }
       <BlueButton>{t("WORK OUT")}</BlueButton>
     </>
