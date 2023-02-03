@@ -1,5 +1,6 @@
 import { app_info } from "../store/interfaces/app.interface";
 import {
+  authApi_form,
   sign_form,
   sign_in_out,
   sign_up_out,
@@ -7,7 +8,7 @@ import {
 
 import authTestApi from "./testApi/authTestApi";
 
-const authApi: any = {
+const authApi: authApi_form = {
   sign_in_local: ({ id, password }: sign_form): sign_in_out => {
     if (process.env.NODE_ENV == "development") {
       return authTestApi.sign_in_local({ id, password });

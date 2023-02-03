@@ -1,3 +1,10 @@
+import { app_info } from "../../store/interfaces/app.interface";
+
+export interface authApi_form {
+  sign_in_local: ({}: sign_form) => sign_in_out;
+  sign_up_local: ({}: sign_form) => sign_up_out;
+  get_user_info: (id: string) => app_info;
+}
 export interface sign_form {
   id: string;
   password: string;
