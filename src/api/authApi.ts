@@ -1,6 +1,7 @@
 import { app_info } from "../store/interfaces/app.interface";
 import {
   authApi_form,
+  get_user_info_form,
   sign_form,
   sign_in_out,
   sign_up_out,
@@ -21,11 +22,11 @@ const authApi: authApi_form = {
     }
     return { fid: false, ok: false };
   },
-  get_user_info: (id: string): app_info => {
+  get_user_info: (id: string): get_user_info_form => {
     if (process.env.NODE_ENV === "development") {
       return authTestApi.get_user_info(id);
     }
-    return {};
+    return authTestApi.get_user_info(id);
   },
 };
 

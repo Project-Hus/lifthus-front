@@ -1,3 +1,4 @@
+import { server } from "typescript";
 import { app_info } from "../../store/interfaces/app.interface";
 import { register_info } from "../../store/interfaces/register.interface";
 import {
@@ -7,7 +8,19 @@ import {
   sign_up_out,
 } from "../interfacaes/authApi.interface";
 
-export const user_info = {
+interface server_user_info {
+  user_id: string;
+  registered: boolean;
+  nickname: string;
+  training_type: string;
+  body_weight: number;
+  height: number;
+  squat: number;
+  benchpress: number;
+  deadlift: number;
+}
+
+export const user_info: server_user_info = {
   user_id: "",
   registered: false,
   nickname: "",
@@ -86,12 +99,8 @@ const authTestApi: authApi_form = {
     }
     return { fid, ok };
   },
-  get_user_info: (id: string): app_info => {
-    return {
-      user_id: id,
-      registered: user_info.registered,
-      nickname: user_info.nickname,
-    };
+  get_user_info: (id: string): server_user_info => {
+    return user_info;
   },
 };
 export default authTestApi;
