@@ -41,7 +41,7 @@ const App = () => {
       <AppStyled>
         <Routes>
           {/* If the user has signed in and registered Let the Main component take control. */}
-          {user_id && registered && <Route path="*" element={<Main />} />}
+          {user_id && registered && <Route path="/*" element={<Main />} />}
           {/* If the user has signed but not registered, the user have to register him or herself */}
           {user_id && !registered && (
             <Route>

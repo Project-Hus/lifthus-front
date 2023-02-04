@@ -1,14 +1,11 @@
 import React from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 
-import Logo from "../../logo.svg";
-
-import BottomNav from "./BottomNav";
-
 import ErrorPage from "../../common/components/ErrorPage";
 
 import FirstPage from "../sign/FirstPage";
 import useAppStore from "../../store/app.zustand";
+import BottomNav from "./components/BottomNav";
 
 const Main = () => {
   const user_id = useAppStore((state) => state.user_id);
