@@ -49,6 +49,7 @@ const RegisterConfirm = () => {
           const ok = await registerApi.register(register_info);
           await set_user_info(await authApi.get_user_info(user_id));
           if (ok) {
+            await set_user_info(await authApi.get_user_info(user_id));
             navigate("/");
           }
         }}

@@ -5,9 +5,7 @@ export interface registerApi_form {
     id,
     nickname,
   }: register_nickname_form) => register_nickname_out;
-  register: (
-    register_info: { user_id: string } & register_info
-  ) => register_out;
+  register: (register_info: register_form) => register_out;
 }
 export interface register_nickname_form {
   id: string;
@@ -18,6 +16,15 @@ export interface register_nickname_out {
   ok: boolean;
 }
 
+export interface register_form {
+  user_id: string;
+  training_type: string;
+  body_weight: number;
+  height: number;
+  squat: number;
+  benchpress: number;
+  deadlift: number;
+}
 export interface register_out {
   ok: boolean;
 }

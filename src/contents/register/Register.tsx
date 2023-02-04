@@ -16,8 +16,8 @@ import RegisterType from "./RegisterType";
 
 const Register = () => {
   const { t, i18n } = useTranslation();
-
   const user_id = useAppStore((state) => state.user_id);
+  console.log(useAppStore((state) => state));
   return (
     <>
       <Routes>

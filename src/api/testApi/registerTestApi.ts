@@ -1,6 +1,6 @@
-import { register_info } from "../../store/interfaces/register.interface";
 import {
   registerApi_form,
+  register_form,
   register_nickname_form,
   register_nickname_out,
   register_out,
@@ -18,10 +18,9 @@ const registerTestApi: registerApi_form = {
     }
     return { ok: false };
   },
-  register: (
-    register_info: { user_id: string } & register_info
-  ): register_out => {
-    set_user_info(register_info);
+  register: (register_info: register_form): register_out => {
+    const new_info = { registered: true, ...register_info };
+    set_user_info(new_info);
     return { ok: true };
   },
 };

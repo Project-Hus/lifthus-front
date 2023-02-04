@@ -2,6 +2,7 @@ import { register_info } from "../store/interfaces/register.interface";
 
 import {
   registerApi_form,
+  register_form,
   register_nickname_form,
   register_nickname_out,
   register_out,
@@ -19,9 +20,7 @@ const registerApi: registerApi_form = {
     }
     return { ok: false };
   },
-  register: (
-    register_info: { user_id: string } & register_info
-  ): register_out => {
+  register: (register_info: register_form): register_out => {
     if (process.env.NODE_ENV == "development") {
       return registerTestApi.register(register_info);
     }
