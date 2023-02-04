@@ -56,6 +56,7 @@ const App = () => {
               <Route path="/sign/" element={<Sign />} />
               <Route path="/sign/in" element={<SignIn />} />
               <Route path="/sign/up" element={<SignUp />} />
+              <Route path="*" element={<Navigate to="/sign" />} />
             </Route>
           )}
           <Route path="*" element={<ErrorPage />} />

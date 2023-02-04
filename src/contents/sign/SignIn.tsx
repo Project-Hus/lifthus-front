@@ -44,8 +44,6 @@ const SignIn = () => {
       setFailed(true);
     }
   };
-
-  console.log(watch());
   return (
     <React.Fragment>
       <Logo to="/sign" relative={true} />

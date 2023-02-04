@@ -16,9 +16,12 @@ const Main = () => {
       {/*registered === false && <Navigate to="/register" />*/}
       <BottomNav />
       <Routes>
-        <Route index element={<Link to="/">abc</Link>} />
-        <Route path="profile" element={<div />} />
-        <Route path="profile/userinfo" element={<div />} />
+        <Route index element={<div>Home</div>} />
+        <Route path="group" element={<div>group</div>} />
+        <Route path="training" element={<div>training</div>} />
+        <Route path="statistics" element={<div>statistics</div>} />
+        <Route path="profile" element={<div>PROFILE</div>} />
+        <Route path="profile/userinfo" element={<div>PROFILE/USERINFO</div>} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </React.Fragment>
