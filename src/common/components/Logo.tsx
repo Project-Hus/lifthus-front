@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import styled, { css, keyframes } from "styled-components";
+import styled from "@emotion/styled";
+import { Keyframes } from "@emotion/react";
 
 import logo from "../../logo.svg";
+import { keyframes } from "@emotion/react";
 
 const lifting = keyframes`
     0% {width:50vmax;}
@@ -24,13 +26,13 @@ const LogoStyled = styled.img<{
 
   ${(props) =>
     props.big == false &&
-    css`
+    `
       width: 30vmax;
     `}
 
   ${(props) =>
     props.mov &&
-    css`
+    `
       animation: ${lifting} 4s infinite;
     `}
 `;

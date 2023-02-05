@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const BtnGoogle = styled.button`
   position: relative;

@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { ThemeColor } from "../../styles/theme.style";
 
 const Bbtn = styled.button`

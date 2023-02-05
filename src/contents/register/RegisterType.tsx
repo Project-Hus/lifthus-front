@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 import BlueLink from "../../common/components/links/BlueLink";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useRegisterStore from "../../store/register.zustand";

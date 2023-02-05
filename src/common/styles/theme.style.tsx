@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 export const ThemeColor = {
   backgroundColor: `#363e50`,
   backgroundColorLight: `#3e485e`,

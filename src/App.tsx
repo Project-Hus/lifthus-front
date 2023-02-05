@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { ThemeColor } from "./common/styles/theme.style";
 
 import { useTranslation } from "react-i18next";
@@ -56,7 +56,6 @@ const App = () => {
               <Route path="/sign/" element={<Sign />} />
               <Route path="/sign/in" element={<SignIn />} />
               <Route path="/sign/up" element={<SignUp />} />
-              <Route path="*" element={<Navigate to="/sign" />} />
             </Route>
           )}
           <Route path="*" element={<ErrorPage />} />
