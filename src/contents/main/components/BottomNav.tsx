@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeColor } from "../../../common/styles/theme.style";
+import { css } from "@emotion/react";
 
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(2);
@@ -68,7 +69,7 @@ const NavItem = styled.div<{ active?: boolean }>`
 
   ${(props) =>
     (props.active || false) &&
-    `
+    css`
       color: aliceblue;
     `}
 `;

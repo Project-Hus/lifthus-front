@@ -2,6 +2,7 @@ import React from "react";
 import { UseFormRegister } from "react-hook-form";
 import styled from "@emotion/styled";
 import { ThemeColor } from "../../styles/theme.style";
+import { css } from "@emotion/react";
 
 const FormDiv = styled.div<{ type: string; bold: boolean }>`
   label {
@@ -28,12 +29,12 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
     transition: 0.5s;
     ${(props) =>
       props.bold &&
-      `
+      css`
         font-weight: bold;
       `}
     ${(props) =>
       props.type === "number" &&
-      `
+      css`
         font-size: 0.8em;
         //margin-left: -0.5em;
         //margin-right: -1em;
@@ -57,7 +58,7 @@ const FormDiv = styled.div<{ type: string; bold: boolean }>`
 
       ${(props) =>
         props.type === "number" &&
-        `
+        css`
           //margin-left: 1em;
           //margin-right: 0em;
         `}

@@ -51,7 +51,7 @@ const SignUp = () => {
   };
   return (
     <React.Fragment>
-      <Logo to="/sign" relative={true} />
+      <Logo to="/sign" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           label={t("sign.ID")}

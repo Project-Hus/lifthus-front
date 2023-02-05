@@ -9,7 +9,7 @@ const FirstPage = () => {
   const { t, i18n } = useTranslation();
   return (
     <React.Fragment>
-      <Logo mov={true} big={true} />
+      <Logo mov={true} absolute={true} />
       <p>&nbsp;</p>
       <p>&nbsp;</p>
       <BigThemeBtn content={t("sign.first_button")} to="sign" />

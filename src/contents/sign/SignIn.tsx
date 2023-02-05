@@ -46,7 +46,7 @@ const SignIn = () => {
   };
   return (
     <React.Fragment>
-      <Logo to="/sign" relative={true} />
+      <Logo to="/sign" />
       {location.state?.from === "/sign/up" && (
         <div style={{ marginTop: "0.5em" }}>{t("sign.welcome_message")}</div>
       )}

@@ -10,14 +10,14 @@ type LogoType = {
   to?: string;
   mov?: boolean;
   big?: boolean;
-  relative?: boolean;
+  absolute?: boolean;
 };
-/* if this Logo covers another component, should be set the component css position relative*/
+
 const Logo = ({
   to = "/",
   mov = false,
   big = false,
-  relative = false,
+  absolute = false,
 }: LogoType) => {
   let navigate = useNavigate();
   return (
@@ -29,7 +29,7 @@ const Logo = ({
       }}
       mov={mov}
       big={big}
-      relative={relative}
+      absolute={absolute}
     />
   );
 };
@@ -46,10 +46,10 @@ const lifting = keyframes`
 const LogoStyled = styled.img<{
   mov: boolean;
   big: boolean;
-  relative: boolean;
+  absolute: boolean;
 }>`
-  position: ${(props) => (props.relative ? "relative" : "absolute")};
-  top: ${(props) => (props.relative ? "" : "20vh")};
+  position: ${(props) => (props.absolute ? css`absolute` : css`relative`)};
+  top: ${(props) => (props.absolute ? css`20vh` : "")};
   max-width: 100vw;
   cursor: pointer;
 

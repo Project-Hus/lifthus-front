@@ -24,7 +24,7 @@ const Register = () => {
           index
           element={
             <>
-              <Logo to="/register" mov={true} big={true} />
+              <Logo to="/register" mov={true} absolute={true} />
               <p>&nbsp;</p>
               <p>&nbsp;</p>
               <p>
