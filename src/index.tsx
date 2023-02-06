@@ -5,11 +5,13 @@ import App from "./App";
 
 import reportWebVitals from "./reportWebVitals";
 
+import "./i18n";
+
 import { BrowserRouter } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-import "./i18n";
+import { extendTheme } from "@chakra-ui/react";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

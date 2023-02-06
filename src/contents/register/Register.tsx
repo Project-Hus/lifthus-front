@@ -27,6 +27,8 @@ const Register = () => {
               <Logo to="/register" mov={true} absolute={true} />
               <p>&nbsp;</p>
               <p>&nbsp;</p>
+              <p>&nbsp;</p>
+              <p>&nbsp;</p>
               <p>
                 {t("register.Hi")} {t("name_var", { name: user_id })},
               </p>

@@ -14,6 +14,8 @@ const BtnGoogle = styled.button`
   background-size: contain;
   background-repeat: no-repeat;
 
+  margin: 2em;
+
   background-color: #2d47b9;
   color: rgb(219, 235, 255);
 
