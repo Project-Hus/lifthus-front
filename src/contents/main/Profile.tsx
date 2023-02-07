@@ -10,9 +10,12 @@ const Profile = () => {
   const user_info = useAppStore((state) => state);
   return (
     <ProfileArea>
-      <FormLabel fontSize={"1em"}>{user_info.nickname}</FormLabel>
+      <div></div>
+      <div>
+        {user_info.nickname}
+        <Button>adsfdsfdas</Button>
+      </div>
       <hr style={{ minWidth: "100wh" }} />
-      <Button>adsfdsfdas</Button>
     </ProfileArea>
   );
 };
