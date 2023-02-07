@@ -1,7 +1,7 @@
-import { get_user_info_form } from "../interfacaes/authApi.interface";
-import { register_form } from "../interfacaes/registerApi.interface";
-import { userApi_form, UserProfile } from "../interfacaes/userApi.interface";
+import { RegisterParams } from "../interfacaes/registerApi.interface";
+import { UserApi, UserProfile } from "../interfacaes/userApi.interface";
 
+/* Mock server */
 export let user_profile: UserProfile = {
   user_id: "",
   registered: false,
@@ -14,12 +14,13 @@ export let user_profile: UserProfile = {
   deadlift: NaN,
 };
 
-export const set_user_info = (register_user_info: register_form) => {
-  user_profile = { ...user_profile, ...register_user_info };
+export const set_user_info = (new_user_info: RegisterParams | UserProfile) => {
+  user_profile = { ...user_profile, ...new_user_info };
 };
+/* Mock Server */
 
-const userTestApi: userApi_form = {
-  get_user_info: (id: string): get_user_info_form => {
+const userTestApi: UserApi = {
+  get_user_info: (id: string): UserProfile => {
     return { ...user_profile };
   },
 };

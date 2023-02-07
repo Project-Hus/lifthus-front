@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
+import userApi from "../../api/userApi";
 import FormInput, {
   IFormInputValues,
 } from "../../common/components/forms/FormInput";
@@ -35,7 +36,7 @@ const SignIn = () => {
       password: getValues("password"),
     });
     if (res.ok === true) {
-      const user_info = authApi.get_user_info(res.user_id);
+      const user_info = userApi.get_user_info(res.user_id);
       set_user_info(user_info);
       if (user_info.registered) navigate("/");
       else navigate("/register");

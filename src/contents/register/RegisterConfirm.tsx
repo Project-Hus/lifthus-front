@@ -2,8 +2,8 @@ import { t } from "i18next";
 import React from "react";
 import { Trans } from "react-i18next";
 import { useNavigate } from "react-router";
-import authApi from "../../api/authApi";
 import registerApi from "../../api/registerApi";
+import userApi from "../../api/userApi";
 import BlueButton from "../../common/components/buttons/BlueButton";
 import useAppStore from "../../store/app.zustand";
 import useRegisterStore from "../../store/register.zustand";
@@ -47,9 +47,9 @@ const RegisterConfirm = () => {
       <BlueButton
         onClick={async (e) => {
           const ok = await registerApi.register(register_info);
-          await set_user_info(await authApi.get_user_info(user_id));
+          await set_user_info(await userApi.get_user_info(user_id));
           if (ok) {
-            await set_user_info(await authApi.get_user_info(user_id));
+            await set_user_info(await userApi.get_user_info(user_id));
             navigate("/");
           }
         }}

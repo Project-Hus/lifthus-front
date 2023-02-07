@@ -1,24 +1,24 @@
 import {
-  registerApi_form,
-  register_form,
-  register_nickname_form,
-  register_nickname_out,
-  register_out,
+  RegisterApi,
+  RegisterNicknameParams,
+  RegisterNicknameReturns,
+  RegisterParams,
+  RegisterReturns,
 } from "../interfacaes/registerApi.interface";
-import { set_user_info, user_info } from "./authTestApi";
+import { set_user_info } from "./userTestApi";
 
-const registerTestApi: registerApi_form = {
+const registerTestApi: RegisterApi = {
   register_nickname: ({
     id,
     nickname,
-  }: register_nickname_form): register_nickname_out => {
+  }: RegisterNicknameParams): RegisterNicknameReturns => {
     if (nickname === "succ") {
-      user_info.nickname = nickname;
+      set_user_info({ nickname: nickname });
       return { ok: true };
     }
     return { ok: false };
   },
-  register: (register_info: register_form): register_out => {
+  register: (register_info: RegisterParams): RegisterReturns => {
     const new_info = { registered: true, ...register_info };
     set_user_info(new_info);
     return { ok: true };

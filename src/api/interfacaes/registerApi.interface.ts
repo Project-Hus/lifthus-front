@@ -1,22 +1,22 @@
 import { register_info } from "../../store/interfaces/register.interface";
 
-export interface registerApi_form {
+export interface RegisterApi {
   register_nickname: ({
     id,
     nickname,
-  }: register_nickname_form) => register_nickname_out;
-  register: (register_info: register_form) => register_out;
+  }: RegisterNicknameParams) => RegisterNicknameReturns;
+  register: (register_info: RegisterParams) => RegisterReturns;
 }
-export interface register_nickname_form {
+export interface RegisterNicknameParams {
   id: string;
   nickname: string;
 }
 
-export interface register_nickname_out {
+export interface RegisterNicknameReturns {
   ok: boolean;
 }
 
-export interface register_form {
+export interface RegisterParams {
   user_id: string;
   training_type: string;
   body_weight: number;
@@ -25,6 +25,6 @@ export interface register_form {
   benchpress: number;
   deadlift: number;
 }
-export interface register_out {
+export interface RegisterReturns {
   ok: boolean;
 }

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import authApi from "../../api/authApi";
+
 import registerApi from "../../api/registerApi";
+import userApi from "../../api/userApi";
 
 import FormInput, {
   IFormInputValues,
@@ -67,7 +68,7 @@ const RegisterNickname = () => {
             });
             if (ok) {
               set_register_info({ register_nickname: getValues("nickname") });
-              set_user_info(authApi.get_user_info(user_id));
+              set_user_info(userApi.get_user_info(user_id));
               navigate("/register/type");
             } else {
               setFailed(true);

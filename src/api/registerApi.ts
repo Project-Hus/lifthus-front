@@ -1,26 +1,24 @@
-import { register_info } from "../store/interfaces/register.interface";
-
 import {
-  registerApi_form,
-  register_form,
-  register_nickname_form,
-  register_nickname_out,
-  register_out,
+  RegisterApi,
+  RegisterNicknameParams,
+  RegisterNicknameReturns,
+  RegisterParams,
+  RegisterReturns,
 } from "./interfacaes/registerApi.interface";
 
 import registerTestApi from "./testApi/registerTestApi";
 
-const registerApi: registerApi_form = {
+const registerApi: RegisterApi = {
   register_nickname: ({
     id,
     nickname,
-  }: register_nickname_form): register_nickname_out => {
+  }: RegisterNicknameParams): RegisterNicknameReturns => {
     if (process.env.NODE_ENV == "development") {
       return registerTestApi.register_nickname({ id, nickname });
     }
     return { ok: false };
   },
-  register: (register_info: register_form): register_out => {
+  register: (register_info: RegisterParams): RegisterReturns => {
     if (process.env.NODE_ENV == "development") {
       return registerTestApi.register(register_info);
     }
