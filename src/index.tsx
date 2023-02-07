@@ -14,19 +14,7 @@ import {
   ChakraProvider,
   withDefaultColorScheme,
 } from "@chakra-ui/react";
-
-// Setting Chakra UI's default color
-import { extendTheme } from "@chakra-ui/react";
-const theme = extendTheme(
-  {
-    colors: {
-      brand: baseTheme.colors.blue,
-    },
-  },
-  withDefaultColorScheme({
-    colorScheme: "brand",
-  })
-);
+import theme from "./common/styles/theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

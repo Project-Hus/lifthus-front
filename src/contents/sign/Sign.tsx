@@ -14,6 +14,7 @@ const Sign = () => {
       <Logo mov={true} absolute={true} />
       <p>&nbsp;</p>
       <p>&nbsp;</p>
+      <p>&nbsp;</p>
       <ButtonGoogle to="/error" />
       <p></p>
       <BlueLink to="/sign/in">{t("sign.SignIn")}</BlueLink>
