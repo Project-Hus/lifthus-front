@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 
 import reportWebVitals from "./reportWebVitals";
@@ -9,12 +8,9 @@ import "./i18n";
 
 import { BrowserRouter } from "react-router-dom";
 
-import {
-  baseTheme,
-  ChakraProvider,
-  withDefaultColorScheme,
-} from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./common/styles/theme";
+import { ThemeColor } from "./common/styles/theme.style";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

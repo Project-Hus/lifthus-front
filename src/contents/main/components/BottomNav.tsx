@@ -37,6 +37,7 @@ const NavBar = styled.nav`
   left: 0;
   right: 0;
   height: 10vh;
+  z-index: 1;
   /* nav태그 아래의 자식들을 수평정렬하기 위한 설정 */
   overflow: hidden;
   background-color: ${ThemeColor.basicColor};

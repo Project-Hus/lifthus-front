@@ -8,16 +8,13 @@ import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
 import { FormLabel } from "@chakra-ui/form-control";
+import BlueLink from "../../common/components/links/BlueLink";
 
 const Profile = () => {
   const user_info = useAppStore((state) => state);
   return (
     <ProfilePage>
-      <Card
-        bgColor={ThemeColor.backgroundColor}
-        color="white"
-        border={`solid ${ThemeColor.backgroundColorLight}`}
-      >
+      <Card bgColor={ThemeColor.backgroundColorDarker} color="white">
         <CardHeader display={"flex"}>
           <div>
             <Img
@@ -35,8 +32,8 @@ const Profile = () => {
         </CardHeader>
         <CardBody></CardBody>
       </Card>
-
-      <Card>
+      <hr style={{ minWidth: "100wh" }} />
+      <Card bgColor={ThemeColor.backgroundColor} color={"white"}>
         <CardHeader>
           <Heading size="md">Client Report</Heading>
         </CardHeader>
@@ -70,9 +67,6 @@ const Profile = () => {
           </Stack>
         </CardBody>
       </Card>
-
-      <div></div>
-      <hr style={{ minWidth: "100wh" }} />
     </ProfilePage>
   );
 };

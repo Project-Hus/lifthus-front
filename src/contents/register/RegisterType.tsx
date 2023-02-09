@@ -19,8 +19,8 @@ const TypeBoard = styled.div`
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 
-  border-top: solid 0.2em ${ThemeColor.backgroundColorLight};
-  border-bottom: solid 0.2em ${ThemeColor.backgroundColorLight};
+  border-top: solid 0.2em ${ThemeColor.backgroundColorDarker};
+  border-bottom: solid 0.2em ${ThemeColor.backgroundColorDarker};
 
   &::-webkit-scrollbar {
     width: 0.25rem;
