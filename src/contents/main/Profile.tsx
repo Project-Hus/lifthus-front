@@ -41,8 +41,16 @@ const Profile = () => {
               {user_info.nickname}
             </FormLabel>
             <div>
-              <Button>Hey</Button>
+              <Text
+                bgColor={ThemeColor.backgroundColor}
+                fontSize={"0.7em"}
+                borderRadius="1em"
+                padding="0.7em"
+              >
+                descriptifdaasdfdsfdsafdasfsfdsan self
+              </Text>
             </div>
+            <Button>Hey</Button>
           </div>
         </CardHeader>
         <CardBody></CardBody>
