@@ -8,7 +8,6 @@ import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
 import { FormLabel } from "@chakra-ui/form-control";
-import BlueLink from "../../common/components/links/BlueLink";
 import { Button } from "@chakra-ui/button";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 import {
@@ -22,9 +21,15 @@ import {
 
 const Profile = () => {
   const user_info = useAppStore((state) => state);
+  const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
   return (
     <ProfilePage>
-      <Card bgColor={ThemeColor.backgroundColorDarker} color="white">
+      <Card
+        bgColor={ThemeColor.backgroundColorDarker}
+        color="white"
+        borderTopRadius={"1em"}
+        borderBottomRadius={"0"}
+      >
         <CardHeader display={"flex"}>
           <div>
             <Img
@@ -55,18 +60,29 @@ const Profile = () => {
         </CardHeader>
         <CardBody></CardBody>
       </Card>
-      <Tabs align="end" variant="unstyled">
+      <hr />
+      <Tabs variant="unstyled">
         <TabList>
-          <Tab _selected={{ color: "white", bg: "blue.500" }}>Tab 2</Tab>
-          <Tab _selected={{ color: "white", bg: "green.400" }}>Tab 2</Tab>
+          <Tab
+            _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
+            _selected={{ color: "white", bg: "blue.500" }}
+          >
+            S/B/D
+          </Tab>
+          <Tab
+            _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
+            _selected={{ color: "white", bg: "green.400" }}
+          >
+            Tab 2
+          </Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
             <p>
-              <StatGroup>
+              <StatGroup border="solid" borderRadius="1em" padding="0.5em">
                 <Stat>
                   <StatLabel>Squat</StatLabel>
-                  <StatNumber>345,670</StatNumber>
+                  <StatNumber>{user_info.squat}kg</StatNumber>
                   <StatHelpText>
                     <StatArrow type="increase" />
                     23.36%
@@ -75,7 +91,7 @@ const Profile = () => {
 
                 <Stat>
                   <StatLabel>Benchpress</StatLabel>
-                  <StatNumber>45</StatNumber>
+                  <StatNumber>{user_info.benchpress}kg</StatNumber>
                   <StatHelpText>
                     <StatArrow type="decrease" />
                     9.05%
@@ -83,7 +99,18 @@ const Profile = () => {
                 </Stat>
                 <Stat>
                   <StatLabel>Deadlift</StatLabel>
-                  <StatNumber>45</StatNumber>
+                  <StatNumber>{user_info.deadlift}kg</StatNumber>
+                  <StatHelpText>
+                    <StatArrow type="decrease" />
+                    9.05%
+                  </StatHelpText>
+                </Stat>
+
+                <Stat>
+                  <StatLabel>
+                    <strong>Total</strong>
+                  </StatLabel>
+                  <StatNumber>{sbd_total}kg</StatNumber>
                   <StatHelpText>
                     <StatArrow type="decrease" />
                     9.05%
@@ -97,7 +124,17 @@ const Profile = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <Card bgColor={ThemeColor.backgroundColor} color={"white"}>
+
+      <hr />
+      <hr />
+
+      <Card
+        border={`double 0.1em ${ThemeColor.backgroundColorDarker}`}
+        borderTop="none"
+        borderTopRadius={0}
+        bgColor={ThemeColor.backgroundColor}
+        color={"white"}
+      >
         <CardHeader>
           <Heading size="md">Client Report</Heading>
         </CardHeader>
