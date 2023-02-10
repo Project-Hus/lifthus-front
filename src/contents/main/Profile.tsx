@@ -1,4 +1,5 @@
 import React from "react";
+import { EditIcon } from "@chakra-ui/icons";
 
 import useAppStore from "../../store/app.zustand";
 import styled from "@emotion/styled";
@@ -25,8 +26,10 @@ const Profile = () => {
   return (
     <ProfilePage>
       <Card
-        bgColor={ThemeColor.backgroundColorDarker}
+        marginTop={"0.1em"}
+        bgColor={ThemeColor.backgroundColor}
         color="white"
+        border={`double ${ThemeColor.backgroundColorDarker}`}
         borderTopRadius={"1em"}
         borderBottomRadius={"0"}
       >
@@ -42,27 +45,38 @@ const Profile = () => {
             />
           </div>
           <div>
-            <FormLabel fontSize={"1.5em"} paddingLeft={"0.2em"}>
-              {user_info.nickname}
-            </FormLabel>
+            <div>
+              <FormLabel
+                display={"inline"}
+                fontSize={"1.5em"}
+                paddingLeft={"0.2em"}
+              >
+                {user_info.nickname}
+              </FormLabel>
+
+              <EditIcon _hover={{ cursor: "pointer" }} />
+            </div>
             <div>
               <Text
-                bgColor={ThemeColor.backgroundColor}
-                fontSize={"0.7em"}
+                border={`dashed ${ThemeColor.backgroundColorDarker}`}
+                fontSize={"0.6em"}
                 borderRadius="1em"
                 padding="0.7em"
               >
-                descriptifdaasdfdsfdsafdasfsfdsan self
+                Thinking out loud ~ People fall in love in mysterious
               </Text>
             </div>
-            <Button>Hey</Button>
           </div>
         </CardHeader>
         <CardBody></CardBody>
       </Card>
       <hr />
-      <Tabs variant="unstyled">
-        <TabList>
+      <Tabs
+        bgColor={ThemeColor.backgroundColorDarker}
+        variant="unstyled"
+        align="end"
+      >
+        <TabList borderBottom={`double gray`}>
           <Tab
             _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
             _selected={{ color: "white", bg: "blue.500" }}
@@ -76,13 +90,18 @@ const Profile = () => {
             Tab 2
           </Tab>
         </TabList>
-        <TabPanels>
+        <TabPanels textAlign={"center"}>
           <TabPanel>
             <p>
               <StatGroup border="solid" borderRadius="1em" padding="0.5em">
                 <Stat>
                   <StatLabel>Squat</StatLabel>
-                  <StatNumber>{user_info.squat}kg</StatNumber>
+                  <StatNumber>
+                    {user_info.squat}
+                    <Text display={"inline"} fontSize="0.5em">
+                      kg
+                    </Text>
+                  </StatNumber>
                   <StatHelpText>
                     <StatArrow type="increase" />
                     23.36%
@@ -91,7 +110,12 @@ const Profile = () => {
 
                 <Stat>
                   <StatLabel>Benchpress</StatLabel>
-                  <StatNumber>{user_info.benchpress}kg</StatNumber>
+                  <StatNumber>
+                    {user_info.benchpress}
+                    <Text display={"inline"} fontSize="0.5em">
+                      kg
+                    </Text>
+                  </StatNumber>
                   <StatHelpText>
                     <StatArrow type="decrease" />
                     9.05%
@@ -99,7 +123,12 @@ const Profile = () => {
                 </Stat>
                 <Stat>
                   <StatLabel>Deadlift</StatLabel>
-                  <StatNumber>{user_info.deadlift}kg</StatNumber>
+                  <StatNumber>
+                    {user_info.deadlift}
+                    <Text display={"inline"} fontSize="0.5em">
+                      kg
+                    </Text>
+                  </StatNumber>
                   <StatHelpText>
                     <StatArrow type="decrease" />
                     9.05%
@@ -108,9 +137,16 @@ const Profile = () => {
 
                 <Stat>
                   <StatLabel>
-                    <strong>Total</strong>
+                    <Text as="b" fontSize={"1.2em"}>
+                      Total
+                    </Text>
                   </StatLabel>
-                  <StatNumber>{sbd_total}kg</StatNumber>
+                  <StatNumber>
+                    {sbd_total}
+                    <Text display={"inline"} fontSize="0.5em">
+                      kg
+                    </Text>
+                  </StatNumber>
                   <StatHelpText>
                     <StatArrow type="decrease" />
                     9.05%
@@ -175,7 +211,7 @@ const Profile = () => {
 export default Profile;
 
 const ProfilePage = styled.div`
-  width: 90%;
+  max-width: 100wh;
 `;
 
 const ProfileArea = styled.div`
