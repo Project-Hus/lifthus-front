@@ -22,7 +22,7 @@ const AppStyled = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: top;
   font-size: calc(14px + 2vmin);
   color: white;
   padding-bottom: 10vh;

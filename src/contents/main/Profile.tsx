@@ -1,16 +1,18 @@
 import React from "react";
+
+import { USER_PROFILE_IMAGE_ROUTE } from "../../common/routes";
+import { ThemeColor } from "../../common/styles/theme.style";
+
+import styled from "@emotion/styled";
+
+import { Img } from "@chakra-ui/image";
+import { Card, CardBody, CardHeader } from "@chakra-ui/card";
+import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
+import { FormLabel } from "@chakra-ui/form-control";
+
 import { EditIcon } from "@chakra-ui/icons";
 
-import useAppStore from "../../store/app.zustand";
-import styled from "@emotion/styled";
-import { Img } from "@chakra-ui/image";
-import { USER_PROFILE_IMAGE_ROUTE } from "../../common/routes";
-import { Card, CardBody, CardHeader } from "@chakra-ui/card";
-import { ThemeColor } from "../../common/styles/theme.style";
-import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
-import { FormLabel } from "@chakra-ui/form-control";
-import { Button } from "@chakra-ui/button";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 import {
   Stat,
   StatArrow,
@@ -19,6 +21,8 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/stat";
+
+import useAppStore from "../../store/app.zustand";
 
 const Profile = () => {
   const user_info = useAppStore((state) => state);
@@ -30,6 +34,7 @@ const Profile = () => {
         bgColor={ThemeColor.backgroundColor}
         color="white"
         border={`double ${ThemeColor.backgroundColorDarker}`}
+        direction={{ base: "column", sm: "row" }}
         borderTopRadius={"1em"}
         borderBottomRadius={"0"}
       >
@@ -58,7 +63,7 @@ const Profile = () => {
             </div>
             <div>
               <Text
-                border={`dashed ${ThemeColor.backgroundColorDarker}`}
+                border={` ${ThemeColor.backgroundColorDarker}`}
                 fontSize={"0.6em"}
                 borderRadius="1em"
                 padding="0.7em"
@@ -76,24 +81,28 @@ const Profile = () => {
         variant="unstyled"
         align="end"
       >
-        <TabList borderBottom={`double gray`}>
+        <TabList>
           <Tab
-            _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
+            _hover={{ bgColor: ThemeColor.backgroundColor }}
             _selected={{ color: "white", bg: "blue.500" }}
           >
             S/B/D
           </Tab>
           <Tab
-            _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
+            _hover={{ bgColor: ThemeColor.backgroundColor }}
             _selected={{ color: "white", bg: "green.400" }}
           >
-            Tab 2
+            Lift Logs
           </Tab>
         </TabList>
         <TabPanels textAlign={"center"}>
           <TabPanel>
             <p>
-              <StatGroup border="solid" borderRadius="1em" padding="0.5em">
+              <StatGroup
+                border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
+                borderRadius="1em"
+                padding="0.5em"
+              >
                 <Stat>
                   <StatLabel>Squat</StatLabel>
                   <StatNumber>
@@ -134,12 +143,9 @@ const Profile = () => {
                     9.05%
                   </StatHelpText>
                 </Stat>
-
                 <Stat>
                   <StatLabel>
-                    <Text as="b" fontSize={"1.2em"}>
-                      Total
-                    </Text>
+                    <Text>Total</Text>
                   </StatLabel>
                   <StatNumber>
                     {sbd_total}
