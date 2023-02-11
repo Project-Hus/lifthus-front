@@ -13,7 +13,7 @@ import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import { nickname_limit } from "../../common/constraints";
 
-import useAppStore from "../../store/app.zustand";
+import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
 
 const RegisterNickname = () => {
@@ -22,11 +22,11 @@ const RegisterNickname = () => {
   const navigate = useNavigate();
 
   /* store */
-  const user_id = useAppStore((state) => state.user_id);
+  const user_id = useUserStore((state) => state.user_id);
   const register_nickname = useRegisterStore(
     (state) => state.register_nickname
   );
-  const set_user_info = useAppStore((state) => state.set_user_info);
+  const set_user_info = useUserStore((state) => state.set_user_info);
   const set_register_info = useRegisterStore(
     (state) => state.set_register_info
   );

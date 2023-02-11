@@ -1,8 +1,8 @@
 import { number, string } from "yargs";
 import { create } from "zustand";
-import { app_info } from "./interfaces/app.interface";
+import { UserInfo } from "./interfaces/user.interface";
 
-interface AppState {
+interface UserState {
   user_id: string;
   registered: boolean;
   nickname: string;
@@ -12,10 +12,10 @@ interface AppState {
   squat: number;
   benchpress: number;
   deadlift: number;
-  set_user_info: (info: app_info) => void;
+  set_user_info: (info: UserInfo) => void;
 }
 
-const useAppStore = create<AppState>()((set) => ({
+const useUserStore = create<UserState>()((set) => ({
   user_id: "",
   registered: false,
   nickname: "",
@@ -25,11 +25,11 @@ const useAppStore = create<AppState>()((set) => ({
   squat: NaN,
   benchpress: NaN,
   deadlift: NaN,
-  set_user_info: (info: app_info) =>
+  set_user_info: (info: UserInfo) =>
     set((state) => ({
       ...state,
       ...info,
     })),
 }));
 
-export default useAppStore;
+export default useUserStore;

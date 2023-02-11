@@ -9,7 +9,7 @@ import { isSwitchStatement } from "typescript";
 import FormInput from "../../../common/components/forms/FormInput";
 import BlueLink from "../../../common/components/links/BlueLink";
 import Logo from "../../../common/components/Logo";
-import useAppStore from "../../../store/app.zustand";
+import useUserStore from "../../../store/user.zustand";
 import { register_info_strings } from "../../../store/interfaces/register.interface";
 import useRegisterStore from "../../../store/register.zustand";
 

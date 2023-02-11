@@ -6,12 +6,12 @@ import { ThemeColor } from "./common/styles/theme.style";
 import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import Main from "./contents/main/Main";
+import Main from "./contents/Main";
 import Sign from "./contents/sign/Sign";
 import SignUp from "./contents/sign/SignUp";
 import ErrorPage from "./common/components/ErrorPage";
 
-import useAppStore from "./store/app.zustand";
+import useUserStore from "./store/user.zustand";
 import FirstPage from "./contents/sign/FirstPage";
 import SignIn from "./contents/sign/SignIn";
 import Register from "./contents/register/Register";
@@ -31,8 +31,8 @@ const AppStyled = styled.section`
 const App = () => {
   const { t, i18n } = useTranslation();
 
-  const user_id = useAppStore((state) => state.user_id);
-  const registered = useAppStore((state) => state.registered);
+  const user_id = useUserStore((state) => state.user_id);
+  const registered = useUserStore((state) => state.registered);
 
   return (
     <div className="App" style={{ textAlign: "center" }}>

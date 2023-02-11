@@ -1,4 +1,4 @@
-export interface app_info {
+export interface UserInfo {
   user_id?: string;
   registered?: boolean;
   nickname?: string;

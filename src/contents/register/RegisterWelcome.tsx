@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../common/components/Logo";
-import useAppStore from "../../store/app.zustand";
+import useUserStore from "../../store/user.zustand";
 
 const RegisterWelcome = () => {
-  const nickname = useAppStore((state) => state.nickname);
+  const nickname = useUserStore((state) => state.nickname);
   const navigate = useNavigate();
   setTimeout(() => {
     navigate("/register/bodyweight");

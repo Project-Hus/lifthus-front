@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
 import BlueButton from "../../common/components/buttons/BlueButton";
 import Logo from "../../common/components/Logo";
-import useAppStore from "../../store/app.zustand";
+import useUserStore from "../../store/user.zustand";
 import RegisterNumber from "./components/RegisterNumber";
 import RegisterBenchpress from "./RegisterBenchpress";
 import RegisterBodyWeight from "./RegisterBodyWeight";
@@ -16,7 +16,7 @@ import RegisterType from "./RegisterType";
 
 const Register = () => {
   const { t, i18n } = useTranslation();
-  const user_id = useAppStore((state) => state.user_id);
+  const user_id = useUserStore((state) => state.user_id);
   return (
     <>
       <Routes>

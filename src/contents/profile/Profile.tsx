@@ -11,8 +11,6 @@ import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 import { FormLabel } from "@chakra-ui/form-control";
 
-import { EditIcon } from "@chakra-ui/icons";
-
 import {
   Stat,
   StatArrow,
@@ -22,59 +20,13 @@ import {
   StatNumber,
 } from "@chakra-ui/stat";
 
-import useAppStore from "../../store/app.zustand";
+import useUserStore from "../../store/user.zustand";
 
 const Profile = () => {
-  const user_info = useAppStore((state) => state);
+  const user_info = useUserStore((state) => state);
   const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
   return (
     <ProfilePage>
-      <Card
-        marginTop={"0.1em"}
-        bgColor={"blue.800"}
-        color="white"
-        border={`double ${ThemeColor.backgroundColorDarker}`}
-        direction={{ base: "column", sm: "row" }}
-        borderTopRadius={"1em"}
-        borderBottomRadius={"0"}
-      >
-        <CardHeader display={"flex"}>
-          <div>
-            <Img
-              src={USER_PROFILE_IMAGE_ROUTE + user_info.user_id + ".jpeg"}
-              alt={`${user_info.nickname}'s profile image`}
-              borderRadius={"2em"}
-              objectFit={"cover"}
-              width={"7em"}
-              height={"7em"}
-            />
-          </div>
-          <div>
-            <div>
-              <FormLabel
-                display={"inline"}
-                fontSize={"1.5em"}
-                paddingLeft={"0.2em"}
-              >
-                {user_info.nickname}
-              </FormLabel>
-
-              <EditIcon _hover={{ cursor: "pointer" }} />
-            </div>
-            <div>
-              <Text
-                border={` ${ThemeColor.backgroundColorDarker}`}
-                fontSize={"0.6em"}
-                borderRadius="1em"
-                padding="0.7em"
-              >
-                Thinking out loud ~ People fall in love in mysterious
-              </Text>
-            </div>
-          </div>
-        </CardHeader>
-        <CardBody></CardBody>
-      </Card>
       <hr />
       <Tabs
         bgColor={ThemeColor.backgroundColorDarker}

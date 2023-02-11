@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ThemeColor } from "../../../common/styles/theme.style";
+import { ThemeColor } from "../common/styles/theme.style";
 import { css } from "@emotion/react";
-
-import { ReactComponent as UsersSolid } from "../../../common/icons/users-solid.svg";
-import { ReactComponent as Dumbbell } from "../../../common/icons/dumbbell-solid.svg";
-import { ReactComponent as HomeSolid } from "../../../common/icons/house-solid.svg";
-import { ReactComponent as StatGraph } from "../../../common/icons/square-poll-vertical-solid.svg";
-import { ReactComponent as UserSolid } from "../../../common/icons/user-solid.svg";
+import {
+  Dumbbell,
+  Home,
+  StatGraph,
+  User,
+  Users,
+} from "../common/icons/svg-Icons";
 
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(2);
@@ -17,27 +18,27 @@ const BottomNav = () => {
     <NavBar>
       <NavLink to="/group" onClick={() => setActiveNav(0)}>
         <NavItem active={true ? activeNav == 0 : false}>
-          <UsersSolid height="3em" width="3em" fill="currentColor" />
+          <Users />
         </NavItem>
       </NavLink>
       <NavLink to="/training" onClick={() => setActiveNav(1)}>
         <NavItem active={true ? activeNav == 1 : false}>
-          <Dumbbell height="3em" width="3em" fill="currentColor" />
+          <Dumbbell />
         </NavItem>
       </NavLink>
       <NavLink to="/" onClick={() => setActiveNav(2)}>
         <NavItem active={true ? activeNav == 2 : false}>
-          <HomeSolid height="3em" width="3em" fill="currentColor" />
+          <Home />
         </NavItem>
       </NavLink>
       <NavLink to="/statistics" onClick={() => setActiveNav(3)}>
         <NavItem active={true ? activeNav == 3 : false}>
-          <StatGraph height="3em" width="3em" fill="currentColor" />
+          <StatGraph />
         </NavItem>
       </NavLink>
       <NavLink to="/profile" onClick={() => setActiveNav(4)}>
         <NavItem active={true ? activeNav == 4 : false}>
-          <UserSolid height="3em" width="3em" fill="currentColor" />
+          <User />
         </NavItem>
       </NavLink>
     </NavBar>

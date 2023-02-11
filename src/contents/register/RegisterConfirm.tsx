@@ -5,11 +5,11 @@ import { useNavigate } from "react-router";
 import registerApi from "../../api/registerApi";
 import userApi from "../../api/userApi";
 import BlueButton from "../../common/components/buttons/BlueButton";
-import useAppStore from "../../store/app.zustand";
+import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
 
 const RegisterConfirm = () => {
-  const { user_id, set_user_info } = useAppStore((state) => ({
+  const { user_id, set_user_info } = useUserStore((state) => ({
     user_id: state.user_id,
     set_user_info: state.set_user_info,
   }));

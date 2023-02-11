@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import ErrorPage from "../../common/components/ErrorPage";
+import ErrorPage from "../common/components/ErrorPage";
 
-import useAppStore from "../../store/app.zustand";
-import BottomNav from "./components/BottomNav";
-import Profile from "./Profile";
+import useUserStore from "../store/user.zustand";
+import BottomNav from "./BottomNav";
+import Profile from "./profile/Profile";
 
 const Main = () => {
-  const user_id = useAppStore((state) => state.user_id);
+  const user_id = useUserStore((state) => state.user_id);
   const registered = false;
   return (
     // Main page(signed in)

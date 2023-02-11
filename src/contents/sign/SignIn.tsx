@@ -11,7 +11,7 @@ import FormInput, {
 import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
-import useAppStore from "../../store/app.zustand";
+import useUserStore from "../../store/user.zustand";
 
 const SignIn = () => {
   const { t, i18n } = useTranslation();
@@ -22,7 +22,7 @@ const SignIn = () => {
   let navigate = useNavigate();
   let location = useLocation();
 
-  const set_user_info = useAppStore((state) => state.set_user_info);
+  const set_user_info = useUserStore((state) => state.set_user_info);
 
   /* hook-form */
   const { register, handleSubmit, watch, getValues } = useForm<
