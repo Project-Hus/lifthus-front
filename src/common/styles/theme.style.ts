@@ -2,8 +2,6 @@ export const ThemeColor = {
   backgroundColor: `#45516a`,
   backgroundColorDarker: `#363e50`,
 
-  contentBackgroundColor: ``,
-
   basicColor: `#03baec`,
   basicColorHover: `#5dd1f1`,
 

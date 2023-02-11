@@ -4,25 +4,41 @@ import styled from "@emotion/styled";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { css } from "@emotion/react";
 
+import { ReactComponent as UsersSolid } from "../../../common/icons/users-solid.svg";
+import { ReactComponent as Dumbbell } from "../../../common/icons/dumbbell-solid.svg";
+import { ReactComponent as HomeSolid } from "../../../common/icons/house-solid.svg";
+import { ReactComponent as StatGraph } from "../../../common/icons/square-poll-vertical-solid.svg";
+import { ReactComponent as UserSolid } from "../../../common/icons/user-solid.svg";
+
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(2);
   return (
     // borderLeft: "none"
     <NavBar>
       <NavLink to="/group" onClick={() => setActiveNav(0)}>
-        <NavItem active={true ? activeNav == 0 : false}>👨‍👩‍👧‍👦!</NavItem>
+        <NavItem active={true ? activeNav == 0 : false}>
+          <UsersSolid fill="currentColor" />
+        </NavItem>
       </NavLink>
       <NavLink to="/training" onClick={() => setActiveNav(1)}>
-        <NavItem active={true ? activeNav == 1 : false}>💪!</NavItem>
+        <NavItem active={true ? activeNav == 1 : false}>
+          <Dumbbell fill="currentColor" />
+        </NavItem>
       </NavLink>
       <NavLink to="/" onClick={() => setActiveNav(2)}>
-        <NavItem active={true ? activeNav == 2 : false}>🏠!</NavItem>
+        <NavItem active={true ? activeNav == 2 : false}>
+          <HomeSolid fill="currentColor" />
+        </NavItem>
       </NavLink>
       <NavLink to="/statistics" onClick={() => setActiveNav(3)}>
-        <NavItem active={true ? activeNav == 3 : false}>📊!</NavItem>
+        <NavItem active={true ? activeNav == 3 : false}>
+          <StatGraph fill="currentColor" />
+        </NavItem>
       </NavLink>
       <NavLink to="/profile" onClick={() => setActiveNav(4)}>
-        <NavItem active={true ? activeNav == 4 : false}>🙂!</NavItem>
+        <NavItem active={true ? activeNav == 4 : false}>
+          <UserSolid fill="currentColor" />
+        </NavItem>
       </NavLink>
     </NavBar>
   );
@@ -48,7 +64,6 @@ const NavLink = styled(Link)`
   text-decoration-line: none;
   /* 수평정렬, 5개의 button을 각각 20% width만큼 할당 */
   box-sizing: border-box;
-  text-align: center;
   float: left;
   width: 20%;
   border-left: 1px solid grey;
@@ -61,6 +76,10 @@ const NavLink = styled(Link)`
 const NavItem = styled.div<{ active?: boolean }>`
   background-color: ${ThemeColor.basicColor};
   transition: 0.3s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   color: ${ThemeColor.backgroundColor};
 

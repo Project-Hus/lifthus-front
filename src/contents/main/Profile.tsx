@@ -23,7 +23,6 @@ import {
 } from "@chakra-ui/stat";
 
 import useAppStore from "../../store/app.zustand";
-import { color } from "@chakra-ui/styled-system";
 
 const Profile = () => {
   const user_info = useAppStore((state) => state);
