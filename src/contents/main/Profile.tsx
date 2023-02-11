@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/stat";
 
 import useAppStore from "../../store/app.zustand";
+import { color } from "@chakra-ui/styled-system";
 
 const Profile = () => {
   const user_info = useAppStore((state) => state);
@@ -31,7 +32,7 @@ const Profile = () => {
     <ProfilePage>
       <Card
         marginTop={"0.1em"}
-        bgColor={ThemeColor.backgroundColor}
+        bgColor={"blue.800"}
         color="white"
         border={`double ${ThemeColor.backgroundColorDarker}`}
         direction={{ base: "column", sm: "row" }}
@@ -83,6 +84,7 @@ const Profile = () => {
       >
         <TabList>
           <Tab
+            border={"double"}
             _hover={{ bgColor: ThemeColor.backgroundColor }}
             _selected={{ color: "white", bg: "blue.500" }}
           >
