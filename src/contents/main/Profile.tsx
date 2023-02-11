@@ -83,7 +83,6 @@ const Profile = () => {
       >
         <TabList>
           <Tab
-            border={"double"}
             _hover={{ bgColor: ThemeColor.backgroundColor }}
             _selected={{ color: "white", bg: "blue.500" }}
           >
