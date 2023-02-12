@@ -22,6 +22,7 @@ import {
 
 import useUserStore from "../../../store/user.zustand";
 import ProfileCard from "./components/ProfileCard";
+import ProfileTab from "./components/ProfileTab";
 
 const Profile = () => {
   const user_info = useUserStore((state) => state);
@@ -30,96 +31,7 @@ const Profile = () => {
     <ProfilePage>
       <ProfileCard />
       <hr />
-      <Tabs
-        bgColor={ThemeColor.backgroundColorDarker}
-        variant="unstyled"
-        align="end"
-      >
-        <TabList>
-          <Tab
-            _hover={{ bgColor: ThemeColor.backgroundColor }}
-            _selected={{ color: "white", bg: "blue.500" }}
-          >
-            S/B/D
-          </Tab>
-          <Tab
-            _hover={{ bgColor: ThemeColor.backgroundColor }}
-            _selected={{ color: "white", bg: "green.400" }}
-          >
-            Lift Logs
-          </Tab>
-        </TabList>
-        <TabPanels textAlign={"center"}>
-          <TabPanel>
-            <p>
-              <StatGroup
-                border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
-                borderRadius="1em"
-                padding="0.5em"
-              >
-                <Stat>
-                  <StatLabel>Squat</StatLabel>
-                  <StatNumber>
-                    {user_info.squat}
-                    <Text display={"inline"} fontSize="0.5em">
-                      kg
-                    </Text>
-                  </StatNumber>
-                  <StatHelpText>
-                    <StatArrow type="increase" />
-                    23.36%
-                  </StatHelpText>
-                </Stat>
-
-                <Stat>
-                  <StatLabel>Benchpress</StatLabel>
-                  <StatNumber>
-                    {user_info.benchpress}
-                    <Text display={"inline"} fontSize="0.5em">
-                      kg
-                    </Text>
-                  </StatNumber>
-                  <StatHelpText>
-                    <StatArrow type="decrease" />
-                    9.05%
-                  </StatHelpText>
-                </Stat>
-                <Stat>
-                  <StatLabel>Deadlift</StatLabel>
-                  <StatNumber>
-                    {user_info.deadlift}
-                    <Text display={"inline"} fontSize="0.5em">
-                      kg
-                    </Text>
-                  </StatNumber>
-                  <StatHelpText>
-                    <StatArrow type="decrease" />
-                    9.05%
-                  </StatHelpText>
-                </Stat>
-                <Stat>
-                  <StatLabel>
-                    <Text>Total</Text>
-                  </StatLabel>
-                  <StatNumber>
-                    {sbd_total}
-                    <Text display={"inline"} fontSize="0.5em">
-                      kg
-                    </Text>
-                  </StatNumber>
-                  <StatHelpText>
-                    <StatArrow type="decrease" />
-                    9.05%
-                  </StatHelpText>
-                </Stat>
-              </StatGroup>
-            </p>
-          </TabPanel>
-          <TabPanel>
-            <p>two!</p>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <ProfileTab />
       <hr />
       <hr />
       <Card

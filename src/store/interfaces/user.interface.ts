@@ -4,6 +4,7 @@ export interface UserInfo {
   nickname?: string;
   training_type?: string;
   body_weight?: number;
+  fat_percentage?: number;
   height?: number;
   squat?: number;
   benchpress?: number;

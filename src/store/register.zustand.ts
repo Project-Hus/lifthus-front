@@ -23,15 +23,8 @@ const useRegisterStore = create<RegisterState>()((set) => ({
   register_deadlift: NaN,
   set_register_info: (info: register_info) =>
     set((state) => ({
-      register_nickname: info?.register_nickname || state.register_nickname,
-      register_type: info?.register_type || state.register_type,
-      register_bodyweight:
-        info?.register_bodyweight || state.register_bodyweight,
-      register_height: info?.register_height || state.register_height,
-      register_squat: info?.register_squat || state.register_squat,
-      register_benchpress:
-        info?.register_benchpress || state.register_benchpress,
-      register_deadlift: info?.register_deadlift || state.register_deadlift,
+      ...state,
+      ...info,
     })),
 }));
 

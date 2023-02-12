@@ -50,7 +50,7 @@ const RegisterNumber = ({
             max: max,
             onChange: (e) => {
               const tmp: any = {};
-              tmp[take] = getValues("value");
+              tmp[take] = Number(getValues("value"));
               set_register_info(tmp);
             },
           })}

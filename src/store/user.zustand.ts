@@ -8,6 +8,7 @@ interface UserState {
   nickname: string;
   training_type: string;
   body_weight: number;
+  fat_percentage: number;
   height: number;
   squat: number;
   benchpress: number;
@@ -21,6 +22,7 @@ const useUserStore = create<UserState>()((set) => ({
   nickname: "",
   training_type: "",
   body_weight: NaN,
+  fat_percentage: NaN,
   height: NaN,
   squat: NaN,
   benchpress: NaN,
