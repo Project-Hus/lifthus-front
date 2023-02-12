@@ -12,7 +12,6 @@ import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
 import useUserStore from "../../store/user.zustand";
-import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
 
 const SignIn = () => {
   const { t, i18n } = useTranslation();
@@ -47,7 +46,7 @@ const SignIn = () => {
     }
   };
   return (
-    <FlexCenterLayout>
+    <>
       <Logo to="/sign" />
       {location.state?.from === "/sign/up" && (
         <div style={{ marginTop: "0.5em" }}>{t("sign.welcome_message")}</div>
@@ -96,7 +95,7 @@ const SignIn = () => {
           <div style={{ fontSize: "0.7em" }}>{t("sign.signIn_error")}</div>
         )}
       </form>
-    </FlexCenterLayout>
+    </>
   );
 };
 
