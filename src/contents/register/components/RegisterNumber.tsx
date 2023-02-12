@@ -1,15 +1,9 @@
-import React, {
-  ChangeEventHandler,
-  Component,
-  ReactComponentElement,
-} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { isSwitchStatement } from "typescript";
 import FormInput from "../../../common/components/forms/FormInput";
 import BlueLink from "../../../common/components/links/BlueLink";
 import Logo from "../../../common/components/Logo";
-import useUserStore from "../../../store/user.zustand";
 import { register_info_strings } from "../../../store/interfaces/register.interface";
 import useRegisterStore from "../../../store/register.zustand";
 

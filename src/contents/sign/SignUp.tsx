@@ -18,7 +18,7 @@ import {
   ValidationRule,
 } from "react-hook-form";
 
-import SignDiv from "./components/SignDiv";
+import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -52,7 +52,7 @@ const SignUp = () => {
     }
   };
   return (
-    <SignDiv>
+    <FlexCenterLayout>
       <Logo to="/sign" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
@@ -121,7 +121,7 @@ const SignUp = () => {
           <div style={{ fontSize: "0.7em" }}>{t("sign.signUp_error")}</div>
         )}
       </form>
-    </SignDiv>
+    </FlexCenterLayout>
   );
 };
 

@@ -1,10 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import BlueButton from "../../common/components/buttons/BlueButton";
 import Logo from "../../common/components/Logo";
+
 import useUserStore from "../../store/user.zustand";
-import RegisterNumber from "./components/RegisterNumber";
+
 import RegisterBenchpress from "./RegisterBenchpress";
 import RegisterBodyWeight from "./RegisterBodyWeight";
 import RegisterConfirm from "./RegisterConfirm";
@@ -14,21 +16,24 @@ import RegisterNickname from "./RegisterNickname";
 import RegisterSquat from "./RegisterSquat";
 import RegisterType from "./RegisterType";
 
+import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
+
 const Register = () => {
   const { t, i18n } = useTranslation();
   const user_id = useUserStore((state) => state.user_id);
   return (
-    <>
+    <FlexCenterLayout>
       <Routes>
         <Route
           index
           element={
             <>
               <Logo to="/register" mov={true} absolute={true} />
-              <p>&nbsp;</p>
-              <p>&nbsp;</p>
-              <p>&nbsp;</p>
-              <p>&nbsp;</p>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
               <p>
                 {t("register.Hi")} {t("name_var", { name: user_id })},
               </p>
@@ -48,7 +53,7 @@ const Register = () => {
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
-    </>
+    </FlexCenterLayout>
   );
 };
 

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const SignDiv = styled.div`
+const FlexCenterLayout = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -9,4 +9,4 @@ const SignDiv = styled.div`
   min-height: 100%;
 `;
 
-export default SignDiv;
+export default FlexCenterLayout;

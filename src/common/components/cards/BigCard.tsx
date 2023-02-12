@@ -2,7 +2,7 @@ import { Card } from "@chakra-ui/card";
 import styled from "@emotion/styled";
 import React, { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
-import { ThemeColor } from "../styles/theme.style";
+import { ThemeColor } from "../../styles/theme.style";
 
 interface BigCardProps {
   title: string;

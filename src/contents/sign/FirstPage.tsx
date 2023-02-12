@@ -7,15 +7,16 @@ import BigThemeBtn from "../../common/components/buttons/BigThemeBtn";
 import ErrorPage from "../../common/components/ErrorPage";
 
 import Logo from "../../common/components/Logo";
-import SignDiv from "./components/SignDiv";
+
 import Sign from "./Sign";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
 
 const FirstPage = () => {
   const { t, i18n } = useTranslation();
   return (
-    <SignDiv>
+    <FlexCenterLayout>
       <Routes>
         <Route
           index
@@ -32,7 +33,7 @@ const FirstPage = () => {
         <Route path="/sign/up" element={<SignUp />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </SignDiv>
+    </FlexCenterLayout>
   );
 };
 
