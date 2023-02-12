@@ -2,7 +2,7 @@ import React from "react";
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 
-import { Text } from "@chakra-ui/layout";
+import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
 import {
   Stat,
   StatArrow,
@@ -15,7 +15,8 @@ import {
 import { ThemeColor } from "../../../../common/styles/theme.style";
 
 import useUserStore from "../../../../store/user.zustand";
-import { StatGraph } from "../../../../common/icons/svg-Icons";
+import { StatGraph } from "../../../../common/icons/NavIcons";
+import { Card, CardBody } from "@chakra-ui/card";
 
 const ProfileTab = () => {
   const user_info = useUserStore((state) => state);
@@ -35,6 +36,12 @@ const ProfileTab = () => {
         </Tab>
         <Tab
           _hover={{ bgColor: ThemeColor.backgroundColor }}
+          _selected={{ color: "white", bg: "green.400" }}
+        >
+          INFO
+        </Tab>
+        <Tab
+          _hover={{ bgColor: ThemeColor.backgroundColor }}
           _selected={{ color: "white", bg: "blue.500" }}
         >
           S/B/D
@@ -48,6 +55,42 @@ const ProfileTab = () => {
       </TabList>
       <TabPanels textAlign={"center"}>
         <TabPanel>잔디밭</TabPanel>
+        <TabPanel>
+          <Card
+            borderRadius={"1em"}
+            bgColor={ThemeColor.backgroundColor}
+            color={"white"}
+          >
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing="4">
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
+                    🏢 Company
+                  </Heading>
+                  <Text pt="2" fontSize="sm">
+                    PKNU
+                  </Text>
+                </Box>
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
+                    🗺️ Location
+                  </Heading>
+                  <Text pt="2" fontSize="sm">
+                    Busan
+                  </Text>
+                </Box>
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
+                    ☏ Contact
+                  </Heading>
+                  <Text pt="2" fontSize="sm">
+                    lifthus531@gmail.com
+                  </Text>
+                </Box>
+              </Stack>
+            </CardBody>
+          </Card>
+        </TabPanel>
         <TabPanel>
           <p>
             <StatGroup

@@ -9,7 +9,7 @@ import {
   StatGraph,
   User,
   Users,
-} from "../../common/icons/svg-Icons";
+} from "../../common/icons/NavIcons";
 
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(2);
