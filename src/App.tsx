@@ -18,11 +18,7 @@ import Register from "./contents/register/Register";
 
 const AppStyled = styled.section`
   background-color: ${ThemeColor.backgroundColor};
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: top;
+  height: 100vh;
   font-size: calc(14px + 2vmin);
   color: white;
   padding-bottom: 10vh;
@@ -35,7 +31,7 @@ const App = () => {
   const registered = useUserStore((state) => state.registered);
 
   return (
-    <div className="App" style={{ textAlign: "center" }}>
+    <div>
       <header></header>
       <AppStyled>
         <Routes>
@@ -48,16 +44,12 @@ const App = () => {
               <Route path="/register/*" element={<Register />} />
             </Route>
           )}
-          {/* If the user haven't signed in, the user needs to be authenticated */}
+          {/* If the user hasn't signed in, the user needs to be authenticated */}
           {!user_id && (
             <Route>
-              <Route index path="/" element={<FirstPage />} />
-              <Route path="/sign/" element={<Sign />} />
-              <Route path="/sign/in" element={<SignIn />} />
-              <Route path="/sign/up" element={<SignUp />} />
+              <Route index path="/*" element={<FirstPage />} />
             </Route>
           )}
-          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </AppStyled>
       <footer></footer>

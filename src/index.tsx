@@ -10,7 +10,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./common/styles/theme";
-import { ThemeColor } from "./common/styles/theme.style";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

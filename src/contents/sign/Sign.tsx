@@ -6,20 +6,19 @@ import Logo from "../../common/components/Logo";
 
 import ButtonGoogle from "./components/ButtonGoogle";
 import BlueLink from "../../common/components/links/BlueLink";
+import SignDiv from "./components/SignDiv";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
   return (
-    <React.Fragment>
+    <SignDiv>
       <Logo mov={true} absolute={true} />
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
+      <br />
+      <br />
       <ButtonGoogle to="/error" />
-      <p></p>
       <BlueLink to="/sign/in">{t("sign.SignIn")}</BlueLink>
       <BlueLink to="/sign/up">{t("sign.SignUp")}</BlueLink>
-    </React.Fragment>
+    </SignDiv>
   );
 };
 

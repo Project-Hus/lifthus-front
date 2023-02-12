@@ -18,6 +18,8 @@ import {
   ValidationRule,
 } from "react-hook-form";
 
+import SignDiv from "./components/SignDiv";
+
 const SignUp = () => {
   const { t, i18n } = useTranslation();
 
@@ -50,7 +52,7 @@ const SignUp = () => {
     }
   };
   return (
-    <React.Fragment>
+    <SignDiv>
       <Logo to="/sign" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
@@ -119,7 +121,7 @@ const SignUp = () => {
           <div style={{ fontSize: "0.7em" }}>{t("sign.signUp_error")}</div>
         )}
       </form>
-    </React.Fragment>
+    </SignDiv>
   );
 };
 

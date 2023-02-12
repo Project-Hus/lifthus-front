@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { t } from "i18next";
 import React from "react";
 
@@ -5,11 +6,19 @@ import Logo from "./Logo";
 
 const ErrorPage = () => {
   return (
-    <React.Fragment>
+    <ErrorDiv>
       <Logo />
       <div>{t("error_page")}</div>
-    </React.Fragment>
+    </ErrorDiv>
   );
 };
+
+const ErrorDiv = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+`;
 
 export default ErrorPage;
