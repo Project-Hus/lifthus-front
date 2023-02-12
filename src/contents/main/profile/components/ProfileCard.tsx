@@ -49,6 +49,11 @@ const ProfileCard = () => {
               Thinking out loud ~ People fall in love in mysterious
             </Text>
           </div>
+          <div style={{ textAlign: "right" }}>
+            <Text fontSize={"0.6em"} padding="0.7em">
+              {5} followers · {8} following · {2} groups
+            </Text>
+          </div>
         </div>
       </CardHeader>
       <CardBody></CardBody>

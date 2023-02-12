@@ -15,6 +15,7 @@ import {
 import { ThemeColor } from "../../../../common/styles/theme.style";
 
 import useUserStore from "../../../../store/user.zustand";
+import { StatGraph } from "../../../../common/icons/svg-Icons";
 
 const ProfileTab = () => {
   const user_info = useUserStore((state) => state);
@@ -28,18 +29,25 @@ const ProfileTab = () => {
       <TabList>
         <Tab
           _hover={{ bgColor: ThemeColor.backgroundColor }}
+          _selected={{ color: "white", bg: "green.400" }}
+        >
+          Calendar
+        </Tab>
+        <Tab
+          _hover={{ bgColor: ThemeColor.backgroundColor }}
           _selected={{ color: "white", bg: "blue.500" }}
         >
           S/B/D
         </Tab>
         <Tab
           _hover={{ bgColor: ThemeColor.backgroundColor }}
-          _selected={{ color: "white", bg: "green.400" }}
+          _selected={{ color: "white", bg: "blue.500" }}
         >
           Body
         </Tab>
       </TabList>
       <TabPanels textAlign={"center"}>
+        <TabPanel>잔디밭</TabPanel>
         <TabPanel>
           <p>
             <StatGroup

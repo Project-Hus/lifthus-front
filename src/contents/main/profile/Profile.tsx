@@ -1,24 +1,11 @@
 import React from "react";
 
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../common/routes";
 import { ThemeColor } from "../../../common/styles/theme.style";
 
 import styled from "@emotion/styled";
 
-import { Img } from "@chakra-ui/image";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
-import { FormLabel } from "@chakra-ui/form-control";
-
-import {
-  Stat,
-  StatArrow,
-  StatGroup,
-  StatHelpText,
-  StatLabel,
-  StatNumber,
-} from "@chakra-ui/stat";
 
 import useUserStore from "../../../store/user.zustand";
 import ProfileCard from "./components/ProfileCard";
