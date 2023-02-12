@@ -3,15 +3,14 @@ import { FormLabel } from "@chakra-ui/form-control";
 import { Img } from "@chakra-ui/image";
 import { Text } from "@chakra-ui/layout";
 import React from "react";
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../common/routes";
-import { ThemeColor } from "../../../common/styles/theme.style";
-import useUserStore from "../../../store/user.zustand";
+import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
+import { ThemeColor } from "../../../../common/styles/theme.style";
+import useUserStore from "../../../../store/user.zustand";
 
 const ProfileCard = () => {
   const user_info = useUserStore();
   return (
     <Card
-      marginTop={"0.1em"}
       bgColor={"blue.800"}
       color="white"
       border={`double ${ThemeColor.backgroundColorDarker}`}

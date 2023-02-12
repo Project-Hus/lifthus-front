@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import ErrorPage from "../common/components/ErrorPage";
+import ErrorPage from "../../common/components/ErrorPage";
 
-import useUserStore from "../store/user.zustand";
+import useUserStore from "../../store/user.zustand";
 import BottomNav from "./BottomNav";
 import Profile from "./profile/Profile";
 

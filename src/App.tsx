@@ -6,7 +6,7 @@ import { ThemeColor } from "./common/styles/theme.style";
 import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import Main from "./contents/Main";
+import Main from "./contents/main/Main";
 import Sign from "./contents/sign/Sign";
 import SignUp from "./contents/sign/SignUp";
 import ErrorPage from "./common/components/ErrorPage";

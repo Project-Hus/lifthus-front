@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ThemeColor } from "../common/styles/theme.style";
+import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import {
   Dumbbell,
@@ -9,7 +9,7 @@ import {
   StatGraph,
   User,
   Users,
-} from "../common/icons/svg-Icons";
+} from "../../common/icons/svg-Icons";
 
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(2);

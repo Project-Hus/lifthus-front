@@ -1,7 +1,7 @@
 import React from "react";
 
-import { USER_PROFILE_IMAGE_ROUTE } from "../../common/routes";
-import { ThemeColor } from "../../common/styles/theme.style";
+import { USER_PROFILE_IMAGE_ROUTE } from "../../../common/routes";
+import { ThemeColor } from "../../../common/styles/theme.style";
 
 import styled from "@emotion/styled";
 
@@ -20,13 +20,15 @@ import {
   StatNumber,
 } from "@chakra-ui/stat";
 
-import useUserStore from "../../store/user.zustand";
+import useUserStore from "../../../store/user.zustand";
+import ProfileCard from "./components/ProfileCard";
 
 const Profile = () => {
   const user_info = useUserStore((state) => state);
   const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
   return (
     <ProfilePage>
+      <ProfileCard />
       <hr />
       <Tabs
         bgColor={ThemeColor.backgroundColorDarker}
@@ -118,10 +120,8 @@ const Profile = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-
       <hr />
       <hr />
-
       <Card
         border={`double 0.1em ${ThemeColor.backgroundColorDarker}`}
         borderTop="none"
