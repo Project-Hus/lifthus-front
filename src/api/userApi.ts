@@ -1,4 +1,3 @@
-import React from "react";
 import { UserApi, UserProfile } from "./interfacaes/userApi.interface";
 import userTestApi from "./testApi/userTestApi";
 

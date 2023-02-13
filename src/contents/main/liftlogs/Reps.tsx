@@ -1,7 +1,7 @@
 import React from "react";
 
-const LiftLogs = () => {
+const Reps = () => {
   return <div>liftlogs</div>;
 };
 
-export default LiftLogs;
+export default Reps;

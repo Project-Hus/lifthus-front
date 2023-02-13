@@ -1,7 +1,7 @@
 import React from "react";
 
-const liftlog = () => {
+const Rep = () => {
   return <div>liftlog</div>;
 };
 
-export default liftlog;
+export default Rep;

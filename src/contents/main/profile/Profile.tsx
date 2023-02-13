@@ -10,6 +10,7 @@ import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
 import useUserStore from "../../../store/user.zustand";
 import ProfileCard from "./components/ProfileCard";
 import ProfileTab from "./components/ProfileTab";
+import Reps from "../liftlogs/Reps";
 
 const Profile = () => {
   const user_info = useUserStore((state) => state);
@@ -20,6 +21,8 @@ const Profile = () => {
       <hr />
       <ProfileTab />
       <hr />
+      <br />
+      <Reps />
     </ProfilePage>
   );
 };
