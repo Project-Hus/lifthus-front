@@ -3,20 +3,15 @@ import React from "react";
 import styled from "@emotion/styled";
 import { ThemeColor } from "./common/styles/theme.style";
 
-import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Main from "./contents/main/Main";
-import Sign from "./contents/sign/Sign";
-import SignUp from "./contents/sign/SignUp";
-import ErrorPage from "./common/components/ErrorPage";
 
 import useUserStore from "./store/user.zustand";
 import FirstPage from "./contents/sign/FirstPage";
-import SignIn from "./contents/sign/SignIn";
 import Register from "./contents/register/Register";
 
-const AppStyled = styled.section`
+const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
   height: 100vh;
   font-size: calc(14px + 2vmin);
@@ -25,14 +20,11 @@ const AppStyled = styled.section`
 `;
 
 const App = () => {
-  const { t, i18n } = useTranslation();
-
   const user_id = useUserStore((state) => state.user_id);
   const registered = useUserStore((state) => state.registered);
 
   return (
-    <div>
-      <header></header>
+    <div style={{ backgroundColor: ThemeColor.backgroundColor }}>
       <AppStyled>
         <Routes>
           {/* If the user has signed in and registered Let the Main component take control. */}
@@ -52,7 +44,6 @@ const App = () => {
           )}
         </Routes>
       </AppStyled>
-      <footer></footer>
     </div>
   );
 };

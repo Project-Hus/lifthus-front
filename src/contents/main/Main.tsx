@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import ErrorPage from "../../common/components/ErrorPage";
+import { ThemeColor } from "../../common/styles/theme.style";
 
 import useUserStore from "../../store/user.zustand";
 import BottomNav from "./BottomNav";
@@ -14,7 +15,6 @@ const Main = () => {
     // Main page(signed in)
     <React.Fragment>
       {/*registered === false && <Navigate to="/register" />*/}
-      <BottomNav />
       <Routes>
         <Route index element={<div>Home</div>} />
         <Route path="group" element={<div>group</div>} />
@@ -24,6 +24,11 @@ const Main = () => {
         <Route path="profile/userinfo" element={<div>PROFILE/USERINFO</div>} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+      <div
+        style={{ height: "10vh", backgroundColor: ThemeColor.backgroundColor }}
+      >
+        <BottomNav />
+      </div>
     </React.Fragment>
   );
 };

@@ -15,7 +15,7 @@ import {
 import { ThemeColor } from "../../../../common/styles/theme.style";
 
 import useUserStore from "../../../../store/user.zustand";
-import { StatGraph } from "../../../../common/icons/NavIcons";
+
 import { Card, CardBody } from "@chakra-ui/card";
 
 const ProfileTab = () => {

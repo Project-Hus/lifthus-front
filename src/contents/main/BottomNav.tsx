@@ -15,33 +15,35 @@ const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(2);
   return (
     // borderLeft: "none"
-    <NavBar>
-      <NavLink to="/group" onClick={() => setActiveNav(0)}>
-        <NavItem active={true ? activeNav == 0 : false}>
-          <Users />
-        </NavItem>
-      </NavLink>
-      <NavLink to="/training" onClick={() => setActiveNav(1)}>
-        <NavItem active={true ? activeNav == 1 : false}>
-          <Dumbbell />
-        </NavItem>
-      </NavLink>
-      <NavLink to="/" onClick={() => setActiveNav(2)}>
-        <NavItem active={true ? activeNav == 2 : false}>
-          <Home />
-        </NavItem>
-      </NavLink>
-      <NavLink to="/statistics" onClick={() => setActiveNav(3)}>
-        <NavItem active={true ? activeNav == 3 : false}>
-          <StatGraph />
-        </NavItem>
-      </NavLink>
-      <NavLink to="/profile" onClick={() => setActiveNav(4)}>
-        <NavItem active={true ? activeNav == 4 : false}>
-          <User />
-        </NavItem>
-      </NavLink>
-    </NavBar>
+    <div style={{ height: "10vh" }}>
+      <NavBar>
+        <NavLink to="/group" onClick={() => setActiveNav(0)}>
+          <NavItem active={true ? activeNav == 0 : false}>
+            <Users />
+          </NavItem>
+        </NavLink>
+        <NavLink to="/training" onClick={() => setActiveNav(1)}>
+          <NavItem active={true ? activeNav == 1 : false}>
+            <Dumbbell />
+          </NavItem>
+        </NavLink>
+        <NavLink to="/" onClick={() => setActiveNav(2)}>
+          <NavItem active={true ? activeNav == 2 : false}>
+            <Home />
+          </NavItem>
+        </NavLink>
+        <NavLink to="/statistics" onClick={() => setActiveNav(3)}>
+          <NavItem active={true ? activeNav == 3 : false}>
+            <StatGraph />
+          </NavItem>
+        </NavLink>
+        <NavLink to="/profile" onClick={() => setActiveNav(4)}>
+          <NavItem active={true ? activeNav == 4 : false}>
+            <User />
+          </NavItem>
+        </NavLink>
+      </NavBar>
+    </div>
   );
 };
 
