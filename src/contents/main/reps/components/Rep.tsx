@@ -10,14 +10,25 @@ import {
   InfoOutlineIcon,
   StarIcon,
 } from "@chakra-ui/icons";
+import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
+import useUserStore from "../../../../store/user.zustand";
+import { ThemeColor } from "../../../../common/styles/theme.style";
 
 const Rep = () => {
+  const user_info = useUserStore((state) => state);
   return (
-    <Card maxW="md">
+    <Card
+      bgColor={ThemeColor.backgroundColorDarker}
+      color="white"
+      fontSize="0.7em"
+    >
       <CardHeader>
         <Flex letterSpacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-            <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
+            <Avatar
+              name="Segun Adebayo"
+              src={USER_PROFILE_IMAGE_ROUTE + user_info.user_id + ".jpeg"}
+            />
 
             <Box>
               <Heading size="sm">Segun Adebayo</Heading>
