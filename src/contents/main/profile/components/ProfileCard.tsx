@@ -1,8 +1,9 @@
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import { FormLabel } from "@chakra-ui/form-control";
 import { Img } from "@chakra-ui/image";
-import { Text } from "@chakra-ui/layout";
+import { Text, Link as LinkChakra } from "@chakra-ui/layout";
 import React from "react";
+import { Link } from "react-router-dom";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import useUserStore from "../../../../store/user.zustand";
@@ -51,7 +52,17 @@ const ProfileCard = () => {
           </div>
           <div style={{ textAlign: "right" }}>
             <Text fontSize={"0.6em"} padding="0.7em">
-              {5} followers · {8} following · {2} groups
+              <Link to="">
+                <LinkChakra>{5} followers</LinkChakra>
+              </Link>
+              {" · "}
+              <Link to="">
+                <LinkChakra>{8} following</LinkChakra>
+              </Link>
+              {" · "}
+              <Link to="">
+                <LinkChakra>{2} groups</LinkChakra>
+              </Link>
             </Text>
           </div>
         </div>
