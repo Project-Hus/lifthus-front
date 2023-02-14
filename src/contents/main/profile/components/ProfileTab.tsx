@@ -12,11 +12,16 @@ import {
   StatNumber,
 } from "@chakra-ui/stat";
 
+import "./calendar.css";
+
 import { ThemeColor } from "../../../../common/styles/theme.style";
 
 import useUserStore from "../../../../store/user.zustand";
 
 import { Card, CardBody } from "@chakra-ui/card";
+import { SettingsIcon } from "@chakra-ui/icons";
+
+import CalendarHeatmap from "react-calendar-heatmap";
 
 const ProfileTab = () => {
   const user_info = useUserStore((state) => state);
@@ -30,32 +35,64 @@ const ProfileTab = () => {
     >
       <TabList>
         <Tab
-          _hover={{ bgColor: ThemeColor.backgroundColor }}
+          _hover={{ bgColor: "green.300" }}
           _selected={{ color: "white", bg: "green.400" }}
         >
           Calendar
         </Tab>
         <Tab
-          _hover={{ bgColor: ThemeColor.backgroundColor }}
+          _hover={{ bgColor: "green.300" }}
           _selected={{ color: "white", bg: "green.400" }}
         >
           INFO
         </Tab>
         <Tab
-          _hover={{ bgColor: ThemeColor.backgroundColor }}
+          _hover={{ bgColor: "blue.400" }}
           _selected={{ color: "white", bg: "blue.500" }}
         >
           S/B/D
         </Tab>
         <Tab
-          _hover={{ bgColor: ThemeColor.backgroundColor }}
+          _hover={{ bgColor: "blue.400" }}
           _selected={{ color: "white", bg: "blue.500" }}
         >
           Body
         </Tab>
+
+        <Tab
+          _hover={{ bgColor: "yellow.400" }}
+          _selected={{ color: "white", bg: "yellow.500" }}
+          paddingLeft="1.5em"
+          paddingRight="1.5em"
+        >
+          <SettingsIcon />
+        </Tab>
       </TabList>
       <TabPanels textAlign={"center"}>
-        <TabPanel>잔디밭</TabPanel>
+        <TabPanel>
+          <CalendarHeatmap
+            startDate={"2022-06-01"}
+            endDate={"2023-02-10"}
+            monthLabels={[]}
+            values={[
+              { date: "2023-01-01", count: 1 },
+              { date: "2023-01-02", count: 2 },
+              { date: "2023-01-03", count: 3 },
+              { date: "2023-01-04", count: 4 },
+              { date: "2023-01-05", count: 4 },
+              { date: "2023-01-06", count: 2 },
+              { date: "2023-01-07", count: 4 },
+              { date: "2023-01-08", count: 4 },
+              { date: "2023-01-09", count: 4 },
+            ]}
+            classForValue={(value) => {
+              if (!value) {
+                return "color-empty";
+              }
+              return `color-scale-${value.count}`;
+            }}
+          />
+        </TabPanel>
         <TabPanel>
           <Card
             borderRadius={"1em"}
@@ -208,6 +245,7 @@ const ProfileTab = () => {
             </StatGroup>
           </p>
         </TabPanel>
+        <TabPanel>프로필 설정</TabPanel>
       </TabPanels>
     </Tabs>
   );
