@@ -26,6 +26,7 @@ const ProfileTab = () => {
       bgColor={ThemeColor.backgroundColorDarker}
       variant="unstyled"
       align="end"
+      borderBottomRadius={"1em"}
     >
       <TabList>
         <Tab

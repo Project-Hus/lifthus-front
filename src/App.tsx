@@ -13,10 +13,9 @@ import Register from "./contents/register/Register";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
-  height: 100v%;
+  min-height: 100vh;
   font-size: calc(14px + 2vmin);
   color: white;
-  padding-bottom: 10vh;
 `;
 
 const App = () => {
@@ -24,27 +23,25 @@ const App = () => {
   const registered = useUserStore((state) => state.registered);
 
   return (
-    <div style={{ backgroundColor: ThemeColor.backgroundColor }}>
-      <AppStyled>
-        <Routes>
-          {/* If the user has signed in and registered Let the Main component take control. */}
-          {user_id && registered && <Route path="/*" element={<Main />} />}
-          {/* If the user has signed but not registered, the user have to register him or herself */}
-          {user_id && !registered && (
-            <Route>
-              <Route path="/" element={<Navigate to="/register/" />} />
-              <Route path="/register/*" element={<Register />} />
-            </Route>
-          )}
-          {/* If the user hasn't signed in, the user needs to be authenticated */}
-          {!user_id && (
-            <Route>
-              <Route index path="/*" element={<FirstPage />} />
-            </Route>
-          )}
-        </Routes>
-      </AppStyled>
-    </div>
+    <AppStyled>
+      <Routes>
+        {/* If the user has signed in and registered Let the Main component take control. */}
+        {user_id && registered && <Route path="/*" element={<Main />} />}
+        {/* If the user has signed but not registered, the user have to register him or herself */}
+        {user_id && !registered && (
+          <Route>
+            <Route path="/" element={<Navigate to="/register/" />} />
+            <Route path="/register/*" element={<Register />} />
+          </Route>
+        )}
+        {/* If the user hasn't signed in, the user needs to be authenticated */}
+        {!user_id && (
+          <Route>
+            <Route index path="/*" element={<FirstPage />} />
+          </Route>
+        )}
+      </Routes>
+    </AppStyled>
   );
 };
 

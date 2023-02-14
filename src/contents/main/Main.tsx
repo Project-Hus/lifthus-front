@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import ErrorPage from "../../common/components/ErrorPage";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
 import useUserStore from "../../store/user.zustand";
 import BottomNav from "./BottomNav";

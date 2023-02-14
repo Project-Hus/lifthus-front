@@ -1,35 +1,26 @@
 import React from "react";
 
-import styled from "@emotion/styled";
+import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 
-import useUserStore from "../../../store/user.zustand";
 import ProfileCard from "./components/ProfileCard";
 import ProfileTab from "./components/ProfileTab";
 import Reps from "../reps/Reps";
-import { ThemeColor } from "../../../common/styles/theme.style";
+
+import useUserStore from "../../../store/user.zustand";
 
 const Profile = () => {
   const user_info = useUserStore((state) => state);
   const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
   return (
-    <ProfilePage>
+    <BasicPageLayout>
       <ProfileCard />
       <hr />
-      <ProfileTab />
       <hr />
+      <ProfileTab />
       <br />
       <Reps />
-    </ProfilePage>
+    </BasicPageLayout>
   );
 };
 
 export default Profile;
-
-const ProfilePage = styled.div`
-  margin: auto;
-  background-color: ${ThemeColor.backgroundColor};
-  @media (min-width: 700px) {
-    width: 60vw;
-    min-width: 700px;
-  }
-`;
