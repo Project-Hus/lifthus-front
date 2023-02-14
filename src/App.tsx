@@ -14,6 +14,8 @@ import Register from "./contents/register/Register";
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
   font-size: calc(14px + 2vmin);
   color: white;
 `;
