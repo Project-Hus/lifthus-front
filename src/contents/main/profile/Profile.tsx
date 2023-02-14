@@ -26,5 +26,10 @@ const Profile = () => {
 export default Profile;
 
 const ProfilePage = styled.div`
+  margin: auto;
   background-color: ${ThemeColor.backgroundColor};
+  @media (min-width: 700px) {
+    width: 60vw;
+    min-width: 700px;
+  }
 `;

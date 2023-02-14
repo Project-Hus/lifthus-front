@@ -13,7 +13,7 @@ import Register from "./contents/register/Register";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
-  height: 100vh;
+  height: 100v%;
   font-size: calc(14px + 2vmin);
   color: white;
   padding-bottom: 10vh;
