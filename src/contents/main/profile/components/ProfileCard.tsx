@@ -37,6 +37,11 @@ const ProfileCard = ({ username }: { username: string | undefined }) => {
               minH={"6em"}
               maxW="6em"
               maxH="6em"
+              sx={{
+                "@media screen and (min-width: 250px)": {
+                  "min-width": "400px",
+                },
+              }}
             />
             <Stack paddingRight={"0"}>
               <Box>
