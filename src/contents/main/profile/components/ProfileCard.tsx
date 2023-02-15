@@ -33,13 +33,14 @@ const ProfileCard = ({ username }: { username: string | undefined }) => {
               alt={`${username}'s profile image`}
               borderRadius={"2em"}
               objectFit={"cover"}
-              minW={"6em"}
-              minH={"6em"}
-              maxW="6em"
-              maxH="6em"
               sx={{
-                "@media screen and (min-width: 250px)": {
-                  "min-width": "400px",
+                w: "6em",
+                h: "6em",
+                borderRadius: "2em",
+                "@media screen and (max-width: 350px)": {
+                  maxW: "5em;",
+                  maxH: "5em;",
+                  borderRadius: "1em",
                 },
               }}
             />
@@ -67,6 +68,12 @@ const ProfileCard = ({ username }: { username: string | undefined }) => {
                   src={
                     "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
                   }
+                  sx={{
+                    "@media screen and (max-width: 350px)": {
+                      w: "2em",
+                      h: "2em",
+                    },
+                  }}
                 />
               </div>
             </Stack>
