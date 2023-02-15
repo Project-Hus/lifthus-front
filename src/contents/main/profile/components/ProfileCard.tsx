@@ -8,7 +8,7 @@ import {
   Heading,
   Box,
 } from "@chakra-ui/layout";
-import { css } from "@emotion/react";
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
@@ -26,7 +26,13 @@ const ProfileCard = ({ username }: { username: string | undefined }) => {
         borderTopRadius={"1em"}
         borderBottomRadius={"0"}
       >
-        <CardHeader w="100%" paddingRight="0">
+        <CardHeader
+          w="100%"
+          sx={{
+            paddingRight: "0.2em",
+            "@media screen and (max-width:350px)": { paddingLeft: "0.2em" },
+          }}
+        >
           <div style={{ display: "flex" }}>
             <Img
               src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}

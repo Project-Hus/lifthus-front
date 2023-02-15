@@ -18,6 +18,7 @@ const AppStyled = styled.div`
   justify-content: center;
   font-size: calc(14px + 2vmin);
   color: white;
+  padding-bottom: 10vh;
 `;
 
 const App = () => {

@@ -19,7 +19,7 @@ import { ThemeColor } from "../../../../common/styles/theme.style";
 import useUserStore from "../../../../store/user.zustand";
 
 import { Card, CardBody } from "@chakra-ui/card";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { CalendarIcon, InfoIcon, SettingsIcon } from "@chakra-ui/icons";
 
 import CalendarHeatmap from "react-calendar-heatmap";
 
@@ -28,6 +28,7 @@ const ProfileTab = () => {
   const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
   return (
     <Tabs
+      size="lg"
       bgColor={ThemeColor.backgroundColorDarker}
       variant="unstyled"
       align="end"
@@ -38,7 +39,7 @@ const ProfileTab = () => {
           _hover={{ bgColor: "green.300" }}
           _selected={{ color: "white", bg: "green.400" }}
         >
-          Calendar
+          <CalendarIcon />
         </Tab>
         <Tab
           _hover={{ bgColor: "green.300" }}
@@ -50,7 +51,7 @@ const ProfileTab = () => {
           _hover={{ bgColor: "blue.400" }}
           _selected={{ color: "white", bg: "blue.500" }}
         >
-          S/B/D
+          SBD
         </Tab>
         <Tab
           _hover={{ bgColor: "blue.400" }}
