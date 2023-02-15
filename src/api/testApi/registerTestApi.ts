@@ -5,7 +5,7 @@ import {
   RegisterParams,
   RegisterReturns,
 } from "../interfacaes/registerApi.interface";
-import { set_user_info } from "./userTestApi";
+import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
   register_username: ({
@@ -13,14 +13,14 @@ const registerTestApi: RegisterApi = {
     username,
   }: RegisterUsernameParams): RegisterUsernameReturns => {
     if (username === "succ") {
-      set_user_info({ username: username });
+      userTestApi.set_user_info(id, { username: username });
       return { ok: true };
     }
     return { ok: false };
   },
   register: (register_info: RegisterParams): RegisterReturns => {
     const new_info = { registered: true, ...register_info };
-    set_user_info(new_info);
+    userTestApi.set_user_info(register_info.user_id, new_info);
     return { ok: true };
   },
 };

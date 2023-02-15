@@ -1,4 +1,10 @@
+import { RegisterParams } from "./registerApi.interface";
+
 export interface UserApi {
+  set_user_info: (
+    user_id: string,
+    new_user_info: RegisterParams | UserProfile
+  ) => boolean;
   get_user_info: (id: string) => UserProfile;
 }
 
