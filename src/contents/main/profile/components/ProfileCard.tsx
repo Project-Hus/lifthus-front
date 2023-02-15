@@ -8,6 +8,7 @@ import {
   Heading,
   Box,
 } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/react";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -67,20 +68,48 @@ const ProfileCard = ({ username }: { username: string | undefined }) => {
                   </Link>
                 </Text>
               </Box>
-              <div style={{ paddingLeft: "0.2em" }}>
-                <Avatar
-                  name={"Powerlifter"}
-                  bgColor={ThemeColor.basicColor}
-                  src={
-                    "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
-                  }
-                  sx={{
-                    "@media screen and (max-width: 350px)": {
-                      w: "2em",
-                      h: "2em",
-                    },
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                <div>
+                  <Avatar
+                    marginLeft={"0.2em"}
+                    name={"Powerlifter"}
+                    bgColor={ThemeColor.basicColor}
+                    src={
+                      "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
+                    }
+                    sx={{
+                      "@media screen and (max-width: 350px)": {
+                        w: "2em",
+                        h: "2em",
+                      },
+                    }}
+                  />
+                  <Avatar
+                    marginLeft={"0.2em"}
+                    name={"Powerlifter"}
+                    bgColor={ThemeColor.basicColor}
+                    src={
+                      "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
+                    }
+                    sx={{
+                      "@media screen and (max-width: 350px)": {
+                        w: "2em",
+                        h: "2em",
+                      },
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    marginLeft: "auto",
                   }}
-                />
+                >
+                  <Button variant="outline">Follow</Button>
+                </div>
               </div>
             </Stack>
           </div>
