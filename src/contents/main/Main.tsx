@@ -9,6 +9,7 @@ import BottomNav from "./BottomNav";
 import Profile from "./profile/Profile";
 
 const Main = () => {
+  const nickname = useUserStore((state) => state.nickname);
   return (
     // Main page(signed in)
     <React.Fragment>
@@ -18,11 +19,10 @@ const Main = () => {
         <Route path="group" element={<div>group</div>} />
         <Route path="training" element={<div>training</div>} />
         <Route path="statistics" element={<div>statistics</div>} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="profile/userinfo" element={<div>PROFILE/USERINFO</div>} />
+        <Route path="profile/:username" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <BottomNav />
+      <BottomNav username={nickname} />
     </React.Fragment>
   );
 };

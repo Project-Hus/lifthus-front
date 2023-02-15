@@ -1,7 +1,5 @@
 import { Avatar } from "@chakra-ui/avatar";
-import { Button } from "@chakra-ui/button";
-import { Card, CardBody, CardHeader } from "@chakra-ui/card";
-import { FormLabel } from "@chakra-ui/form-control";
+import { Card, CardHeader } from "@chakra-ui/card";
 import { Img } from "@chakra-ui/image";
 import {
   Text,
@@ -14,10 +12,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import useUserStore from "../../../../store/user.zustand";
 
-const ProfileCard = () => {
-  const user_info = useUserStore();
+const ProfileCard = ({ username }: { username: string | undefined }) => {
   return (
     <Card
       bgColor={"blue.700"}
@@ -30,8 +26,8 @@ const ProfileCard = () => {
       <CardHeader w="100%" paddingRight="0">
         <div style={{ display: "flex" }}>
           <Img
-            src={USER_PROFILE_IMAGE_ROUTE + user_info.user_id + ".jpeg"}
-            alt={`${user_info.nickname}'s profile image`}
+            src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}
+            alt={`${username}'s profile image`}
             borderRadius={"2em"}
             objectFit={"cover"}
             minW={"6em"}
@@ -41,7 +37,7 @@ const ProfileCard = () => {
           />
           <Stack paddingRight={"0"}>
             <Box>
-              <Heading paddingLeft={"0.2em"}>{user_info.nickname}</Heading>
+              <Heading paddingLeft={"0.2em"}>{username}</Heading>
               <Text fontSize={"0.6em"} paddingLeft="0.7em">
                 <Link to="">
                   <LinkChakra>{5} followers</LinkChakra>
@@ -58,7 +54,7 @@ const ProfileCard = () => {
             </Box>
             <div style={{ paddingLeft: "0.2em" }}>
               <Avatar
-                name={user_info.nickname}
+                name={"Powerlifter"}
                 bgColor={ThemeColor.basicColor}
                 src={
                   "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"

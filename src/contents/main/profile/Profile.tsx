@@ -5,15 +5,14 @@ import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout"
 import ProfileCard from "./components/ProfileCard";
 import ProfileTab from "./components/ProfileTab";
 import Reps from "../reps/Reps";
-
-import useUserStore from "../../../store/user.zustand";
+import { useParams } from "react-router";
+import { Img } from "@chakra-ui/image";
 
 const Profile = () => {
-  const user_info = useUserStore((state) => state);
-  const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
+  const username = useParams().username;
   return (
     <BasicPageLayout>
-      <ProfileCard />
+      <ProfileCard username={username} />
       <hr />
       <hr />
       <ProfileTab />

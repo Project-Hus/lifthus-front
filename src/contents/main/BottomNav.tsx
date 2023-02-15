@@ -11,7 +11,7 @@ import {
   Users,
 } from "../../common/icons/NavIcons";
 
-const BottomNav = () => {
+const BottomNav = ({ username }: { username: string }) => {
   const [activeNav, setActiveNav] = useState(2);
   return (
     // borderLeft: "none"
@@ -37,7 +37,7 @@ const BottomNav = () => {
             <StatGraph />
           </NavItem>
         </NavLink>
-        <NavLink to="/profile" onClick={() => setActiveNav(4)}>
+        <NavLink to={`/profile/${username}`} onClick={() => setActiveNav(4)}>
           <NavItem active={true ? activeNav == 4 : false}>
             <User />
           </NavItem>
