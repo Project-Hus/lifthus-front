@@ -16,7 +16,7 @@ import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import ProfileTab from "./ProfileTab";
 
-const ProfileCard = ({ username }: { username: string | undefined }) => {
+const ProfileCard = ({ username }: { username: string }) => {
   return (
     <>
       <Card

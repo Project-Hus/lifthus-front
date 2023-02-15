@@ -10,7 +10,7 @@ const Profile = () => {
   const username = useParams().username;
   return (
     <BasicPageLayout>
-      <ProfileCard username={username} />
+      <ProfileCard username={username || ""} />
       <br />
       <Reps />
     </BasicPageLayout>

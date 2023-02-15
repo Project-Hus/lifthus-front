@@ -28,7 +28,7 @@ const Rep = () => {
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar
               name={user_info.username}
-              src={USER_PROFILE_IMAGE_ROUTE + user_info.user_id + ".jpeg"}
+              src={USER_PROFILE_IMAGE_ROUTE + user_info.username + ".jpeg"}
             />
             <Box>
               <Heading fontSize="xl">{user_info.username}</Heading>
