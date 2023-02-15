@@ -21,6 +21,7 @@ const Rep = () => {
       bgColor={ThemeColor.backgroundColorDarker}
       color="white"
       fontSize="0.7em"
+      margin="1em"
     >
       <CardHeader>
         <Flex letterSpacing="4">
@@ -64,13 +65,28 @@ const Rep = () => {
           },
         }}
       >
-        <Button flex="1" variant="ghost" leftIcon={<StarIcon />}>
+        <Button
+          flex="1"
+          variant="ghost"
+          leftIcon={<StarIcon />}
+          _hover={{ bg: ThemeColor.backgroundColor }}
+        >
           Like
         </Button>
-        <Button flex="1" variant="ghost" leftIcon={<ChatIcon />}>
+        <Button
+          flex="1"
+          variant="ghost"
+          leftIcon={<ChatIcon />}
+          _hover={{ bg: ThemeColor.backgroundColor }}
+        >
           Comment
         </Button>
-        <Button flex="1" variant="ghost" leftIcon={<ExternalLinkIcon />}>
+        <Button
+          flex="1"
+          variant="ghost"
+          leftIcon={<ExternalLinkIcon />}
+          _hover={{ bg: ThemeColor.backgroundColor }}
+        >
           Share
         </Button>
       </CardFooter>
