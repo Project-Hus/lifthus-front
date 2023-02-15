@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { register_info } from "./interfaces/register.interface";
 
 interface RegisterState {
-  register_nickname: string;
+  register_username: string;
   register_type: string;
   register_bodyweight: number;
   register_height: number;
@@ -14,7 +14,7 @@ interface RegisterState {
 }
 
 const useRegisterStore = create<RegisterState>()((set) => ({
-  register_nickname: "",
+  register_username: "",
   register_type: "",
   register_bodyweight: NaN,
   register_height: NaN,

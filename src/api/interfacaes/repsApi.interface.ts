@@ -8,7 +8,7 @@ export interface RepsApi {
 export interface Rep {
   rep_id?: number;
   user_id: string;
-  nickname: string;
+  username: string;
   routine_id?: number;
   image_paths?: string[];
   text: string;

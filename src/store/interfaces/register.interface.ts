@@ -1,5 +1,5 @@
 export interface register_info {
-  register_nickname?: string;
+  register_username?: string;
   register_type?: string;
   register_bodyweight?: number;
   register_height?: number;
@@ -9,7 +9,7 @@ export interface register_info {
 }
 
 export type register_info_strings =
-  | "register_nickname"
+  | "register_username"
   | "register_type"
   | "register_bodyweight"
   | "register_height"

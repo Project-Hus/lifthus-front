@@ -9,7 +9,7 @@ import BottomNav from "./BottomNav";
 import Profile from "./profile/Profile";
 
 const Main = () => {
-  const nickname = useUserStore((state) => state.nickname);
+  const username = useUserStore((state) => state.username);
   return (
     // Main page(signed in)
     <React.Fragment>
@@ -22,7 +22,7 @@ const Main = () => {
         <Route path="profile/:username" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <BottomNav username={nickname} />
+      <BottomNav username={username} />
     </React.Fragment>
   );
 };

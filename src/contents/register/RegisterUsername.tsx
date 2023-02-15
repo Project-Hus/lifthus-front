@@ -11,20 +11,20 @@ import FormInput, {
 } from "../../common/components/forms/FormInput";
 import BlueLink from "../../common/components/links/BlueLink";
 import Logo from "../../common/components/Logo";
-import { nickname_limit } from "../../common/constraints";
+import { username_limit } from "../../common/constraints";
 
 import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
 
-const RegisterNickname = () => {
+const RegisterUsername = () => {
   const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
 
   /* store */
   const user_id = useUserStore((state) => state.user_id);
-  const register_nickname = useRegisterStore(
-    (state) => state.register_nickname
+  const register_username = useRegisterStore(
+    (state) => state.register_username
   );
   const set_user_info = useUserStore((state) => state.set_user_info);
   const set_register_info = useRegisterStore(
@@ -34,7 +34,7 @@ const RegisterNickname = () => {
   /* hook-form */
   const { register, watch, getValues } = useForm<IFormInputValues>({
     shouldUseNativeValidation: true,
-    defaultValues: { nickname: register_nickname },
+    defaultValues: { username: register_username },
   });
 
   /* state */
@@ -45,13 +45,13 @@ const RegisterNickname = () => {
       <Logo />
       <p>{t("name_var", { name: user_id })},</p>
       <p>
-        {!failed && <Trans i18nKey={"register.nicknameAsking_message"} />}
-        {failed && t("register.existingNickname_error")}
+        {!failed && <Trans i18nKey={"register.usernameAsking_message"} />}
+        {failed && t("register.existingUsername_error")}
       </p>
       <FormInput
-        placeholder={"nickname"}
+        placeholder={"username"}
         focusString={t("characterLimit_message", { min: 3, max: 16 })}
-        {...register("nickname", {
+        {...register("username", {
           required: true,
           minLength: 3,
           maxLength: 16,
@@ -59,15 +59,15 @@ const RegisterNickname = () => {
         })}
       ></FormInput>
       <p></p>
-      {(watch("nickname") || "").length >= nickname_limit.min && (
+      {(watch("username") || "").length >= username_limit.min && (
         <BlueLink
           onClick={(e) => {
-            const { ok } = registerApi.register_nickname({
+            const { ok } = registerApi.register_username({
               id: user_id,
-              nickname: getValues("nickname"),
+              username: getValues("username"),
             });
             if (ok) {
-              set_register_info({ register_nickname: getValues("nickname") });
+              set_register_info({ register_username: getValues("username") });
               set_user_info(userApi.get_user_info(user_id));
               navigate("/register/type");
             } else {
@@ -82,4 +82,4 @@ const RegisterNickname = () => {
   );
 };
 
-export default RegisterNickname;
+export default RegisterUsername;

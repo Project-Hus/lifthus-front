@@ -26,7 +26,7 @@ const authTestApi: AuthApi = {
         set_user_info({
           user_id: id,
           registered: false,
-          nickname: "",
+          username: "",
         });
         user_id = id;
         fid = false;
@@ -36,7 +36,7 @@ const authTestApi: AuthApi = {
         set_user_info({
           user_id: id,
           registered: true,
-          nickname: "SuccRegi",
+          username: "SuccRegi",
           training_type: "bodybuilding",
           body_weight: 88,
           height: 184,

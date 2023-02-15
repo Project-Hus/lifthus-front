@@ -5,7 +5,7 @@ export interface UserApi {
 export interface UserProfile {
   user_id?: string;
   registered?: boolean;
-  nickname?: string;
+  username?: string;
   training_type?: string;
   body_weight?: number;
   height?: number;

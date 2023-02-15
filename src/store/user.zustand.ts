@@ -5,7 +5,7 @@ import { UserInfo } from "./interfaces/user.interface";
 interface UserState {
   user_id: string;
   registered: boolean;
-  nickname: string;
+  username: string;
   training_type: string;
   body_weight: number;
   fat_percentage: number;
@@ -19,7 +19,7 @@ interface UserState {
 const useUserStore = create<UserState>()((set) => ({
   user_id: "",
   registered: false,
-  nickname: "",
+  username: "",
   training_type: "",
   body_weight: NaN,
   fat_percentage: NaN,

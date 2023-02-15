@@ -1,7 +1,7 @@
 import {
   RegisterApi,
-  RegisterNicknameParams,
-  RegisterNicknameReturns,
+  RegisterUsernameParams,
+  RegisterUsernameReturns,
   RegisterParams,
   RegisterReturns,
 } from "./interfacaes/registerApi.interface";
@@ -9,12 +9,12 @@ import {
 import registerTestApi from "./testApi/registerTestApi";
 
 const registerApi: RegisterApi = {
-  register_nickname: ({
+  register_username: ({
     id,
-    nickname,
-  }: RegisterNicknameParams): RegisterNicknameReturns => {
+    username,
+  }: RegisterUsernameParams): RegisterUsernameReturns => {
     if (process.env.NODE_ENV == "development") {
-      return registerTestApi.register_nickname({ id, nickname });
+      return registerTestApi.register_username({ id, username });
     }
     return { ok: false };
   },

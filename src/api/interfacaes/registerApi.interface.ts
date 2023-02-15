@@ -1,18 +1,18 @@
 import { register_info } from "../../store/interfaces/register.interface";
 
 export interface RegisterApi {
-  register_nickname: ({
+  register_username: ({
     id,
-    nickname,
-  }: RegisterNicknameParams) => RegisterNicknameReturns;
+    username,
+  }: RegisterUsernameParams) => RegisterUsernameReturns;
   register: (register_info: RegisterParams) => RegisterReturns;
 }
-export interface RegisterNicknameParams {
+export interface RegisterUsernameParams {
   id: string;
-  nickname: string;
+  username: string;
 }
 
-export interface RegisterNicknameReturns {
+export interface RegisterUsernameReturns {
   ok: boolean;
 }
 

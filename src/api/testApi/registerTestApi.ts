@@ -1,19 +1,19 @@
 import {
   RegisterApi,
-  RegisterNicknameParams,
-  RegisterNicknameReturns,
+  RegisterUsernameParams,
+  RegisterUsernameReturns,
   RegisterParams,
   RegisterReturns,
 } from "../interfacaes/registerApi.interface";
 import { set_user_info } from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
-  register_nickname: ({
+  register_username: ({
     id,
-    nickname,
-  }: RegisterNicknameParams): RegisterNicknameReturns => {
-    if (nickname === "succ") {
-      set_user_info({ nickname: nickname });
+    username,
+  }: RegisterUsernameParams): RegisterUsernameReturns => {
+    if (username === "succ") {
+      set_user_info({ username: username });
       return { ok: true };
     }
     return { ok: false };

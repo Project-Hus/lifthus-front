@@ -15,7 +15,7 @@ const RegisterConfirm = () => {
   }));
   const register_info = useRegisterStore((state) => ({
     user_id: "",
-    nickname: state.register_nickname,
+    username: state.register_username,
     training_type: state.register_type,
     body_weight: state.register_bodyweight,
     height: state.register_height,
@@ -40,7 +40,7 @@ const RegisterConfirm = () => {
           values={{
             weight_ratio: (total / register_info.body_weight).toFixed(1),
             total: total,
-            nickname: register_info.nickname,
+            username: register_info.username,
           }}
         />
       }

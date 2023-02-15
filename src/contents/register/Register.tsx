@@ -12,7 +12,7 @@ import RegisterBodyWeight from "./RegisterBodyWeight";
 import RegisterConfirm from "./RegisterConfirm";
 import RegisterDeadlift from "./RegisterDeadlift";
 import RegisterHeight from "./RegisterHeight";
-import RegisterNickname from "./RegisterNickname";
+import RegisterUsername from "./RegisterUsername";
 import RegisterSquat from "./RegisterSquat";
 import RegisterType from "./RegisterType";
 
@@ -38,11 +38,11 @@ const Register = () => {
                 {t("register.Hi")} {t("name_var", { name: user_id })},
               </p>
               {t("register.workOut_message")}
-              <BlueButton to="nickname">{t("register.WORK_OUT")}</BlueButton>
+              <BlueButton to="username">{t("register.WORK_OUT")}</BlueButton>
             </>
           }
         />
-        <Route path="/nickname" element={<RegisterNickname />} />
+        <Route path="/username" element={<RegisterUsername />} />
         <Route path="/type" element={<RegisterType />} />
         <Route path="/bodyweight" element={<RegisterBodyWeight />} />
         <Route path="/height" element={<RegisterHeight />} />

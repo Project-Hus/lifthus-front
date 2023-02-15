@@ -12,7 +12,7 @@ export interface IFormInputValues {
   check: string;
 
   /* Register */
-  nickname: string;
+  username: string;
   value: number;
 }
 

@@ -26,11 +26,11 @@ const Rep = () => {
         <Flex letterSpacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar
-              name={user_info.nickname}
+              name={user_info.username}
               src={USER_PROFILE_IMAGE_ROUTE + user_info.user_id + ".jpeg"}
             />
             <Box>
-              <Heading fontSize="xl">{user_info.nickname}</Heading>
+              <Heading fontSize="xl">{user_info.username}</Heading>
               <Text fontSize="sm">Powerlifter</Text>
             </Box>
           </Flex>

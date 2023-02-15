@@ -5,7 +5,7 @@ import { UserApi, UserProfile } from "../interfacaes/userApi.interface";
 export let user_profile: UserProfile = {
   user_id: "",
   registered: false,
-  nickname: "",
+  username: "",
   training_type: "",
   body_weight: NaN,
   height: NaN,

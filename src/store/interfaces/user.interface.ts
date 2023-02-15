@@ -1,7 +1,7 @@
 export interface UserInfo {
   user_id?: string;
   registered?: boolean;
-  nickname?: string;
+  username?: string;
   training_type?: string;
   body_weight?: number;
   fat_percentage?: number;
