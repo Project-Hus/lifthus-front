@@ -1,27 +1,28 @@
-import { RegisterParams } from "../interfacaes/registerApi.interface";
-import { UserApi, UserProfile } from "../interfacaes/userApi.interface";
-
+import { UserProfile } from "../interfacaes/userApi.interface";
 /* Mock server */
-export let user_profile: UserProfile = {
-  user_id: "",
-  registered: false,
-  username: "",
-  training_type: "",
-  body_weight: NaN,
-  height: NaN,
-  squat: NaN,
-  benchpress: NaN,
-  deadlift: NaN,
-};
-
-export const set_user_info = (new_user_info: RegisterParams | UserProfile) => {
-  user_profile = { ...user_profile, ...new_user_info };
-};
-/* Mock Server */
-
-const userTestApi: UserApi = {
-  get_user_info: (id: string): UserProfile => {
-    return { ...user_profile };
+const user_list: { [key: string]: UserProfile } = {
+  succregi: {
+    user_id: "succregi",
+    registered: true,
+    username: "에드시런팬",
+    training_type: "powerlifting",
+    body_weight: 100,
+    height: 184,
+    squat: 160,
+    benchpress: 120,
+    deadlift: 180,
+  },
+  succ: {
+    user_id: "succ",
+    registered: false,
+    username: "",
+    training_type: "",
+    body_weight: NaN,
+    height: NaN,
+    squat: NaN,
+    benchpress: NaN,
+    deadlift: NaN,
   },
 };
-export default userTestApi;
+
+export default user_list;

@@ -4,60 +4,16 @@ import {
   SignParams,
   SignUpReturns,
 } from "../interfacaes/authApi.interface";
+import user_list from "../mocks/userTestApi.mocks";
 
 import { set_user_info } from "./userTestApi";
 
 const authTestApi: AuthApi = {
   sign_in_local: ({ id, password }: SignParams): SignInReturns => {
-    set_user_info({
-      user_id: "",
-      training_type: "",
-      body_weight: NaN,
-      height: NaN,
-      squat: NaN,
-      benchpress: NaN,
-      deadlift: NaN,
-    });
     let user_id = "";
     let fid = false;
     let ok = false;
-    switch (id) {
-      case "succ":
-        set_user_info({
-          user_id: id,
-          registered: false,
-          username: "",
-        });
-        user_id = id;
-        fid = false;
-        ok = true;
-        break;
-      case "succregi":
-        set_user_info({
-          user_id: id,
-          registered: true,
-          username: "SuccRegi",
-          training_type: "bodybuilding",
-          body_weight: 88,
-          height: 184,
-          squat: 190,
-          benchpress: 122,
-          deadlift: 200,
-        });
-        user_id = id;
-        fid = false;
-        ok = true;
-        break;
-      case "fidd":
-        user_id = "";
-        fid = true;
-        ok = false;
-        break;
-      default:
-        user_id = "";
-        fid = false;
-        ok = false;
-        break;
+    if (id in user_list) {
     }
     return { user_id, fid, ok };
   },
