@@ -5,6 +5,7 @@ import {
   RegisterParams,
   RegisterReturns,
 } from "../interfacaes/registerApi.interface";
+import user_list from "../mocks/userTestApi.mocks";
 import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
@@ -12,7 +13,14 @@ const registerTestApi: RegisterApi = {
     id,
     username,
   }: RegisterUsernameParams): RegisterUsernameReturns => {
-    if (username === "succ") {
+    let name_flag = true;
+    for (const key in user_list) {
+      if (user_list[key]["username"] === username) {
+        name_flag = false;
+        break;
+      }
+    }
+    if (name_flag) {
       userTestApi.set_user_info(id, { username: username });
       return { ok: true };
     }
