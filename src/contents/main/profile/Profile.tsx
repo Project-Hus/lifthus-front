@@ -11,7 +11,6 @@ const Profile = () => {
   return (
     <BasicPageLayout>
       <ProfileCard username={username || ""} />
-      <br />
       <Reps />
     </BasicPageLayout>
   );
