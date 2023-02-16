@@ -19,9 +19,15 @@ import { ThemeColor } from "../../../../common/styles/theme.style";
 import useUserStore from "../../../../store/user.zustand";
 
 import { Card, CardBody } from "@chakra-ui/card";
-import { CalendarIcon, InfoIcon, SettingsIcon } from "@chakra-ui/icons";
+import {
+  CalendarIcon,
+  DragHandleIcon,
+  LinkIcon,
+  SettingsIcon,
+} from "@chakra-ui/icons";
 
 import CalendarHeatmap from "react-calendar-heatmap";
+import { FormLabel } from "@chakra-ui/react";
 
 const ProfileTab = () => {
   const user_info = useUserStore((state) => state);
@@ -36,31 +42,28 @@ const ProfileTab = () => {
     >
       <TabList>
         <Tab
+          w="25%"
           _hover={{ bgColor: "green.300" }}
           _selected={{ color: "white", bg: "green.400" }}
         >
           <CalendarIcon />
         </Tab>
         <Tab
+          w="25%"
           _hover={{ bgColor: "green.300" }}
           _selected={{ color: "white", bg: "green.400" }}
         >
-          INFO
+          <LinkIcon />
         </Tab>
         <Tab
+          w="25%"
           _hover={{ bgColor: "blue.400" }}
           _selected={{ color: "white", bg: "blue.500" }}
         >
-          SBD
+          <DragHandleIcon />
         </Tab>
         <Tab
-          _hover={{ bgColor: "blue.400" }}
-          _selected={{ color: "white", bg: "blue.500" }}
-        >
-          Body
-        </Tab>
-
-        <Tab
+          w="25%"
           _hover={{ bgColor: "yellow.400" }}
           _selected={{ color: "white", bg: "yellow.500" }}
           paddingLeft="1.5em"
@@ -103,6 +106,14 @@ const ProfileTab = () => {
               <Stack divider={<StackDivider />} spacing="4">
                 <Box>
                   <Heading size="xs" textTransform="uppercase">
+                    ✅ ID
+                  </Heading>
+                  <Text pt="2" fontSize="sm">
+                    #12a2g
+                  </Text>
+                </Box>
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
                     🏢 Company
                   </Heading>
                   <Text pt="2" fontSize="sm">
@@ -131,6 +142,9 @@ const ProfileTab = () => {
         </TabPanel>
         <TabPanel>
           <p>
+            <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>
+              BIG 3
+            </FormLabel>
             <StatGroup
               border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
               borderRadius="1em"
@@ -193,9 +207,10 @@ const ProfileTab = () => {
               </Stat>
             </StatGroup>
           </p>
-        </TabPanel>
-        <TabPanel>
           <p>
+            <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>
+              Body
+            </FormLabel>
             <StatGroup
               border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
               borderRadius="1em"

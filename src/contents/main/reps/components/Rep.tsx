@@ -1,18 +1,21 @@
 import { Avatar } from "@chakra-ui/avatar";
-import { Button, IconButton } from "@chakra-ui/button";
+import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React from "react";
 import {
   ChatIcon,
-  ExternalLinkIcon,
-  InfoOutlineIcon,
+  ChevronDownIcon,
+  CopyIcon,
+  DeleteIcon,
+  EditIcon,
   StarIcon,
 } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 const Rep = () => {
   const user_info = useUserStore((state) => state);
@@ -35,12 +38,40 @@ const Rep = () => {
               <Text fontSize="sm">Powerlifter</Text>
             </Box>
           </Flex>
-          <IconButton
-            variant="ghost"
-            colorScheme="gray"
-            aria-label="See menu"
-            icon={<InfoOutlineIcon />}
-          />
+          <Menu>
+            {({ isOpen }) => (
+              <>
+                <MenuButton
+                  variant="unstyled"
+                  isActive={isOpen}
+                  as={Button}
+                  color={ThemeColor.basicColor}
+                  rightIcon={<ChevronDownIcon fontSize="2.2em" />}
+                />
+                <MenuList bgColor={ThemeColor.backgroundColorDarker}>
+                  <MenuItem bgColor={ThemeColor.backgroundColorDarker}>
+                    <CopyIcon />
+                    &nbsp;Copy URL
+                  </MenuItem>
+                  <MenuItem
+                    bgColor={ThemeColor.backgroundColorDarker}
+                    color="yellow.400"
+                  >
+                    <EditIcon />
+                    &nbsp;Edit
+                  </MenuItem>
+                  <MenuItem
+                    bgColor={ThemeColor.backgroundColorDarker}
+                    color="red.400"
+                    onClick={() => alert("Kagebunshin")}
+                  >
+                    <DeleteIcon />
+                    &nbsp;Delete
+                  </MenuItem>
+                </MenuList>
+              </>
+            )}
+          </Menu>
         </Flex>
       </CardHeader>
 
@@ -73,14 +104,6 @@ const Rep = () => {
           _hover={{ bg: ThemeColor.backgroundColor }}
         >
           Comment
-        </Button>
-        <Button
-          flex="1"
-          variant="ghost"
-          leftIcon={<ExternalLinkIcon />}
-          _hover={{ bg: ThemeColor.backgroundColor }}
-        >
-          Share
         </Button>
       </CardFooter>
     </Card>

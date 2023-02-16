@@ -7,6 +7,8 @@ export interface RepsApi {
 
 export interface Rep {
   rep_id?: number;
+  created_at: Date;
+  updated_at: Date;
   user_id: string;
   username: string;
   routine_id?: number;
