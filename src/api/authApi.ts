@@ -12,13 +12,13 @@ const authApi: AuthApi = {
     if (process.env.NODE_ENV == "development") {
       return authTestApi.sign_in_local({ id, password });
     }
-    return { user_id: "", fid: false, ok: false };
+    return authTestApi.sign_in_local({ id, password });
   },
   sign_up_local: ({ id, password }: SignParams): SignUpReturns => {
     if (process.env.NODE_ENV === "development") {
       return authTestApi.sign_up_local({ id, password });
     }
-    return { fid: false, ok: false };
+    return authTestApi.sign_up_local({ id, password });
   },
 };
 

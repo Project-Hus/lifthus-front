@@ -6,25 +6,25 @@ const repsApi: RepsApi = {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.get_user_reps(user_id);
     }
-    return [];
+    return repsTestApi.get_user_reps(user_id);
   },
   post_rep: (user_id: string, rep: Rep) => {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.post_rep(user_id, rep);
     }
-    return true;
+    return repsTestApi.post_rep(user_id, rep);
   },
   update_rep: (user_id: string, rep_id: number, rep: Rep) => {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.update_rep(user_id, rep_id, rep);
     }
-    return true;
+    return repsTestApi.update_rep(user_id, rep_id, rep);
   },
   delete_rep: (user_id: string, rep_id: number) => {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.delete_rep(user_id, rep_id);
     }
-    return true;
+    return repsTestApi.delete_rep(user_id, rep_id);
   },
 };
 
