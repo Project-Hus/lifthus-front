@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/icons";
 
 import CalendarHeatmap from "react-calendar-heatmap";
-import { FormLabel } from "@chakra-ui/react";
+import { Avatar, FormLabel } from "@chakra-ui/react";
 
 const ProfileTab = () => {
   const user_info = useUserStore((state) => state);
@@ -95,6 +95,52 @@ const ProfileTab = () => {
               return `color-scale-${value.count}`;
             }}
           />
+          <div>
+            <Avatar
+              margin={"0.2em"}
+              name={"Powerlifter"}
+              bgColor={ThemeColor.basicColor}
+              src={
+                "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
+              }
+              sx={{
+                "@media screen and (max-width: 350px)": {
+                  w: "2em",
+                  h: "2em",
+                },
+              }}
+            />
+
+            <Avatar
+              margin={"0.2em"}
+              name={"Powerlifter"}
+              bgColor={ThemeColor.basicColor}
+              src={
+                "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
+              }
+              sx={{
+                "@media screen and (max-width: 350px)": {
+                  w: "2em",
+                  h: "2em",
+                },
+              }}
+            />
+
+            <Avatar
+              margin={"0.2em"}
+              name={"Powerlifter"}
+              bgColor={ThemeColor.basicColor}
+              src={
+                "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
+              }
+              sx={{
+                "@media screen and (max-width: 350px)": {
+                  w: "2em",
+                  h: "2em",
+                },
+              }}
+            />
+          </div>
         </TabPanel>
         <TabPanel>
           <Card
@@ -106,7 +152,7 @@ const ProfileTab = () => {
               <Stack divider={<StackDivider />} spacing="4">
                 <Box>
                   <Heading size="xs" textTransform="uppercase">
-                    ✅ ID
+                    #ID
                   </Heading>
                   <Text pt="2" fontSize="sm">
                     #12a2g
