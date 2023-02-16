@@ -31,6 +31,7 @@ const ProfileCard = ({ username }: { username: string }) => {
           w="100%"
           sx={{
             paddingRight: "0.2em",
+            paddingLeft: "0.2em",
             "@media screen and (max-width:350px)": { paddingLeft: "0.2em" },
           }}
         >
