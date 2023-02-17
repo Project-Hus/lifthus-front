@@ -16,6 +16,9 @@ const rep_list: RepContent[] = [
     created_at: new Date("2023-01-03"),
     updated_at: new Date("2023-01-03"),
     user_id: "succregi",
+    image_srcs: [
+      "https://i.pinimg.com/originals/f0/c9/84/f0c9842b43c97fb7412c8cd99ca5218d.jpg",
+    ],
     text: "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
   },
   {

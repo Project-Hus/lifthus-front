@@ -16,28 +16,39 @@ import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import repsTestApi from "../../../../api/testApi/repsTestApi";
+import { RepContent } from "../../../../api/interfacaes/repsApi.interface";
 
-const Rep = () => {
-  const user_info = useUserStore((state) => state);
+const Rep = ({ rep }: { rep: RepContent }) => {
+  const image_list = [];
+  for (const i in rep.image_srcs) {
+    image_list.push(
+      <Image
+        objectFit="contain"
+        src={rep.image_srcs[Number(i)]}
+        alt={`${i}th image of ${rep.username}'s rep`}
+        maxH={"50vh"}
+      />
+    );
+  }
   return (
     <Card
       bgColor={ThemeColor.backgroundColorDarker}
       color="white"
       fontSize="0.7em"
-      margin="1em"
+      margin="0.5em"
+      marginBottom={"0em"}
     >
       <CardHeader>
         <Flex letterSpacing="4">
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
             <Avatar
-              name={user_info.username}
-              src={USER_PROFILE_IMAGE_ROUTE + user_info.username + ".jpeg"}
+              name={rep.username}
+              src={USER_PROFILE_IMAGE_ROUTE + rep.username + ".jpeg"}
             />
             <Box>
-              <Heading fontSize="1.1em">{user_info.username}</Heading>
+              <Heading fontSize="1.1em">{rep.username}</Heading>
               <Text fontSize={"0.9em"} color="gray.400">
-                {`${new Date("2022-02-03")}`.slice(0, 21)}
+                {`${rep.updated_at}`.slice(0, 21)}
               </Text>
             </Box>
           </Flex>
@@ -88,17 +99,9 @@ const Rep = () => {
           </Menu>
         </Flex>
       </CardHeader>
-      <Image
-        objectFit="cover"
-        src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        alt="Chakra UI"
-      />
+      {image_list}
       <CardBody>
-        <Text>
-          With Chakra UI, I wanted to sync the speed of development with the
-          speed of design. I wanted the developer to be just as excited as the
-          designer to create a screen.
-        </Text>
+        <Text>{rep.text}</Text>
       </CardBody>
       <CardFooter justify="space-between">
         <Button
