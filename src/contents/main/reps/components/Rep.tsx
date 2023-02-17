@@ -15,13 +15,8 @@ import {
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import {
-  FormLabel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import repsTestApi from "../../../../api/testApi/repsTestApi";
 
 const Rep = () => {
   const user_info = useUserStore((state) => state);

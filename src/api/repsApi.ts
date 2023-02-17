@@ -1,4 +1,4 @@
-import { Rep, RepsApi } from "./interfacaes/repsApi.interface";
+import { RepContent, RepsApi } from "./interfacaes/repsApi.interface";
 import repsTestApi from "./testApi/repsTestApi";
 
 const repsApi: RepsApi = {
@@ -8,13 +8,13 @@ const repsApi: RepsApi = {
     }
     return repsTestApi.get_user_reps(user_id);
   },
-  post_rep: (user_id: string, rep: Rep) => {
+  post_rep: (user_id: string, rep: RepContent) => {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.post_rep(user_id, rep);
     }
     return repsTestApi.post_rep(user_id, rep);
   },
-  update_rep: (user_id: string, rep_id: number, rep: Rep) => {
+  update_rep: (user_id: string, rep_id: number, rep: RepContent) => {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.update_rep(user_id, rep_id, rep);
     }

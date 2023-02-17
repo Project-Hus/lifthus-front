@@ -14,6 +14,12 @@ const userApi: UserApi = {
     }
     return userTestApi.get_user_info(id);
   },
+  get_id_by_name: (name: string): { user_id: string; ok: boolean } => {
+    if (process.env.NODE_ENV === "development") {
+      return userTestApi.get_id_by_name(name);
+    }
+    return userTestApi.get_id_by_name(name);
+  },
 };
 
 export default userApi;

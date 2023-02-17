@@ -6,6 +6,7 @@ export interface UserApi {
     new_user_info: RegisterParams | UserProfile
   ) => boolean;
   get_user_info: (id: string) => UserProfile;
+  get_id_by_name: (name: string) => { user_id: string; ok: boolean };
 }
 
 export interface UserProfile {

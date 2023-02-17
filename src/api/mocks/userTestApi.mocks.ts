@@ -1,6 +1,19 @@
 import { UserProfile } from "../interfacaes/userApi.interface";
 /* Mock server */
-const user_list: { [key: string]: UserProfile } = {
+
+interface UserProfileDB {
+  user_id: string;
+  registered?: boolean;
+  username?: string;
+  training_type?: string;
+  body_weight?: number;
+  height?: number;
+  squat?: number;
+  benchpress?: number;
+  deadlift?: number;
+}
+
+const user_list: { [key: string]: UserProfileDB } = {
   succregi: {
     user_id: "succregi",
     registered: true,
