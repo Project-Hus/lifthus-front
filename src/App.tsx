@@ -24,7 +24,6 @@ const AppStyled = styled.div`
 const App = () => {
   const user_id = useUserStore((state) => state.user_id);
   const registered = useUserStore((state) => state.registered);
-
   return (
     <AppStyled>
       <Routes>
