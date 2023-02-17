@@ -99,7 +99,17 @@ const Rep = ({ rep }: { rep: RepContent }) => {
           </Menu>
         </Flex>
       </CardHeader>
-      {image_list}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: ThemeColor.backgroundColor,
+          borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
+          borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
+        }}
+      >
+        {image_list}
+      </div>
       <CardBody>
         <Text>{rep.text}</Text>
       </CardBody>
