@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Navigate, useParams } from "react-router";
 
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
@@ -8,9 +8,11 @@ import Reps from "../reps/Reps";
 import repsApi from "../../../api/repsApi";
 import { RepContent } from "../../../api/interfacaes/repsApi.interface";
 import userApi from "../../../api/userApi";
-import { useQuery } from "@tanstack/react-query";
-import { UserId, Username } from "../../../api/interfacaes/userApi.interface";
+import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
+import { UserId } from "../../../api/interfacaes/userApi.interface";
+import ErrorPage from "../../../common/components/ErrorPage";
+import { Spinner } from "@chakra-ui/react";
 
 const Profile = () => {
   const username = useParams().username;
@@ -18,37 +20,61 @@ const Profile = () => {
   if (username) {
     const [reps, setReps] = useState<RepContent[]>([]);
 
-    // Then get the user's projects
-    const {
-      status,
-      fetchStatus,
-      data: projects,
-    } = useQuery({
-      queryKey: ["projects", userId],
-      queryFn: getProjectsByUser,
-      // The query will not execute until the userId exists
-      enabled: !!userId,
+    const { data: user_id_obj, isSuccess } = useQuery({
+      queryKey: ["user_id", username],
+      queryFn: () => userApi.get_id_by_name({ username }),
     });
-
-    const tmp: Username = { username };
-    const { data: user_id } = useQuery({
-      queryKey: ["user_id", tmp],
-      queryFn: userApi.get_id_by_name,
-    });
+    const user_id = user_id_obj?.user_id;
 
     const { data } = useQuery({
       queryKey: ["reps", user_id],
-      queryFn: async () => {},
+      queryFn: () =>
+        typeof user_id === "undefined"
+          ? Promise.reject(new Error("undefined_id"))
+          : repsApi.get_user_reps({ user_id }),
       enabled: !!user_id,
     });
 
-    if (ok)
+    if (!!user_id)
       return (
         <BasicPageLayout>
-          <ProfileCard user_id={user_id} />
-          <ErrorBoundary>
-            <Reps reps={reps} />
-          </ErrorBoundary>
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary
+                fallbackRender={({ error, resetErrorBoundary }) => (
+                  <ErrorPage />
+                )}
+                onReset={reset}
+              >
+                <Suspense
+                  fallback={
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="xl"
+                    />
+                  }
+                >
+                  <ProfileCard user_id={user_id} />
+                </Suspense>
+                <Suspense
+                  fallback={
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="xl"
+                    />
+                  }
+                >
+                  <Reps reps={reps} />
+                </Suspense>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
         </BasicPageLayout>
       );
   }
