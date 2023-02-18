@@ -4,8 +4,8 @@ export interface RegisterApi {
   register_username: ({
     id,
     username,
-  }: RegisterUsernameParams) => RegisterUsernameReturns;
-  register: (register_info: RegisterParams) => RegisterReturns;
+  }: RegisterUsernameParams) => Promise<RegisterUsernameReturns>;
+  register: (register_info: RegisterParams) => Promise<RegisterReturns>;
 }
 export interface RegisterUsernameParams {
   id: string;

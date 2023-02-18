@@ -1,8 +1,12 @@
 export interface RepsApi {
-  get_user_reps: (user_id: string) => RepContent[];
-  post_rep: (user_id: string, rep: RepContent) => boolean;
-  update_rep: (user_id: string, rep_id: number, rep: RepContent) => boolean;
-  delete_rep: (user_id: string, rep_id: number) => boolean;
+  get_user_reps: (user_id: string) => Promise<RepContent[]>;
+  post_rep: (user_id: string, rep: RepContent) => Promise<boolean>;
+  update_rep: (
+    user_id: string,
+    rep_id: number,
+    rep: RepContent
+  ) => Promise<boolean>;
+  delete_rep: (user_id: string, rep_id: number) => Promise<boolean>;
 }
 
 export interface RepContent {

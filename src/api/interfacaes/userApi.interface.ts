@@ -4,9 +4,9 @@ export interface UserApi {
   set_user_info: (
     user_id: string,
     new_user_info: RegisterParams | UserProfile
-  ) => boolean;
-  get_user_info: (id: string) => UserProfile;
-  get_id_by_name: (name: string) => { user_id: string; ok: boolean };
+  ) => Promise<boolean>;
+  get_user_info: (id: string) => Promise<UserProfile>;
+  get_id_by_name: (name: string) => Promise<{ user_id: string; ok: boolean }>;
 }
 
 export interface UserProfile {
