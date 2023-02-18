@@ -14,20 +14,18 @@ const authTestApi: AuthApi = {
     id,
     password,
   }: SignParams): Promise<SignInReturns> => {
-    return new Promise<SignInReturns>(() => {
-      const signInReturns: SignInReturns = {
-        user_id: "",
-        fid: false,
-        ok: false,
-      };
-      if (id in user_list && password === "1234") {
-        signInReturns.user_id = id;
-        signInReturns.ok = true;
-      } else if (!(id in user_list)) {
-        signInReturns.fid = true;
-      }
-      return signInReturns;
-    });
+    const signInReturns: SignInReturns = {
+      user_id: "",
+      fid: false,
+      ok: false,
+    };
+    if (id in user_list && password === "1234") {
+      signInReturns.user_id = id;
+      signInReturns.ok = true;
+    } else if (!(id in user_list)) {
+      signInReturns.fid = true;
+    }
+    return signInReturns;
   },
 
   sign_up_local: async ({
