@@ -9,16 +9,16 @@ import {
 import registerTestApi from "./testApi/registerTestApi";
 
 const registerApi: RegisterApi = {
-  register_username: ({
+  register_username: async ({
     id,
     username,
-  }: RegisterUsernameParams): RegisterUsernameReturns => {
+  }: RegisterUsernameParams): Promise<RegisterUsernameReturns> => {
     if (process.env.NODE_ENV == "development") {
       return registerTestApi.register_username({ id, username });
     }
     return registerTestApi.register_username({ id, username });
   },
-  register: (register_info: RegisterParams): RegisterReturns => {
+  register: async (register_info: RegisterParams): Promise<RegisterReturns> => {
     if (process.env.NODE_ENV == "development") {
       return registerTestApi.register(register_info);
     }

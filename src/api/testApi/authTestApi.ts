@@ -26,6 +26,7 @@ const authTestApi: AuthApi = {
       } else if (!(id in user_list)) {
         signInReturns.fid = true;
       }
+      return signInReturns;
     });
   },
 
