@@ -13,28 +13,24 @@ const registerTestApi: RegisterApi = {
     id,
     username,
   }: RegisterUsernameParams): Promise<RegisterUsernameReturns> => {
-    return new Promise<RegisterUsernameReturns>(() => {
-      let name_flag = true;
-      for (const key in user_list) {
-        if (user_list[key]["username"] === username) {
-          name_flag = false;
-          break;
-        }
+    let name_flag = true;
+    for (const key in user_list) {
+      if (user_list[key]["username"] === username) {
+        name_flag = false;
+        break;
       }
-      if (name_flag) {
-        userTestApi.set_user_info(id, { username: username });
-        return { ok: true };
-      }
-      return { ok: false };
-    });
+    }
+    if (name_flag) {
+      userTestApi.set_user_info(id, { username: username });
+      return { ok: true };
+    }
+    return { ok: false };
   },
 
   register: async (register_info: RegisterParams): Promise<RegisterReturns> => {
-    return new Promise<RegisterReturns>(() => {
-      const new_info = { registered: true, ...register_info };
-      userTestApi.set_user_info(register_info.user_id, new_info);
-      return { ok: true };
-    });
+    const new_info = { registered: true, ...register_info };
+    userTestApi.set_user_info(register_info.user_id, new_info);
+    return { ok: true };
   },
 };
 export default registerTestApi;

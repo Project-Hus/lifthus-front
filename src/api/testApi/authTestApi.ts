@@ -36,24 +36,22 @@ const authTestApi: AuthApi = {
       fid: false,
       ok: false,
     };
-    return new Promise<SignUpReturns>(() => {
-      if (id in user_list) signUpReturns.fid = true;
-      else {
-        signUpReturns.ok = true;
-        userTestApi.set_user_info(id, {
-          user_id: id,
-          registered: false,
-          username: "",
-          training_type: "",
-          body_weight: NaN,
-          height: NaN,
-          squat: NaN,
-          benchpress: NaN,
-          deadlift: NaN,
-        });
-        return signUpReturns;
-      }
-    });
+    if (id in user_list) signUpReturns.fid = true;
+    else {
+      signUpReturns.ok = true;
+      userTestApi.set_user_info(id, {
+        user_id: id,
+        registered: false,
+        username: "",
+        training_type: "",
+        body_weight: NaN,
+        height: NaN,
+        squat: NaN,
+        benchpress: NaN,
+        deadlift: NaN,
+      });
+    }
+    return signUpReturns;
   },
 };
 export default authTestApi;
