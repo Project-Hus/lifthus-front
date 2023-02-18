@@ -9,11 +9,8 @@ export interface SignParams {
 
 export interface SignInReturns {
   user_id: string;
-  fid: boolean;
-  ok: boolean;
 }
 
 export interface SignUpReturns {
-  fid: boolean;
-  ok: boolean;
+  user_id: string;
 }
