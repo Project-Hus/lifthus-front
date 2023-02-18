@@ -9,6 +9,7 @@ import {
   Box,
 } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -19,7 +20,11 @@ import { ThemeColor } from "../../../../common/styles/theme.style";
 import ProfileTab from "./ProfileTab";
 
 const ProfileCard = ({ user_id }: UserId) => {
-  const username = userApi.get_user_info({ user_id }).username;
+  const { data } = useQuery({
+    queryKey: ["username", user_id],
+    queryFn: () => userApi.get_user_info({ user_id }),
+  });
+  const username = data?.username;
   return (
     <>
       <Card
