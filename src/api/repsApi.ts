@@ -1,30 +1,37 @@
-import { RepContent, RepsApi } from "./interfacaes/repsApi.interface";
+import {
+  DeleteRepParams,
+  PostRepParams,
+  RepContent,
+  RepsApi,
+  UpdateRepParams,
+} from "./interfacaes/repsApi.interface";
+import { UserId } from "./interfacaes/userApi.interface";
 import repsTestApi from "./testApi/repsTestApi";
 
 const repsApi: RepsApi = {
-  get_user_reps: async (user_id: string) => {
+  get_user_reps: async ({ user_id }: UserId) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.get_user_reps(user_id);
+      return repsTestApi.get_user_reps({ user_id });
     }
-    return repsTestApi.get_user_reps(user_id);
+    return repsTestApi.get_user_reps({ user_id });
   },
-  post_rep: async (user_id: string, rep: RepContent) => {
+  post_rep: async ({ user_id, rep }: PostRepParams) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.post_rep(user_id, rep);
+      return repsTestApi.post_rep({ user_id, rep });
     }
-    return repsTestApi.post_rep(user_id, rep);
+    return repsTestApi.post_rep({ user_id, rep });
   },
-  update_rep: async (user_id: string, rep_id: number, rep: RepContent) => {
+  update_rep: async ({ user_id, rep_id, rep }: UpdateRepParams) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.update_rep(user_id, rep_id, rep);
+      return repsTestApi.update_rep({ user_id, rep_id, rep });
     }
-    return repsTestApi.update_rep(user_id, rep_id, rep);
+    return repsTestApi.update_rep({ user_id, rep_id, rep });
   },
-  delete_rep: async (user_id: string, rep_id: number) => {
+  delete_rep: async ({ user_id, rep_id }: DeleteRepParams) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.delete_rep(user_id, rep_id);
+      return repsTestApi.delete_rep({ user_id, rep_id });
     }
-    return repsTestApi.delete_rep(user_id, rep_id);
+    return repsTestApi.delete_rep({ user_id, rep_id });
   },
 };
 

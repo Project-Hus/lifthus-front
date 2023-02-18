@@ -1,33 +1,41 @@
-import { RepContent, RepsApi } from "../interfacaes/repsApi.interface";
+import {
+  DeleteRepParams,
+  PostRepParams,
+  RepContent,
+  RepsApi,
+  UpdateRepParams,
+} from "../interfacaes/repsApi.interface";
+import { UserId } from "../interfacaes/userApi.interface";
 import rep_list from "../mocks/repsTestApi.mocks";
 import userTestApi from "./userTestApi";
 
 const repsTestApi: RepsApi = {
-  get_user_reps: async (user_id: string): Promise<RepContent[]> => {
+  get_user_reps: async ({ user_id }: UserId): Promise<RepContent[]> => {
     const list = [];
-    for (const k in rep_list) {
+    for (const _k in rep_list) {
+      const k = Number(_k);
       if (rep_list[k].user_id === user_id) {
         const next_rep = Object.assign(rep_list[k]);
         next_rep["username"] = await (
-          await userTestApi.get_user_info(user_id)
+          await userTestApi.get_user_info({ user_id })
         ).username;
         list.push(next_rep);
       }
     }
     return list;
   },
-  post_rep: async (user_id: string, rep: RepContent): Promise<boolean> => {
-    return true;
+  post_rep: async ({ user_id, rep }: PostRepParams): Promise<UserId> => {
+    return { user_id };
   },
-  update_rep: async (
-    user_id: string,
-    rep_id: number,
-    rep: RepContent
-  ): Promise<boolean> => {
-    return true;
+  update_rep: async ({
+    user_id,
+    rep_id,
+    rep,
+  }: UpdateRepParams): Promise<UserId> => {
+    return { user_id };
   },
-  delete_rep: async (user_id: string, rep_id: number): Promise<boolean> => {
-    return true;
+  delete_rep: async ({ user_id, rep_id }: DeleteRepParams): Promise<UserId> => {
+    return { user_id };
   },
 };
 

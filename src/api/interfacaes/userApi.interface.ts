@@ -1,14 +1,23 @@
 import { RegisterParams } from "./registerApi.interface";
 
 export interface UserApi {
-  set_user_info: (
-    user_id: string,
-    new_user_info: RegisterParams | UserProfile
-  ) => Promise<boolean>;
-  get_user_info: (id: string) => Promise<UserProfile>;
-  get_id_by_name: (name: string) => Promise<{ user_id: string; ok: boolean }>;
+  set_user_info: ({
+    user_id,
+    new_user_info,
+  }: SetUserInfoParams) => Promise<UserId>;
+  get_user_info: ({ user_id }: UserId) => Promise<UserProfile>;
+  get_id_by_name: ({ username }: Username) => Promise<UserId>;
 }
-
+export interface SetUserInfoParams {
+  user_id: string;
+  new_user_info: RegisterParams | UserProfile;
+}
+export interface UserId {
+  user_id: string;
+}
+export interface Username {
+  username: string;
+}
 export interface UserProfile {
   user_id?: string;
   registered?: boolean;
