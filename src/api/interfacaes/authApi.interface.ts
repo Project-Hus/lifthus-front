@@ -11,6 +11,11 @@ export interface SignInReturns {
   user_id: string;
 }
 
+/** SignUpReturns
+ * @type
+ * user_id: string @
+ * asdf
+ */
 export interface SignUpReturns {
   user_id: string;
 }

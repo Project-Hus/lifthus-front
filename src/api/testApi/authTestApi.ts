@@ -20,7 +20,7 @@ const authTestApi: AuthApi = {
       signInReturns.user_id = id;
     } else if (!(id in user_list)) {
       return new Promise<SignInReturns>((resolve, reject) =>
-        reject("duplicate id")
+        reject("no_existing_id")
       );
     }
     return signInReturns;
@@ -30,13 +30,10 @@ const authTestApi: AuthApi = {
     id,
     password,
   }: SignParams): Promise<SignUpReturns> => {
-    const signUpReturns: SignUpReturns = {
-      fid: false,
-      ok: false,
-    };
-    if (id in user_list) signUpReturns.fid = true;
+    const signUpReturns: SignUpReturns = { user_id: id };
+    if (id in user_list)
+      return new Promise<SignUpReturns>((_, reject) => reject("existing_id"));
     else {
-      signUpReturns.ok = true;
       userTestApi.set_user_info(id, {
         user_id: id,
         registered: false,
