@@ -1,6 +1,6 @@
 export interface AuthApi {
-  sign_in_local: ({}: SignParams) => SignInReturns;
-  sign_up_local: ({}: SignParams) => SignUpReturns;
+  sign_in_local: ({}: SignParams) => Promise<SignInReturns>;
+  sign_up_local: ({}: SignParams) => Promise<SignUpReturns>;
 }
 export interface SignParams {
   id: string;

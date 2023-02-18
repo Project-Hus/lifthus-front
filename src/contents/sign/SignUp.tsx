@@ -42,21 +42,21 @@ const SignUp = () => {
     isError,
   } = useMutation({
     mutationFn: ({ id, password }: { id: string; password: string }) => {
-      authApi.sign_up_local({
+      return authApi.sign_up_local({
         id,
         password,
       });
-      const abc = new Promise<string>(() => 1);
-      return abc;
     },
   });
 
   const onSubmit: SubmitHandler<IFormInputValues> = (data) => {
     mutate({ id: getValues("id"), password: getValues("password") });
-    if (isSuccess) navigate("/sign/in", { state: { from: pathname } });
+    if (isSuccess) {
+      if (signUpResp.fid) navigate("/sign/in", { state: { from: pathname } });
+    }
     // if the user arrives right after signing up, there will be a welcome message.
     else {
-      if (signUpResp.fid === true) setFid(true);
+      if (signUpResp && signUpResp.fid === true) setFid(true);
       setFailed(true);
     }
   };
