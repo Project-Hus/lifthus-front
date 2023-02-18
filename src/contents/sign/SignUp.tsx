@@ -13,6 +13,8 @@ import authApi from "../../api/authApi";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import { SignParams } from "../../api/interfacaes/authApi.interface";
+import { UserId } from "../../api/interfacaes/userApi.interface";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -40,23 +42,25 @@ const SignUp = () => {
     isLoading,
     isSuccess,
     isError,
+    error,
   } = useMutation({
-    mutationFn: ({ id, password }: { id: string; password: string }) => {
+    mutationFn: ({ user_id, password }: SignParams) => {
       return authApi.sign_up_local({
-        id,
+        user_id,
         password,
       });
     },
   });
 
+  const err = error as Error;
   const onSubmit: SubmitHandler<IFormInputValues> = (data) => {
-    mutate({ id: getValues("id"), password: getValues("password") });
+    mutate({ user_id: getValues("id"), password: getValues("password") });
     if (isSuccess) {
-      if (signUpResp.fid) navigate("/sign/in", { state: { from: pathname } });
+      // if the user arrives right after signing up, there will be a welcome message.
+      navigate("/sign/in", { state: { from: pathname } });
     }
-    // if the user arrives right after signing up, there will be a welcome message.
-    else {
-      if (signUpResp && signUpResp.fid === true) setFid(true);
+    if (isError) {
+      if (err.message === "existing_id") setFid(true);
       setFailed(true);
     }
   };
