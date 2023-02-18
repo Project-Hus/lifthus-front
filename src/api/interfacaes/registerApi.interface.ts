@@ -1,5 +1,3 @@
-import { register_info } from "../../store/interfaces/register.interface";
-
 export interface RegisterApi {
   register_username: ({
     id,
