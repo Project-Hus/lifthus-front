@@ -22,15 +22,17 @@ const registerTestApi: RegisterApi = {
     }
     if (name_flag) {
       userTestApi.set_user_info(id, { username: username });
-      return { ok: true };
+      return { username };
     }
-    return { ok: false };
+    return new Promise<RegisterUsernameReturns>((_, reject) =>
+      reject("existing_username")
+    );
   },
 
   register: async (register_info: RegisterParams): Promise<RegisterReturns> => {
     const new_info = { registered: true, ...register_info };
     userTestApi.set_user_info(register_info.user_id, new_info);
-    return { ok: true };
+    return { user_id: register_info.user_id };
   },
 };
 export default registerTestApi;
