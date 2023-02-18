@@ -11,12 +11,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BlueLink from "../../common/components/links/BlueLink";
 import authApi from "../../api/authApi";
 
-import {
-  SubmitHandler,
-  useForm,
-  UseFormRegister,
-  ValidationRule,
-} from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -33,19 +29,34 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<IFormInputValues>({ shouldUseNativeValidation: true });
 
-  /* local states */
+  /* component states */
   const [failed, setFailed] = useState(false);
   const [fid, setFid] = useState(false);
 
+  /* api */
+  const {
+    mutate,
+    data: signUpResp,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useMutation({
+    mutationFn: ({ id, password }: { id: string; password: string }) => {
+      authApi.sign_up_local({
+        id,
+        password,
+      });
+      const abc = new Promise<string>(() => 1);
+      return abc;
+    },
+  });
+
   const onSubmit: SubmitHandler<IFormInputValues> = (data) => {
-    const res = authApi.sign_up_local({
-      id: getValues("id"),
-      password: getValues("password"),
-    });
-    if (res.ok === true) navigate("/sign/in", { state: { from: pathname } });
+    mutate({ id: getValues("id"), password: getValues("password") });
+    if (isSuccess) navigate("/sign/in", { state: { from: pathname } });
     // if the user arrives right after signing up, there will be a welcome message.
     else {
-      if (res.fid === true) setFid(true);
+      if (signUpResp.fid === true) setFid(true);
       setFailed(true);
     }
   };
