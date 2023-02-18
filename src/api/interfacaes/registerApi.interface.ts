@@ -1,16 +1,22 @@
+import { UserId } from "./userApi.interface";
+
 export interface RegisterApi {
   register_username: ({
-    id,
+    user_id,
     username,
-  }: RegisterUsernameParams) => Promise<RegisterUsernameReturns>;
-  register: (register_info: RegisterParams) => Promise<RegisterReturns>;
+  }: RegisterUsernameParams) => Promise<UserId>;
+  register: ({
+    user_id,
+    training_type,
+    body_weight,
+    height,
+    squat,
+    benchpress,
+    deadlift,
+  }: RegisterParams) => Promise<UserId>;
 }
 export interface RegisterUsernameParams {
-  id: string;
-  username: string;
-}
-
-export interface RegisterUsernameReturns {
+  user_id: string;
   username: string;
 }
 
@@ -22,7 +28,4 @@ export interface RegisterParams {
   squat: number;
   benchpress: number;
   deadlift: number;
-}
-export interface RegisterReturns {
-  user_id: string;
 }

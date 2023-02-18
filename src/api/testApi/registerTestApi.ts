@@ -1,18 +1,17 @@
 import {
   RegisterApi,
   RegisterUsernameParams,
-  RegisterUsernameReturns,
   RegisterParams,
-  RegisterReturns,
 } from "../interfacaes/registerApi.interface";
+import { UserId } from "../interfacaes/userApi.interface";
 import user_list from "../mocks/userTestApi.mocks";
 import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
   register_username: async ({
-    id,
+    user_id,
     username,
-  }: RegisterUsernameParams): Promise<RegisterUsernameReturns> => {
+  }: RegisterUsernameParams): Promise<UserId> => {
     let name_flag = true;
     for (const key in user_list) {
       if (user_list[key]["username"] === username) {
@@ -21,17 +20,18 @@ const registerTestApi: RegisterApi = {
       }
     }
     if (name_flag) {
-      userTestApi.set_user_info(id, { username: username });
-      return { username };
+      userTestApi.set_user_info({ user_id, new_user_info: { username } });
+      return { user_id };
     }
-    return new Promise<RegisterUsernameReturns>((_, reject) =>
-      reject("existing_username")
-    );
+    return new Promise<UserId>((_, reject) => reject("existing_username"));
   },
 
-  register: async (register_info: RegisterParams): Promise<RegisterReturns> => {
-    const new_info = { registered: true, ...register_info };
-    userTestApi.set_user_info(register_info.user_id, new_info);
+  register: async (register_info: RegisterParams): Promise<UserId> => {
+    const new_user_info = { registered: true, ...register_info };
+    userTestApi.set_user_info({
+      user_id: register_info.user_id,
+      new_user_info,
+    });
     return { user_id: register_info.user_id };
   },
 };

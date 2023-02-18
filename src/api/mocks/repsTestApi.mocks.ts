@@ -10,8 +10,8 @@ import { RepContent } from "../interfacaes/repsApi.interface";
   text: string;
 */
 
-const rep_list: RepContent[] = [
-  {
+const rep_list: { [key: number]: RepContent } = {
+  1: {
     rep_id: 1,
     created_at: new Date("2023-01-03"),
     updated_at: new Date("2023-01-03"),
@@ -21,13 +21,13 @@ const rep_list: RepContent[] = [
     ],
     text: "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
   },
-  {
+  2: {
     rep_id: 2,
     created_at: new Date("2023-01-05"),
     updated_at: new Date("2023-01-05"),
     user_id: "succregi",
     text: "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
   },
-];
+};
 
 export default rep_list;
