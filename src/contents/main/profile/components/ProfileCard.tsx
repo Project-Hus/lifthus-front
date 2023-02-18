@@ -12,13 +12,14 @@ import { Button } from "@chakra-ui/react";
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { UserId } from "../../../../api/interfacaes/userApi.interface";
 import userApi from "../../../../api/userApi";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import ProfileTab from "./ProfileTab";
 
-const ProfileCard = ({ user_id }: { user_id: string }) => {
-  const username = userApi.get_user_info(user_id).username;
+const ProfileCard = ({ user_id }: UserId) => {
+  const username = userApi.get_user_info({ user_id }).username;
   return (
     <>
       <Card
