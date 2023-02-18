@@ -17,68 +17,67 @@ import { Spinner } from "@chakra-ui/react";
 const Profile = () => {
   const username = useParams().username;
 
-  if (username) {
-    const [reps, setReps] = useState<RepContent[]>([]);
+  const [reps, setReps] = useState<RepContent[]>([]);
 
-    const { data: user_id_obj, isSuccess } = useQuery({
-      queryKey: ["user_id", username],
-      queryFn: () => userApi.get_id_by_name({ username }),
-    });
-    const user_id = user_id_obj?.user_id;
+  const { data: user_id_obj, isSuccess } = useQuery({
+    queryKey: ["user_id", username],
+    queryFn: () =>
+      typeof username === "undefined"
+        ? Promise.reject(new Error("undefined_username"))
+        : userApi.get_id_by_name({ username }),
+  });
+  const user_id = user_id_obj?.user_id;
 
-    const { data } = useQuery({
-      queryKey: ["reps", user_id],
-      queryFn: () =>
-        typeof user_id === "undefined"
-          ? Promise.reject(new Error("undefined_id"))
-          : repsApi.get_user_reps({ user_id }),
-      enabled: !!user_id,
-    });
+  const { data } = useQuery({
+    queryKey: ["reps", user_id],
+    queryFn: () =>
+      typeof user_id === "undefined"
+        ? Promise.reject(new Error("undefined_id"))
+        : repsApi.get_user_reps({ user_id }),
+    enabled: !!user_id,
+  });
 
-    if (!!user_id)
-      return (
-        <BasicPageLayout>
-          <QueryErrorResetBoundary>
-            {({ reset }) => (
-              <ErrorBoundary
-                fallbackRender={({ error, resetErrorBoundary }) => (
-                  <ErrorPage />
-                )}
-                onReset={reset}
+  if (!!user_id)
+    return (
+      <BasicPageLayout>
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary
+              fallbackRender={({ error, resetErrorBoundary }) => <ErrorPage />}
+              onReset={reset}
+            >
+              <Suspense
+                fallback={
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                }
               >
-                <Suspense
-                  fallback={
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="xl"
-                    />
-                  }
-                >
-                  <ProfileCard user_id={user_id} />
-                </Suspense>
-                <Suspense
-                  fallback={
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="xl"
-                    />
-                  }
-                >
-                  <Reps reps={reps} />
-                </Suspense>
-              </ErrorBoundary>
-            )}
-          </QueryErrorResetBoundary>
-        </BasicPageLayout>
-      );
-  }
-  return <Navigate to="/erorr" />;
+                <ProfileCard user_id={user_id} />
+              </Suspense>
+              <Suspense
+                fallback={
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                }
+              >
+                <Reps reps={reps} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
+      </BasicPageLayout>
+    );
+  return <ErrorPage />;
 };
 
 export default Profile;
