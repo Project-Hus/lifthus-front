@@ -1,26 +1,30 @@
-import { UserApi, UserProfile } from "./interfacaes/userApi.interface";
+import {
+  SetUserInfoParams,
+  UserApi,
+  UserId,
+  Username,
+  UserProfile,
+} from "./interfacaes/userApi.interface";
 import userTestApi from "./testApi/userTestApi";
 
 const userApi: UserApi = {
-  set_user_info: async (id, new_info) => {
+  set_user_info: async ({ user_id, new_user_info }: SetUserInfoParams) => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.set_user_info(id, new_info);
+      return userTestApi.set_user_info({ user_id, new_user_info });
     }
-    return userTestApi.set_user_info(id, new_info);
+    return userTestApi.set_user_info({ user_id, new_user_info });
   },
-  get_user_info: async (id: string): Promise<UserProfile> => {
+  get_user_info: async ({ user_id }: UserId): Promise<UserProfile> => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.get_user_info(id);
+      return userTestApi.get_user_info({ user_id });
     }
-    return userTestApi.get_user_info(id);
+    return userTestApi.get_user_info({ user_id });
   },
-  get_id_by_name: async (
-    name: string
-  ): Promise<{ user_id: string; ok: boolean }> => {
+  get_id_by_name: async ({ username }: Username): Promise<UserId> => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.get_id_by_name(name);
+      return userTestApi.get_id_by_name({ username });
     }
-    return userTestApi.get_id_by_name(name);
+    return userTestApi.get_id_by_name({ username });
   },
 };
 
