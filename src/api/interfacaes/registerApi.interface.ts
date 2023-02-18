@@ -11,7 +11,7 @@ export interface RegisterUsernameParams {
 }
 
 export interface RegisterUsernameReturns {
-  ok: boolean;
+  username: string;
 }
 
 export interface RegisterParams {
@@ -24,5 +24,5 @@ export interface RegisterParams {
   deadlift: number;
 }
 export interface RegisterReturns {
-  ok: boolean;
+  user_id: string;
 }

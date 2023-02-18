@@ -1,4 +1,3 @@
-import authApi from "../authApi";
 import {
   AuthApi,
   SignInReturns,
@@ -16,14 +15,13 @@ const authTestApi: AuthApi = {
   }: SignParams): Promise<SignInReturns> => {
     const signInReturns: SignInReturns = {
       user_id: "",
-      fid: false,
-      ok: false,
     };
     if (id in user_list && password === "1234") {
       signInReturns.user_id = id;
-      signInReturns.ok = true;
     } else if (!(id in user_list)) {
-      signInReturns.fid = true;
+      return new Promise<SignInReturns>((resolve, reject) =>
+        reject("duplicate id")
+      );
     }
     return signInReturns;
   },
