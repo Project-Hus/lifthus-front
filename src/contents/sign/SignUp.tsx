@@ -14,7 +14,6 @@ import authApi from "../../api/authApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { SignParams } from "../../api/interfacaes/authApi.interface";
-import { UserId } from "../../api/interfacaes/userApi.interface";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -60,8 +59,8 @@ const SignUp = () => {
       navigate("/sign/in", { state: { from: pathname } });
     }
     if (isError) {
-      if (err.message === "existing_id") setFid(true);
-      setFailed(true);
+      if (err.toString() === "existing_id") setFid(true);
+      else setFailed(true);
     }
   };
   return (
