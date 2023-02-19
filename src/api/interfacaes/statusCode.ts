@@ -22,5 +22,9 @@ export const StatusInfo = {
       code: 409,
       message: "Conflict",
     },
+    InternalServerError: {
+      code: 500,
+      message: "Internal Server Error",
+    },
   },
 };

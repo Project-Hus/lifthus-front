@@ -14,6 +14,9 @@ import authApi from "../../api/authApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { SignParams } from "../../api/interfacaes/authApi.interface";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import { StatusInfo } from "../../api/interfacaes/statusCode";
+import SubmitLink from "../../common/components/links/SubmitLink";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -22,27 +25,15 @@ const SignUp = () => {
   const { pathname } = useLocation();
 
   /* hook-form */
-  const {
-    register,
-    handleSubmit,
-    watch,
-    getValues,
-    formState: { errors },
-  } = useForm<IFormInputValues>({ shouldUseNativeValidation: true });
+  const { register, handleSubmit, watch, getValues } =
+    useForm<IFormInputValues>({ shouldUseNativeValidation: true });
 
   /* component states */
   const [failed, setFailed] = useState(false);
   const [fid, setFid] = useState(false);
 
   /* api */
-  const {
-    mutate,
-    data: signUpResp,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate, isLoading, isSuccess, isError, error } = useMutation({
     mutationFn: ({ user_id, password }: SignParams) => {
       return authApi.sign_up_local({
         user_id,
@@ -50,19 +41,21 @@ const SignUp = () => {
       });
     },
   });
-
   const err = error as Error;
-  const onSubmit: SubmitHandler<IFormInputValues> = (data) => {
+
+  // onSubmit
+  const onSubmit: SubmitHandler<IFormInputValues> = () => {
     mutate({ user_id: getValues("id"), password: getValues("password") });
     if (isSuccess) {
       // if the user arrives right after signing up, there will be a welcome message.
       navigate("/sign/in", { state: { from: pathname } });
     }
     if (isError) {
-      if (err.toString() === "existing_id") setFid(true);
+      if (err.toString() === StatusInfo.fail.Conflict.message) setFid(true);
       else setFailed(true);
     }
   };
+
   return (
     <>
       <Logo to="/sign" />
@@ -124,11 +117,14 @@ const SignUp = () => {
         <div>&nbsp;</div>
         {(watch("id") || "").length >= password_limit.min &&
           (watch("check") || "") === (watch("password") || "") &&
-          (watch("password") || "").length >= password_limit.min && (
-            <BlueLink onClick={handleSubmit(onSubmit)}>
+          (watch("password") || "").length >= password_limit.min &&
+          (isLoading ? (
+            <BlueSpinner />
+          ) : (
+            <SubmitLink onSubmit={handleSubmit(onSubmit)}>
               {t("sign.SignUp")}
-            </BlueLink>
-          )}
+            </SubmitLink>
+          ))}
         {failed && !fid && (
           <div style={{ fontSize: "0.7em" }}>{t("sign.signUp_error")}</div>
         )}

@@ -17,26 +17,32 @@ const authTestApi: AuthApi = {
   },
 
   sign_up_local: async ({ user_id, password }: SignParams): Promise<UserId> => {
-    const signUpReturns: UserId = { user_id };
-    if (user_id in user_list)
-      return Promise.reject(StatusInfo.fail.Conflict.message);
-    else {
-      userTestApi.set_user_info({
-        user_id,
-        new_user_info: {
-          user_id,
-          registered: false,
-          username: "",
-          training_type: "",
-          body_weight: NaN,
-          height: NaN,
-          squat: NaN,
-          benchpress: NaN,
-          deadlift: NaN,
-        },
-      });
-    }
-    return signUpReturns;
+    return await new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        const signUpReturns: UserId = { user_id };
+        if (user_id in user_list)
+          return reject(StatusInfo.fail.Conflict.message);
+        else if (user_id === "fail")
+          return reject(StatusInfo.fail.InternalServerError.message);
+        else {
+          await userTestApi.set_user_info({
+            user_id,
+            new_user_info: {
+              user_id,
+              registered: false,
+              username: "",
+              training_type: "",
+              body_weight: NaN,
+              height: NaN,
+              squat: NaN,
+              benchpress: NaN,
+              deadlift: NaN,
+            },
+          });
+        }
+        return resolve(signUpReturns);
+      }, 500);
+    });
   },
 };
 export default authTestApi;
