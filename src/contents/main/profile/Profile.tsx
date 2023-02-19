@@ -14,6 +14,7 @@ import { UserId } from "../../../api/interfacaes/userApi.interface";
 import ErrorPage from "../../../common/components/ErrorPage";
 import { Spinner } from "@chakra-ui/react";
 import { StatusInfo } from "../../../api/interfacaes/statusCode";
+import BlueSpinner from "../../../common/components/spinners/BlueSpinner";
 
 const Profile = () => {
   const username = useParams().username;
@@ -47,30 +48,10 @@ const Profile = () => {
               fallbackRender={({ error, resetErrorBoundary }) => <ErrorPage />}
               onReset={reset}
             >
-              <Suspense
-                fallback={
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="xl"
-                  />
-                }
-              >
+              <Suspense fallback={<BlueSpinner />}>
                 <ProfileCard user_id={user_id} />
               </Suspense>
-              <Suspense
-                fallback={
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="xl"
-                  />
-                }
-              >
+              <Suspense fallback={<BlueSpinner />}>
                 <Reps reps={reps} />
               </Suspense>
             </ErrorBoundary>
