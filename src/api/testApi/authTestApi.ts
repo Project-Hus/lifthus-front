@@ -12,7 +12,7 @@ const authTestApi: AuthApi = {
     if (user_id in user_list && password === "1234") {
       signInReturns.user_id = user_id;
     } else if (!(user_id in user_list)) {
-      return new Promise<UserId>((resolve, reject) => reject("no_existing_id"));
+      return Promise.reject("no_existing_id");
     }
     return signInReturns;
   },

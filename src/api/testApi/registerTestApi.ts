@@ -23,7 +23,7 @@ const registerTestApi: RegisterApi = {
       userTestApi.set_user_info({ user_id, new_user_info: { username } });
       return { user_id };
     }
-    return new Promise<UserId>((_, reject) => reject("existing_username"));
+    return Promise.reject("existing_username");
   },
 
   register: async (register_info: RegisterParams): Promise<UserId> => {
