@@ -25,23 +25,22 @@ const SignIn = () => {
   const set_user_info = useUserStore((state) => state.set_user_info);
 
   /* hook-form */
-  const { register, handleSubmit, watch, getValues } = useForm<
-    IFormInputValues
-  >({
-    shouldUseNativeValidation: true,
-  });
-  const onSubmit = () => {
-    const res = authApi.sign_in_local({
-      id: getValues("id"),
+  const { register, handleSubmit, watch, getValues } =
+    useForm<IFormInputValues>({
+      shouldUseNativeValidation: true,
+    });
+  const onSubmit = async () => {
+    const res = await authApi.sign_in_local({
+      user_id: getValues("id"),
       password: getValues("password"),
     });
-    if (res.ok === true) {
-      const user_info = userApi.get_user_info(res.user_id);
+    if (res) {
+      const user_info = await userApi.get_user_info(res);
       set_user_info(user_info);
       if (user_info.registered) navigate("/");
       else navigate("/register");
     } else {
-      if (res.fid === true) setFid(true);
+      if ("fid" && true) setFid(true);
       setFailed(true);
     }
   };

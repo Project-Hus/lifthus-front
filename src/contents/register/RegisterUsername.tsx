@@ -61,14 +61,15 @@ const RegisterUsername = () => {
       <p></p>
       {(watch("username") || "").length >= username_limit.min && (
         <BlueLink
-          onClick={(e) => {
-            const { ok } = registerApi.register_username({
-              id: user_id,
+          onClick={async (e) => {
+            const { user_id: usid } = await registerApi.register_username({
+              user_id: user_id,
               username: getValues("username"),
             });
-            if (ok) {
+            if (user_id === usid) {
               set_register_info({ register_username: getValues("username") });
-              set_user_info(userApi.get_user_info(user_id));
+              const user_info = await userApi.get_user_info({ user_id });
+              set_user_info(user_info);
               navigate("/register/type");
             } else {
               setFailed(true);
