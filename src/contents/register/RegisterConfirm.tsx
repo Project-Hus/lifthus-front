@@ -47,9 +47,9 @@ const RegisterConfirm = () => {
       <BlueButton
         onClick={async (e) => {
           const ok = await registerApi.register(register_info);
-          await set_user_info(await userApi.get_user_info(user_id));
+          await set_user_info(await userApi.get_user_info({ user_id }));
           if (ok) {
-            await set_user_info(await userApi.get_user_info(user_id));
+            await set_user_info(await userApi.get_user_info({ user_id }));
             navigate("/");
           }
         }}
