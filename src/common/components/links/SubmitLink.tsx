@@ -21,15 +21,10 @@ const SubmitStyled = styled.button`
 
 interface Props {
   children: string;
-  onSubmit: FormEventHandler<HTMLButtonElement>;
 }
 
-const SubmitLink = ({ children, onSubmit }: Props) => {
-  return (
-    <SubmitStyled type="submit" onSubmit={onSubmit}>
-      {children}
-    </SubmitStyled>
-  );
+const SubmitLink = ({ children }: Props) => {
+  return <SubmitStyled type="submit">{children}</SubmitStyled>;
 };
 
 export default SubmitLink;
