@@ -13,6 +13,7 @@ import FormInput, {
 
 import SubmitLink from "../../common/components/links/SubmitLink";
 import Logo from "../../common/components/Logo";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import { password_limit } from "../../common/constraints";
 import useUserStore from "../../store/user.zustand";
 
@@ -113,7 +114,11 @@ const SignIn = () => {
           })}
         />
         <div>&nbsp;</div>
-        <SubmitLink>{t("sign.SignIn")}</SubmitLink>
+        {isLoading || isLoading2 ? (
+          <BlueSpinner />
+        ) : (
+          <SubmitLink>{t("sign.SignIn")}</SubmitLink>
+        )}
         {failed && !fid && (
           <div style={{ fontSize: "0.7em" }}>{t("sign.signIn_error")}</div>
         )}
