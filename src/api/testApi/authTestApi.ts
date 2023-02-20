@@ -6,18 +6,22 @@ import user_list from "../mocks/userTestApi.mocks";
 import userTestApi from "./userTestApi";
 
 const authTestApi: AuthApi = {
-  sign_in_local: async ({ user_id, password }: SignParams): Promise<UserId> => {
-    const signInReturns: UserId = {
-      user_id: user_id,
-    };
-    if (!(user_id in user_list))
-      return Promise.reject(statusInfo.fail.NotAcceptable);
-    else if (user_id in user_list && password === "1234") return signInReturns;
-    else return Promise.reject(statusInfo.fail.Unauthorized);
+  sign_in_local: ({ user_id, password }: SignParams): Promise<UserId> => {
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        const signInReturns: UserId = {
+          user_id: user_id,
+        };
+        if (!(user_id in user_list))
+          return reject(statusInfo.fail.NotAcceptable);
+        else if (user_id in user_list && password === "1234")
+          return resolve(signInReturns);
+        else return reject(statusInfo.fail.Unauthorized);
+      }, 500);
+    });
   },
-
-  sign_up_local: async ({ user_id, password }: SignParams): Promise<UserId> => {
-    return await new Promise((resolve, reject) => {
+  sign_up_local: ({ user_id, password }: SignParams): Promise<UserId> => {
+    return new Promise((resolve, reject) => {
       setTimeout(async () => {
         const signUpReturns: UserId = { user_id };
         if (user_id in user_list) return reject(statusInfo.fail.Conflict);
