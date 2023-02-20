@@ -1,29 +1,34 @@
-export const StatusInfo = {
+export interface StatusInfo {
+  status: 200 | 201 | 401 | 406 | 409 | 500;
+  message: string;
+}
+
+export const statusInfo = {
   succ: {
     Ok: {
-      code: 200,
+      status: 200,
       message: "Ok",
     },
     Created: {
-      code: 201,
+      status: 201,
       message: "Created",
     },
   },
   fail: {
     Unauthorized: {
-      code: 401,
+      status: 401,
       message: "Unauthorized",
     },
     NotAcceptable: {
-      code: 406,
+      status: 406,
       message: "Not Acceptable",
     },
     Conflict: {
-      code: 409,
+      status: 409,
       message: "Conflict",
     },
     InternalServerError: {
-      code: 500,
+      status: 500,
       message: "Internal Server Error",
     },
   },

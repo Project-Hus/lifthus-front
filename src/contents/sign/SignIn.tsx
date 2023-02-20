@@ -1,14 +1,17 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
+import { SignParams } from "../../api/interfacaes/authApi.interface";
+import { StatusInfo, statusInfo } from "../../api/interfacaes/statusCode";
 import userApi from "../../api/userApi";
 import FormInput, {
   IFormInputValues,
 } from "../../common/components/forms/FormInput";
 
-import BlueLink from "../../common/components/links/BlueLink";
+import SubmitLink from "../../common/components/links/SubmitLink";
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
 import useUserStore from "../../store/user.zustand";
@@ -29,20 +32,41 @@ const SignIn = () => {
     useForm<IFormInputValues>({
       shouldUseNativeValidation: true,
     });
-  const onSubmit = async () => {
-    const res = await authApi.sign_in_local({
-      user_id: getValues("id"),
-      password: getValues("password"),
-    });
-    if (res) {
-      const user_info = await userApi.get_user_info(res);
-      set_user_info(user_info);
-      if (user_info.registered) navigate("/");
-      else navigate("/register");
-    } else {
-      if ("fid" && true) setFid(true);
-      setFailed(true);
+
+  /* api */
+  const { mutate, isLoading, data } = useMutation(
+    ({ user_id, password }: SignParams) => {
+      return authApi.sign_in_local({
+        user_id,
+        password,
+      });
+    },
+    {
+      onError: async (err: StatusInfo) => {
+        if (err === statusInfo.fail.NotAcceptable) setFid(true);
+        else setFailed(true);
+      },
     }
+  );
+
+  const user_id = data?.user_id;
+  const { isLoading: isLoading2 } = useQuery({
+    queryKey: ["reps", user_id],
+    queryFn: async () =>
+      typeof user_id === "undefined"
+        ? Promise.reject(new Error("undefined"))
+        : await userApi.get_user_info({ user_id }),
+    onSuccess: async (data) => {
+      await set_user_info(data);
+      if (data.registered) navigate("/");
+      else navigate("/register");
+    },
+    enabled: !!user_id,
+  });
+
+  // onSubmit
+  const onSubmit: SubmitHandler<IFormInputValues> = () => {
+    mutate({ user_id: getValues("id"), password: getValues("password") });
   };
   return (
     <>
@@ -89,7 +113,7 @@ const SignIn = () => {
           })}
         />
         <div>&nbsp;</div>
-        <BlueLink onClick={handleSubmit(onSubmit)}>{t("sign.SignIn")}</BlueLink>
+        <SubmitLink>{t("sign.SignIn")}</SubmitLink>
         {failed && !fid && (
           <div style={{ fontSize: "0.7em" }}>{t("sign.signIn_error")}</div>
         )}

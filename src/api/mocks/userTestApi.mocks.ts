@@ -1,4 +1,3 @@
-import { UserProfile } from "../interfacaes/userApi.interface";
 /* Mock server */
 
 interface UserProfileDB {

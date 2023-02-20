@@ -8,14 +8,13 @@ import FormInput, {
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
 import { useLocation, useNavigate } from "react-router-dom";
-import BlueLink from "../../common/components/links/BlueLink";
 import authApi from "../../api/authApi";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { SignParams } from "../../api/interfacaes/authApi.interface";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
-import { StatusInfo } from "../../api/interfacaes/statusCode";
+import { StatusInfo, statusInfo } from "../../api/interfacaes/statusCode";
 import SubmitLink from "../../common/components/links/SubmitLink";
 
 const SignUp = () => {
@@ -44,8 +43,8 @@ const SignUp = () => {
       onSuccess: () => {
         navigate("/sign/in", { state: { from: pathname } });
       },
-      onError: (err: Error) => {
-        if (err.toString() === StatusInfo.fail.Conflict.message) setFid(true);
+      onError: (err: StatusInfo) => {
+        if (err === statusInfo.fail.Conflict) setFid(true);
         else setFailed(true);
       },
     }

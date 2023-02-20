@@ -3,7 +3,7 @@ import {
   RegisterUsernameParams,
   RegisterParams,
 } from "../interfacaes/registerApi.interface";
-import { StatusInfo } from "../interfacaes/statusCode";
+import { statusInfo } from "../interfacaes/statusCode";
 import { UserId } from "../interfacaes/userApi.interface";
 import user_list from "../mocks/userTestApi.mocks";
 import userTestApi from "./userTestApi";
@@ -24,7 +24,7 @@ const registerTestApi: RegisterApi = {
       userTestApi.set_user_info({ user_id, new_user_info: { username } });
       return { user_id };
     }
-    return Promise.reject(StatusInfo.fail.Conflict.message);
+    return Promise.reject(statusInfo.fail.Conflict);
   },
 
   register: async (register_info: RegisterParams): Promise<UserId> => {
