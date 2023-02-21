@@ -51,12 +51,13 @@ const SignIn = () => {
   );
 
   const user_id = data?.user_id;
-  const { isLoading: isLoading2 } = useQuery({
+  // with enabled false, isLoading2 becomes always true. so additional comparation with fetchStatus is needed.
+  const { isLoading: isLoading2, fetchStatus } = useQuery({
     queryKey: ["reps", user_id],
     queryFn: async () =>
       typeof user_id === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : await userApi.get_user_info({ user_id }),
+        : userApi.get_user_info({ user_id }),
     onSuccess: async (data) => {
       await set_user_info(data);
       if (data.registered) navigate("/");
@@ -114,8 +115,10 @@ const SignIn = () => {
           })}
         />
         <div>&nbsp;</div>
-        {isLoading || isLoading2 ? (
-          <BlueSpinner />
+        {isLoading || (isLoading2 && fetchStatus == "fetching") ? (
+          <>
+            <BlueSpinner />
+          </>
         ) : (
           <SubmitLink>{t("sign.SignIn")}</SubmitLink>
         )}
