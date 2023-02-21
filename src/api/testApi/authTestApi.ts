@@ -12,9 +12,11 @@ const authTestApi: AuthApi = {
         const signInReturns: UserId = {
           user_id: user_id,
         };
-        if (!(user_id in user_list))
+        if (!(user_id in user_list)) {
+          if (user_id === "fail")
+            return reject(statusInfo.fail.InternalServerError);
           return reject(statusInfo.fail.NotAcceptable);
-        else if (user_id in user_list && password === "1234")
+        } else if (user_id in user_list && password === "1234")
           return resolve(signInReturns);
         else return reject(statusInfo.fail.Unauthorized);
       }, 500);
