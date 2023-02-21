@@ -7,6 +7,9 @@ import userApi from "../../api/userApi";
 import BlueButton from "../../common/components/buttons/BlueButton";
 import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { RegisterParams } from "../../api/interfacaes/registerApi.interface";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const RegisterConfirm = () => {
   const { user_id, set_user_info } = useUserStore((state) => ({
@@ -28,6 +31,25 @@ const RegisterConfirm = () => {
 
   const navigate = useNavigate();
 
+  const { mutate, isLoading, data } = useMutation(
+    async (register_info: RegisterParams) => registerApi.register(register_info)
+  );
+
+  const user_id_m = data?.user_id;
+  const { isLoading: isLoading2, fetchStatus } = useQuery({
+    queryKey: ["user_info", user_id_m],
+    queryFn: () => userApi.get_user_info({ user_id }),
+    onSuccess: (data) => {
+      set_user_info(data);
+      navigate("/");
+    },
+    enabled: !!user_id_m,
+  });
+
+  const onClick = () => {
+    mutate(register_info);
+  };
+
   const total =
     register_info.squat * 1 +
     register_info.benchpress * 1 +
@@ -44,18 +66,11 @@ const RegisterConfirm = () => {
           }}
         />
       }
-      <BlueButton
-        onClick={async (e) => {
-          const ok = await registerApi.register(register_info);
-          await set_user_info(await userApi.get_user_info({ user_id }));
-          if (ok) {
-            await set_user_info(await userApi.get_user_info({ user_id }));
-            navigate("/");
-          }
-        }}
-      >
-        {t("WORK OUT")}
-      </BlueButton>
+      {isLoading || (isLoading2 && fetchStatus == "fetching") ? (
+        <BlueSpinner />
+      ) : (
+        <BlueButton onClick={onClick}>{t("WORK OUT")}</BlueButton>
+      )}
     </>
   );
 };
