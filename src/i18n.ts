@@ -34,6 +34,7 @@ const resources = {
         usernameAsking_message:
           "What <strong>username</strong> would you like to use?",
         existingUsername_error: "This username is already existing 😮",
+        username_error: "Failed to set username.",
         //type
         typeAsking_message: "What kind of training do you usually do?",
         strength_message: "I'd like to have more strength.",
@@ -99,6 +100,7 @@ const resources = {
         // username
         usernameAsking_message: "어떤 <strong>이름</strong>을 사용하시겠어요?",
         existingUsername_error: "이름이 이미 존재해요 ㅠ",
+        username_error: "닉네임 등록에 실패했어요.",
         // type
         typeAsking_message: "어떤 훈련을 주로 하세요?",
         Strength: "스트렝스",

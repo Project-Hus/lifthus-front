@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -9,12 +9,17 @@ import userApi from "../../api/userApi";
 import FormInput, {
   IFormInputValues,
 } from "../../common/components/forms/FormInput";
-import BlueLink from "../../common/components/links/BlueLink";
+
 import Logo from "../../common/components/Logo";
 import { username_limit } from "../../common/constraints";
 
 import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
+import { useMutation } from "@tanstack/react-query";
+import { RegisterUsernameParams } from "../../api/interfacaes/registerApi.interface";
+import SubmitLink from "../../common/components/links/SubmitLink";
+import { statusInfo, StatusInfo } from "../../api/interfacaes/statusCode";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const RegisterUsername = () => {
   const { t, i18n } = useTranslation();
@@ -32,53 +37,69 @@ const RegisterUsername = () => {
   );
 
   /* hook-form */
-  const { register, watch, getValues } = useForm<IFormInputValues>({
-    shouldUseNativeValidation: true,
-    defaultValues: { username: register_username },
-  });
+  const { register, watch, getValues, handleSubmit } =
+    useForm<IFormInputValues>({
+      shouldUseNativeValidation: true,
+      defaultValues: { username: register_username },
+    });
 
   /* state */
+  const [fname, setFname] = useState(false);
   const [failed, setFailed] = useState(false);
+
+  /* api */
+  const { mutate, isLoading } = useMutation(
+    (regiUsername: RegisterUsernameParams) =>
+      registerApi.register_username(regiUsername),
+    {
+      onSuccess: () => {
+        const username = getValues("username");
+        set_register_info({ register_username: username });
+        set_user_info({ username });
+        navigate("/register/type");
+      },
+      onError: (err: StatusInfo) => {
+        if (err === statusInfo.fail.Conflict) setFname(true);
+        else setFailed(true);
+      },
+    }
+  );
+
+  const onSubmit: SubmitHandler<IFormInputValues> = () => {
+    mutate({ user_id: user_id, username: getValues("username") });
+  };
 
   return (
     <>
       <Logo />
       <p>{t("name_var", { name: user_id })},</p>
       <p>
-        {!failed && <Trans i18nKey={"register.usernameAsking_message"} />}
-        {failed && t("register.existingUsername_error")}
+        {!fname && <Trans i18nKey={"register.usernameAsking_message"} />}
+        {fname && t("register.existingUsername_error")}
       </p>
-      <FormInput
-        placeholder={"username"}
-        focusString={t("characterLimit_message", { min: 3, max: 16 })}
-        {...register("username", {
-          required: true,
-          minLength: 3,
-          maxLength: 16,
-          onChange: (e) => setFailed(false),
-        })}
-      ></FormInput>
-      <p></p>
-      {(watch("username") || "").length >= username_limit.min && (
-        <BlueLink
-          onClick={async (e) => {
-            const { user_id: usid } = await registerApi.register_username({
-              user_id: user_id,
-              username: getValues("username"),
-            });
-            if (user_id === usid) {
-              set_register_info({ register_username: getValues("username") });
-              const user_info = await userApi.get_user_info({ user_id });
-              set_user_info(user_info);
-              navigate("/register/type");
-            } else {
-              setFailed(true);
-            }
-          }}
-        >
-          {t("Next")}
-        </BlueLink>
-      )}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormInput
+          placeholder={"username"}
+          focusString={t("characterLimit_message", { min: 3, max: 16 })}
+          {...register("username", {
+            required: true,
+            minLength: 3,
+            maxLength: 16,
+            onChange: (e) => {
+              setFname(false);
+              setFailed(false);
+            },
+          })}
+        ></FormInput>
+        <p></p>
+        {(watch("username") || "").length >= username_limit.min &&
+          (isLoading ? <BlueSpinner /> : <SubmitLink>{t("Next")}</SubmitLink>)}
+        {failed && !fname && (
+          <div style={{ fontSize: "0.7em" }}>
+            {t("register.username_error")}
+          </div>
+        )}
+      </form>
     </>
   );
 };
