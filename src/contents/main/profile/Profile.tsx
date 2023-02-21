@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from "react";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 
@@ -10,10 +10,7 @@ import { RepContent } from "../../../api/interfacaes/repsApi.interface";
 import userApi from "../../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { UserId } from "../../../api/interfacaes/userApi.interface";
 import ErrorPage from "../../../common/components/ErrorPage";
-import { Spinner } from "@chakra-ui/react";
-import { StatusInfo } from "../../../api/interfacaes/statusCode";
 import BlueSpinner from "../../../common/components/spinners/BlueSpinner";
 
 const Profile = () => {
@@ -21,7 +18,7 @@ const Profile = () => {
 
   const [reps, setReps] = useState<RepContent[]>([]);
 
-  const { data: user_id_obj, isSuccess } = useQuery({
+  const { data: user_id_obj } = useQuery({
     queryKey: ["user_id", username],
     queryFn: () =>
       typeof username === "undefined"
@@ -29,13 +26,15 @@ const Profile = () => {
         : userApi.get_id_by_name({ username }),
   });
   const user_id = user_id_obj?.user_id;
-
   const { data } = useQuery({
     queryKey: ["reps", user_id],
     queryFn: () =>
       typeof user_id === "undefined"
         ? Promise.reject(new Error("undefined"))
         : repsApi.get_user_reps({ user_id }),
+    onSuccess: (data) => {
+      setReps(data);
+    },
     enabled: !!user_id,
   });
 
