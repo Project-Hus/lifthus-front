@@ -28,12 +28,16 @@ const registerTestApi: RegisterApi = {
   },
 
   register: async (register_info: RegisterParams): Promise<UserId> => {
-    const new_user_info = { registered: true, ...register_info };
-    userTestApi.set_user_info({
-      user_id: register_info.user_id,
-      new_user_info,
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        const new_user_info = { registered: true, ...register_info };
+        await userTestApi.set_user_info({
+          user_id: register_info.user_id,
+          new_user_info,
+        });
+        return resolve({ user_id: register_info.user_id });
+      }, 500);
     });
-    return { user_id: register_info.user_id };
   },
 };
 export default registerTestApi;
