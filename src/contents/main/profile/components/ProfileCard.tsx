@@ -19,6 +19,11 @@ import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import ProfileTab from "./ProfileTab";
 
+/**
+ *
+ * @param param0
+ * @returns
+ */
 const ProfileCard = ({ user_id }: UserId) => {
   const { data } = useQuery({
     queryKey: ["username", user_id],
