@@ -26,7 +26,8 @@ const Sign = () => {
     document.body.appendChild(script);
 
     const script2 = document.createElement("script");
-    script2.src = "/public/callbacks/googleCallback.js";
+    script2.src =
+      "https://raw.githubusercontent.com/Project-Hus/lifthus_front/main/public/callbacks/googleCallback.js";
     script2.async = true;
     script2.defer = true;
     document.body.appendChild(script2);

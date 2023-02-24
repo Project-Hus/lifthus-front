@@ -1,1 +1,1 @@
-const googleCallback = (a) => { console.log(a)}
+function googleCallback (a) { console.log(a)}
