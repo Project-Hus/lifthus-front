@@ -1,0 +1,1 @@
+const googleCallback = (a) => { console.log(a)}

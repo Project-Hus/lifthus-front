@@ -1,9 +1,6 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
-const BtnGoogle = styled.button`
+const ButtonGoogle = styled.button`
   position: relative;
   height: 10vh;
   font-size: 1.5rem;
@@ -25,14 +22,5 @@ const BtnGoogle = styled.button`
     box-shadow: 0 0 0.3rem 0.3rem #8094ee;
   }
 `;
-
-const ButtonGoogle = ({ to = "/" }: { to?: string }) => {
-  const { t, i18n } = useTranslation();
-  return (
-    <Link to={to}>
-      <BtnGoogle>{t("sign.GoogleLogin")}</BtnGoogle>
-    </Link>
-  );
-};
 
 export default ButtonGoogle;
