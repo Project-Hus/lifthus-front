@@ -26,8 +26,7 @@ const Sign = () => {
     document.body.appendChild(script);
 
     const script2 = document.createElement("script");
-    script2.src =
-      "https://raw.githubusercontent.com/Project-Hus/lifthus_front/main/public/callbacks/googleCallback.js";
+    script2.src = "http://localhost:3000/googleCallback.js";
     script2.async = true;
     script2.defer = true;
     document.body.appendChild(script2);
@@ -51,7 +50,6 @@ const Sign = () => {
         data-client_id="199526293983-r0b7tpmbpcc8nb786v261e451i2vihu3.apps.googleusercontent.com"
         data-context="signin"
         data-callback="googleCallback"
-        data-auto_select="true"
         data-itp_support="true"
       ></div>
     </>

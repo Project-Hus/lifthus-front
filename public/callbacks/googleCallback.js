@@ -1,1 +1,0 @@
-function googleCallback (a) { console.log(a)}
