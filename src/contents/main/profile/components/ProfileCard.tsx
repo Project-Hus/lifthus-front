@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { UserId } from "../../../../api/interfacaes/userApi.interface";
+import { UserId } from "../../../../api/interfaces/userApi.interface";
 import userApi from "../../../../api/userApi";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";

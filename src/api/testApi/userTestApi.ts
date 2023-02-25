@@ -1,11 +1,11 @@
-import { RegisterParams } from "../interfacaes/registerApi.interface";
+import { RegisterParams } from "../interfaces/registerApi.interface";
 import {
   SetUserInfoParams,
   UserApi,
   UserId,
   Username,
   UserProfile,
-} from "../interfacaes/userApi.interface";
+} from "../interfaces/userApi.interface";
 
 import user_list from "../mocks/userTestApi.mocks";
 

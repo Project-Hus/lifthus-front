@@ -2,8 +2,8 @@ import {
   RegisterApi,
   RegisterUsernameParams,
   RegisterParams,
-} from "./interfacaes/registerApi.interface";
-import { UserId } from "./interfacaes/userApi.interface";
+} from "./interfaces/registerApi.interface";
+import { UserId } from "./interfaces/userApi.interface";
 
 import registerTestApi from "./testApi/registerTestApi";
 

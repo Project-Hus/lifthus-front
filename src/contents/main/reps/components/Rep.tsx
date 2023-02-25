@@ -16,7 +16,7 @@ import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { RepContent } from "../../../../api/interfacaes/repsApi.interface";
+import { RepContent } from "../../../../api/interfaces/repsApi.interface";
 
 const Rep = ({ rep }: { rep: RepContent }) => {
   const image_list = [];

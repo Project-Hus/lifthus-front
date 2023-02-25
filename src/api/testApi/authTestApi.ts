@@ -1,6 +1,6 @@
-import { AuthApi, SignParams } from "../interfacaes/authApi.interface";
-import { statusInfo } from "../interfacaes/statusCode";
-import { UserId } from "../interfacaes/userApi.interface";
+import { AuthApi, SignParams } from "../interfaces/authApi.interface";
+import statusInfo from "../interfaces/statusInfo.json";
+import { UserId } from "../interfaces/userApi.interface";
 
 import user_list from "../mocks/userTestApi.mocks";
 import userTestApi from "./userTestApi";

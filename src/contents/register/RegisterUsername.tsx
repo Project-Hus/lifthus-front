@@ -16,9 +16,10 @@ import { username_limit } from "../../common/constraints";
 import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
 import { useMutation } from "@tanstack/react-query";
-import { RegisterUsernameParams } from "../../api/interfacaes/registerApi.interface";
+import { RegisterUsernameParams } from "../../api/interfaces/registerApi.interface";
 import SubmitLink from "../../common/components/links/SubmitLink";
-import { statusInfo, StatusInfo } from "../../api/interfacaes/statusCode";
+import { StatusInfo } from "../../api/interfaces/statusInfo.interface";
+import statusInfo from "../../api/interfaces/statusInfo.json";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const RegisterUsername = () => {

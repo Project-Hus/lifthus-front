@@ -4,8 +4,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
-import { SignParams } from "../../api/interfacaes/authApi.interface";
-import { StatusInfo, statusInfo } from "../../api/interfacaes/statusCode";
+import { SignParams } from "../../api/interfaces/authApi.interface";
+import { StatusInfo } from "../../api/interfaces/statusInfo.interface";
+import statusInfo from "../../api/interfaces/statusInfo.json";
 import userApi from "../../api/userApi";
 import FormInput, {
   IFormInputValues,

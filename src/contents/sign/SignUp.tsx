@@ -12,9 +12,10 @@ import authApi from "../../api/authApi";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { SignParams } from "../../api/interfacaes/authApi.interface";
+import { SignParams } from "../../api/interfaces/authApi.interface";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
-import { StatusInfo, statusInfo } from "../../api/interfacaes/statusCode";
+import { StatusInfo } from "../../api/interfaces/statusInfo.interface";
+import statusInfo from "../../api/interfaces/statusInfo.json";
 import SubmitLink from "../../common/components/links/SubmitLink";
 
 const SignUp = () => {

@@ -1,5 +1,5 @@
-import { AuthApi, SignParams } from "./interfacaes/authApi.interface";
-import { UserId } from "./interfacaes/userApi.interface";
+import { AuthApi, SignParams } from "./interfaces/authApi.interface";
+import { UserId } from "./interfaces/userApi.interface";
 
 import authTestApi from "./testApi/authTestApi";
 

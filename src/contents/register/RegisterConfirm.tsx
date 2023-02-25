@@ -8,7 +8,7 @@ import BlueButton from "../../common/components/buttons/BlueButton";
 import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { RegisterParams } from "../../api/interfacaes/registerApi.interface";
+import { RegisterParams } from "../../api/interfaces/registerApi.interface";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const RegisterConfirm = () => {

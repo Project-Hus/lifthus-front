@@ -4,8 +4,8 @@ import {
   RepContent,
   RepsApi,
   UpdateRepParams,
-} from "./interfacaes/repsApi.interface";
-import { UserId } from "./interfacaes/userApi.interface";
+} from "./interfaces/repsApi.interface";
+import { UserId } from "./interfaces/userApi.interface";
 import repsTestApi from "./testApi/repsTestApi";
 
 const repsApi: RepsApi = {

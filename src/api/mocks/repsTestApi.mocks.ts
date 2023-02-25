@@ -1,4 +1,4 @@
-import { RepContent } from "../interfacaes/repsApi.interface";
+import { RepContent } from "../interfaces/repsApi.interface";
 
 /*
   rep_id?: number;

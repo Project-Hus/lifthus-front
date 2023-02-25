@@ -4,7 +4,7 @@ import {
   UserId,
   Username,
   UserProfile,
-} from "./interfacaes/userApi.interface";
+} from "./interfaces/userApi.interface";
 import userTestApi from "./testApi/userTestApi";
 
 const userApi: UserApi = {
