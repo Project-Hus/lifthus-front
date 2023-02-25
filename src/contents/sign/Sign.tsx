@@ -19,7 +19,11 @@ const Sign = () => {
       <br />
       <br />
       <br />
+      <br />
+      <br />
       <GoogleLogin
+        text="continue_with"
+        ux_mode="redirect"
         onSuccess={(credentialResponse) => {
           console.log(credentialResponse);
         }}
