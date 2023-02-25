@@ -1,58 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
 import Logo from "../../common/components/Logo";
 
-import ButtonGoogle from "./components/ButtonGoogle";
 import BlueLink from "../../common/components/links/BlueLink";
+
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
 
   const [googleSelected, setGoogleSelected] = useState(false);
 
-  useEffect(() => {
-    if (
-      document.querySelector(
-        `script[src="https://accounts.google.com/gsi/client"]`
-      )
-    )
-      return;
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
-
-    const script2 = document.createElement("script");
-    script2.src = "http://localhost:3000/googleCallback.js";
-    script2.async = true;
-    script2.defer = true;
-    document.body.appendChild(script2);
-  });
-
   return (
-    <>
+    <GoogleOAuthProvider clientId="199526293983-r0b7tpmbpcc8nb786v261e451i2vihu3.apps.googleusercontent.com">
       <Logo mov={true} absolute={true} />
       <br />
       <br />
       <br />
-      <ButtonGoogle onClick={() => setGoogleSelected(!googleSelected)}>
-        {t("sign.GoogleLogin")}
-      </ButtonGoogle>
+      <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          console.log(credentialResponse);
+        }}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+        auto_select={true}
+      />
+      <br />
       <BlueLink to="/sign/in">{t("sign.SignIn")}</BlueLink>
       <BlueLink to="/sign/up">{t("sign.SignUp")}</BlueLink>
       {/* Google One Tab Login */}
-
-      <div
-        id="g_id_onload"
-        data-client_id="199526293983-r0b7tpmbpcc8nb786v261e451i2vihu3.apps.googleusercontent.com"
-        data-context="signin"
-        data-callback="googleCallback"
-        data-itp_support="true"
-      ></div>
-    </>
+    </GoogleOAuthProvider>
   );
 };
 
