@@ -12,7 +12,6 @@ const Sign = () => {
   const { t, i18n } = useTranslation();
 
   const [googleSelected, setGoogleSelected] = useState(false);
-
   return (
     <GoogleOAuthProvider clientId="199526293983-r0b7tpmbpcc8nb786v261e451i2vihu3.apps.googleusercontent.com">
       <Logo mov={true} absolute={true} />
@@ -24,6 +23,7 @@ const Sign = () => {
       <GoogleLogin
         text="continue_with"
         ux_mode="redirect"
+        login_uri={process.env.REACT_APP_LOGIN_URI}
         onSuccess={(credentialResponse) => {
           console.log(credentialResponse);
         }}
