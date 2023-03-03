@@ -20,11 +20,12 @@ const Sign = () => {
       <br />
       <br />
       <br />
+
       <GoogleLogin
         text="continue_with"
         ux_mode="redirect"
         login_uri={process.env.REACT_APP_LOGIN_URI}
-        onSuccess={(credentialResponse) => {
+        onSuccess={(credentialResponse: any) => {
           console.log(credentialResponse);
         }}
         onError={() => {
