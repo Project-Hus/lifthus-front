@@ -12,7 +12,6 @@ import Sign from "./Sign";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
-import SignSession from "./SignSession";
 
 const FirstPage = () => {
   const { t, i18n } = useTranslation();
@@ -33,7 +32,6 @@ const FirstPage = () => {
         <Route path="/sign/" element={<Sign />} />
         <Route path="/sign/in" element={<SignIn />} />
         <Route path="/sign/up" element={<SignUp />} />
-        <Route path="/hus/session/:session" element={<SignSession />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </FlexCenterLayout>
