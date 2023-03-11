@@ -32,7 +32,7 @@ type BigThemeBtnInput = {
 const BigThemeBtn = ({ content, to }: BigThemeBtnInput) => {
   return to ? (
     <Link to={to}>
-      <ThemeBtn>{content}</ThemeBtn>;
+      <ThemeBtn>{content}</ThemeBtn>
     </Link>
   ) : (
     <ThemeBtn>{content}</ThemeBtn>

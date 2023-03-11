@@ -14,7 +14,25 @@ import theme from "./common/styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import axios from "axios";
+
 const queryClient = new QueryClient();
+
+// get and set the session when the app starts
+axios
+  .post(
+    process.env.REACT_APP_LIFTHUS_API_URL + "/session/new",
+    {},
+    {
+      withCredentials: true,
+    }
+  )
+  .then((res) => {
+    console.log(res);
+    if (res.status === 201) {
+      console.log(res.data);
+    }
+  });
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
