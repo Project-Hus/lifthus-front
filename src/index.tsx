@@ -14,23 +14,32 @@ import theme from "./common/styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import statusInfo from "./api/interfaces/statusInfo.json";
+
 import axios from "axios";
 
 const queryClient = new QueryClient();
 
-// get and set the session when the app starts
+/* ===== checking lifthus-session ===== */
 axios
   .post(
-    process.env.REACT_APP_LIFTHUS_API_URL + "/session/new",
+    process.env.REACT_APP_LIFTHUS_API_URL + "/user/session/new",
     {},
-    {
-      withCredentials: true,
-    }
+    { withCredentials: true }
   )
-  .then((res) => {
-    console.log(res);
-    if (res.status === 201) {
-      console.log(res.data);
+  .then(async (res) => {
+    if (res.status === statusInfo.succ.Ok.code) {
+      const sid = res.data;
+      // post request below requests check from Hus.
+      // and if it's valid, Hus tells it to Lifthus.
+      // after Litfhus responds, Hus redirects client to Lifthus endpoint.
+      // Lifthus noticed Hus session and by sid in cookie,
+      // Lifthus sets refresh token and access token to cookie.
+      await axios.post(
+        process.env.REACT_APP_HUS_AUTH_URL + "/session/check/lifthus/" + sid,
+        {},
+        { withCredentials: true }
+      );
     }
   });
 
