@@ -23,7 +23,7 @@ const queryClient = new QueryClient();
 /* ===== checking lifthus-session ===== */
 axios
   .post(
-    process.env.REACT_APP_LIFTHUS_API_URL + "/user/session/new",
+    process.env.REACT_APP_LIFTHUS_USER_URL + "/session/new",
     {},
     { withCredentials: true }
   )
@@ -35,11 +35,6 @@ axios
       // after Litfhus responds, Hus redirects client to Lifthus endpoint.
       // Lifthus noticed Hus session and by sid in cookie,
       // Lifthus sets refresh token and access token to cookie.
-      await axios.post(
-        process.env.REACT_APP_HUS_AUTH_URL + "/session/check/lifthus/" + sid,
-        {},
-        { withCredentials: true }
-      );
     }
   });
 
