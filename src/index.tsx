@@ -23,18 +23,36 @@ const queryClient = new QueryClient();
 /* ===== checking lifthus-session ===== */
 axios
   .post(
-    process.env.REACT_APP_LIFTHUS_USER_URL + "/session/new",
+    process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/new",
     {},
-    { withCredentials: true }
+    {
+      withCredentials: true,
+    }
   )
   .then(async (res) => {
-    if (res.status === statusInfo.succ.Ok.code) {
+    if (
+      res.status === statusInfo.succ.Created.code ||
+      res.status === statusInfo.succ.Ok.code
+    ) {
       const sid = res.data;
       // post request below requests check from Hus.
       // and if it's valid, Hus tells it to Lifthus.
-      // after Litfhus responds, Hus redirects client to Lifthus endpoint.
+      // after Litfhus responds, Hus responds to client.
+      // client got from Hus, then request to Lifthus.
       // Lifthus noticed Hus session and by sid in cookie,
       // Lifthus sets refresh token and access token to cookie.
+      try {
+        res = await axios.post(
+          process.env.REACT_APP_HUS_AUTH_URL + "/session/check/lifthus/" + sid,
+          {},
+          { withCredentials: true }
+        );
+        res = await axios.post(
+          process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/check"
+        );
+      } catch (e) {
+        console.log(e);
+      }
     }
   });
 
