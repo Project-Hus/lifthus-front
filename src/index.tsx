@@ -20,7 +20,7 @@ import axios from "axios";
 
 const queryClient = new QueryClient();
 
-/* ===== checking lifthus-session ===== */
+/* ===== checking session to get access token ===== */
 axios
   .post(
     process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/new",
@@ -30,17 +30,16 @@ axios
     }
   )
   .then(async (res) => {
-    if (
-      res.status === statusInfo.succ.Created.code ||
-      res.status === statusInfo.succ.Ok.code
-    ) {
+    if (res.status === statusInfo.succ.Created.code) {
       const sid = res.data;
-      // post request below requests check from Hus.
-      // and if it's valid, Hus tells it to Lifthus.
-      // after Litfhus responds, Hus responds to client.
-      // client got from Hus, then request to Lifthus.
-      // Lifthus noticed Hus session and by sid in cookie,
-      // Lifthus sets refresh token and access token to cookie.
+      // client will get new sid from lifthus/session/new,
+      // then client will send the sid to Hus auth server.
+      // and if Hus responds Unauthorized, client will stay unsigned in.
+      // or else, Hus tells Lifthus that the user is signed in.
+      // then Lifthus will set the login session and tells Ok to Hus.
+      // Hus got Ok, now Hus tells the client Ok.
+      // and finally, the client requests access token from Lifthus and Lifthus revokes the sessoin.
+      // after the access token is expired, the process will be repeated.
       try {
         res = await axios.post(
           process.env.REACT_APP_HUS_AUTH_URL + "/session/check/lifthus/" + sid,
@@ -48,7 +47,9 @@ axios
           { withCredentials: true }
         );
         res = await axios.post(
-          process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/check"
+          process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/access",
+          {},
+          { withCredentials: true }
         );
       } catch (e) {
         console.log(e);
