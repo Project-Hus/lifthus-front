@@ -47,7 +47,7 @@ axios
           { withCredentials: true }
         );
         res = await axios.post(
-          process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/access",
+          process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/sign",
           {},
           { withCredentials: true }
         );
