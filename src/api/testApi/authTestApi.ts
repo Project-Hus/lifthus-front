@@ -49,5 +49,15 @@ const authTestApi: AuthApi = {
       }, 500);
     });
   },
+  update_session: (): Promise<UserId> => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const updateSessionReturns: UserId = {
+          user_id: "test",
+        };
+        return resolve(updateSessionReturns);
+      }, 500);
+    });
+  },
 };
 export default authTestApi;
