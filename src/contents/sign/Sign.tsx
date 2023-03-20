@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 
@@ -23,9 +23,7 @@ const Sign = () => {
         withCredentials: true,
       }
     );
-    if (res.status === 200) {
-      console.log("revoked");
-    }
+    if (res.status === 200) console.log("hus session removed");
   });
 
   // execute only once
@@ -48,9 +46,7 @@ const Sign = () => {
           text="continue_with"
           ux_mode="redirect"
           login_uri={process.env.REACT_APP_HUS_GOOGLE_LOGIN_ENDPOINT}
-          onSuccess={(credentialResponse: any) => {
-            console.log("authed");
-          }}
+          onSuccess={() => {}}
           auto_select={true}
         />
       )}

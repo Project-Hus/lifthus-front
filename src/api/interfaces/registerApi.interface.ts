@@ -15,6 +15,7 @@ export interface RegisterApi {
     deadlift,
   }: RegisterParams) => Promise<UserId>;
 }
+
 export interface RegisterUsernameParams {
   user_id: string;
   username: string;

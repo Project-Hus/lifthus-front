@@ -1,7 +1,7 @@
 import { AuthApi, SignParams } from "./interfaces/authApi.interface";
 import { UserId } from "./interfaces/userApi.interface";
 
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";
@@ -25,25 +25,21 @@ const authApi: AuthApi = {
     //if (process.env.NODE_ENV === "development") {
     //  return authTestApi.update_session();
     //}
-
-    // client will get new sid from lifthus/session/new,
-    // then client will send the sid to Hus auth server.
-    // and if Hus responds Unauthorized, client will stay unsigned in.
-    // or else, Hus tells Lifthus that the user is signed in.
-    // then Lifthus will set the login session and tells Ok to Hus.
-    // Hus got Ok, now Hus tells the client Ok.
-    // and finally, the client requests signing from Lifthus.
-    // later when the client uses expired token,
-    // the client repeats this process with this function.
     try {
       // getting new session
-      let res = await axios.post(
+      let res = await axios.get(
         process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/new",
-        {},
         {
           withCredentials: true,
         }
       );
+      console.log(res, res.data);
+      // if ok, server returns uid and maintaining session
+      if (res.status == statusInfo.succ.Ok.code) return { user_id: res.data };
+      // if it is not ok or created, return empty string
+      if (res.status != statusInfo.succ.Created.code) return { user_id: "" };
+      console.log("new session created");
+      // if it is created, server returns sid
       const sid = res.data;
       // checking hus session
       res = await axios.post(
@@ -51,14 +47,29 @@ const authApi: AuthApi = {
         {},
         { withCredentials: true }
       );
-      // it hus says ok, request signed token from lifthus
-      res = await axios.post(
+      if (res.status != statusInfo.succ.Ok.code) return { user_id: "" };
+      console.log("hus session checked");
+      // if hus says ok, request signed token from lifthus
+      const resF = await axios.get(
         process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/sign",
-        {},
         { withCredentials: true }
       );
+      console.log("got signed token");
+      // if it's ok, server returns uid
       return { user_id: res.data };
     } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const rstatus = err.response?.status;
+        const rdata = err.response?.data;
+        if (
+          rstatus === statusInfo.fail.Unauthorized.code &&
+          rdata === "retry"
+        ) {
+          // for the case that Hus session checked but expired.
+          console.log("retrying");
+          return authApi.update_session();
+        }
+      }
       console.log(err);
       return { user_id: "" };
     }
