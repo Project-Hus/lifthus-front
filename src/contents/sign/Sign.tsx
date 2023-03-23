@@ -32,7 +32,7 @@ const Sign = () => {
   }, []);
 
   return (
-    <GoogleOAuthProvider clientId="199526293983-r0b7tpmbpcc8nb786v261e451i2vihu3.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="1028507845637-07t65vf8fs49o4dpaelvefgbj8ov56pn.apps.googleusercontent.com">
       <Logo mov={true} absolute={true} />
       <br />
       <br />
