@@ -15,7 +15,7 @@ import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 const Sign = () => {
   const { t, i18n } = useTranslation();
 
-  // if the user access Sign page, all the sessions and tokens will be revoked.
+  //if the user access Sign page, all the sessions and tokens will be revoked.
   const { isLoading, mutate } = useMutation(async () => {
     const res = await axios.delete(
       process.env.REACT_APP_HUS_SESSION_REVOKE_ENDPOINT + "",
