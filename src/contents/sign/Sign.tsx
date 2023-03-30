@@ -11,18 +11,16 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import { HUS_AUTH_URL } from "../../common/routes";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
 
   //if the user access Sign page, all the sessions and tokens will be revoked.
   const { isLoading, mutate } = useMutation(async () => {
-    const res = await axios.delete(
-      process.env.REACT_APP_HUS_SESSION_REVOKE_ENDPOINT + "",
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await axios.delete(HUS_AUTH_URL + "/auth/session/revoke", {
+      withCredentials: true,
+    });
     if (res.status === 200) console.log("hus session removed");
   });
 
@@ -45,7 +43,7 @@ const Sign = () => {
         <GoogleLogin
           text="continue_with"
           ux_mode="redirect"
-          login_uri={process.env.REACT_APP_HUS_GOOGLE_LOGIN_ENDPOINT}
+          login_uri={HUS_AUTH_URL + "/auth/social/google/lifthus"}
           onSuccess={() => {}}
           auto_select={true}
         />

@@ -5,6 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";
+import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
 
 const authApi: AuthApi = {
   sign_in_local: async ({ user_id, password }: SignParams): Promise<UserId> => {
@@ -27,12 +28,9 @@ const authApi: AuthApi = {
     //}
     try {
       // getting new session
-      let res = await axios.get(
-        process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/new",
-        {
-          withCredentials: true,
-        }
-      );
+      let res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session/new", {
+        withCredentials: true,
+      });
       console.log(res, res.data);
       // if ok, server returns uid and maintaining session
       if (res.status == statusInfo.succ.Ok.code) return { user_id: res.data };
@@ -43,17 +41,17 @@ const authApi: AuthApi = {
       const sid = res.data;
       // checking hus session
       res = await axios.post(
-        process.env.REACT_APP_HUS_AUTH_URL + "/session/check/lifthus/" + sid,
+        HUS_AUTH_URL + "/auth/session/check/lifthus/" + sid,
         {},
         { withCredentials: true }
       );
+
       if (res.status != statusInfo.succ.Ok.code) return { user_id: "" };
       console.log("hus session checked");
       // if hus says ok, request signed token from lifthus
-      const resF = await axios.get(
-        process.env.REACT_APP_LIFTHUS_AUTH_URL + "/session/sign",
-        { withCredentials: true }
-      );
+      const resF = await axios.get(HUS_AUTH_URL + "/auth/session/sign", {
+        withCredentials: true,
+      });
       console.log("got signed token");
       // if it's ok, server returns uid
       return { user_id: res.data };
