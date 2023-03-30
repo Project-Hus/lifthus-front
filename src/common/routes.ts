@@ -1,5 +1,7 @@
 export const USER_PROFILE_IMAGE_ROUTE = `${process.env.PUBLIC_URL}/assets/`;
 
+/* SERVICE URLS */
+
 export const LIFTHUS_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
@@ -8,7 +10,7 @@ export const LIFTHUS_URL =
 export const LIFTHUS_AUTH_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:9091"
-    : "https://api.lifthus.com";
+    : "https://auth.lifthus.com";
 
 export const LIFTHUS_API_URL =
   process.env.NODE_ENV === "development"
@@ -20,12 +22,15 @@ export const HUS_AUTH_URL =
     ? "http://localhost:9090"
     : "https://auth.cloudhus.com";
 
-export const HUS_GOOGLE_LOGIN_ENDPOINT =
+export const HUS_API_URL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:9090/auth/social/google/lifthus"
-    : "https://auth.cloudhus.com/auth/social/google/lifthus";
+    ? "http://localhost:9090"
+    : "https://api.cloudhus.com";
 
-export const HUS_SESSION_REVOKE_ENDPOINT =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:9090/auth/session/revoke"
-    : "https://auth.cloudhus.com/auth/session/revoke";
+/* API ENDPOINTS */
+
+export const HUS_GOOGLE_LOGIN_ENDPOINT: string =
+  HUS_AUTH_URL + "/auth/social/google/lifthus";
+
+export const HUS_SESSION_REVOKE_ENDPOINT: string =
+  HUS_AUTH_URL + "/auth/session/revoke";
