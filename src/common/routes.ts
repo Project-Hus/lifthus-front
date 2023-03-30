@@ -2,7 +2,7 @@ export const USER_PROFILE_IMAGE_ROUTE = `${process.env.PUBLIC_URL}/assets/`;
 
 /* SERVICE URLS */
 
-export const LIFTHUS_URL =
+export const LIFTHUS_FRONT_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : "https://lifthus.com";
