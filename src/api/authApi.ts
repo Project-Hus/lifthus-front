@@ -49,7 +49,7 @@ const authApi: AuthApi = {
       if (res.status != statusInfo.succ.Ok.code) return { user_id: "" };
       console.log("hus session checked");
       // if hus says ok, request signed token from lifthus
-      const resF = await axios.get(LIFTHUS_AUTH_URL + "/auth/session/sign", {
+      res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session/sign", {
         withCredentials: true,
       });
       console.log("got signed token");
