@@ -2,5 +2,6 @@
     "editor.formatOnSave": true,
     "i18n-ally.localesPaths": [
         ""
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }
