@@ -11,6 +11,8 @@ import useUserStore from "./store/user.zustand";
 import FirstPage from "./contents/sign/FirstPage";
 import Register from "./contents/register/Register";
 
+import authApi from "./api/authApi";
+
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
   min-height: 100vh;
@@ -21,13 +23,14 @@ const AppStyled = styled.div`
   padding-bottom: 10vh;
 `;
 
-import authApi from "./api/authApi";
-
 const App = () => {
+  const set_user_info = useUserStore((state) => state.set_user_info);
   /* ===== checking session to get signed or unsigned session ===== */
   authApi.update_session().then((res) => {
-    if (res.user_id) console.log(res.user_id, "signed in");
-    else console.log("not signed in");
+    if (res.user_id) {
+      set_user_info({ user_id: res.user_id });
+      console.log(res.user_id, "signed in");
+    } else console.log("not signed in");
   });
 
   const user_id = useUserStore((state) => state.user_id);
