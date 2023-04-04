@@ -14,15 +14,7 @@ import theme from "./common/styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import authApi from "./api/authApi";
-
 const queryClient = new QueryClient();
-
-/* ===== checking session to get signed or unsigned session ===== */
-authApi.update_session().then((res) => {
-  if (res.user_id) console.log(res.user_id, "signed in");
-  else console.log("not signed in");
-});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
