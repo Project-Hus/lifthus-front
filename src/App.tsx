@@ -12,6 +12,7 @@ import FirstPage from "./contents/sign/FirstPage";
 import Register from "./contents/register/Register";
 
 import authApi from "./api/authApi";
+import Pending from "./contents/pending/Pending";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -39,6 +40,7 @@ const App = () => {
   return (
     <AppStyled>
       <Routes>
+        <Route path="/pending/*" element={<Pending />} />
         {/* If the user has signed in and registered Let the Main component take control. */}
         {user_id && registered && <Route path="/*" element={<Main />} />}
         {/* If the user has signed but not registered, the user have to register him or herself */}
