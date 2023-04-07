@@ -13,11 +13,11 @@ const commentApi: CommentApi = {
         return commentTestApi.get_user_comments({ user_id });
     },
 
-    post_comment: async ({ user_id, comment }: PostCommentParams): Promise<UserId> => {
+    post_comment: async ({ user_id, rep_id, text, IsReply, reply_to }: PostCommentParams): Promise<UserId> => {
         if (process.env.NODE_ENV === "development") {
-            return commentTestApi.post_comment({ user_id, comment });
+            return commentTestApi.post_comment({ user_id, rep_id, text, IsReply, reply_to });
         }
-        return commentTestApi.post_comment({ user_id, comment });
+        return commentTestApi.post_comment({ user_id, rep_id, text, IsReply });
     },
 
     update_comment: async ({ user_id, comment_id, comment }: UpdateCommentParams): Promise<UserId> => {
