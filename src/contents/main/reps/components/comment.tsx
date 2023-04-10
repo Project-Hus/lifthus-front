@@ -42,7 +42,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
         const text = InputRef.current?.value
 
         // updateCommentList
-        mutate({ user_id: comment_user_id, text: text, rep_id: comment.rep_id, IsReply: false, reply_to: comment.comment_id });
+        mutate({ user_id: user_id, text: text, rep_id: comment.rep_id, IsReply: false, reply_to: comment.comment_id });
         return;
     }
 
