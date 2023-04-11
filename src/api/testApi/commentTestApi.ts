@@ -12,10 +12,20 @@ const commentTestApi: CommentApi = {
         }
         return comments;
     },
-    post_comment: async ({ user_id, comment }: PostCommentParams): Promise<UserId> => {
-        const comment_id = Object.keys(comment_list).length + 1;
-        comment_list[comment_id] = { ...comment, comment_id };
-        return { user_id };
+
+    post_comment: async ({ user_id, rep_id, text, IsReply, reply_to }: PostCommentParams): Promise<UserId> => {
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const comment_id = Object.keys(comment_list).length + 1;
+                const created_at = new Date();
+                const updated_at = new Date();
+                comment_list[comment_id] = { rep_id, comment_id, created_at, updated_at, user_id, text, IsReply, reply_to: reply_to };
+                console.log("comment", comment_list[comment_id])
+                return resolve({ user_id });
+            }, 500);
+        });
+
     },
     update_comment: async ({ user_id, comment_id, comment }: UpdateCommentParams): Promise<UserId> => {
         comment_list[comment_id] = { ...comment_list[comment_id], ...comment };
