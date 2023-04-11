@@ -12,6 +12,7 @@ const comment_list: { [key: number]: CommentContent } = {
             "https://i.pinimg.com/originals/f0/c9/84/f0c9842b43c97fb7412c8cd99ca5218d.jpg",
         ],
         text: "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
+
         IsReply: false,
     },
     2: {
@@ -21,6 +22,7 @@ const comment_list: { [key: number]: CommentContent } = {
         updated_at: new Date("2023-01-05"),
         user_id: "succregi",
         text: "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
+
         IsReply: false,
     },
     3: {

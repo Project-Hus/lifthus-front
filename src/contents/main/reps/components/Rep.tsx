@@ -17,13 +17,17 @@ import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { RepContent } from "../../../../api/interfaces/repsApi.interface";
+
 import CommentList from "./commentList";
+
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
 import { CommentContent } from "../../../../api/interfaces/commentApi.interface";
 import { useQuery } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
+
 import CommentCreate from "./commentCreate";
+
 
 const Rep = ({ rep }: { rep: RepContent }) => {
   //open/close comment window functions
@@ -33,7 +37,9 @@ const Rep = ({ rep }: { rep: RepContent }) => {
 
   //call comment data from api(임시)
   const [comments, setComments] = useState<CommentContent[]>([]);
+
   const comment_id_obj = useQuery({
+
     queryKey: ["comment_obj", rep.rep_id],
     queryFn: () =>
       commentApi.get_rep_comments(rep.rep_id),
@@ -166,7 +172,9 @@ const Rep = ({ rep }: { rep: RepContent }) => {
         </CardFooter>
         <Card {...disclosureProps}>
 
+
           <CommentCreate rep_id={rep.rep_id} />
+
           <CommentList data={comments} />
         </Card>
       </Card>

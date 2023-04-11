@@ -1,3 +1,4 @@
+
 import { CommentContent, PostCommentParams } from "../../../../api/interfaces/commentApi.interface"
 import { Alert, ButtonSpinner, Card, Container, FormControl, Input, InputRightElement, Textarea, useDisclosure } from "@chakra-ui/react"
 import styled from "@emotion/styled"
@@ -10,6 +11,7 @@ import commentApi from "../../../../api/commentApi"
 import { css } from "@emotion/react"
 import { useRef } from "react"
 import CommentEdit from "./commentCreate"
+
 const Comment = ({ comment }: { comment: CommentContent }) => {
 
     const CommentBoard = styled.div`
@@ -18,6 +20,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     padding: 10px;
 
 `;
+
     const CommentEdit = css`
     border: 0px solid black;
     border-radius: 5px;
@@ -98,6 +101,21 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
             </CommentBoard >
 
         </>
+
+    const user_id = comment.user_id
+    const created_at = comment.created_at
+    return (
+        <CommentBoard>
+            <Card>
+
+                <Text as="b">{user_id}-{created_at.toString()}-</Text>
+
+
+                <br />
+                <Text>{comment.text}</Text>
+            </Card>
+        </CommentBoard>
+
     )
 }
 

@@ -11,6 +11,9 @@ import useUserStore from "./store/user.zustand";
 import FirstPage from "./contents/sign/FirstPage";
 import Register from "./contents/register/Register";
 
+import authApi from "./api/authApi";
+import Pending from "./contents/pending/Pending";
+
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
   min-height: 100vh;
@@ -22,11 +25,22 @@ const AppStyled = styled.div`
 `;
 
 const App = () => {
+  const set_user_info = useUserStore((state) => state.set_user_info);
+  /* ===== checking session to get signed or unsigned session ===== */
+  authApi.update_session().then((res) => {
+    if (res.user_id) {
+      set_user_info({ user_id: res.user_id });
+      console.log(res.user_id, "signed in");
+    } else console.log("not signed in");
+  });
+
   const user_id = useUserStore((state) => state.user_id);
   const registered = useUserStore((state) => state.registered);
+
   return (
     <AppStyled>
       <Routes>
+        <Route path="/pending/*" element={<Pending />} />
         {/* If the user has signed in and registered Let the Main component take control. */}
         {user_id && registered && <Route path="/*" element={<Main />} />}
         {/* If the user has signed but not registered, the user have to register him or herself */}
