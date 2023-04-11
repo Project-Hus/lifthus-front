@@ -101,6 +101,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
             </CommentBoard >
 
         </>
+        )
 
     const user_id = comment.user_id
     const created_at = comment.created_at
