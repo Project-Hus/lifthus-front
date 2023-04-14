@@ -28,8 +28,9 @@ const App = () => {
   const set_user_info = useUserStore((state) => state.set_user_info);
   /* ===== checking session to get signed or unsigned session ===== */
   authApi.update_session().then((res) => {
-    if (res.user_id) {
+    if (res.user_id && res.user_name) {
       set_user_info({ user_id: res.user_id });
+      set_user_info({ user_name: res.user_name });
       console.log(res.user_id, "signed in");
     } else console.log("not signed in");
   });

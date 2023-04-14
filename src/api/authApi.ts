@@ -1,5 +1,5 @@
 import { AuthApi, SignParams } from "./interfaces/authApi.interface";
-import { UserId } from "./interfaces/userApi.interface";
+import { SignResponse, UserId } from "./interfaces/userApi.interface";
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
@@ -22,7 +22,7 @@ const authApi: AuthApi = {
     return authTestApi.sign_up_local({ user_id, password });
   },
 
-  update_session: async (): Promise<UserId> => {
+  update_session: async (): Promise<SignResponse> => {
     //if (process.env.NODE_ENV === "development") {
     //  return authTestApi.update_session();
     //}
@@ -33,10 +33,13 @@ const authApi: AuthApi = {
       });
       console.log(res, res.data);
       // if ok, server returns uid and maintaining session
-      if (res.status == statusInfo.succ.Ok.code) return { user_id: res.data };
+      if (res.status == statusInfo.succ.Ok.code)
+        return { user_id: res.data, user_name: "" };
       // if it is not ok or created, return empty string
-      if (res.status != statusInfo.succ.Created.code) return { user_id: "" };
+      if (res.status != statusInfo.succ.Created.code)
+        return { user_id: "", user_name: "" };
       console.log("new session created");
+
       // if it is created, server returns sid
       const sid = res.data;
       // checking hus session
@@ -45,16 +48,17 @@ const authApi: AuthApi = {
         {},
         { withCredentials: true }
       );
-
-      if (res.status != statusInfo.succ.Ok.code) return { user_id: "" };
+      if (res.status != statusInfo.succ.Ok.code)
+        return { user_id: "", user_name: "" };
       console.log("hus session checked");
+
       // if hus says ok, request signed token from lifthus
       res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session/sign", {
         withCredentials: true,
       });
       console.log("got signed token");
       // if it's ok, server returns uid
-      return { user_id: res.data };
+      return { user_id: res.data.user_id, user_name: res.data.user_name };
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const rstatus = err.response?.status;
@@ -69,7 +73,7 @@ const authApi: AuthApi = {
         }
       }
       console.log(err);
-      return { user_id: "" };
+      return { user_id: "", user_name: "" };
     }
   },
 };

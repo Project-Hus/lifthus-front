@@ -4,6 +4,7 @@ import { UserInfo } from "./interfaces/user.interface";
 
 interface UserState {
   user_id: string;
+  user_name: string;
   registered: boolean;
   username: string;
   training_type: string;
@@ -18,6 +19,7 @@ interface UserState {
 
 const useUserStore = create<UserState>()((set) => ({
   user_id: "",
+  user_name: "", // user's actual name
   registered: false,
   username: "",
   training_type: "",
