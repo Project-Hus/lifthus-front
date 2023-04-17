@@ -8,7 +8,7 @@ export interface CommentApi {
     get_user_comments: ({ user_id }: UserId) => Promise<CommentContent[]>;
 
     post_comment: ({ user_id, text, rep_id, IsReply, reply_to }: PostCommentParams) => Promise<UserId>;
-    
+
     update_comment: ({ user_id, comment_id, comment }: UpdateCommentParams) => Promise<UserId>;
     delete_comment: ({ user_id, comment_id }: DeleteCommentParams) => Promise<UserId>;
     get_rep_comments: (rep_id: number) => Promise<CommentContent[]>;
@@ -38,7 +38,7 @@ export interface DeleteCommentParams {
 //make comment interface content
 export interface CommentContent {
     rep_id: number;
-    comment_id?: number;
+    comment_id: number;
     created_at: Date;
     updated_at: Date;
     user_id: string;

@@ -1,6 +1,7 @@
 import {
     CommentContent,
     PostCommentParams,
+    DeleteCommentParams,
 } from "../../../../api/interfaces/commentApi.interface";
 import { Card, Input, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
@@ -11,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
 import { useRef } from "react";
+
 import CommentEdit from "./commentCreate";
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
@@ -66,19 +68,13 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
 
     //make usemutation to save the comment
     const { mutate, isLoading, error } = useMutation({
-        mutationFn: async ({
-            user_id,
-            text,
-            rep_id,
-            IsReply,
-            reply_to,
-        }: PostCommentParams) =>
+        mutationFn: async (data: PostCommentParams) =>
             await commentApi.post_comment({
-                rep_id: rep_id,
-                text: text,
+                rep_id: data.rep_id,
+                text: data.text,
                 user_id: user_id,
                 IsReply: true,
-                reply_to: reply_to,
+                reply_to: data.reply_to,
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
@@ -88,6 +84,28 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
             console.log(error);
         },
     });
+
+    //make usemutation to delete the comment
+    const { mutate: deleteMutate, isLoading: deleteIsLoading, error: deleteError } =
+
+        useMutation({
+            mutationFn: async () =>
+                await commentApi.delete_comment({
+                    user_id: user_id,
+                    comment_id: comment.comment_id,
+                }),
+            onSuccess: (data) => {
+                queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
+            },
+            onError: (error) => {
+                console.log(error);
+            },
+        });
+
+    //make delete function onclick the button
+    const deleteComment = () => {
+        deleteMutate();
+    };
 
     return (
         <>
@@ -105,6 +123,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                     <br />
                     <Text>{comment.text}</Text>
                     <Button {...buttonProps}>reply</Button>
+                    {user_id == comment_user_id && <Button isLoading={deleteIsLoading} onClick={deleteComment}>delete</Button>}
                     <Card {...disclosureProps}>
                         <Input
                             css={CommentEdit}
