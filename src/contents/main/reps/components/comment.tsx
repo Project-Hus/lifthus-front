@@ -11,7 +11,7 @@ import { Button } from "@chakra-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import CommentEdit from "./commentCreate";
 
@@ -38,6 +38,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     //save comment function
     const save = (e: Event) => {
         e.preventDefault();
+        console.log(e)
         if (InputRef.current?.value == "" || InputRef.current?.value == null) {
             return alert("Please write the comment");
         }
@@ -56,6 +57,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
 
     //Call the CommentText
     const InputRef = useRef<HTMLInputElement>(null);
+    const EditInputRef = useRef<HTMLInputElement>(null);
 
     // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
     const queryClient = useQueryClient();
@@ -65,6 +67,14 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
         useDisclosure();
     const buttonProps = getButtonProps();
     const disclosureProps = getDisclosureProps();
+
+    //open/close comment window functions
+    const { getDisclosureProps: EditgetDisclosureProps, getButtonProps: EditgetButtonProps } =
+        useDisclosure();
+    const EditbuttonProps = EditgetButtonProps();
+    const EditdisclosureProps = EditgetDisclosureProps();
+
+
 
     //make usemutation to save the comment
     const { mutate, isLoading, error } = useMutation({
@@ -107,23 +117,51 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
         deleteMutate();
     };
 
+    //state for comment edit
+    const [IsCommentEdit, setCommentEdit] = useState(false);
     return (
         <>
             <CommentBoard>
+                {/* the main comment */}
                 <Card>
                     Comment_id {comment.comment_id}
                     <Text as="b">
                         {comment_user_id}-{created_at.toString()}-
                     </Text>
+                    {/* comment edit window */}
+                    {IsCommentEdit == true &&
+                        <>
+                            <Input defaultValue={comment.text} ref={EditInputRef} />
+                            <Button onClick={() => setCommentEdit(false)}>Cancel</Button>
+                            <Button
+                                {...EditbuttonProps}
+
+                                onClick={save}
+                            >
+                                Save
+                            </Button>
+                        </>
+
+                    }
+
                     {comment.IsReply && (
                         <Text>
                             this comment reply to Commend_id {comment.reply_to?.toString()}{" "}
                         </Text>
                     )}
                     <br />
-                    <Text>{comment.text}</Text>
-                    <Button {...buttonProps}>reply</Button>
-                    {user_id == comment_user_id && <Button isLoading={deleteIsLoading} onClick={deleteComment}>delete</Button>}
+                    {IsCommentEdit == false &&
+                        <Text>{comment.text}</Text>
+                    }
+                    {IsCommentEdit == false && <Button {...buttonProps}>reply</Button>}
+
+                    {(user_id == comment_user_id && IsCommentEdit == false) &&
+                        <>
+                            <Button isLoading={deleteIsLoading} onClick={deleteComment}>delete</Button>
+                            <Button onClick={() => setCommentEdit(true)}>Edit</Button>
+                        </>
+                    }
+                    {/* relpy comment window*/}
                     <Card {...disclosureProps}>
                         <Input
                             css={CommentEdit}
