@@ -2,8 +2,9 @@ import {
     CommentContent,
     PostCommentParams,
     DeleteCommentParams,
+    UpdateCommentParams,
 } from "../../../../api/interfaces/commentApi.interface";
-import { Card, Input, useDisclosure } from "@chakra-ui/react";
+import { Card, FormControl, Input, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Text } from "@chakra-ui/layout";
 import useUserStore from "../../../../store/user.zustand";
@@ -11,9 +12,7 @@ import { Button } from "@chakra-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
-import { useRef, useState } from "react";
-
-import CommentEdit from "./commentCreate";
+import { FormEvent, FormEventHandler, useRef, useState } from "react";
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
     const CommentBoard = styled.div`
@@ -35,26 +34,6 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     //call user_id from zustand
     const { user_id, username } = useUserStore();
 
-    //save comment function
-    const save = (e: Event) => {
-        e.preventDefault();
-        console.log(e)
-        if (InputRef.current?.value == "" || InputRef.current?.value == null) {
-            return alert("Please write the comment");
-        }
-        const text = InputRef.current?.value;
-
-        // updateCommentList
-        mutate({
-            user_id: comment_user_id,
-            text: text,
-            rep_id: comment.rep_id,
-            IsReply: false,
-            reply_to: comment.comment_id,
-        });
-        return;
-    };
-
     //Call the CommentText
     const InputRef = useRef<HTMLInputElement>(null);
     const EditInputRef = useRef<HTMLInputElement>(null);
@@ -74,6 +53,10 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     const EditbuttonProps = EditgetButtonProps();
     const EditdisclosureProps = EditgetDisclosureProps();
 
+    //state for comment edit
+    const [IsCommentEdit, setCommentEdit] = useState(false);
+
+
 
 
     //make usemutation to save the comment
@@ -86,6 +69,25 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                 IsReply: true,
                 reply_to: data.reply_to,
             }),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
+            onClose();
+        },
+        onError: (error) => {
+            console.log(error);
+        },
+    });
+
+    //make usemutation to Edit the comment
+    const { mutate: EditMutate, isLoading: EditIsLoading, error: EditError } = useMutation({
+        mutationFn: async (data: UpdateCommentParams) =>
+            await commentApi.update_comment({
+                user_id: user_id,
+                comment_id: comment.comment_id,
+                comment: data.comment
+
+            }
+            ),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
             onClose();
@@ -112,13 +114,60 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
             },
         });
 
+    //save comment function
+    const save = (e: FormEvent<HTMLFormElement>
+    ) => {
+        e.preventDefault();
+        console.log(e)
+        if (InputRef.current?.value == "" || InputRef.current?.value == null) {
+            return alert("Please write the comment");
+        }
+        const text = InputRef.current?.value;
+
+        // updateCommentList
+        mutate({
+            user_id: comment_user_id,
+            text: text,
+            rep_id: comment.rep_id,
+            IsReply: false,
+            reply_to: comment.comment_id,
+        });
+        return;
+    };
+
     //make delete function onclick the button
     const deleteComment = () => {
         deleteMutate();
     };
 
-    //state for comment edit
-    const [IsCommentEdit, setCommentEdit] = useState(false);
+    //make edit function onclick the button
+    const editComment = () => {
+        if (EditInputRef.current?.value == null) {
+            return alert("Please write the comment");
+        }
+        EditMutate({
+            user_id: user_id,
+            comment_id: comment.comment_id,
+            comment: {
+                rep_id: comment.rep_id,
+                comment_id: comment.comment_id,
+                user_id: comment_user_id,
+                created_at: created_at,
+                reply_to: comment.reply_to,
+                IsReply: comment.IsReply,
+                updated_at: comment.updated_at,
+
+
+
+                text: EditInputRef.current?.value,
+
+
+
+            }
+        });
+        setCommentEdit(false)
+    };
+
     return (
         <>
             <CommentBoard>
@@ -131,17 +180,20 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                     {/* comment edit window */}
                     {IsCommentEdit == true &&
                         <>
-                            <Input defaultValue={comment.text} ref={EditInputRef} />
+                            <Input name="EditedComment" defaultValue={comment.text} ref={EditInputRef} />
                             <Button onClick={() => setCommentEdit(false)}>Cancel</Button>
                             <Button
+                                type="submit"
                                 {...EditbuttonProps}
-
-                                onClick={save}
+                                onClick={editComment}
+                                isLoading={EditIsLoading}
+                                variant="solid"
+                                display="inline-block"
+                                alignSelf="end"
                             >
                                 Save
                             </Button>
                         </>
-
                     }
 
                     {comment.IsReply && (
