@@ -23,6 +23,7 @@ export interface CommentApi {
     comment_id,
   }: DeleteCommentParams) => Promise<UserId>;
   get_rep_comments: (rep_id: number) => Promise<CommentContent[]>;
+  get_reply_comments: (comment_id: number) => Promise<CommentContent[]>;
 }
 
 //make comment interface function parameter

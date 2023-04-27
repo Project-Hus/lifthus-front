@@ -66,7 +66,18 @@ const commentTestApi: CommentApi = {
   get_rep_comments: function (rep_id: number): Promise<CommentContent[]> {
     let comments: CommentContent[] = [];
     for (const k in comment_list) {
-      if (comment_list[k].rep_id === rep_id) comments.push(comment_list[k]);
+      if (comment_list[k].rep_id === rep_id && comment_list[k].IsReply == false)
+        comments.push(comment_list[k]);
+    }
+    return Promise.resolve(comments);
+  },
+  get_reply_comments: function (comment_id: number): Promise<CommentContent[]> {
+    let comments: CommentContent[] = [];
+
+    for (const k in comment_list) {
+      if (comment_list[k].reply_to === comment_id) {
+        comments.push(comment_list[k]);
+      }
     }
     return Promise.resolve(comments);
   },

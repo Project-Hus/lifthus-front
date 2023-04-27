@@ -5,6 +5,7 @@ import {
   UpdateCommentParams,
 } from "../../../../api/interfaces/commentApi.interface";
 import {
+  Box,
   Card,
   FormControl,
   IconButton,
@@ -24,6 +25,7 @@ import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
 import { FormEvent, FormEventHandler, useRef, useState } from "react";
 import { EditIcon, HamburgerIcon } from "@chakra-ui/icons";
+import ReplyList from "./replyList";
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
   const CommentBoard = styled.div`
@@ -82,6 +84,8 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
+      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+
       onClose();
     },
     onError: (error) => {
@@ -103,6 +107,8 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
+      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+
       onClose();
     },
     onError: (error) => {
@@ -123,6 +129,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
+      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
     },
     onError: (error) => {
       console.log(error);
@@ -248,26 +255,29 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
             )}
           </Flex>
           {/* relpy comment window*/}
-          <Card {...disclosureProps}>
-            <Input
-              css={CommentEdit}
-              ref={InputRef}
-              placeholder="write the reply"
-            />
-            <Button
-              isLoading={isLoading}
-              type="submit"
-              {...buttonProps}
-              variant="solid"
-              display="inline-block"
-              alignSelf="end"
-              onClick={save}
-            >
-              Save
-            </Button>
-          </Card>
+          <Box {...disclosureProps}>
+            <Card>
+              <Input
+                css={CommentEdit}
+                ref={InputRef}
+                placeholder="write the reply"
+              />
+              <Button
+                isLoading={isLoading}
+                type="submit"
+                {...buttonProps}
+                variant="solid"
+                display="inline-block"
+                alignSelf="end"
+                onClick={save}
+              >
+                Save
+              </Button>
+            </Card>
+          </Box>
         </Card>
       </CommentBoard>
+      <ReplyList comment_id={comment.comment_id}></ReplyList>
     </>
   );
 };
