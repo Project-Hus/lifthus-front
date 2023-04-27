@@ -107,7 +107,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+      // queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
 
       onClose();
     },
@@ -129,7 +129,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+      // queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
     },
     onError: (error) => {
       console.log(error);
@@ -189,8 +189,8 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       <CommentBoard>
         {/* the main comment */}
         <Card>
-          Comment_id {comment.comment_id}
-          <Text as="b">
+          {/* Comment_id {comment.comment_id} */}
+          <Text as="b" fontSize="sm">
             {comment_user_id}
             <br />
             {updated_at == null
@@ -205,30 +205,33 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                 defaultValue={comment.text}
                 ref={EditInputRef}
               />
-              <Button onClick={() => setCommentEdit(false)}>Cancel</Button>
-              <Button
-                type="submit"
-                {...EditbuttonProps}
-                onClick={editComment}
-                isLoading={EditIsLoading}
-                variant="solid"
-                display="inline-block"
-                alignSelf="end"
-              >
-                Save
-              </Button>
+              <Flex direction={"row"} alignSelf="self-end">
+                <Button size="sm" onClick={() => setCommentEdit(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  size="sm"
+                  type="submit"
+                  {...EditbuttonProps}
+                  onClick={editComment}
+                  isLoading={EditIsLoading}
+                  variant="solid"
+                  display="inline-block"
+                >
+                  Save
+                </Button>
+              </Flex>
             </>
           )}
           {comment.IsReply && (
-            <Text>
+            <Text fontSize="sm">
               this comment reply to Commend_id {comment.reply_to?.toString()}{" "}
             </Text>
           )}
-          <br />
-          {IsCommentEdit == false && <Text>{comment.text}</Text>}
+          {IsCommentEdit == false && <Text fontSize="sm">{comment.text}</Text>}
           <Flex>
             {IsCommentEdit == false && (
-              <Button alignSelf="start" {...buttonProps}>
+              <Button size="sm" alignSelf="start" {...buttonProps}>
                 reply
               </Button>
             )}
@@ -240,6 +243,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                   icon={<EditIcon />}
                   variant="outline"
                   alignSelf="end"
+                  size="sm"
                 />
                 <MenuList>
                   <MenuItem>
@@ -263,6 +267,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                 placeholder="write the reply"
               />
               <Button
+                size="sm"
                 isLoading={isLoading}
                 type="submit"
                 {...buttonProps}
@@ -277,7 +282,11 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           </Box>
         </Card>
       </CommentBoard>
-      <ReplyList comment_id={comment.comment_id}></ReplyList>
+      <ReplyList
+        comment_user_id={comment.user_id}
+        Ispadding={!comment.IsReply}
+        comment_id={comment.comment_id}
+      ></ReplyList>
     </>
   );
 };

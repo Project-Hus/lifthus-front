@@ -4,7 +4,15 @@ import { useState } from "react";
 import commentApi from "../../../../api/commentApi";
 import { CommentContent } from "../../../../api/interfaces/commentApi.interface";
 import Comment from "./comment";
-const ReplyList = ({ comment_id }: { comment_id: number }) => {
+const ReplyList = ({
+  comment_user_id,
+  Ispadding,
+  comment_id,
+}: {
+  comment_user_id: String;
+  Ispadding: boolean;
+  comment_id: number;
+}) => {
   //call comment data from api(임시)
   const [comments, setComments] = useState<CommentContent[]>([]);
 
@@ -19,6 +27,6 @@ const ReplyList = ({ comment_id }: { comment_id: number }) => {
   for (const comment of comments) {
     reply_comment_list.push(<Comment comment={comment}></Comment>);
   }
-  return <Box paddingLeft="10%">{reply_comment_list}</Box>;
+  return <Box paddingLeft={Ispadding ? "10%" : "0%"}>{reply_comment_list}</Box>;
 };
 export default ReplyList;

@@ -8,11 +8,12 @@ import {
   UpdateCommentParams,
   DeleteCommentParams,
 } from "../interfaces/commentApi.interface";
+const Comment_list: { [key: number]: CommentContent } = comment_list;
 const commentTestApi: CommentApi = {
   get_user_comments: async ({ user_id }: UserId): Promise<CommentContent[]> => {
     let comments: CommentContent[] = [];
-    for (const k in comment_list) {
-      if (comment_list[k].user_id === user_id) comments.push(comment_list[k]);
+    for (const k in Comment_list) {
+      if (Comment_list[k].user_id === user_id) comments.push(Comment_list[k]);
     }
     return comments;
   },
@@ -25,17 +26,14 @@ const commentTestApi: CommentApi = {
     reply_to,
   }: PostCommentParams): Promise<UserId> => {
     return new Promise((resolve) => {
-      const last_index = Object.keys(comment_list).length - 1;
+      const last_index = Object.keys(Comment_list).length + 1;
       setTimeout(() => {
-        const comment_id =
-          comment_list[last_index] == null
-            ? 0
-            : comment_list[last_index].comment_id + 1;
+        console.log("comment list", Comment_list);
         const created_at = new Date();
         const updated_at = new Date();
-        comment_list[comment_id] = {
-          rep_id,
-          comment_id,
+        Comment_list[last_index] = {
+          rep_id: rep_id,
+          comment_id: last_index,
           created_at,
           updated_at,
           user_id,
@@ -43,7 +41,7 @@ const commentTestApi: CommentApi = {
           IsReply,
           reply_to: reply_to,
         };
-        console.log("comment", comment_list[comment_id]);
+        console.log("comment", Comment_list[last_index]);
         return resolve({ user_id });
       }, 500);
     });
@@ -53,30 +51,30 @@ const commentTestApi: CommentApi = {
     comment_id,
     comment,
   }: UpdateCommentParams): Promise<UserId> => {
-    comment_list[comment_id] = { ...comment_list[comment_id], ...comment };
+    Comment_list[comment_id] = { ...Comment_list[comment_id], ...comment };
     return { user_id };
   },
   delete_comment: async ({
     user_id,
     comment_id,
   }: DeleteCommentParams): Promise<UserId> => {
-    delete comment_list[comment_id];
+    delete Comment_list[comment_id];
     return { user_id };
   },
   get_rep_comments: function (rep_id: number): Promise<CommentContent[]> {
     let comments: CommentContent[] = [];
-    for (const k in comment_list) {
-      if (comment_list[k].rep_id === rep_id && comment_list[k].IsReply == false)
-        comments.push(comment_list[k]);
+    for (const k in Comment_list) {
+      if (Comment_list[k].rep_id === rep_id && Comment_list[k].IsReply == false)
+        comments.push(Comment_list[k]);
     }
     return Promise.resolve(comments);
   },
   get_reply_comments: function (comment_id: number): Promise<CommentContent[]> {
     let comments: CommentContent[] = [];
 
-    for (const k in comment_list) {
-      if (comment_list[k].reply_to === comment_id) {
-        comments.push(comment_list[k]);
+    for (const k in Comment_list) {
+      if (Comment_list[k].reply_to === comment_id) {
+        comments.push(Comment_list[k]);
       }
     }
     return Promise.resolve(comments);
