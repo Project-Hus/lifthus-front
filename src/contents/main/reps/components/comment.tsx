@@ -184,9 +184,11 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
         <Card>
           Comment_id {comment.comment_id}
           <Text as="b">
-            {comment_user_id}-
-            {updated_at == null ? created_at.toString() : updated_at.toString()}
-            -
+            {comment_user_id}
+            <br />
+            {updated_at == null
+              ? created_at.toLocaleString()
+              : updated_at.toLocaleString()}
           </Text>
           {/* comment edit window */}
           {IsCommentEdit == true && (
