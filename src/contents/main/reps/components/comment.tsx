@@ -4,6 +4,7 @@ import {
   DeleteCommentParams,
   UpdateCommentParams,
 } from "../../../../api/interfaces/commentApi.interface";
+import { ThemeColor } from "../../../../common/styles/theme.style";
 import {
   Box,
   Card,
@@ -23,27 +24,43 @@ import { Button } from "@chakra-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
-import { FormEvent, FormEventHandler, useRef, useState } from "react";
+import {
+  FormEvent,
+  FormEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { EditIcon, HamburgerIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
+import userApi from "../../../../api/userApi";
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
   const CommentBoard = styled.div`
     border: 2px solid black;
     border-radius: 5px;
-    padding: 10px;
+    padding: 2px;
   `;
 
   const CommentEdit = css`
     border: 0px solid black;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
   `;
 
   //get comment data
   const comment_user_id = comment.user_id;
   const created_at = comment.created_at;
   const updated_at = comment.updated_at;
+  const [comment_user_name, setCommentUserName] = useState("loading...");
+  const call_comment_user_name = async () => {
+    const userdata = await userApi.get_user_info({ user_id: comment_user_id });
+    setCommentUserName(userdata.username ? userdata.username : "loading...");
+  };
+
+  useEffect(() => {
+    call_comment_user_name();
+  }, []);
 
   //call user_id from zustand
   const { user_id, username } = useUserStore();
@@ -107,7 +124,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      // queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
 
       onClose();
     },
@@ -129,7 +146,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      // queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
     },
     onError: (error) => {
       console.log(error);
@@ -188,14 +205,15 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     <>
       <CommentBoard>
         {/* the main comment */}
-        <Card>
+        <Card backgroundColor={ThemeColor.backgroundColor} padding="5px">
           {/* Comment_id {comment.comment_id} */}
-          <Text as="b" fontSize="sm">
-            {comment_user_id}
-            <br />
+          <Text as="b" fontSize="sm" color="white">
+            {comment_user_name}
+          </Text>
+          <Text color="gray.400" fontSize="sm">
             {updated_at == null
-              ? created_at.toLocaleString()
-              : updated_at.toLocaleString()}
+              ? created_at.toString().slice(0, 21)
+              : updated_at.toString().slice(0, 21)}
           </Text>
           {/* comment edit window */}
           {IsCommentEdit == true && (
@@ -223,12 +241,14 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
               </Flex>
             </>
           )}
-          {comment.IsReply && (
-            <Text fontSize="sm">
-              this comment reply to Commend_id {comment.reply_to?.toString()}{" "}
+
+          {IsCommentEdit == false && (
+            <Text fontSize="sm" color="white">
+              {comment.IsReply
+                ? "@" + comment_user_name + " " + comment.text
+                : comment.text}
             </Text>
           )}
-          {IsCommentEdit == false && <Text fontSize="sm">{comment.text}</Text>}
           <Flex>
             {IsCommentEdit == false && (
               <Button size="sm" alignSelf="start" {...buttonProps}>

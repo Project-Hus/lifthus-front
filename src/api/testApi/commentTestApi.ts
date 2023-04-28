@@ -8,6 +8,8 @@ import {
   UpdateCommentParams,
   DeleteCommentParams,
 } from "../interfaces/commentApi.interface";
+
+let counter = 10;
 const Comment_list: { [key: number]: CommentContent } = comment_list;
 const commentTestApi: CommentApi = {
   get_user_comments: async ({ user_id }: UserId): Promise<CommentContent[]> => {
@@ -26,14 +28,15 @@ const commentTestApi: CommentApi = {
     reply_to,
   }: PostCommentParams): Promise<UserId> => {
     return new Promise((resolve) => {
-      const last_index = Object.keys(Comment_list).length + 1;
+      //Temperliy comment_id started at 10
+      counter++;
       setTimeout(() => {
         console.log("comment list", Comment_list);
         const created_at = new Date();
         const updated_at = new Date();
-        Comment_list[last_index] = {
+        Comment_list[counter] = {
           rep_id: rep_id,
-          comment_id: last_index,
+          comment_id: counter,
           created_at,
           updated_at,
           user_id,
@@ -41,7 +44,7 @@ const commentTestApi: CommentApi = {
           IsReply,
           reply_to: reply_to,
         };
-        console.log("comment", Comment_list[last_index]);
+        console.log("comment", Comment_list[counter]);
         return resolve({ user_id });
       }, 500);
     });
