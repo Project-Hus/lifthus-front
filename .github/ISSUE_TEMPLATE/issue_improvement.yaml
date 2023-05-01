@@ -1,0 +1,41 @@
+name: Improvement
+description: Suggest improvement to the code, structure, etc
+title: "[Improvement]: "
+labels: ["improvement"]
+assignees:
+  - lifthus
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting improvement!
+  - type: textarea
+    id: improvement
+    attributes:
+      label: What could be modified to improve our project?
+      description: Also tell us, why should it be modified?
+      placeholder: I think the code in...
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: What exactly are the improvements made with this modification?
+      description: Also tell us, potential impact or risks associated with the modification.
+      placeholder: It will improve... and may cause...
+    validations:
+      required: true
+  - type: textarea
+    id: how
+    attributes:
+      label: How can this improvement be implemented exactly?
+      description: Like required tech stacks, or specific implementation methods etc.
+      placeholder: It could be implemented like...
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Agreement
+      description: 
+      options:
+        - label: I've checked if there's any other issue about this.
+          required: true
