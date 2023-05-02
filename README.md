@@ -7,4 +7,4 @@
 # Lifthus : #
 ### World's best intelligent workout management service that ever existed ###
 
-###### Typescript React Styled-Components react-router-dom Zustand React-Query React-Hook-Form
+###### Typescript React Emotion react-router-dom Zustand React-Query React-Hook-Form
