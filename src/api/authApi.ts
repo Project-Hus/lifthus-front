@@ -34,7 +34,7 @@ const authApi: AuthApi = {
       console.log(res, res.data);
       // if ok, server returns uid and maintaining session
       if (res.status == statusInfo.succ.Ok.code)
-        return { user_id: res.data, user_name: "" };
+        return { user_id: res.data, user_name: "tmp" };
       // if it is not ok or created, return empty string
       if (res.status != statusInfo.succ.Created.code)
         return { user_id: "", user_name: "" };
