@@ -8,6 +8,11 @@ import {
 } from "../../../../api/interfaces/commentApi.interface";
 import useUserStore from "../../../../store/user.zustand";
 import emotion, { css } from "@emotion/react";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+
+
+
+
 // 새로운 Comment를 생성하는 컴포넌트
 const CommentCreate = ({ rep_id }: { rep_id: number }) => {
   const CommentEdit = css`
@@ -15,25 +20,26 @@ const CommentCreate = ({ rep_id }: { rep_id: number }) => {
     border-radius: 5px;
     padding: 10px;
   `;
+  // useForm을 이용하여 form을 관리
+  const { register, handleSubmit, reset } = useForm();
 
   //call user_id from zustand
   const { user_id } = useUserStore();
 
   //save comment function
-  const save = (e: Event) => {
-    e.preventDefault();
-    if (InputRef.current?.value == "" || InputRef.current?.value == null) {
-      return alert("Please write the comment");
+  const save = (data: any) => {
+    console.log(data.NewComment)
+    if (data.NewComment == "") {
+      alert("please write the comment")
+      return
     }
-    const text = InputRef.current?.value;
+    const text = data.NewComment
 
     // updateCommentList
     mutate({ user_id: user_id, text: text, rep_id: rep_id, IsReply: false });
     return;
   };
 
-  //Call the CommentText
-  const InputRef = useRef<HTMLInputElement>(null);
 
   // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
@@ -56,16 +62,18 @@ const CommentCreate = ({ rep_id }: { rep_id: number }) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
       onClose();
-      InputRef.current!.value = "";
+      reset();
     },
     onError: (error) => {
       console.log(error);
     },
   });
 
+
   return (
-    <>
-      <Input css={CommentEdit} ref={InputRef} placeholder="write the reply" />
+    <><form onSubmit={handleSubmit(save)}>
+
+      <Input css={CommentEdit} placeholder="write the reply" {...register("NewComment")} />
       <Button
         isLoading={isLoading}
         size="sm"
@@ -74,10 +82,10 @@ const CommentCreate = ({ rep_id }: { rep_id: number }) => {
         variant="solid"
         display="inline-block"
         alignSelf="end"
-        onClick={save}
       >
         Save
       </Button>
+    </form>
     </>
   );
 };
