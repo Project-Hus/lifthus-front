@@ -8,7 +8,6 @@ import { ThemeColor } from "../../../../common/styles/theme.style";
 import {
   Box,
   Card,
-  FormControl,
   IconButton,
   Input,
   Menu,
@@ -26,14 +25,15 @@ import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
 import {
   FormEvent,
-  FormEventHandler,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { EditIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
+import { useForm } from "react-hook-form";
+
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
   const CommentBoard = styled.div`
@@ -200,6 +200,9 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     });
     setCommentEdit(false);
   };
+  //react-hook-form
+  const { register, handleSubmit } = useForm();
+
 
   return (
     <>
