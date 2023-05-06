@@ -222,6 +222,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                 name="EditedComment"
                 defaultValue={comment.text}
                 ref={EditInputRef}
+                backgroundColor="white"
               />
               <Flex direction={"row"} alignSelf="self-end">
                 <Button size="sm" onClick={() => setCommentEdit(false)}>
