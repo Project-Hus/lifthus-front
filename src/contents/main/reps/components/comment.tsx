@@ -179,7 +179,6 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           {/* Comment_id {comment.comment_id} */}
           <Text as="b" fontSize="sm" color="white">
             {comment_user_name}
-            {comment.comment_id}
           </Text>
           <Text color="gray.400" fontSize="sm">
             {updated_at == null
