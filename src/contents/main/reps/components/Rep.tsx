@@ -45,6 +45,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
       commentApi.get_rep_comments(rep.rep_id),
     onSuccess: (data) => {
       setComments(data);
+      console.log("all_comment" + JSON.stringify(data))
     }
 
   }

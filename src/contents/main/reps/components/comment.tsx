@@ -34,9 +34,12 @@ import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import { useForm } from "react-hook-form";
 import CommentCreate from "./commentCreate";
+import comment_list from "../../../../api/mocks/commentApi.mocks";
 
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
+  console.log("commentList" + JSON.stringify(comment_list))
+
   const CommentBoard = styled.div`
     border: 2px solid black;
     border-radius: 5px;
@@ -61,7 +64,8 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
 
   useEffect(() => {
     call_comment_user_name();
-  }, []);
+    console.log("comment_user_name is called" + comment_user_name);
+  });
 
   //call user_id from zustand
   const { user_id, username } = useUserStore();
@@ -89,27 +93,6 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
 
   //state for comment edit
   const [IsCommentEdit, setCommentEdit] = useState(false);
-
-  //make usemutation to save the comment
-  const { mutate, isLoading, error } = useMutation({
-    mutationFn: async (data: PostCommentParams) =>
-      await commentApi.post_comment({
-        rep_id: data.rep_id,
-        text: data.text,
-        user_id: user_id,
-        IsReply: true,
-        reply_to: data.reply_to,
-      }),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
-
-      onClose();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
 
   //make usemutation to Edit the comment
   const {
@@ -148,6 +131,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
       queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+      console.log("delete success", user_id, comment.comment_id);
     },
     onError: (error) => {
       console.log(error);
@@ -195,6 +179,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           {/* Comment_id {comment.comment_id} */}
           <Text as="b" fontSize="sm" color="white">
             {comment_user_name}
+            {comment.comment_id}
           </Text>
           <Text color="gray.400" fontSize="sm">
             {updated_at == null
@@ -232,7 +217,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           {IsCommentEdit == false && (
             <Text fontSize="sm" color="white">
               {comment.IsReply
-                ? "@" + comment_user_name + " " + comment.text
+                ? "@" + comment.reply_to_who + " " + comment.text
                 : comment.text}
             </Text>
           )}
@@ -242,7 +227,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
                 reply
               </Button>
             )}
-            {user_id == comment_user_id && IsCommentEdit == false && (
+            {user_id == comment_user_id && (
               <Menu>
                 <MenuButton
                   as={IconButton}
@@ -268,7 +253,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           {/* relpy comment window*/}
           <Box {...disclosureProps}>
             <Card>
-              <CommentCreate rep_id={comment.rep_id} IsReply={true} reply_to={comment.comment_id} onClose={onClose}></CommentCreate>
+              <CommentCreate rep_id={comment.rep_id} IsReply={true} reply_to={comment.comment_id} onClose={onClose} reply_to_who={comment_user_name}></CommentCreate>
             </Card>
           </Box>
         </Card>
