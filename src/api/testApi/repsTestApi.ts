@@ -25,6 +25,9 @@ const repsTestApi: RepsApi = {
     return list;
   },
   post_rep: async ({ user_id, rep }: PostRepParams): Promise<UserId> => {
+    rep_list[rep.rep_id] = rep;
+
+
     return { user_id };
   },
   update_rep: async ({

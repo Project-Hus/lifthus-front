@@ -17,6 +17,7 @@ import { UserId } from "../../../../api/interfaces/userApi.interface";
 import userApi from "../../../../api/userApi";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
+import CreatePost from "./CreatePost";
 import ProfileTab from "./ProfileTab";
 
 const ProfileCard = ({ user_id }: UserId) => {
@@ -132,6 +133,7 @@ const ProfileCard = ({ user_id }: UserId) => {
       <hr />
       <hr />
       <ProfileTab />
+      <CreatePost />
     </>
   );
 };
