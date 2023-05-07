@@ -14,7 +14,13 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 
 // 새로운 Comment를 생성하는 컴포넌트
-const CommentCreate = ({ rep_id }: { rep_id: number }) => {
+const CommentCreate = ({ rep_id, IsReply, reply_to, onClose }: { rep_id: number, IsReply: boolean, reply_to?: number, onClose: () => void }) => {
+  if (onClose === undefined) {
+    onClose = () => {
+      console.log("onClose is undefined")
+    }
+  }
+
   const CommentEdit = css`
     border: 0px solid black;
     border-radius: 5px;
@@ -36,7 +42,7 @@ const CommentCreate = ({ rep_id }: { rep_id: number }) => {
     const text = data.NewComment
 
     // updateCommentList
-    mutate({ user_id: user_id, text: text, rep_id: rep_id, IsReply: false });
+    mutate({ user_id: user_id, text: text, rep_id: rep_id, IsReply: IsReply, reply_to: reply_to });
     return;
   };
 
@@ -45,24 +51,27 @@ const CommentCreate = ({ rep_id }: { rep_id: number }) => {
   const queryClient = useQueryClient();
 
   //open/close comment window functions
-  const { getDisclosureProps, getButtonProps, isOpen, onOpen, onClose } =
+  const { getDisclosureProps, getButtonProps, isOpen, onOpen } =
     useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
   //make usemutation to save the comment
   const { mutate, isLoading, error } = useMutation({
-    mutationFn: async ({ user_id, text, rep_id, IsReply }: PostCommentParams) =>
+    mutationFn: async ({ user_id, text, rep_id, IsReply, reply_to }: PostCommentParams) =>
       await commentApi.post_comment({
         rep_id: rep_id,
         text: text,
         user_id: user_id,
-        IsReply: false,
+        IsReply: IsReply,
+        reply_to: reply_to
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      onClose();
+      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
       reset();
+
+      IsReply ? onClose() : onOpen();
     },
     onError: (error) => {
       console.log(error);
@@ -73,7 +82,7 @@ const CommentCreate = ({ rep_id }: { rep_id: number }) => {
   return (
     <><form onSubmit={handleSubmit(save)}>
 
-      <Input css={CommentEdit} placeholder="write the reply" {...register("NewComment")} />
+      <Input css={CommentEdit} placeholder="write the reply" {...register("NewComment")} backgroundColor="white" />
       <Button
         isLoading={isLoading}
         size="sm"
