@@ -31,7 +31,7 @@ import CommentCreate from "./commentCreate";
 
 const Rep = ({ rep }: { rep: RepContent }) => {
   //open/close comment window functions
-  const { getDisclosureProps, getButtonProps } = useDisclosure();
+  const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps()
   const disclosureProps = getDisclosureProps()
 
@@ -173,7 +173,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
         <Card {...disclosureProps}>
 
 
-          <CommentCreate rep_id={rep.rep_id} />
+          <CommentCreate rep_id={rep.rep_id} IsReply={false} onClose={onClose} />
 
           <CommentList data={comments} />
         </Card>
