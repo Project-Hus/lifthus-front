@@ -30,7 +30,7 @@ const comment_list: { [key: number]: CommentContent } = {
         comment_id: 3,
         created_at: new Date("2023-01-05"),
         updated_at: new Date("2023-01-05"),
-        user_id: "ramda",
+        user_id: "Tom",
         text: "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
         IsReply: false,
     },
