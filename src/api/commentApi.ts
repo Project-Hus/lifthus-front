@@ -23,6 +23,7 @@ const commentApi: CommentApi = {
     text,
     IsReply,
     reply_to,
+    reply_to_who
   }: PostCommentParams): Promise<UserId> => {
     if (process.env.NODE_ENV === "development") {
       return commentTestApi.post_comment({
@@ -31,9 +32,10 @@ const commentApi: CommentApi = {
         text,
         IsReply,
         reply_to,
+        reply_to_who,
       });
     }
-    return commentTestApi.post_comment({ user_id, rep_id, text, IsReply });
+    return commentTestApi.post_comment({ user_id, rep_id, text, IsReply, reply_to, reply_to_who });
   },
 
   update_comment: async ({

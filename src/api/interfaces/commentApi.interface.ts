@@ -11,6 +11,7 @@ export interface CommentApi {
     rep_id,
     IsReply,
     reply_to,
+    reply_to_who
   }: PostCommentParams) => Promise<UserId>;
 
   update_comment: ({
@@ -34,6 +35,7 @@ export interface PostCommentParams {
   rep_id: number;
   IsReply: boolean;
   reply_to?: number;
+  reply_to_who?: string;
 }
 export interface UpdateCommentParams {
   user_id: string;
@@ -60,4 +62,5 @@ export interface CommentContent {
   //답글일 경우에만 존재
   //해당 답글이 달린 댓글의 comment_id 저장
   reply_to?: number;
+  reply_to_who?: string;
 }

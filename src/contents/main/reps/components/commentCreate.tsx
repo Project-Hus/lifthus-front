@@ -14,7 +14,12 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 
 // 새로운 Comment를 생성하는 컴포넌트
-const CommentCreate = ({ rep_id, IsReply, reply_to, onClose }: { rep_id: number, IsReply: boolean, reply_to?: number, onClose: () => void }) => {
+const CommentCreate = ({ rep_id, IsReply, reply_to, onClose, reply_to_who }: { rep_id: number, IsReply: boolean, reply_to?: number, onClose: () => void, reply_to_who?: string }) => {
+  if (reply_to_who === undefined) {
+    reply_to_who = ""
+  }
+  console.log("reply_to_who: " + reply_to_who)
+
   if (onClose === undefined) {
     onClose = () => {
       console.log("onClose is undefined")
@@ -42,7 +47,7 @@ const CommentCreate = ({ rep_id, IsReply, reply_to, onClose }: { rep_id: number,
     const text = data.NewComment
 
     // updateCommentList
-    mutate({ user_id: user_id, text: text, rep_id: rep_id, IsReply: IsReply, reply_to: reply_to });
+    mutate({ user_id: user_id, text: text, rep_id: rep_id, IsReply: IsReply, reply_to: reply_to, reply_to_who: reply_to_who });
     return;
   };
 
@@ -58,13 +63,14 @@ const CommentCreate = ({ rep_id, IsReply, reply_to, onClose }: { rep_id: number,
 
   //make usemutation to save the comment
   const { mutate, isLoading, error } = useMutation({
-    mutationFn: async ({ user_id, text, rep_id, IsReply, reply_to }: PostCommentParams) =>
+    mutationFn: async ({ user_id, text, rep_id, IsReply, reply_to, reply_to_who }: PostCommentParams) =>
       await commentApi.post_comment({
         rep_id: rep_id,
         text: text,
         user_id: user_id,
         IsReply: IsReply,
-        reply_to: reply_to
+        reply_to: reply_to,
+        reply_to_who: reply_to_who
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
