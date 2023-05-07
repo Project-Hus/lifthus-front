@@ -24,6 +24,17 @@ const user_list: { [key: string]: UserProfileDB } = {
     benchpress: 120,
     deadlift: 180,
   },
+  Tom: {
+    user_id: "Tom",
+    registered: true,
+    username: "토마스",
+    training_type: "powerlifting",
+    body_weight: 100,
+    height: 184,
+    squat: 160,
+    benchpress: 120,
+    deadlift: 180,
+  },
   succ: {
     user_id: "succ",
     registered: false,
