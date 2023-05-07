@@ -33,6 +33,7 @@ import { EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import { useForm } from "react-hook-form";
+import CommentCreate from "./commentCreate";
 
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
@@ -153,25 +154,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     },
   });
 
-  //save comment function
-  const save = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(e);
-    if (InputRef.current?.value == "" || InputRef.current?.value == null) {
-      return alert("Please write the comment");
-    }
-    const text = InputRef.current?.value;
 
-    // updateCommentList
-    mutate({
-      user_id: comment_user_id,
-      text: text,
-      rep_id: comment.rep_id,
-      IsReply: false,
-      reply_to: comment.comment_id,
-    });
-    return;
-  };
 
   //make delete function onclick the button
   const deleteComment = () => {
@@ -285,23 +268,7 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           {/* relpy comment window*/}
           <Box {...disclosureProps}>
             <Card>
-              <Input
-                css={CommentEdit}
-                ref={InputRef}
-                placeholder="write the reply"
-              />
-              <Button
-                size="sm"
-                isLoading={isLoading}
-                type="submit"
-                {...buttonProps}
-                variant="solid"
-                display="inline-block"
-                alignSelf="end"
-                onClick={save}
-              >
-                Save
-              </Button>
+              <CommentCreate rep_id={comment.rep_id} IsReply={true} reply_to={comment.comment_id} onClose={onClose}></CommentCreate>
             </Card>
           </Box>
         </Card>
