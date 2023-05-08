@@ -1,11 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios";
 import { RepContent } from "../../../../api/interfaces/repsApi.interface";
-import { Button, Input, useDisclosure } from "@chakra-ui/react";
+import { Text, Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Input, Menu, MenuButton, useDisclosure, MenuList, MenuItem, Textarea } from "@chakra-ui/react";
 import RepsApi from "../../../../api/repsApi"
 import useUserStore from "../../../../store/user.zustand";
+import { CloseIcon } from "@chakra-ui/icons";
+import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
+import { ThemeColor } from "../../../../common/styles/theme.style";
 const CreatePost = () => {
     //call user_id from zustand
     const { user_id, username } = useUserStore();
@@ -13,7 +15,7 @@ const CreatePost = () => {
     const queryClient = useQueryClient();
     const { register, handleSubmit, reset } = useForm<FormData>();
 
-    const { getButtonProps, getDisclosureProps, isOpen, onOpen } = useDisclosure();
+    const { getButtonProps, getDisclosureProps, onOpen, onClose } = useDisclosure();
     const buttonProps = getButtonProps()
     const disclosureProps = getDisclosureProps()
 
@@ -22,12 +24,17 @@ const CreatePost = () => {
             queryClient.invalidateQueries({ queryKey: ["reps"] });
         },
     });
+
     type FormData = {
         text: string;
         image: FileList;
     };
     const onSubmit = async (data: FormData) => {
+        if (data.text.length == 0) return alert("내용을 입력해주세요"
+        );
+
         try {
+
             const rep = {
                 rep_id: Math.floor(Math.random() * 1000),
                 created_at: new Date(),
@@ -46,17 +53,62 @@ const CreatePost = () => {
 
     return (
         <>
-            <Button {...buttonProps}>Create new Post</Button>
-            <form {...disclosureProps} onSubmit={handleSubmit(onSubmit)}>
+            <Menu >
+                <MenuButton as={Button} colorScheme="blue" margin="0.5em" marginBottom={"0em"}>Create new Post</MenuButton>
+                <MenuList>
+                    <MenuItem fontSize={"sm"} onClick={onOpen} textColor="gray.400">Create new Post</MenuItem>
+                    <MenuItem fontSize={"sm"} textColor="gray.400">Share my routine</MenuItem>
+                </MenuList>
+            </Menu>
+            <Card {...disclosureProps}
+                bgColor={ThemeColor.backgroundColorDarker}
+                color="white"
+                fontSize="0.7em"
+                margin="0.5em"
+                marginBottom={"0em"}
+            >
+                <CardHeader>
+                    <Flex letterSpacing="4">
+                        <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                            <Avatar
+                                name={username}
+                                src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}
+                            />
+                            <Box>
+                                <Heading fontSize="1.1em">{username}</Heading>
+                                <Text fontSize={"0.9em"} color="gray.400"></Text>
+                            </Box>
+                            <Button onClick={onClose} backgroundColor="red.300" leftIcon={<CloseIcon />}></Button>
+                        </Flex>
+                    </Flex>
+                </CardHeader>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        backgroundColor: ThemeColor.backgroundColor,
+                        borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
+                        borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
+                    }}
+                >
+                    {/* {image_list} */}
+                </div>
+                <CardBody>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input type="file" {...register("image")} />
+                        <Textarea color="black" {...register("text")} backgroundColor="white" />
 
-                <Input color="black" type="text" {...register("text")} backgroundColor="white" />
-                <input type="file" {...register("image")} />
-                <button type="submit" disabled={isLoading}>
-                    {isLoading ? "작성 중..." : "작성"}
-                </button>
-            </form>
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? "작성 중..." : "작성"}
+                        </button>
+                    </form>
+                </CardBody>
+
+            </Card>
+
+
         </>
     );
 };
 
-export default CreatePost
+export default CreatePost;
