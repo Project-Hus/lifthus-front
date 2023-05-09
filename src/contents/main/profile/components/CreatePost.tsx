@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
 import { RepContent } from "../../../../api/interfaces/repsApi.interface";
@@ -13,7 +13,7 @@ const CreatePost = () => {
     const { user_id, username } = useUserStore();
     // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
     const queryClient = useQueryClient();
-    const { register, handleSubmit, reset } = useForm<FormData>();
+    const { register, handleSubmit, reset, watch } = useForm<FormData>();
 
     const { getButtonProps, getDisclosureProps, onOpen, onClose } = useDisclosure();
     const buttonProps = getButtonProps()
@@ -29,6 +29,24 @@ const CreatePost = () => {
         text: string;
         image: FileList;
     };
+
+    // useRef를 이용해 input태그에 접근한다.
+    const imageInput = useRef<HTMLInputElement>(null);
+    // 버튼클릭시 input태그에 클릭이벤트를 걸어준다. 
+    const onCickImageUpload = () => {
+        imageInput.current?.click();
+    };
+    //이미지 미리보기
+    const [imagePreview, setImagePreview] = useState("");
+    const image = watch("image");
+    const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target?.files;
+        console.log(files)
+        if (files) {
+            setImagePreview(URL.createObjectURL(files[0]));
+        }
+    }
+
     const onSubmit = async (data: FormData) => {
         if (data.text.length == 0) return alert("내용을 입력해주세요"
         );
@@ -95,7 +113,8 @@ const CreatePost = () => {
                 </div>
                 <CardBody>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input type="file" {...register("image")} />
+                        <img src={imagePreview} style={{ width: "100%" }} alt="test" />
+                        <Button onClick={onCickImageUpload}>choose upload image<Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /></Button>
                         <Textarea color="black" {...register("text")} backgroundColor="white" />
 
                         <button type="submit" disabled={isLoading}>
