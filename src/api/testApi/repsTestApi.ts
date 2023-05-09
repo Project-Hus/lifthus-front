@@ -38,6 +38,7 @@ const repsTestApi: RepsApi = {
     return { user_id };
   },
   delete_rep: async ({ user_id, rep_id }: DeleteRepParams): Promise<UserId> => {
+    delete rep_list[rep_id];
     return { user_id };
   },
 };
