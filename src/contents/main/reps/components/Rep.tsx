@@ -23,9 +23,9 @@ import CommentList from "./commentList";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
 import { CommentContent } from "../../../../api/interfaces/commentApi.interface";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, QueryClient, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
-
+import RepsApi from "../../../../api/repsApi";
 import CommentCreate from "./commentCreate";
 
 
@@ -45,14 +45,18 @@ const Rep = ({ rep }: { rep: RepContent }) => {
       commentApi.get_rep_comments(rep.rep_id),
     onSuccess: (data) => {
       setComments(data);
-      console.log("all_comment" + JSON.stringify(data))
     }
 
   }
 
   );
-
-
+  // rep의 refeching을 위해서 useQueryClient 객체 생성
+  const queryClient = useQueryClient();
+  const { mutate: deleteMutate, isLoading } = useMutation(async () => RepsApi.delete_rep({ user_id: rep.user_id, rep_id: rep.rep_id }), {
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({ queryKey: ["reps"] });
+    },
+  });
 
   const image_list = [];
   for (const i in rep.image_srcs) {
@@ -123,7 +127,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
                     <MenuItem
                       bgColor={ThemeColor.backgroundColorDarker}
                       color="red.400"
-                      onClick={() => alert("Kagebunshin")}
+                      onClick={() => deleteMutate()}
                       _hover={{ bgColor: "red.500", color: "white" }}
                     >
                       <DeleteIcon />
