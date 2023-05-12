@@ -6,6 +6,7 @@ import {
 } from "../../../../api/interfaces/commentApi.interface";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import {
+  Avatar,
   Box,
   Card,
   IconButton,
@@ -35,6 +36,7 @@ import userApi from "../../../../api/userApi";
 import { useForm } from "react-hook-form";
 import CommentCreate from "./commentCreate";
 import comment_list from "../../../../api/mocks/commentApi.mocks";
+import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
@@ -176,9 +178,15 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
         {/* the main comment */}
         <Card backgroundColor={ThemeColor.backgroundColor} padding="5px">
           {/* Comment_id {comment.comment_id} */}
-          <Text as="b" fontSize="sm" color="white">
-            {comment_user_name}
-          </Text>
+          <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
+            <Avatar size="sm"
+              name={comment_user_name}
+              src={USER_PROFILE_IMAGE_ROUTE + comment_user_name + ".jpeg"}
+            />
+            <Text as="b" fontSize="sm" color="white">
+              {comment_user_name}
+            </Text>
+          </Flex>
           <Text color="gray.400" fontSize="sm">
             {updated_at == null
               ? created_at.toString().slice(0, 21)
