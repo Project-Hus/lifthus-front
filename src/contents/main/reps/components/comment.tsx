@@ -38,7 +38,6 @@ import comment_list from "../../../../api/mocks/commentApi.mocks";
 
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
-  console.log("commentList" + JSON.stringify(comment_list))
 
   const CommentBoard = styled.div`
     border: 2px solid black;
