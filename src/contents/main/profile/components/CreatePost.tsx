@@ -8,6 +8,8 @@ import useUserStore from "../../../../store/user.zustand";
 import { CloseIcon } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
+import { Image } from "@chakra-ui/image";
+let counter = 100;
 const CreatePost = () => {
     //call user_id from zustand
     const { user_id, username } = useUserStore();
@@ -37,15 +39,24 @@ const CreatePost = () => {
         imageInput.current?.click();
     };
     //이미지 미리보기
-    const [imagePreview, setImagePreview] = useState("");
+    const [imagePreview, setImagePreview] = useState<string[]>([]);
     const image = watch("image");
     const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target?.files;
         console.log(files)
+
+        let urlList = [];
         if (files) {
-            setImagePreview(URL.createObjectURL(files[0]));
+            const fileList = Array.from(files)
+            for (const url of fileList) {
+                urlList.push(URL.createObjectURL(url))
+            }
+            setImagePreview(urlList);
         }
+
+
     }
+
 
     const onSubmit = async (data: FormData) => {
         if (data.text.length == 0) return alert("내용을 입력해주세요"
@@ -54,16 +65,20 @@ const CreatePost = () => {
         try {
 
             const rep = {
-                rep_id: Math.floor(Math.random() * 1000),
+                rep_id: counter++,
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: user_id,
                 username: username,
+                image_srcs: imagePreview,
                 text: data.text,
 
             }
             await mutate(rep);
+            setImagePreview([]);
             reset();
+            onClose();
+
         } catch (error) {
             console.error(error);
         }
@@ -109,11 +124,13 @@ const CreatePost = () => {
                         borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
                     }}
                 >
-                    {/* {image_list} */}
+                    {imagePreview.length != 0 && imagePreview.map((src) => <Image src={src} objectFit="contain" maxH={"50vh"} alt="rep's imagefile" />)}
+                    {imagePreview.length > 0 && <Button onClick={() => setImagePreview([])}><CloseIcon /></Button>}
                 </div>
+
                 <CardBody>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <img src={imagePreview} style={{ width: "100%" }} alt="test" />
+
                         <Button onClick={onCickImageUpload}>choose upload image<Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /></Button>
                         <Textarea color="black" {...register("text")} backgroundColor="white" />
 

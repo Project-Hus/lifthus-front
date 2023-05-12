@@ -8,7 +8,7 @@ import {
 import { UserId } from "../interfaces/userApi.interface";
 import rep_list from "../mocks/repsTestApi.mocks";
 import userTestApi from "./userTestApi";
-
+let counter = 100;
 const repsTestApi: RepsApi = {
   get_user_reps: async ({ user_id }: UserId): Promise<RepContent[]> => {
     const list = [];
@@ -25,7 +25,9 @@ const repsTestApi: RepsApi = {
     return list;
   },
   post_rep: async ({ user_id, rep }: PostRepParams): Promise<UserId> => {
-    rep_list[rep.rep_id] = rep;
+
+    counter++
+    rep_list[counter] = rep;
 
 
     return { user_id };
