@@ -32,7 +32,6 @@ import { useForm } from "react-hook-form";
 
 
 const Rep = ({ rep }: { rep: RepContent }) => {
-
   const { register, handleSubmit, reset, watch } = useForm<FormData>();
 
   type FormData = {
