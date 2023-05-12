@@ -3,10 +3,11 @@ import { Button, ButtonSpinner } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   ChatIcon,
   ChevronDownIcon,
+  CloseIcon,
   CopyIcon,
   DeleteIcon,
   EditIcon,
@@ -15,7 +16,7 @@ import {
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { RepContent } from "../../../../api/interfaces/repsApi.interface";
 
 import CommentList from "./commentList";
@@ -27,9 +28,18 @@ import { useMutation, useQuery, QueryClient, useQueryClient } from "@tanstack/re
 import commentApi from "../../../../api/commentApi";
 import RepsApi from "../../../../api/repsApi";
 import CommentCreate from "./commentCreate";
+import { useForm } from "react-hook-form";
 
 
 const Rep = ({ rep }: { rep: RepContent }) => {
+
+  const { register, handleSubmit, reset, watch } = useForm<FormData>();
+
+  type FormData = {
+    text: string;
+    image: FileList;
+  };
+
   //open/close comment window functions
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps()
@@ -50,20 +60,90 @@ const Rep = ({ rep }: { rep: RepContent }) => {
   }
 
   );
+
+
   // rep의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
-  const { mutate: deleteMutate, isLoading } = useMutation(async () => RepsApi.delete_rep({ user_id: rep.user_id, rep_id: rep.rep_id }), {
+  const { mutate: deleteMutate } = useMutation(async () => RepsApi.delete_rep({ user_id: rep.user_id, rep_id: rep.rep_id }), {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries({ queryKey: ["reps"] });
     },
   });
+
+  // make use state for edit rep
+  const [iseditRep, setEditRep] = useState(false);
+
+  const { mutate, isLoading } = useMutation(async (rep: RepContent) => RepsApi.update_rep({ user_id: rep.user_id, rep_id: rep.rep_id, rep }), {
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({ queryKey: ["reps"] });
+      setEditRep(false)
+    },
+  });
+
+  // useRef를 이용해 input태그에 접근한다.
+  const imageInput = useRef<HTMLInputElement>(null);
+  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다. 
+  const onCickImageUpload = () => {
+    imageInput.current?.click();
+  };
+  //이미지 미리보기
+  const [imagePreview, setImagePreview] = useState(rep.image_srcs ? rep.image_srcs : []);
+  useEffect(() => {
+    console.log("image", imagePreview);
+
+  }, [imagePreview])
+
+
+  const image = watch("image");
+  const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target?.files;
+    console.log("file", files)
+    if (files) {
+      let urlList: string[] = [];
+      const fileList = Array.from(files)
+      for (const url of fileList) {
+        urlList.push(URL.createObjectURL(url))
+      }
+      setImagePreview(urlList);
+
+    }
+  }
+
+  const editRep = async (data: FormData) => {
+    if (data.text.length == 0) return alert("내용을 입력해주세요"
+    );
+    const fileList = Array.from(data.image)
+    let urlList: string[] = [];
+    for (const url of fileList) {
+      urlList.push(URL.createObjectURL(url))
+    }
+    console.log("imagetype", data.image)
+    try {
+
+      const editedRep: RepContent = {
+        rep_id: rep.rep_id,
+        created_at: rep.created_at,
+        updated_at: new Date(),
+        user_id: rep.user_id,
+        username: rep.username,
+        image_srcs: imagePreview,
+        text: data.text,
+
+      }
+      await mutate(editedRep);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
 
   const image_list = [];
   for (const i in rep.image_srcs) {
     image_list.push(
       <Image
         objectFit="contain"
-        src={rep.image_srcs[Number(i)]}
+        src={imagePreview[Number(i)]}
         alt={`${i}th image of ${rep.username}'s rep`}
         maxH={"50vh"}
       />
@@ -120,6 +200,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
                       bgColor={ThemeColor.backgroundColorDarker}
                       color="yellow.400"
                       _hover={{ bgColor: "yellow.500", color: "white" }}
+                      onClick={() => setEditRep(true)}
                     >
                       <EditIcon />
                       &nbsp;Edit
@@ -148,10 +229,23 @@ const Rep = ({ rep }: { rep: RepContent }) => {
             borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
           }}
         >
-          {image_list}
+          {iseditRep && imagePreview.length > 0 && <Button onClick={() => setImagePreview([])}><CloseIcon /></Button>}
+          {imagePreview.length > 0 ? image_list : <></>}
         </div>
+
         <CardBody>
-          <Text>{rep.text}</Text>
+          {iseditRep ?
+            <>
+              <form onSubmit={handleSubmit(editRep)}>
+                <label htmlFor="file">Uploaded file change<Input {...register("image")} id="file" type="file" display="none" onChange={onLoadFile}></Input></label>
+                <Input color="black" backgroundColor="white" defaultValue={rep.text} {...register("text")}></Input>
+                <Flex>
+                  <Button onClick={() => { setEditRep(false); setImagePreview(rep.image_srcs ? rep.image_srcs : []) }}>cancel</Button>
+                  <Button type="submit">edit</Button>
+                </Flex>
+              </form>
+            </>
+            : <Text>{rep.text}</Text>}
         </CardBody>
         <CardFooter justify="space-between">
           <Button
