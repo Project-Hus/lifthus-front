@@ -18,7 +18,6 @@ const CommentCreate = ({ rep_id, IsReply, reply_to, onClose, reply_to_who }: { r
   if (reply_to_who === undefined) {
     reply_to_who = ""
   }
-  console.log("reply_to_who: " + reply_to_who)
 
   if (onClose === undefined) {
     onClose = () => {

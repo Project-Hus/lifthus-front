@@ -26,8 +26,8 @@ const repsTestApi: RepsApi = {
   },
   post_rep: async ({ user_id, rep }: PostRepParams): Promise<UserId> => {
 
-    counter++
-    rep_list[counter] = rep;
+
+    rep_list[counter++] = rep;
 
 
     return { user_id };
@@ -42,6 +42,7 @@ const repsTestApi: RepsApi = {
   },
   delete_rep: async ({ user_id, rep_id }: DeleteRepParams): Promise<UserId> => {
     delete rep_list[rep_id];
+    console.log("rep_list", rep_list)
     return { user_id };
   },
 };

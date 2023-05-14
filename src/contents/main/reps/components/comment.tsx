@@ -65,7 +65,6 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
 
   useEffect(() => {
     call_comment_user_name();
-    console.log("comment_user_name is called" + comment_user_name);
   });
 
   //call user_id from zustand
