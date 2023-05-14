@@ -29,6 +29,7 @@ const RegisterUsername = () => {
 
   /* store */
   const user_id = useUserStore((state) => state.user_id);
+  const user_name = useUserStore((state) => state.user_name);
   const register_username = useRegisterStore(
     (state) => state.register_username
   );
@@ -73,7 +74,7 @@ const RegisterUsername = () => {
   return (
     <>
       <Logo />
-      <p>{t("name_var", { name: user_id })},</p>
+      <p>{t("name_var", { name: user_name })},</p>
       <p>
         {!fname && <Trans i18nKey={"register.usernameAsking_message"} />}
         {fname && t("register.existingUsername_error")}

@@ -1,5 +1,6 @@
 export interface UserInfo {
   user_id?: string;
+  user_name?: string;
   registered?: boolean;
   username?: string;
   training_type?: string;

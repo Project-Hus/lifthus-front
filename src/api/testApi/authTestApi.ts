@@ -1,6 +1,6 @@
 import { AuthApi, SignParams } from "../interfaces/authApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
-import { UserId } from "../interfaces/userApi.interface";
+import { SignResponse, UserId } from "../interfaces/userApi.interface";
 
 import user_list from "../mocks/userTestApi.mocks";
 import userTestApi from "./userTestApi";
@@ -49,11 +49,12 @@ const authTestApi: AuthApi = {
       }, 500);
     });
   },
-  update_session: (): Promise<UserId> => {
+  update_session: (): Promise<SignResponse> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const updateSessionReturns: UserId = {
+        const updateSessionReturns: SignResponse = {
           user_id: "test",
+          user_name: "test",
         };
         return resolve(updateSessionReturns);
       }, 500);

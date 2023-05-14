@@ -1,0 +1,33 @@
+name: Feature request
+description: Request new feature
+title: "[Feature]: "
+labels: ["feature"]
+assignees:
+  - lifthus
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting new feature!
+  - type: textarea
+    id: new-feature
+    attributes:
+      label: What do you suggest?
+      description: Also tell us, what effect do you expect from this new feature?
+      placeholder: It would be awesome because...
+    validations:
+      required: true
+  - type: textarea
+    id: how
+    attributes:
+      label: How can this new feature be implemented?
+      description: Like required tech stacks, or specific implementation methods etc.
+      placeholder: With Golang, It could be implemented like...
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Agreement
+      description: 
+      options:
+        - label: I've checked if there's any other issue about this.
+          required: true

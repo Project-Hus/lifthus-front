@@ -15,6 +15,13 @@ export interface SetUserInfoParams {
 export interface UserId {
   user_id: string;
 }
+export interface UserName {
+  user_name: string;
+}
+export interface SignResponse {
+  user_id: string;
+  user_name: string;
+}
 export interface Username {
   username: string;
 }
