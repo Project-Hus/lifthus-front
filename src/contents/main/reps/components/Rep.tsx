@@ -63,7 +63,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
 
   // rep의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
-  const { mutate: deleteMutate } = useMutation(async () => RepsApi.delete_rep({ user_id: rep.user_id, rep_id: rep.rep_id }), {
+  const { mutate: deleteMutate, isLoading: isDeleteLoading } = useMutation(async () => RepsApi.delete_rep({ user_id: rep.user_id, rep_id: rep.rep_id }), {
     onSuccess(data, variables, context) {
       queryClient.invalidateQueries({ queryKey: ["reps"] });
     },
@@ -74,24 +74,18 @@ const Rep = ({ rep }: { rep: RepContent }) => {
 
   const { mutate, isLoading } = useMutation(async (rep: RepContent) => RepsApi.update_rep({ user_id: rep.user_id, rep_id: rep.rep_id, rep }), {
     onSuccess(data, variables, context) {
-      queryClient.invalidateQueries({ queryKey: ["reps"] });
+      queryClient.invalidateQueries({ queryKey: ["reps", rep.user_id] });
+      console.log("query reload")
       setEditRep(false)
     },
   });
 
-  // useRef를 이용해 input태그에 접근한다.
-  const imageInput = useRef<HTMLInputElement>(null);
-  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다. 
-  const onCickImageUpload = () => {
-    imageInput.current?.click();
-  };
   //이미지 미리보기
-  const [imagePreview, setImagePreview] = useState(rep.image_srcs ? rep.image_srcs : []);
+  const [imagePreview, setImagePreview] = useState<string[]>(rep.image_srcs ? rep.image_srcs : []);
+
   useEffect(() => {
-    console.log("image", imagePreview);
-
+    console.log("previewimage", imagePreview)
   }, [imagePreview])
-
 
   const image = watch("image");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,15 +102,15 @@ const Rep = ({ rep }: { rep: RepContent }) => {
     }
   }
 
+
+
+
+
   const editRep = async (data: FormData) => {
     if (data.text.length == 0) return alert("내용을 입력해주세요"
     );
-    const fileList = Array.from(data.image)
-    let urlList: string[] = [];
-    for (const url of fileList) {
-      urlList.push(URL.createObjectURL(url))
-    }
-    console.log("imagetype", data.image)
+    // 기존 이미지에서 변경되지 않은 경우
+
     try {
 
       const editedRep: RepContent = {
@@ -125,7 +119,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
         updated_at: new Date(),
         user_id: rep.user_id,
         username: rep.username,
-        image_srcs: imagePreview,
+        image_srcs: imagePreview ? imagePreview : [],
         text: data.text,
 
       }
@@ -137,17 +131,6 @@ const Rep = ({ rep }: { rep: RepContent }) => {
 
 
 
-  const image_list = [];
-  for (const i in rep.image_srcs) {
-    image_list.push(
-      <Image
-        objectFit="contain"
-        src={imagePreview[Number(i)]}
-        alt={`${i}th image of ${rep.username}'s rep`}
-        maxH={"50vh"}
-      />
-    );
-  }
   return (
     <>
       <Card
@@ -228,15 +211,23 @@ const Rep = ({ rep }: { rep: RepContent }) => {
             borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
           }}
         >
-          {iseditRep && imagePreview.length > 0 && <Button onClick={() => setImagePreview([])}><CloseIcon /></Button>}
-          {imagePreview.length > 0 ? image_list : <></>}
+          {iseditRep && imagePreview.length > 0 ?
+            <>
+              <Button onClick={() => setImagePreview([])}><CloseIcon /></Button>
+              <Image src={imagePreview[0]}></Image>
+            </>
+            : <></>}
+          {iseditRep != true &&
+            <Image src={rep.image_srcs ? rep.image_srcs[0] : ""}></Image>}
+
+
         </div>
 
         <CardBody>
           {iseditRep ?
             <>
               <form onSubmit={handleSubmit(editRep)}>
-                <label htmlFor="file">Uploaded file change<Input {...register("image")} id="file" type="file" display="none" onChange={onLoadFile}></Input></label>
+                <label htmlFor="file">Uploaded file change<Input {...register("image")} id="file" type="file" onChange={onLoadFile}></Input></label>
                 <Input color="black" backgroundColor="white" defaultValue={rep.text} {...register("text")}></Input>
                 <Flex>
                   <Button onClick={() => { setEditRep(false); setImagePreview(rep.image_srcs ? rep.image_srcs : []) }}>cancel</Button>
@@ -281,3 +272,4 @@ const Rep = ({ rep }: { rep: RepContent }) => {
 };
 
 export default Rep;
+
