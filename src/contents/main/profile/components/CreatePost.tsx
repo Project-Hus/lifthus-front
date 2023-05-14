@@ -111,7 +111,7 @@ const CreatePost = () => {
                                 <Heading fontSize="1.1em">{username}</Heading>
                                 <Text fontSize={"0.9em"} color="gray.400"></Text>
                             </Box>
-                            <Button onClick={onClose} backgroundColor="red.300" leftIcon={<CloseIcon />}></Button>
+                            <Button onClick={onClose} isLoading={isLoading} backgroundColor="red.300" leftIcon={<CloseIcon />}></Button>
                         </Flex>
                     </Flex>
                 </CardHeader>
