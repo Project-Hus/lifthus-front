@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   DeleteRepParams,
   PostRepParams,
@@ -7,6 +8,7 @@ import {
 } from "./interfaces/repsApi.interface";
 import { UserId } from "./interfaces/userApi.interface";
 import repsTestApi from "./testApi/repsTestApi";
+import { CreatePostDto } from "./dtos/post.dto";
 
 const repsApi: RepsApi = {
   get_user_reps: async ({ user_id }: UserId) => {
@@ -19,6 +21,13 @@ const repsApi: RepsApi = {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.post_rep({ user_id, rep });
     }
+
+    const post: CreatePostDto = {
+      author: 0,
+      content: rep.text,
+    };
+
+    await axios.post("https://api.lifthus.com/post/post", post);
     return repsTestApi.post_rep({ user_id, rep });
   },
   update_rep: async ({ user_id, rep_id, rep }: UpdateRepParams) => {
