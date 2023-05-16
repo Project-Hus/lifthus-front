@@ -27,7 +27,9 @@ const repsApi: RepsApi = {
       content: rep.text,
     };
 
-    await axios.post("https://api.lifthus.com/post/post", post);
+    await axios.post("https://api.lifthus.com/post/post", post, {
+      withCredentials: true,
+    });
     return repsTestApi.post_rep({ user_id, rep });
   },
   update_rep: async ({ user_id, rep_id, rep }: UpdateRepParams) => {
