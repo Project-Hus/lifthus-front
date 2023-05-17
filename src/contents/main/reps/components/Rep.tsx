@@ -235,7 +235,7 @@ const Rep = ({ rep }: { rep: RepContent }) => {
                 </Flex>
               </form>
             </>
-            : <Text>{rep.text}</Text>}
+            : <Text style={{ whiteSpace: "pre-wrap" }}>{rep.text}</Text>}
         </CardBody>
         <CardFooter justify="space-between">
           <Button
