@@ -5,7 +5,7 @@ import { RepContent } from "../../../../api/interfaces/repsApi.interface";
 import { Text, Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Input, Menu, MenuButton, useDisclosure, MenuList, MenuItem, Textarea } from "@chakra-ui/react";
 import RepsApi from "../../../../api/repsApi"
 import useUserStore from "../../../../store/user.zustand";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Image } from "@chakra-ui/image";
@@ -86,21 +86,14 @@ const CreatePost = () => {
 
     return (
         <>
-            <Menu >
-                <MenuButton as={Button} colorScheme="blue" margin="0.5em" marginBottom={"0em"}>Create new Post</MenuButton>
-                <MenuList>
-                    <MenuItem fontSize={"sm"} onClick={onOpen} textColor="gray.400">Create new Post</MenuItem>
-                    <MenuItem fontSize={"sm"} textColor="gray.400">Share my routine</MenuItem>
-                </MenuList>
-            </Menu>
-            <Card {...disclosureProps}
+            <Card size="sm"
                 bgColor={ThemeColor.backgroundColorDarker}
                 color="white"
                 fontSize="0.7em"
                 margin="0.5em"
                 marginBottom={"0em"}
             >
-                <CardHeader>
+                <CardHeader paddingBottom="0.5">
                     <Flex letterSpacing="4">
                         <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
                             <Avatar
@@ -111,7 +104,6 @@ const CreatePost = () => {
                                 <Heading fontSize="1.1em">{username}</Heading>
                                 <Text fontSize={"0.9em"} color="gray.400"></Text>
                             </Box>
-                            <Button onClick={onClose} isLoading={isLoading} backgroundColor="red.300" leftIcon={<CloseIcon />}></Button>
                         </Flex>
                     </Flex>
                 </CardHeader>
@@ -128,16 +120,27 @@ const CreatePost = () => {
                     {imagePreview.length > 0 && <Button onClick={() => setImagePreview([])}><CloseIcon /></Button>}
                 </div>
 
-                <CardBody>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                <CardBody paddingTop="0.5em">
 
-                        <Button onClick={onCickImageUpload}>choose upload image<Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /></Button>
-                        <Textarea color="black" {...register("text")} backgroundColor="white" />
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                        <Textarea placeholder="write the text" color="black" {...register("text")} backgroundColor="white" />
+                        <Flex flexDirection={"row"} justifyContent="space-between">
+                            <div>
+                                <Button onClick={onCickImageUpload}><Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /><PlusSquareIcon /></Button>
+                                <Button>share routine</Button>
+                            </div>
+                            <Button margin-left="auto" type="submit" disabled={isLoading} display="inline">
+                                {isLoading ? "Posting..." : "Post"}
+                            </Button>
+                        </Flex>
 
-                        <button type="submit" disabled={isLoading}>
-                            {isLoading ? "작성 중..." : "작성"}
-                        </button>
+
+
+
+
                     </form>
+
+
                 </CardBody>
 
             </Card>
