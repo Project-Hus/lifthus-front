@@ -4,6 +4,7 @@ import { useState } from "react";
 import commentApi from "../../../../api/commentApi";
 import { CommentContent } from "../../../../api/interfaces/commentApi.interface";
 import Comment from "./comment";
+import { ThemeColor } from "../../../../common/styles/theme.style";
 const ReplyList = ({
   comment_user_id,
   Ispadding,
@@ -27,6 +28,6 @@ const ReplyList = ({
   for (const comment of comments) {
     reply_comment_list.push(<Comment comment={comment}></Comment>);
   }
-  return <Box paddingLeft={Ispadding ? "10%" : "0%"}>{reply_comment_list}</Box>;
+  return <Box backgroundColor={ThemeColor.backgroundColor} paddingLeft={Ispadding ? "10%" : "0%"}>{reply_comment_list}</Box>;
 };
 export default ReplyList;
