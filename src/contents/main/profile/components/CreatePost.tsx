@@ -5,10 +5,11 @@ import { RepContent } from "../../../../api/interfaces/repsApi.interface";
 import { Text, Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Input, Menu, MenuButton, useDisclosure, MenuList, MenuItem, Textarea } from "@chakra-ui/react";
 import RepsApi from "../../../../api/repsApi"
 import useUserStore from "../../../../store/user.zustand";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Image } from "@chakra-ui/image";
+import styled from "@emotion/styled";
 let counter = 100;
 const CreatePost = () => {
     //call user_id from zustand
@@ -26,6 +27,13 @@ const CreatePost = () => {
             queryClient.invalidateQueries({ queryKey: ["reps"] });
         },
     });
+
+    const IconbuttonStyle = styled.div`
+        & > Button {background-color: ${ThemeColor.backgroundColorDarker};
+            :hover {background-color: ${ThemeColor.backgroundColor};}
+}
+        
+    `
 
     type FormData = {
         text: string;
@@ -86,21 +94,15 @@ const CreatePost = () => {
 
     return (
         <>
-            <Menu >
-                <MenuButton as={Button} colorScheme="blue" margin="0.5em" marginBottom={"0em"}>Create new Post</MenuButton>
-                <MenuList>
-                    <MenuItem fontSize={"sm"} onClick={onOpen} textColor="gray.400">Create new Post</MenuItem>
-                    <MenuItem fontSize={"sm"} textColor="gray.400">Share my routine</MenuItem>
-                </MenuList>
-            </Menu>
-            <Card {...disclosureProps}
+            <Card
+                size="sm"
                 bgColor={ThemeColor.backgroundColorDarker}
                 color="white"
                 fontSize="0.7em"
                 margin="0.5em"
                 marginBottom={"0em"}
             >
-                <CardHeader>
+                <CardHeader paddingBottom={"0"} >
                     <Flex letterSpacing="4">
                         <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
                             <Avatar
@@ -111,7 +113,6 @@ const CreatePost = () => {
                                 <Heading fontSize="1.1em">{username}</Heading>
                                 <Text fontSize={"0.9em"} color="gray.400"></Text>
                             </Box>
-                            <Button onClick={onClose} isLoading={isLoading} backgroundColor="red.300" leftIcon={<CloseIcon />}></Button>
                         </Flex>
                     </Flex>
                 </CardHeader>
@@ -130,13 +131,19 @@ const CreatePost = () => {
 
                 <CardBody>
                     <form onSubmit={handleSubmit(onSubmit)}>
-
-                        <Button onClick={onCickImageUpload}>choose upload image<Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /></Button>
                         <Textarea color="black" {...register("text")} backgroundColor="white" />
 
-                        <button type="submit" disabled={isLoading}>
-                            {isLoading ? "작성 중..." : "작성"}
-                        </button>
+                        <Flex justifyContent={"space-between"}  >
+                            <IconbuttonStyle>
+                                <Button onClick={onCickImageUpload}><PlusSquareIcon /><Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /></Button>
+                                <Button>share routine</Button>
+                            </IconbuttonStyle>
+                            <Button type="submit" disabled={isLoading}>
+                                {isLoading ? "posting..." : "post"}
+                            </Button>
+                        </Flex>
+
+
                     </form>
                 </CardBody>
 
