@@ -9,7 +9,10 @@ import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Image } from "@chakra-ui/image";
+import styled from "@emotion/styled"
 let counter = 100;
+
+
 const CreatePost = () => {
     //call user_id from zustand
     const { user_id, username } = useUserStore();
@@ -27,10 +30,22 @@ const CreatePost = () => {
         },
     });
 
+
+
     type FormData = {
         text: string;
         image: FileList;
     };
+
+    const IconButtonStyle = styled.div`
+        & > Button{    
+        background-color: ${ThemeColor.backgroundColorDarker};
+        margin: 0em;
+        &:hover {
+            background-color: ${ThemeColor.backgroundColor};
+          }
+        }
+        `;
 
     // useRef를 이용해 input태그에 접근한다.
     const imageInput = useRef<HTMLInputElement>(null);
@@ -125,10 +140,11 @@ const CreatePost = () => {
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <Textarea placeholder="write the text" color="black" {...register("text")} backgroundColor="white" />
                         <Flex flexDirection={"row"} justifyContent="space-between">
-                            <div>
+                            <IconButtonStyle>
                                 <Button onClick={onCickImageUpload}><Input type="file" accept='image/*' {...register("image")} ref={imageInput} display="none" onChange={onLoadFile} /><PlusSquareIcon /></Button>
-                                <Button>share routine</Button>
-                            </div>
+                                <Button >share routine</Button>
+                            </IconButtonStyle>
+
                             <Button margin-left="auto" type="submit" disabled={isLoading} display="inline">
                                 {isLoading ? "Posting..." : "Post"}
                             </Button>
