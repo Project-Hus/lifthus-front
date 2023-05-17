@@ -41,17 +41,15 @@ import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
 
-  const CommentBoard = styled.div`
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 2px;
+  const CommentBoard = styled(Card)`
+   
+    border-radius : 0%;
+    box-shadow: none;
+    background-color: ${ThemeColor.backgroundColor};
+    padding : 0.5em;
+  
   `;
 
-  const CommentEdit = css`
-    border: 0px solid black;
-    border-radius: 5px;
-    padding: 5px;
-  `;
 
   //get comment data
   const comment_user_id = comment.user_id;
@@ -175,93 +173,92 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     <>
       <CommentBoard>
         {/* the main comment */}
-        <Card backgroundColor={ThemeColor.backgroundColor} padding="5px">
-          {/* Comment_id {comment.comment_id} */}
-          <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
-            <Avatar size="sm"
-              name={comment_user_name}
-              src={USER_PROFILE_IMAGE_ROUTE + comment_user_name + ".jpeg"}
-            />
-            <Text as="b" fontSize="sm" color="white">
-              {comment_user_name}
-            </Text>
-          </Flex>
-          <Text color="gray.400" fontSize="sm">
-            {updated_at == null
-              ? created_at.toString().slice(0, 21)
-              : updated_at.toString().slice(0, 21)}
-          </Text>
-          {/* comment edit window */}
-          {IsCommentEdit == true && (
-            <>
-              <Input
-                name="EditedComment"
-                defaultValue={comment.text}
-                ref={EditInputRef}
-                backgroundColor="white"
-              />
-              <Flex direction={"row"} alignSelf="self-end">
-                <Button size="sm" onClick={() => setCommentEdit(false)}>
-                  Cancel
-                </Button>
-                <Button
-                  size="sm"
-                  type="submit"
-                  {...EditbuttonProps}
-                  onClick={editComment}
-                  isLoading={EditIsLoading}
-                  variant="solid"
-                  display="inline-block"
-                >
-                  Save
-                </Button>
-              </Flex>
-            </>
-          )}
 
-          {IsCommentEdit == false && (
-            <Text fontSize="sm" color="white">
-              {comment.IsReply
-                ? "@" + comment.reply_to_who + " " + comment.text
-                : comment.text}
-            </Text>
-          )}
-          <Flex>
-            {IsCommentEdit == false && (
-              <Button size="sm" alignSelf="start" {...buttonProps}>
-                reply
+        {/* Comment_id {comment.comment_id} */}
+        <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
+          <Avatar size="sm"
+            name={comment_user_name}
+            src={USER_PROFILE_IMAGE_ROUTE + comment_user_name + ".jpeg"}
+          />
+          <Text as="b" fontSize="sm" color="white">
+            {comment_user_name}
+          </Text>
+        </Flex>
+        <Text color="gray.400" fontSize="sm">
+          {updated_at == null
+            ? created_at.toString().slice(0, 21)
+            : updated_at.toString().slice(0, 21)}
+        </Text>
+        {/* comment edit window */}
+        {IsCommentEdit == true && (
+          <>
+            <Input
+              name="EditedComment"
+              defaultValue={comment.text}
+              ref={EditInputRef}
+              backgroundColor="white"
+            />
+            <Flex direction={"row"} alignSelf="self-end">
+              <Button size="sm" onClick={() => setCommentEdit(false)}>
+                Cancel
               </Button>
-            )}
-            {user_id == comment_user_id && (
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  aria-label="Options"
-                  icon={<EditIcon />}
-                  variant="outline"
-                  alignSelf="end"
-                  size="sm"
-                />
-                <MenuList>
-                  <MenuItem>
-                    <Button isLoading={deleteIsLoading} onClick={deleteComment}>
-                      delete
-                    </Button>
-                  </MenuItem>
-                  <MenuItem>
-                    <Button onClick={() => setCommentEdit(true)}>Edit</Button>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            )}
-          </Flex>
-          {/* relpy comment window*/}
-          <Box {...disclosureProps}>
-            <Card>
-              <CommentCreate rep_id={comment.rep_id} IsReply={true} reply_to={comment.comment_id} onClose={onClose} reply_to_who={comment_user_name}></CommentCreate>
-            </Card>
-          </Box>
-        </Card>
+              <Button
+                size="sm"
+                type="submit"
+                {...EditbuttonProps}
+                onClick={editComment}
+                isLoading={EditIsLoading}
+                variant="solid"
+                display="inline-block"
+              >
+                Save
+              </Button>
+            </Flex>
+          </>
+        )}
+
+        {IsCommentEdit == false && (
+          <Text fontSize="sm" color="white">
+            {comment.IsReply
+              ? "@" + comment.reply_to_who + " " + comment.text
+              : comment.text}
+          </Text>
+        )}
+        <Flex>
+          {IsCommentEdit == false && (
+            <Button size="sm" alignSelf="start" {...buttonProps}>
+              reply
+            </Button>
+          )}
+          {user_id == comment_user_id && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<EditIcon />}
+                variant="outline"
+                alignSelf="end"
+                size="sm"
+              />
+              <MenuList>
+                <MenuItem>
+                  <Button isLoading={deleteIsLoading} onClick={deleteComment}>
+                    delete
+                  </Button>
+                </MenuItem>
+                <MenuItem>
+                  <Button onClick={() => setCommentEdit(true)}>Edit</Button>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
+        </Flex>
+        {/* relpy comment window*/}
+        <Box {...disclosureProps}>
+          <Card>
+            <CommentCreate rep_id={comment.rep_id} IsReply={true} reply_to={comment.comment_id} onClose={onClose} reply_to_who={comment_user_name}></CommentCreate>
+          </Card>
+        </Box>
       </CommentBoard>
       <ReplyList
         comment_user_id={comment.user_id}
