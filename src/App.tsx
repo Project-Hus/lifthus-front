@@ -5,14 +5,14 @@ import { ThemeColor } from "./common/styles/theme.style";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import Main from "./contents/main/Main";
+import Main from "./pages/main/Main";
 
 import useUserStore from "./store/user.zustand";
-import FirstPage from "./contents/sign/FirstPage";
-import Register from "./contents/register/Register";
+import FirstPage from "./pages/sign/FirstPage";
+import Register from "./pages/register/Register";
 
 import authApi from "./api/authApi";
-import Pending from "./contents/pending/Pending";
+import Pending from "./pages/pending/Pending";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
