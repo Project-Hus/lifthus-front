@@ -29,6 +29,8 @@ import commentApi from "../../../../api/commentApi";
 import RepsApi from "../../../../api/repsApi";
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
+import styled from "@emotion/styled";
+import { repFoldStandard } from "../../../../common/constraints";
 
 
 const Rep = ({ rep }: { rep: RepContent }) => {
@@ -129,8 +131,17 @@ const Rep = ({ rep }: { rep: RepContent }) => {
     }
   };
 
+  // function for floding the comment
+  const [IsFold, setFold] = useState(true);
 
-
+  const IconbuttonStyle = styled.div`
+  padding-top: 0.0em;
+  & > Button {background-color: ${ThemeColor.backgroundColorDarker};
+      padding-left: 0.0em;
+      :hover {text-decoration-line: underline;}
+      :hover {background-color: ${ThemeColor.backgroundColorDarker};}
+  }
+  `
   return (
     <>
       <Card
@@ -207,8 +218,8 @@ const Rep = ({ rep }: { rep: RepContent }) => {
             display: "flex",
             justifyContent: "center",
             backgroundColor: ThemeColor.backgroundColor,
-            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
-            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
+            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
+            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
           }}
         >
           {iseditRep && imagePreview.length > 0 ?
@@ -235,7 +246,10 @@ const Rep = ({ rep }: { rep: RepContent }) => {
                 </Flex>
               </form>
             </>
-            : <Text style={{ whiteSpace: "pre-wrap" }}>{rep.text}</Text>}
+            : <Text style={{ whiteSpace: "pre-wrap" }}>{(IsFold && rep.text.length > repFoldStandard.Length) ? rep.text.slice(0, repFoldStandard.Length) + "..." : rep.text}</Text>}
+          <IconbuttonStyle>
+            {(IsFold && rep.text.length > repFoldStandard.Length) ? <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> : <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+          </IconbuttonStyle>
         </CardBody>
         <CardFooter justify="space-between">
           <Button
