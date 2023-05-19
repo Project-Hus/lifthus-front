@@ -1,7 +1,6 @@
 import {
   CommentContent,
-  PostCommentParams,
-  DeleteCommentParams,
+
   UpdateCommentParams,
 } from "../../../../api/interfaces/commentApi.interface";
 import { ThemeColor } from "../../../../common/styles/theme.style";
@@ -23,9 +22,7 @@ import useUserStore from "../../../../store/user.zustand";
 import { Button } from "@chakra-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
-import { css } from "@emotion/react";
 import {
-  FormEvent,
   useEffect,
   useRef,
   useState,
@@ -33,10 +30,9 @@ import {
 import { EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
-import { useForm } from "react-hook-form";
 import CommentCreate from "./commentCreate";
-import comment_list from "../../../../api/mocks/commentApi.mocks";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
+import { commentFoldStandard } from "../../../../common/constraints";
 
 
 const Comment = ({ comment }: { comment: CommentContent }) => {
@@ -165,8 +161,19 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     });
     setCommentEdit(false);
   };
-  //react-hook-form
-  const { register, handleSubmit } = useForm();
+
+  // function for floding the comment
+  const [IsFold, setFold] = useState(true);
+
+  const IconbuttonStyle = styled.div`
+  padding-top: 0.0em;
+  & > Button {background-color: ${ThemeColor.backgroundColor};
+      padding-left: 0.0em;
+      :hover {text-decoration-line: underline;}
+      :hover {background-color: ${ThemeColor.backgroundColor};}
+  }
+  
+`
 
 
   return (
@@ -217,13 +224,17 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
           </>
         )}
 
-        {IsCommentEdit == false && (
-          <Text fontSize="sm" color="white">
-            {comment.IsReply
-              ? "@" + comment.reply_to_who + " " + comment.text
-              : comment.text}
-          </Text>
-        )}
+        {IsCommentEdit == false &&
+          <Flex direction={"column"} paddingTop="0">
+            <Text fontSize="sm" color="white">
+              {comment.IsReply ? "@" + comment.reply_to_who : ""}
+              {(IsFold && comment.text.length > commentFoldStandard.Length) ? comment.text.slice(0, commentFoldStandard.Length) + "..." : comment.text}
+            </Text>
+            <IconbuttonStyle>
+              {(IsFold && comment.text.length > commentFoldStandard.Length) ? <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> : <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+            </IconbuttonStyle>
+          </Flex>
+        }
         <Flex>
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
