@@ -1,11 +1,11 @@
 export type CreatePostDto = {
-  userGroup?: PrimaryKey;
-  author: PrimaryKey;
+  userGroup?: number;
+  author: number;
   content: string;
 };
 
 export type UpdatePostDto = {
-  id: PrimaryKey;
-  author: PrimaryKey;
+  id: number;
+  author: number;
   content: string;
 };

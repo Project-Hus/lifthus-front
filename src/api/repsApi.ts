@@ -8,7 +8,7 @@ import {
 } from "./interfaces/repsApi.interface";
 import { UserId } from "./interfaces/userApi.interface";
 import repsTestApi from "./testApi/repsTestApi";
-import { CreatePostDto } from "./dtos/post.dto";
+import { CreatePostDto, UpdatePostDto } from "./dtos/post.dto";
 
 const repsApi: RepsApi = {
   get_user_reps: async ({ user_id }: UserId) => {
@@ -36,7 +36,14 @@ const repsApi: RepsApi = {
     if (process.env.NODE_ENV === "development") {
       return repsTestApi.update_rep({ user_id, rep_id, rep });
     }
-    return repsTestApi.update_rep({ user_id, rep_id, rep });
+    const post: UpdatePostDto = {
+      id: rep_id,
+      author: user_id,
+      content: rep.text,
+    };
+    return await axios.put("https://api.lifthus.com/post/post", post, {
+      withCredentials: true,
+    });
   },
   delete_rep: async ({ user_id, rep_id }: DeleteRepParams) => {
     if (process.env.NODE_ENV === "development") {

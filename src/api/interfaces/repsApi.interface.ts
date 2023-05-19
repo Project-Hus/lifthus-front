@@ -21,7 +21,7 @@ export interface PostRepParams {
   rep: RepContent;
 }
 export interface UpdateRepParams {
-  user_id: string;
+  user_id: number;
   rep_id: number;
   rep: RepContent;
 }
