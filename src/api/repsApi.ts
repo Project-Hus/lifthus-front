@@ -45,11 +45,14 @@ const repsApi: RepsApi = {
       withCredentials: true,
     });
   },
-  delete_rep: async ({ user_id, rep_id }: DeleteRepParams) => {
+  delete_rep: async ({ uid, pid }: DeleteRepParams) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.delete_rep({ user_id, rep_id });
+      return repsTestApi.delete_rep({ uid, pid });
     }
-    return repsTestApi.delete_rep({ user_id, rep_id });
+    return await axios.delete("https://api.lifthus.com/post/post", {
+      data: { pid },
+      withCredentials: true,
+    });
   },
 };
 
