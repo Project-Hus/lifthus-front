@@ -1,6 +1,8 @@
 import axios from "axios";
 import {
   DeleteRepParams,
+  GetUserPostsParams,
+  Post,
   PostRepParams,
   RepContent,
   RepsApi,
@@ -9,6 +11,7 @@ import {
 import { UserId } from "./interfaces/userApi.interface";
 import repsTestApi from "./testApi/repsTestApi";
 import { CreatePostDto, UpdatePostDto } from "./dtos/post.dto";
+import { UserName } from "./interfaces/userApi.interface";
 
 const repsApi: RepsApi = {
   get_user_reps: async ({ user_id }: UserId) => {
@@ -16,6 +19,17 @@ const repsApi: RepsApi = {
       return repsTestApi.get_user_reps({ user_id });
     }
     return repsTestApi.get_user_reps({ user_id });
+  },
+  getUserPosts: async ({
+    username,
+    skip = 0,
+  }: GetUserPostsParams): Promise<Post[]> => {
+    if (process.env.NODE_ENV === "development") {
+      return Promise.resolve([]);
+    }
+    return await axios.get(
+      `https://api.lifthus.com/post/query/post/${username}/${skip}`
+    );
   },
   post_rep: async ({ user_id, rep }: PostRepParams) => {
     if (process.env.NODE_ENV === "development") {
@@ -27,10 +41,9 @@ const repsApi: RepsApi = {
       content: rep.text,
     };
 
-    await axios.post("https://api.lifthus.com/post/post", post, {
+    return await axios.post("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
-    return repsTestApi.post_rep({ user_id, rep });
   },
   update_rep: async ({ user_id, rep_id, rep }: UpdateRepParams) => {
     if (process.env.NODE_ENV === "development") {
