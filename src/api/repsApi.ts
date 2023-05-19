@@ -51,7 +51,7 @@ const repsApi: RepsApi = {
     }
     const post: UpdatePostDto = {
       id: rep_id,
-      author: user_id,
+      author: 0,
       content: rep.text,
     };
     return await axios.put("https://api.lifthus.com/post/post", post, {

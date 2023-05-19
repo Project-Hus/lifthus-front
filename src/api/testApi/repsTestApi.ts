@@ -1,5 +1,6 @@
 import {
   DeleteRepParams,
+  Post,
   PostRepParams,
   RepContent,
   RepsApi,
@@ -24,11 +25,14 @@ const repsTestApi: RepsApi = {
     }
     return list;
   },
+
+  getUserPosts: async (): Promise<Post[]> => {
+    console.log("getUserPosts not implemented");
+    return Promise.resolve([]);
+  },
+
   post_rep: async ({ user_id, rep }: PostRepParams): Promise<UserId> => {
-
-
     rep_list[counter++] = rep;
-
 
     return { user_id };
   },
@@ -40,10 +44,10 @@ const repsTestApi: RepsApi = {
     rep_list[rep_id] = rep;
     return { user_id };
   },
-  delete_rep: async ({ user_id, rep_id }: DeleteRepParams): Promise<UserId> => {
-    delete rep_list[rep_id];
-    console.log("rep_list", rep_list)
-    return { user_id };
+  delete_rep: async ({ uid, pid }: DeleteRepParams): Promise<UserId> => {
+    delete rep_list[pid];
+    console.log("rep_list", rep_list);
+    return { user_id: uid.toString() };
   },
 };
 
