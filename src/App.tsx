@@ -25,17 +25,17 @@ const AppStyled = styled.div`
 `;
 
 const App = () => {
-  const set_user_info = useUserStore((state) => state.set_user_info);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== checking session to get signed or unsigned session ===== */
-  authApi.update_session().then((res) => {
-    if (res.user_id && res.user_name) {
-      set_user_info({ user_id: res.user_id });
-      set_user_info({ user_name: res.user_name });
-      console.log(res.user_id, "signed in");
+  authApi.updateSession().then((res) => {
+    if (res.uid && res.username) {
+      setUserInfo({ uid: res.uid });
+      setUserInfo({ username: res.username });
+      console.log(res.uid, "signed in");
     } else console.log("not signed in");
   });
 
-  const user_id = useUserStore((state) => state.user_id);
+  const user_id = useUserStore((state) => state.uid);
   const registered = useUserStore((state) => state.registered);
 
   return (

@@ -9,7 +9,8 @@ import BottomNav from "./BottomNav";
 import Profile from "./profile/Profile";
 
 const Main = () => {
-  const username = useUserStore((state) => state.username);
+  let username = useUserStore((state) => state.username);
+  username = username || "";
   return (
     // Main page(signed in)
     <React.Fragment>
