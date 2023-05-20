@@ -13,21 +13,27 @@ import {
 } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
-import useUserStore from "../../../../store/user.zustand";
 import { Button } from "@chakra-ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
-import { css } from "@emotion/react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import { useForm } from "react-hook-form";
 import CommentCreate from "./commentCreate";
-import comment_list from "../../../../api/mocks/commentApi.mock";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
+import {
+  QueryCommentDto,
+  UpdateCommentDto,
+} from "../../../../api/dtos/comment.dto";
+import { Username } from "../../../../api/interfaces/userApi.interface";
+import useUserStore from "../../../../store/user.zustand";
 
-const Comment = ({ comment }: ) => {
+interface CommentProps {
+  comment: QueryCommentDto;
+}
+const Comment = ({ comment }: CommentProps) => {
   const CommentBoard = styled(Card)`
     border-radius: 0%;
     box-shadow: none;
@@ -36,24 +42,25 @@ const Comment = ({ comment }: ) => {
   `;
 
   //get comment data
-  const comment_user_id = comment.user_id;
-  const created_at = comment.created_at;
-  const updated_at = comment.updated_at;
-  const [comment_user_name, setCommentUserName] = useState("loading...");
-  const call_comment_user_name = async () => {
-    const userdata = await userApi.get_user_info({ user_id: comment_user_id });
-    setCommentUserName(userdata.username ? userdata.username : "loading...");
-  };
+  const author = comment.author;
+  const createdAt = comment.createdAt;
+  const updatedAt = comment.updatedAt;
+  const [authorname, setAuthorname] = useState("loading...");
+  useQuery(
+    ["username", author],
+    () => {
+      return userApi.getNameById({ uid: author });
+    },
+    {
+      onSuccess: (data: Username) => {
+        setAuthorname(data.username);
+      },
+    }
+  );
 
-  useEffect(() => {
-    call_comment_user_name();
-  });
-
-  //call user_id from zustand
-  const { user_id, username } = useUserStore();
+  const { uid, username } = useUserStore();
 
   //Call the CommentText
-  const InputRef = useRef<HTMLInputElement>(null);
   const EditInputRef = useRef<HTMLInputElement>(null);
 
   // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
@@ -82,15 +89,14 @@ const Comment = ({ comment }: ) => {
     isLoading: EditIsLoading,
     error: EditError,
   } = useMutation({
-    mutationFn: async (data: UpdateCommentParams) =>
-      await commentApi.update_comment({
-        user_id: user_id,
-        comment_id: comment.comment_id,
-        comment: data.comment,
+    mutationFn: async (data: UpdateCommentDto) =>
+      await commentApi.updateComment({
+        author: author,
+        id: comment.id,
+        content: data.content,
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
+      queryClient.invalidateQueries({ queryKey: ["comments", comment.postId] });
 
       onClose();
     },
@@ -105,15 +111,10 @@ const Comment = ({ comment }: ) => {
     isLoading: deleteIsLoading,
     error: deleteError,
   } = useMutation({
-    mutationFn: async () =>
-      await commentApi.delete_comment({
-        user_id: user_id,
-        comment_id: comment.comment_id,
-      }),
+    mutationFn: async () => await commentApi.deleteComment(comment.id),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
-      console.log("delete success", user_id, comment.comment_id);
+      queryClient.invalidateQueries({ queryKey: ["comments", comment.postId] });
+      console.log("delete success", author, comment.id);
     },
     onError: (error) => {
       console.log(error);
@@ -131,19 +132,9 @@ const Comment = ({ comment }: ) => {
       return alert("Please write the comment");
     }
     EditMutate({
-      user_id: user_id,
-      comment_id: comment.comment_id,
-      comment: {
-        rep_id: comment.rep_id,
-        comment_id: comment.comment_id,
-        user_id: comment_user_id,
-        created_at: created_at,
-        reply_to: comment.reply_to,
-        IsReply: comment.IsReply,
-        updated_at: new Date(),
-
-        text: EditInputRef.current?.value,
-      },
+      author: author,
+      id: comment.id,
+      content: EditInputRef.current?.value,
     });
     setCommentEdit(false);
   };
@@ -159,24 +150,24 @@ const Comment = ({ comment }: ) => {
         <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
           <Avatar
             size="sm"
-            name={comment_user_name}
-            src={USER_PROFILE_IMAGE_ROUTE + comment_user_name + ".jpeg"}
+            name={authorname}
+            src={USER_PROFILE_IMAGE_ROUTE + authorname + ".jpeg"}
           />
           <Text as="b" fontSize="sm" color="white">
-            {comment_user_name}
+            {authorname}
           </Text>
         </Flex>
         <Text color="gray.400" fontSize="sm">
-          {updated_at == null
-            ? created_at.toString().slice(0, 21)
-            : updated_at.toString().slice(0, 21)}
+          {updatedAt == null
+            ? createdAt.toString().slice(0, 21)
+            : updatedAt.toString().slice(0, 21)}
         </Text>
         {/* comment edit window */}
         {IsCommentEdit == true && (
           <>
             <Input
               name="EditedComment"
-              defaultValue={comment.text}
+              defaultValue={comment.content}
               ref={EditInputRef}
               backgroundColor="white"
             />
@@ -198,21 +189,13 @@ const Comment = ({ comment }: ) => {
             </Flex>
           </>
         )}
-
-        {IsCommentEdit == false && (
-          <Text fontSize="sm" color="white">
-            {comment.IsReply
-              ? "@" + comment.reply_to_who + " " + comment.text
-              : comment.text}
-          </Text>
-        )}
         <Flex>
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
               reply
             </Button>
           )}
-          {user_id == comment_user_id && (
+          {uid == author && (
             <Menu>
               <MenuButton
                 as={IconButton}
@@ -239,20 +222,15 @@ const Comment = ({ comment }: ) => {
         <Box {...disclosureProps}>
           <Card>
             <CommentCreate
-              rep_id={comment.rep_id}
+              rep_id={comment.postId}
               IsReply={true}
-              reply_to={comment.comment_id}
+              reply_to={comment.id}
               onClose={onClose}
-              reply_to_who={comment_user_name}
             ></CommentCreate>
           </Card>
         </Box>
       </CommentBoard>
-      <ReplyList
-        comment_user_id={comment.user_id}
-        Ispadding={!comment.IsReply}
-        comment_id={comment.comment_id}
-      ></ReplyList>
+      <ReplyList replies={comment.replies}></ReplyList>
     </>
   );
 };
