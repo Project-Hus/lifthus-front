@@ -21,7 +21,6 @@ import CommentList from "./commentList";
 
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
-import { CommentContent } from "../../../../api/interfaces/commentApi.interface";
 import {
   useMutation,
   useQuery,
@@ -29,12 +28,16 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
-import RepsApi from "../../../../api/postApi";
+
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
 import { QueryPostDto } from "../../../../api/dtos/post.dto";
+import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 
-const Post = (post: QueryPostDto) => {
+interface PostProp {
+  post: QueryPostDto;
+}
+const Post = ({ post }: PostProp) => {
   const { register, handleSubmit, reset, watch } = useForm<FormData>();
 
   type FormData = {
@@ -48,15 +51,7 @@ const Post = (post: QueryPostDto) => {
   const disclosureProps = getDisclosureProps();
 
   //call comment data from api(임시)
-  const [comments, setComments] = useState<CommentContent[]>([]);
-
-  const comment_id_obj = useQuery({
-    queryKey: ["comment_obj", rep.rep_id],
-    queryFn: () => commentApi.get_rep_comments(rep.rep_id),
-    onSuccess: (data) => {
-      setComments(data);
-    },
-  });
+  const [comments, setComments] = useState<QueryCommentDto[]>([]);
 
   // rep의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
@@ -291,4 +286,4 @@ const Post = (post: QueryPostDto) => {
   );
 };
 
-export default Rep;
+export default Post;
