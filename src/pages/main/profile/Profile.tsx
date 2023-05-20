@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 
 import ProfileCard from "./components/ProfileCard";
-import Reps from "../reps/Posts";
+import Reps from "../posts/Posts";
 import repsApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
@@ -50,7 +50,7 @@ const Profile = () => {
               onReset={reset}
             >
               <Suspense fallback={<BlueSpinner />}>
-                <ProfileCard user_id={uid} />
+                <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
                 <Reps reps={posts} />
