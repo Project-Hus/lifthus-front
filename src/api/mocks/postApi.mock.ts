@@ -18,7 +18,6 @@ const postList: QueryPostDto[] = [
     content:
       "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
     likenum: 5,
-    comments: commentList.filter((comment) => comment.postId === 100),
   },
   {
     id: 101,
