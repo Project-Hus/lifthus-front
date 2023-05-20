@@ -6,7 +6,7 @@ import RegisterNumber from "./components/RegisterNumber";
 const RegisterHeight = () => {
   return (
     <RegisterNumber
-      take={"register_height"}
+      take={"registerHeight"}
       content={<Trans i18nKey={"register.heightAsking_message"} />}
       unit={"cm"}
       min={0}
