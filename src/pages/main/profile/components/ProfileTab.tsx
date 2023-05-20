@@ -30,8 +30,8 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import { Avatar, FormLabel } from "@chakra-ui/react";
 
 const ProfileTab = () => {
-  const user_info = useUserStore((state) => state);
-  const sbd_total = user_info.squat + user_info.benchpress + user_info.deadlift;
+  // later query last rec
+  const sbd_total = 460; // s + b + d
   return (
     <Tabs
       size="lg"
@@ -199,7 +199,7 @@ const ProfileTab = () => {
               <Stat>
                 <StatLabel>Squat</StatLabel>
                 <StatNumber>
-                  {user_info.squat}
+                  {160}
                   <Text display={"inline"} fontSize="0.5em">
                     kg
                   </Text>
@@ -213,7 +213,7 @@ const ProfileTab = () => {
               <Stat>
                 <StatLabel>Benchpress</StatLabel>
                 <StatNumber>
-                  {user_info.benchpress}
+                  {120}
                   <Text display={"inline"} fontSize="0.5em">
                     kg
                   </Text>
@@ -226,7 +226,7 @@ const ProfileTab = () => {
               <Stat>
                 <StatLabel>Deadlift</StatLabel>
                 <StatNumber>
-                  {user_info.deadlift}
+                  {180}
                   <Text display={"inline"} fontSize="0.5em">
                     kg
                   </Text>
@@ -265,7 +265,7 @@ const ProfileTab = () => {
               <Stat>
                 <StatLabel>Height</StatLabel>
                 <StatNumber>
-                  {user_info.height}
+                  {183}
                   <Text display={"inline"} fontSize="0.5em">
                     cm
                   </Text>
@@ -278,7 +278,7 @@ const ProfileTab = () => {
               <Stat>
                 <StatLabel>Weight</StatLabel>
                 <StatNumber>
-                  {user_info.body_weight}
+                  {105}
                   <Text display={"inline"} fontSize="0.5em">
                     kg
                   </Text>
@@ -293,7 +293,7 @@ const ProfileTab = () => {
                   <Text>Fat Percentage</Text>
                 </StatLabel>
                 <StatNumber>
-                  {user_info.fat_percentage}
+                  {18}
                   <Text display={"inline"} fontSize="0.5em">
                     %
                   </Text>
