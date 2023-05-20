@@ -122,11 +122,9 @@ const TypeBoard = styled.div`
 const RegisterType = () => {
   const { t, i18n } = useTranslation();
 
-  const set_register_type = useRegisterStore(
-    (state) => state.set_register_info
-  );
+  const set_register_type = useRegisterStore((state) => state.setRegisterInfo);
 
-  const register_type = useRegisterStore((state) => state.register_type);
+  const register_type = useRegisterStore((state) => state.registerType);
 
   const navigate = useNavigate();
 
@@ -139,7 +137,7 @@ const RegisterType = () => {
             register_type == "powerlifting" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "powerlifting" });
+            set_register_type({ registerType: "powerlifting" });
           }}
         >
           {t("trainingType.Strength")}
@@ -149,7 +147,7 @@ const RegisterType = () => {
             register_type == "bodybuilding" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "bodybuilding" });
+            set_register_type({ registerType: "bodybuilding" });
           }}
         >
           {t("trainingType.Bodybuilding")}
@@ -157,7 +155,7 @@ const RegisterType = () => {
         <button
           className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ register_type: "crossfit" });
+            set_register_type({ registerType: "crossfit" });
           }}
         >
           {t("trainingType.Crossfit")}
@@ -167,7 +165,7 @@ const RegisterType = () => {
             register_type == "weightlifting" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "weightlifting" });
+            set_register_type({ registerType: "weightlifting" });
           }}
         >
           {t("trainingType.Weightlifting")}
@@ -177,7 +175,7 @@ const RegisterType = () => {
             register_type == "bodyweight" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "bodyweight" });
+            set_register_type({ registerType: "bodyweight" });
           }}
         >
           {t("trainingType.Bodyweight")}
@@ -185,7 +183,7 @@ const RegisterType = () => {
         <button
           className={`cardio ${register_type == "cardio" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ register_type: "cardio" });
+            set_register_type({ registerType: "cardio" });
           }}
         >
           {t("trainingType.Cardio")}
@@ -193,7 +191,7 @@ const RegisterType = () => {
         <button
           className={`etc ${register_type == "etc" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ register_type: "etc" });
+            set_register_type({ registerType: "etc" });
           }}
         >
           {t("trainingType.Etc")}
@@ -203,7 +201,7 @@ const RegisterType = () => {
             register_type == "undefined" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ register_type: "undefined" });
+            set_register_type({ registerType: "undefined" });
           }}
         >
           ?
