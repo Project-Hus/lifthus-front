@@ -1,6 +1,6 @@
 /* Mock server */
 export interface UserProfileDB {
-  uid: number;
+  id: number;
   registered: boolean;
   registered_at?: Date | null;
   username?: string;
@@ -15,9 +15,11 @@ export interface UserProfileDB {
   updated_at: Date;
 }
 
-const user_list: { [key: number]: UserProfileDB } = {
-  100: {
-    uid: 100,
+export let nextUid = 102;
+
+const userList: UserProfileDB[] = [
+  {
+    id: 100,
     registered: true,
     registered_at: new Date(),
     username: "succregi",
@@ -31,8 +33,8 @@ const user_list: { [key: number]: UserProfileDB } = {
     created_at: new Date("2003-02-03"),
     updated_at: new Date("2005-04-25"),
   },
-  101: {
-    uid: 100,
+  {
+    id: 101,
     registered: false,
     registered_at: null,
     username: "succ",
@@ -46,6 +48,6 @@ const user_list: { [key: number]: UserProfileDB } = {
     created_at: new Date("2003-02-03"),
     updated_at: new Date("2005-04-25"),
   },
-};
+];
 
-export default user_list;
+export default userList;
