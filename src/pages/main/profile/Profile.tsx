@@ -6,39 +6,41 @@ import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout"
 import ProfileCard from "./components/ProfileCard";
 import Reps from "../reps/Posts";
 import repsApi from "../../../api/postApi";
-import { RepContent } from "../../../api/interfaces/postApi.interface";
 import userApi from "../../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "../../../common/components/ErrorPage";
 import BlueSpinner from "../../../common/components/spinners/BlueSpinner";
+import { QueryPostDto } from "../../../api/dtos/post.dto";
 
 const Profile = () => {
   const username = useParams().username;
 
-  const [reps, setReps] = useState<RepContent[]>([]);
+  const [posts, setPosts] = useState<QueryPostDto[]>([]);
 
-  const { data: user_id_obj } = useQuery({
-    queryKey: ["user_id", username],
+  const { data: uidObj } = useQuery({
+    queryKey: ["username", username],
     queryFn: () =>
       typeof username === "undefined"
         ? Promise.reject(new Error("undefined"))
         : userApi.getIdByName({ username }),
   });
-  const user_id = user_id_obj?.user_id;
+
+  const uid = uidObj?.uid;
+
   const { data } = useQuery({
-    queryKey: ["reps", user_id],
+    queryKey: ["posts", username],
     queryFn: () =>
-      typeof user_id === "undefined"
+      typeof username === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : repsApi.getUserPosts({ user_id }),
+        : repsApi.getUserPosts({ username }),
     onSuccess: (data) => {
-      setReps(data);
+      setPosts(data);
     },
-    enabled: !!user_id,
+    enabled: !!uid,
   });
 
-  if (!!user_id)
+  if (!!uid)
     return (
       <BasicPageLayout>
         <QueryErrorResetBoundary>
@@ -48,10 +50,10 @@ const Profile = () => {
               onReset={reset}
             >
               <Suspense fallback={<BlueSpinner />}>
-                <ProfileCard user_id={user_id} />
+                <ProfileCard user_id={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
-                <Reps reps={reps} />
+                <Reps reps={posts} />
               </Suspense>
             </ErrorBoundary>
           )}
