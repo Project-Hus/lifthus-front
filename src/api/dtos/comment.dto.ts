@@ -1,5 +1,6 @@
 export type QueryCommentDto = {
   id: number;
+  postId: number;
   author: number;
   createdAt: Date;
   updatedAt: Date;
@@ -11,6 +12,7 @@ export type QueryCommentDto = {
 
 export type QueryReplyDto = {
   id: number;
+  parentId: number;
   author: number;
   createdAt: Date;
   updatedAt: Date;

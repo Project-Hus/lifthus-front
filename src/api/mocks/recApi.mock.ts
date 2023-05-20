@@ -1,4 +1,4 @@
-export const body_info_list = {
+export const bodyInfoList = {
   100: {
     uid: 100,
     date: new Date("2021-01-01"),
