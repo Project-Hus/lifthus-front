@@ -1,6 +1,7 @@
 import {
   DeleteRepParams,
   Post,
+  PostApi,
   PostRepParams,
   RepContent,
   RepsApi,
@@ -10,7 +11,7 @@ import { UserId } from "../interfaces/userApi.interface";
 import rep_list from "../mocks/postTestApi.mock";
 import userTestApi from "./userTestApi";
 let counter = 100;
-const repsTestApi: RepsApi = {
+const postTestApi: PostApi = {
   get_user_reps: async ({ user_id }: UserId): Promise<RepContent[]> => {
     const list = [];
     for (const _k in rep_list) {
@@ -51,4 +52,4 @@ const repsTestApi: RepsApi = {
   },
 };
 
-export default repsTestApi;
+export default postTestApi;
