@@ -1,28 +1,26 @@
 import { Button, Card, Input, useDisclosure } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
 import commentApi from "../../../../api/commentApi";
-import {
-  CommentContent,
-  PostCommentParams,
-} from "../../../../api/interfaces/commentApi.interface";
 import useUserStore from "../../../../store/user.zustand";
-import emotion, { css } from "@emotion/react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { css } from "@emotion/react";
+import { useForm } from "react-hook-form";
+import {
+  CreateCommentDto,
+  CreateReplyDto,
+} from "../../../../api/dtos/comment.dto";
+import { type } from "os";
 
-
-
-
+interface CommentCreateProps {
+  postId?: number;
+  parentId?: number;
+  onClose?: () => void;
+}
 // 새로운 Comment를 생성하는 컴포넌트
-const CommentCreate = ({ rep_id, IsReply, reply_to, onClose, reply_to_who }: { rep_id: number, IsReply: boolean, reply_to?: number, onClose: () => void, reply_to_who?: string }) => {
-  if (reply_to_who === undefined) {
-    reply_to_who = ""
-  }
-
+const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
   if (onClose === undefined) {
     onClose = () => {
-      console.log("onClose is undefined")
-    }
+      console.log("onClose is undefined");
+    };
   }
 
   const CommentEdit = css`
@@ -34,22 +32,7 @@ const CommentCreate = ({ rep_id, IsReply, reply_to, onClose, reply_to_who }: { r
   const { register, handleSubmit, reset } = useForm();
 
   //call user_id from zustand
-  const { user_id } = useUserStore();
-
-  //save comment function
-  const save = (data: any) => {
-    console.log(data.NewComment)
-    if (data.NewComment == "") {
-      alert("please write the comment")
-      return
-    }
-    const text = data.NewComment
-
-    // updateCommentList
-    mutate({ user_id: user_id, text: text, rep_id: rep_id, IsReply: IsReply, reply_to: reply_to, reply_to_who: reply_to_who });
-    return;
-  };
-
+  const { uid } = useUserStore();
 
   // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
@@ -60,48 +43,83 @@ const CommentCreate = ({ rep_id, IsReply, reply_to, onClose, reply_to_who }: { r
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
-  //make usemutation to save the comment
-  const { mutate, isLoading, error } = useMutation({
-    mutationFn: async ({ user_id, text, rep_id, IsReply, reply_to, reply_to_who }: PostCommentParams) =>
-      await commentApi.post_comment({
-        rep_id: rep_id,
-        text: text,
-        user_id: user_id,
-        IsReply: IsReply,
-        reply_to: reply_to,
-        reply_to_who: reply_to_who
-      }),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["comment_obj"] });
-      queryClient.invalidateQueries({ queryKey: ["reply_comment_obj"] });
-      reset();
+  const { mutate: createComment, isLoading: createCommentLoading } =
+    useMutation({
+      mutationFn: async (comment: CreateCommentDto) => {
+        await commentApi.createComment(comment);
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+        reset();
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
 
-      IsReply ? onClose() : onOpen();
+  const { mutate: createReply, isLoading: createReplyLoading } = useMutation({
+    mutationFn: async (comment: CreateReplyDto) => {
+      await commentApi.createReply(comment);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["replies", parentId] });
+      reset();
+      parentId && onClose ? onClose() : onOpen();
     },
     onError: (error) => {
       console.log(error);
     },
   });
 
+  //save comment function
+  const save = (data: any) => {
+    console.log(data.NewComment);
+    if (data.NewComment == "") {
+      alert("please write the comment");
+      return;
+    }
+    const text: string = data.NewComment;
 
-  return (
-    <><form onSubmit={handleSubmit(save)}>
+    if (postId) {
+      createComment({
+        postId: postId,
+        author: uid,
+        content: text,
+      });
+      return;
+    }
+    if (parentId) {
+      createReply({
+        parentId: parentId,
+        author: uid,
+        content: text,
+      });
+    }
 
-      <Input css={CommentEdit} placeholder="write the reply" {...register("NewComment")} backgroundColor="white" />
-      <Button
-        isLoading={isLoading}
-        size="sm"
-        type="submit"
-        {...buttonProps}
-        variant="solid"
-        display="inline-block"
-        alignSelf="end"
-      >
-        Save
-      </Button>
-    </form>
-    </>
-  );
+    return (
+      <>
+        <form onSubmit={handleSubmit(save)}>
+          <Input
+            css={CommentEdit}
+            placeholder="write the reply"
+            {...register("NewComment")}
+            backgroundColor="white"
+          />
+          <Button
+            isLoading={createCommentLoading && createReplyLoading}
+            size="sm"
+            type="submit"
+            {...buttonProps}
+            variant="solid"
+            display="inline-block"
+            alignSelf="end"
+          >
+            Save
+          </Button>
+        </form>
+      </>
+    );
+  };
 };
 
 export default CommentCreate;
