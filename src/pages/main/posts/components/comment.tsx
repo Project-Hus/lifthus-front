@@ -25,13 +25,14 @@ import CommentCreate from "./commentCreate";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import {
   QueryCommentDto,
+  QueryReplyDto,
   UpdateCommentDto,
 } from "../../../../api/dtos/comment.dto";
 import { Username } from "../../../../api/interfaces/userApi.interface";
 import useUserStore from "../../../../store/user.zustand";
 
 interface CommentProps {
-  comment: QueryCommentDto;
+  comment: QueryCommentDto | QueryReplyDto;
 }
 const Comment = ({ comment }: CommentProps) => {
   const CommentBoard = styled(Card)`
@@ -96,7 +97,14 @@ const Comment = ({ comment }: CommentProps) => {
         content: data.content,
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["comments", comment.postId] });
+      if ("postId" in comment)
+        queryClient.invalidateQueries({
+          queryKey: ["comments", comment.postId],
+        });
+      if ("parentId" in comment)
+        queryClient.invalidateQueries({
+          queryKey: ["replies", comment.parentId],
+        });
 
       onClose();
     },
@@ -113,7 +121,14 @@ const Comment = ({ comment }: CommentProps) => {
   } = useMutation({
     mutationFn: async () => await commentApi.deleteComment(comment.id),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["comments", comment.postId] });
+      if ("postId" in comment)
+        queryClient.invalidateQueries({
+          queryKey: ["comments", comment.postId],
+        });
+      if ("parentId" in comment)
+        queryClient.invalidateQueries({
+          queryKey: ["replies", comment.parentId],
+        });
       console.log("delete success", author, comment.id);
     },
     onError: (error) => {
@@ -221,16 +236,21 @@ const Comment = ({ comment }: CommentProps) => {
         {/* relpy comment window*/}
         <Box {...disclosureProps}>
           <Card>
-            <CommentCreate
-              rep_id={comment.postId}
-              IsReply={true}
-              reply_to={comment.id}
-              onClose={onClose}
-            ></CommentCreate>
+            {"postId" in comment && (
+              <CommentCreate postId={comment.postId} onClose={onClose} />
+            )}
+            {"parentId" in comment && (
+              <CommentCreate parentId={comment.parentId} onClose={onClose} />
+            )}
           </Card>
         </Box>
       </CommentBoard>
-      <ReplyList replies={comment.replies}></ReplyList>
+      {"postId" in comment && (
+        <ReplyList
+          replies={comment.replies}
+          IsPadding={!!comment.postId}
+        ></ReplyList>
+      )}
     </>
   );
 };
