@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { RepContent } from "../../../api/interfaces/postApi.interface";
-import Rep from "./components/Rep";
+import Rep from "./components/Post";
 
-const Reps = ({ reps }: { reps: RepContent[] }) => {
+const Posts = ({ reps }: { reps: RepContent[] }) => {
   const rep_list = [];
   for (const rep of reps) {
     rep_list.push(<Rep rep={rep}></Rep>);

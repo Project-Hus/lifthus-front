@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 
 import ProfileCard from "./components/ProfileCard";
-import Reps from "../reps/Reps";
+import Reps from "../reps/Posts";
 import repsApi from "../../../api/postApi";
 import { RepContent } from "../../../api/interfaces/postApi.interface";
 import userApi from "../../../api/userApi";
@@ -23,15 +23,16 @@ const Profile = () => {
     queryFn: () =>
       typeof username === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : userApi.get_id_by_name({ username }),
+        : userApi.getIdByName({ username }),
   });
   const user_id = user_id_obj?.user_id;
+
   const { data } = useQuery({
     queryKey: ["reps", user_id],
     queryFn: () =>
       typeof user_id === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : repsApi.get_user_reps({ user_id }),
+        : repsApi.getUserPosts({ user_id }),
     onSuccess: (data) => {
       setReps(data);
     },

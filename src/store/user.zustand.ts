@@ -1,15 +1,13 @@
-import { number, string } from "yargs";
 import { create } from "zustand";
 import { UserInfo } from "./interfaces/user.interface";
 
 interface UserState {
-  user_id: string;
-  user_name: string;
+  userId: string;
+  userName: string;
   registered: boolean;
   username: string;
-  training_type: string;
-  body_weight: number;
-  fat_percentage: number;
+  trainingType: string;
+  bodyWeight: number;
   height: number;
   squat: number;
   benchpress: number;
@@ -18,13 +16,12 @@ interface UserState {
 }
 
 const useUserStore = create<UserState>()((set) => ({
-  user_id: "",
-  user_name: "", // user's actual name
+  userId: "",
+  userName: "", // user's actual name
   registered: false,
   username: "",
-  training_type: "",
-  body_weight: NaN,
-  fat_percentage: NaN,
+  trainingType: "",
+  bodyWeight: NaN,
   height: NaN,
   squat: NaN,
   benchpress: NaN,
