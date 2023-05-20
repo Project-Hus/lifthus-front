@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import FormInput from "../../../common/components/forms/FormInput";
 import BlueLink from "../../../common/components/links/BlueLink";
 import Logo from "../../../common/components/Logo";
-import { register_info_strings } from "../../../store/interfaces/register.interface";
+import { RegisterInfoStrings } from "../../../store/interfaces/register.interface";
 import useRegisterStore from "../../../store/register.zustand";
 
 const RegisterNumber = ({
@@ -16,7 +16,7 @@ const RegisterNumber = ({
   min,
   max,
 }: {
-  take: register_info_strings;
+  take: RegisterInfoStrings;
   content: any;
   pref?: any;
   unit: string;
@@ -26,9 +26,7 @@ const RegisterNumber = ({
 }) => {
   const { t, i18n } = useTranslation();
   /* store */
-  const set_register_info = useRegisterStore(
-    (state) => state.set_register_info
-  );
+  const set_register_info = useRegisterStore((state) => state.setRegisterInfo);
   const register_value = useRegisterStore((state) => state[take]);
   /* hook-form */
   const { register, getValues } = useForm({
