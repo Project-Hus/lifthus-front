@@ -283,7 +283,7 @@ const Post = ({ post }: PostProp) => {
         <Card {...disclosureProps}>
           <CommentCreate rep_id={post.id} IsReply={false} onClose={onClose} />
 
-          <CommentList data={comments} />
+          <CommentList comments={comments} />
         </Card>
       </Card>
     </>
