@@ -4,6 +4,7 @@ export interface UserApi {
   setUserinfo: ({ uid, newUserinfo }: SetUserInfoParams) => Promise<Uid>;
   getUserInfo: ({ uid }: Uid) => Promise<GetUserInfoDto>;
   getIdByName: ({ username }: Username) => Promise<Uid>;
+  getNameById: ({ uid }: Uid) => Promise<Username>;
 }
 export interface SetUserInfoParams {
   uid: number;

@@ -26,6 +26,12 @@ const userApi: UserApi = {
     }
     return userTestApi.getIdByName({ username });
   },
+  getNameById: async ({ uid }: Uid): Promise<Username> => {
+    if (process.env.NODE_ENV === "development") {
+      return userTestApi.getNameById({ uid });
+    }
+    return userTestApi.getNameById({ uid });
+  },
 };
 
 export default userApi;

@@ -26,5 +26,10 @@ const userTestApi: UserApi = {
     if (user) return { uid: user.id };
     return Promise.reject(statusInfo.fail.Conflict);
   },
+  getNameById: async ({ uid }: Uid): Promise<Username> => {
+    const user = userList.find((user) => user.id === uid);
+    if (user && user.username) return { username: user.username };
+    return Promise.reject(statusInfo.fail.Conflict);
+  },
 };
 export default userTestApi;
