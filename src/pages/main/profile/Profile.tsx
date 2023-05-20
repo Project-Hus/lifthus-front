@@ -12,6 +12,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "../../../common/components/ErrorPage";
 import BlueSpinner from "../../../common/components/spinners/BlueSpinner";
 import { QueryPostDto } from "../../../api/dtos/post.dto";
+import Posts from "../posts/Posts";
 
 const Profile = () => {
   const username = useParams().username;
@@ -53,7 +54,7 @@ const Profile = () => {
                 <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
-                <Reps posts={posts} />
+                <Posts posts={posts} />
               </Suspense>
             </ErrorBoundary>
           )}
