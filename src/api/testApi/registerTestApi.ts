@@ -5,7 +5,7 @@ import {
 } from "../interfaces/registerApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
 import { Uid, Username } from "../interfaces/userApi.interface";
-import { RecDB, recList } from "../mocks/recApi.Mock";
+import { RecDB, recList, recState } from "../mocks/recApi.Mock";
 import { SigningState } from "../mocks/state.mcok";
 import userList from "../mocks/userTestApi.mock";
 import userTestApi from "./userTestApi";
@@ -27,6 +27,7 @@ const registerTestApi: RegisterApi = {
       setTimeout(async () => {
         if (!SigningState.uid) return reject(statusInfo.fail.Unauthorized);
         const newRec: RecDB = {
+          id: recState.nextRid,
           author: SigningState.uid,
           date: new Date(),
           created_at: new Date(),
@@ -39,6 +40,7 @@ const registerTestApi: RegisterApi = {
           deadlift: registerInfo.deadlift,
         };
         recList.push(newRec);
+        recState.nextRid += 1;
       }, 500);
     });
   },

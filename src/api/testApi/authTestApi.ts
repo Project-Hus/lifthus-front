@@ -6,7 +6,7 @@ import {
 import statusInfo from "../interfaces/statusInfo.json";
 import { Uid, UserMutationParams } from "../interfaces/userApi.interface";
 import { SigningState } from "../mocks/state.mcok";
-import userList, { nextUid } from "../mocks/userTestApi.mock";
+import userList, { userState } from "../mocks/userTestApi.mock";
 
 import userTestApi from "./userTestApi";
 
@@ -34,10 +34,11 @@ const authTestApi: AuthApi = {
         else if (username === "fail")
           return reject(statusInfo.fail.InternalServerError);
         else {
+          const nuid = userState.nextUid;
           await userTestApi.setUserinfo({
-            uid: nextUid,
+            uid: nuid,
             newUserinfo: {
-              id: nextUid,
+              id: nuid,
               registered: false,
               registered_at: null,
               username: "",
@@ -54,8 +55,9 @@ const authTestApi: AuthApi = {
               password: password,
             },
           });
+          userState.nextUid += 1;
         }
-        return resolve({ uid: nextUid });
+        return resolve({ uid: userState.nextUid - 1 });
       }, 500);
     });
   },

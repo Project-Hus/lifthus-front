@@ -17,7 +17,9 @@ export type UserProfileDB = {
   password: string;
 };
 
-export let nextUid = 102;
+export const userState = {
+  nextUid: 102,
+};
 
 const userList: UserProfileDB[] = [
   {

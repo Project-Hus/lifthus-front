@@ -1,7 +1,9 @@
 import { QueryPostDto } from "../dtos/post.dto";
 import commentList from "./commentApi.mock";
 
-let next_pid = 102;
+export const postState = {
+  nextPid: 102,
+};
 
 const postList: QueryPostDto[] = [
   {

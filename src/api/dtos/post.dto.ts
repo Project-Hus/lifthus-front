@@ -30,6 +30,6 @@ export type UpdatePostResponse = {
   count: number;
 };
 
-export type DeletePostDto = {
+export type DeletePostResponse = {
   count: number;
 };
