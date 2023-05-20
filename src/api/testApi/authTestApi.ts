@@ -4,7 +4,8 @@ import {
   SignResponse,
 } from "../interfaces/authApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
-import { Uid } from "../interfaces/userApi.interface";
+import { Uid, UserMutationParams } from "../interfaces/userApi.interface";
+import { SigningState } from "../mocks/state.mcok";
 import userList, { nextUid } from "../mocks/userTestApi.mock";
 
 import userTestApi from "./userTestApi";
@@ -16,8 +17,12 @@ const authTestApi: AuthApi = {
         const user = userList.find(
           (user) => user.username === username && user.password === password
         );
-        if (user) return resolve({ uid: user.id, username: user.username });
-        else return reject(statusInfo.fail.Unauthorized);
+        if (user) {
+          SigningState.uid = user.id;
+          SigningState.username = user.username;
+          return resolve({ uid: user.id, username: user.username });
+        }
+        return reject(statusInfo.fail.Unauthorized);
       }, 500);
     });
   },
@@ -30,33 +35,36 @@ const authTestApi: AuthApi = {
           return reject(statusInfo.fail.InternalServerError);
         else {
           await userTestApi.setUserinfo({
-            nextUid,
-            new_user_info: {
-              user_id,
+            uid: nextUid,
+            newUserinfo: {
+              id: nextUid,
               registered: false,
+              registered_at: null,
               username: "",
-              training_type: "",
-              body_weight: NaN,
-              height: NaN,
-              squat: NaN,
-              benchpress: NaN,
-              deadlift: NaN,
+              email: "",
+              email_verified: false,
+              name: "",
+              given_name: "",
+              family_name: "",
+              birthdate: undefined,
+              profile_image_url: "",
+              created_at: new Date(),
+              updated_at: new Date(),
+
+              password: password,
             },
           });
         }
-        return resolve(signUpReturns);
+        return resolve({ uid: nextUid });
       }, 500);
     });
   },
-  update_session: (): Promise<SignResponse> => {
+  updateSession: (): Promise<SignResponse> => {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const updateSessionReturns: SignResponse = {
-          user_id: "test",
-          user_name: "test",
-        };
-        return resolve(updateSessionReturns);
-      }, 500);
+      return resolve({
+        uid: SigningState.uid,
+        username: SigningState.username,
+      });
     });
   },
 };
