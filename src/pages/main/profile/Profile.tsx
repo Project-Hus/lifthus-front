@@ -53,7 +53,7 @@ const Profile = () => {
                 <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
-                <Reps reps={posts} />
+                <Reps posts={posts} />
               </Suspense>
             </ErrorBoundary>
           )}
