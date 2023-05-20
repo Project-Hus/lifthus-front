@@ -1,33 +1,30 @@
-import { RegisterParams } from "../interfaces/registerApi.interface";
+import { GetUserInfoDto } from "../dtos/user.dto";
 import {
   SetUserInfoParams,
+  Uid,
   UserApi,
-  UserId,
   Username,
-  UserProfile,
 } from "../interfaces/userApi.interface";
+import userList from "../mocks/userTestApi.mock";
 
 import user_list from "../mocks/userTestApi.mock";
 
 const userTestApi: UserApi = {
-  set_user_info: async ({
-    user_id,
-    new_user_info,
-  }: SetUserInfoParams): Promise<UserId> => {
-    user_list[user_id] = { ...user_list[user_id], ...new_user_info };
-    return { user_id };
+  setUserinfo: async ({
+    uid,
+    newUserinfo,
+  }: SetUserInfoParams): Promise<Uid> => {
+    const uidx = userList.findIndex((user) => user.id === uid);
+    userList[uidx] = { ...user_list[uidx], ...newUserinfo };
+    return { uid };
   },
-  get_user_info: async ({ user_id }: UserId): Promise<UserProfile> => {
-    return { ...user_list[user_id] };
+  getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
+    return { ...userList.find((user) => user.id === uid) } as GetUserInfoDto;
   },
-  get_id_by_name: async ({
-    username,
-  }: Username): Promise<{ user_id: string; ok: boolean }> => {
-    for (const k in user_list) {
-      if (user_list[k].username === username)
-        return { user_id: user_list[k].user_id, ok: true };
-    }
-    return { user_id: "", ok: false };
+  getIdByName: async ({ username }: Username): Promise<Uid> => {
+    const user = userList.find((user) => user.username === username);
+    if (user) return { uid: user.id };
+    return Promise.reject("User not found");
   },
 };
 export default userTestApi;
