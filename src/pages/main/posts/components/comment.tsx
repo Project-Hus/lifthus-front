@@ -245,7 +245,7 @@ const Comment = ({ comment }: CommentProps) => {
           </Card>
         </Box>
       </CommentBoard>
-      {"postId" in comment && (
+      {"postId" in comment && comment.replies && (
         <ReplyList
           replies={comment.replies}
           IsPadding={!!comment.postId}
