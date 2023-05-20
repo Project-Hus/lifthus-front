@@ -30,7 +30,7 @@ const SignIn = () => {
   let navigate = useNavigate();
   let location = useLocation();
 
-  const set_user_info = useUserStore((state) => state.set_user_info);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   /* hook-form */
   const { register, handleSubmit, watch, getValues } =
@@ -63,7 +63,7 @@ const SignIn = () => {
         ? Promise.reject(new Error("undefined"))
         : userApi.getUserInfo({ uid }),
     onSuccess: async (data) => {
-      await set_user_info(data);
+      await setUserInfo(data);
       if (data.registered) navigate("/");
       else navigate("/register");
     },

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { UserInfo } from "./interfaces/user.interface";
 
 interface UserState {
-  uid?: number;
+  uid: number;
   registered: boolean;
   registered_at?: Date | null;
   username?: string;
@@ -15,7 +15,7 @@ interface UserState {
   profile_image_url?: string;
   created_at?: Date;
   updated_at?: Date;
-  set_user_info: (info: UserInfo) => void;
+  setUserInfo: (info: UserInfo) => void;
 }
 
 const useUserStore = create<UserState>()((set) => ({
@@ -33,7 +33,7 @@ const useUserStore = create<UserState>()((set) => ({
   created_at: undefined,
   updated_at: undefined,
 
-  set_user_info: (info: UserInfo) =>
+  setUserInfo: (info: UserInfo) =>
     set((state) => ({
       ...state,
       ...info,

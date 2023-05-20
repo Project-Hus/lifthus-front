@@ -20,7 +20,7 @@ import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
 
 const Register = () => {
   const { t, i18n } = useTranslation();
-  const user_name = useUserStore((state) => state.user_name);
+  const user_name = useUserStore((state) => state.username);
   return (
     <FlexCenterLayout>
       <Routes>

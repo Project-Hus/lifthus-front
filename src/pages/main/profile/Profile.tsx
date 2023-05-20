@@ -26,7 +26,6 @@ const Profile = () => {
         : userApi.getIdByName({ username }),
   });
   const user_id = user_id_obj?.user_id;
-
   const { data } = useQuery({
     queryKey: ["reps", user_id],
     queryFn: () =>
