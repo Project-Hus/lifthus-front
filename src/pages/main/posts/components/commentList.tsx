@@ -1,36 +1,23 @@
-import React from 'react'
-import { CommentContent } from '../../../../api/interfaces/commentApi.interface'
-import { Box } from '@chakra-ui/layout'
-import Comment from './comment'
-import { Input } from '@chakra-ui/react'
-import CommentEdit from './commentCreate'
-import useUserStore from '../../../../store/user.zustand'
+import React from "react";
+import { Box } from "@chakra-ui/layout";
+import Comment from "./comment";
+import useUserStore from "../../../../store/user.zustand";
+import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 
-const CommentList = ({ data }: { data: CommentContent[] }) => {
-  const { user_id } = useUserStore();
-
-  const comments = data
-  const comment_list = []
+interface CommentListProps {
+  comments: QueryCommentDto[];
+}
+const CommentList = ({ comments }: CommentListProps) => {
+  const commentList = [];
   for (const comment of comments) {
-    comment_list.push(<Comment comment={comment}></Comment>);
+    commentList.push(<Comment comment={comment}></Comment>);
   }
-
-
-
 
   return (
     <>
-
-
-      <Box>
-        {comment_list}
-      </Box>
+      <Box>{commentList}</Box>
     </>
-  )
-
-}
+  );
+};
 
 export default CommentList;
-
-
-
