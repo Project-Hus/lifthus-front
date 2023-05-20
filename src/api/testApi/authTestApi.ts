@@ -26,7 +26,7 @@ const authTestApi: AuthApi = {
       }, 500);
     });
   },
-  singUpLocal: ({ username, password }: SignParams): Promise<Uid> => {
+  signUpLocal: ({ username, password }: SignParams): Promise<Uid> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         if (userList.find((user) => user.username))

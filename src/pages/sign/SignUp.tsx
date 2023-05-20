@@ -34,9 +34,9 @@ const SignUp = () => {
 
   /* api */
   const { mutate, isLoading } = useMutation(
-    ({ user_id, password }: SignParams) => {
-      return authApi.sign_up_local({
-        user_id,
+    ({ username, password }: SignParams) => {
+      return authApi.signUpLocal({
+        username,
         password,
       });
     },
@@ -53,7 +53,7 @@ const SignUp = () => {
 
   // onSubmit
   const onSubmit: SubmitHandler<IFormInputValues> = () => {
-    mutate({ user_id: getValues("id"), password: getValues("password") });
+    mutate({ username: getValues("id"), password: getValues("password") });
   };
 
   return (

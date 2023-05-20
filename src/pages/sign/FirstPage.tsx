@@ -1,8 +1,7 @@
-import styled from "@emotion/styled";
 import React from "react";
 
 import { useTranslation } from "react-i18next";
-import { Route, Routes, useParams } from "react-router";
+import { Route, Routes } from "react-router";
 import BigThemeBtn from "../../common/components/buttons/BigThemeBtn";
 import ErrorPage from "../../common/components/ErrorPage";
 

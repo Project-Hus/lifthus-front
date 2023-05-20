@@ -2,7 +2,7 @@ import { Uid } from "./userApi.interface";
 
 export interface AuthApi {
   signInLocal: ({ username, password }: SignParams) => Promise<SignResponse>;
-  singUpLocal: ({ username, password }: SignParams) => Promise<Uid>;
+  signUpLocal: ({ username, password }: SignParams) => Promise<Uid>;
   updateSession: () => Promise<SignResponse>;
 }
 export type SignParams = {

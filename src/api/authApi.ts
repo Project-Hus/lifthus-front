@@ -22,11 +22,11 @@ const authApi: AuthApi = {
     return authTestApi.signInLocal({ username, password });
   },
 
-  singUpLocal: async ({ username, password }: SignParams): Promise<Uid> => {
+  signUpLocal: async ({ username, password }: SignParams): Promise<Uid> => {
     if (process.env.NODE_ENV === "development") {
-      return authTestApi.singUpLocal({ username, password });
+      return authTestApi.signUpLocal({ username, password });
     }
-    return authTestApi.singUpLocal({ username, password });
+    return authTestApi.signUpLocal({ username, password });
   },
 
   updateSession: async (): Promise<SignResponse> => {
