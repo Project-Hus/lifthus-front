@@ -6,7 +6,7 @@ import {
   Username,
 } from "../interfaces/userApi.interface";
 import userList from "../mocks/userTestApi.mock";
-
+import statusInfo from "../interfaces/statusInfo.json";
 import user_list from "../mocks/userTestApi.mock";
 
 const userTestApi: UserApi = {
@@ -24,7 +24,7 @@ const userTestApi: UserApi = {
   getIdByName: async ({ username }: Username): Promise<Uid> => {
     const user = userList.find((user) => user.username === username);
     if (user) return { uid: user.id };
-    return Promise.reject("User not found");
+    return Promise.reject(statusInfo.fail.Conflict);
   },
 };
 export default userTestApi;
