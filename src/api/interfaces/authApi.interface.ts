@@ -5,12 +5,12 @@ export interface AuthApi {
   sign_up_local: ({ username, password }: SignParams) => Promise<Uid>;
   update_session: () => Promise<SignResponse>;
 }
-export interface SignParams {
+export type SignParams = {
   username: string;
   password: string;
-}
+};
 
-export interface SignResponse {
-  uid: number;
-  username: string;
-}
+export type SignResponse = {
+  uid?: number;
+  username?: string;
+};

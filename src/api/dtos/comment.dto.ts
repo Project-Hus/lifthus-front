@@ -43,6 +43,6 @@ export type UpdateCommentResponse = {
   count: number;
 };
 
-export type DeleteCommentDto = {
+export type DeleteCommentResponse = {
   count: number;
 };

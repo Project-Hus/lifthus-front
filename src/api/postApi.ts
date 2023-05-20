@@ -1,66 +1,39 @@
 import axios from "axios";
-import {
-  DeleteRepParams,
-  GetUserPostsParams,
-  Post,
-  PostRepParams,
-  RepContent,
-  RepsApi,
-  UpdateRepParams,
-} from "./interfaces/postApi.interface";
-import { UserId } from "./interfaces/userApi.interface";
-import repsTestApi from "./testApi/postTestApi";
-import { CreatePostDto, UpdatePostDto } from "./dtos/post.dto";
-import { UserName } from "./interfaces/userApi.interface";
+import { CreatePostDto, QueryPostDto, UpdatePostDto } from "./dtos/post.dto";
+import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
+import postTestApi from "./testApi/postTestApi";
 
-const repsApi: RepsApi = {
-  get_user_reps: async ({ user_id }: UserId) => {
-    if (process.env.NODE_ENV === "development") {
-      return repsTestApi.get_user_reps({ user_id });
-    }
-    return repsTestApi.get_user_reps({ user_id });
-  },
+const postApi: PostApi = {
   getUserPosts: async ({
     username,
-    skip = 0,
-  }: GetUserPostsParams): Promise<Post[]> => {
+    skip,
+  }: GetUserPostsParams): Promise<QueryPostDto[]> => {
     if (process.env.NODE_ENV === "development") {
-      return Promise.resolve([]);
+      return postTestApi.getUserPosts({ username, skip });
     }
     return await axios.get(
       `https://api.lifthus.com/post/query/post/${username}/${skip}`
     );
   },
-  post_rep: async ({ user_id, rep }: PostRepParams) => {
+  createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.post_rep({ user_id, rep });
+      return postTestApi.createPost(post);
     }
-
-    const post: CreatePostDto = {
-      author: 0,
-      content: rep.text,
-    };
-
     return await axios.post("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
   },
-  update_rep: async ({ user_id, rep_id, rep }: UpdateRepParams) => {
+  updatePost: async (post: UpdatePostDto) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.update_rep({ user_id, rep_id, rep });
+      return postTestApi.updatePost(post);
     }
-    const post: UpdatePostDto = {
-      id: rep_id,
-      author: 0,
-      content: rep.text,
-    };
     return await axios.put("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
   },
-  delete_rep: async ({ uid, pid }: DeleteRepParams) => {
+  deletePost: async (pid: number) => {
     if (process.env.NODE_ENV === "development") {
-      return repsTestApi.delete_rep({ uid, pid });
+      return postTestApi.deletePost(pid);
     }
     return await axios.delete("https://api.lifthus.com/post/post", {
       data: { pid },
@@ -69,4 +42,4 @@ const repsApi: RepsApi = {
   },
 };
 
-export default repsApi;
+export default postApi;

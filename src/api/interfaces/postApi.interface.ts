@@ -4,9 +4,8 @@ import {
   QueryPostDto,
   UpdatePostDto,
 } from "../dtos/post.dto";
-import { Uid } from "./userApi.interface";
 
-export interface RepsApi {
+export interface PostApi {
   getUserPosts: ({
     username,
     skip,

@@ -1,7 +1,7 @@
 import {
   CreateCommentDto,
   CreateReplyDto,
-  DeleteCommentDto,
+  DeleteCommentResponse,
   QueryCommentDto,
   QueryReplyDto,
   UpdateCommentDto,
@@ -26,5 +26,5 @@ export interface CommentApi {
     author,
     content,
   }: UpdateCommentDto) => Promise<UpdateCommentResponse>;
-  deleteComment: (cid: number) => Promise<DeleteCommentDto>;
+  deleteComment: (cid: number) => Promise<DeleteCommentResponse>;
 }

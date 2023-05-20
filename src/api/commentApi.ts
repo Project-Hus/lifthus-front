@@ -1,80 +1,48 @@
 //make commentApi
-import { CommentApi } from "./interfaces/commentApi.interface";
-import { CommentContent } from "./interfaces/commentApi.interface";
-import { UserId } from "./interfaces/userApi.interface";
 import {
-  PostCommentParams,
-  UpdateCommentParams,
-  DeleteCommentParams,
-} from "./interfaces/commentApi.interface";
+  CreateCommentDto,
+  CreateReplyDto,
+  DeleteCommentResponse,
+  QueryCommentDto,
+  QueryReplyDto,
+  UpdateCommentDto,
+  UpdateCommentResponse,
+} from "./dtos/comment.dto";
+
+import { CommentApi } from "./interfaces/commentApi.interface";
+
 import commentTestApi from "./testApi/commentTestApi";
 
 const commentApi: CommentApi = {
-  get_user_comments: async ({ user_id }: UserId): Promise<CommentContent[]> => {
+  createComment: async (
+    comment: CreateCommentDto
+  ): Promise<QueryCommentDto> => {
     if (process.env.NODE_ENV === "development") {
-      return commentTestApi.get_user_comments({ user_id });
+      return commentTestApi.createComment(comment);
     }
-    return commentTestApi.get_user_comments({ user_id });
+    return commentTestApi.createComment(comment);
   },
 
-  post_comment: async ({
-    user_id,
-    rep_id,
-    text,
-    IsReply,
-    reply_to,
-    reply_to_who,
-  }: PostCommentParams): Promise<UserId> => {
+  createReply: async (reply: CreateReplyDto): Promise<QueryReplyDto> => {
     if (process.env.NODE_ENV === "development") {
-      return commentTestApi.post_comment({
-        user_id,
-        rep_id,
-        text,
-        IsReply,
-        reply_to,
-        reply_to_who,
-      });
+      return commentTestApi.createReply(reply);
     }
-    return commentTestApi.post_comment({
-      user_id,
-      rep_id,
-      text,
-      IsReply,
-      reply_to,
-      reply_to_who,
-    });
+    return commentTestApi.createReply(reply);
   },
 
-  update_comment: async ({
-    user_id,
-    comment_id,
-    comment,
-  }: UpdateCommentParams): Promise<UserId> => {
+  updateComment: async (
+    comment: UpdateCommentDto
+  ): Promise<UpdateCommentResponse> => {
     if (process.env.NODE_ENV === "development") {
-      return commentTestApi.update_comment({ user_id, comment_id, comment });
+      return commentTestApi.updateComment(comment);
     }
-    return commentTestApi.update_comment({ user_id, comment_id, comment });
+    return commentTestApi.updateComment(comment);
   },
-  delete_comment: async ({
-    user_id,
-    comment_id,
-  }: DeleteCommentParams): Promise<UserId> => {
+  deleteComment: async (cid: number): Promise<DeleteCommentResponse> => {
     if (process.env.NODE_ENV === "development") {
-      return commentTestApi.delete_comment({ user_id, comment_id });
+      return commentTestApi.deleteComment(cid);
     }
-    return commentTestApi.delete_comment({ user_id, comment_id });
-  },
-  get_rep_comments: function (rep_id: number): Promise<CommentContent[]> {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.get_rep_comments(rep_id);
-    }
-    return commentTestApi.get_rep_comments(rep_id);
-  },
-  get_reply_comments(comment_id) {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.get_reply_comments(comment_id);
-    }
-    return commentTestApi.get_reply_comments(comment_id);
+    return commentTestApi.deleteComment(cid);
   },
 };
 export default commentApi;
