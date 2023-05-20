@@ -32,8 +32,9 @@ import commentApi from "../../../../api/commentApi";
 import RepsApi from "../../../../api/postApi";
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
+import { QueryPostDto } from "../../../../api/dtos/post.dto";
 
-const Rep = ({ rep }: { rep: RepContent }) => {
+const Post = (post: QueryPostDto) => {
   const { register, handleSubmit, reset, watch } = useForm<FormData>();
 
   type FormData = {
