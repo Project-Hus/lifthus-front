@@ -1,8 +1,9 @@
 import {
   CreatePostDto,
-  DeletePostDto,
+  DeletePostResponse,
   QueryPostDto,
   UpdatePostDto,
+  UpdatePostResponse,
 } from "../dtos/post.dto";
 
 export interface PostApi {
@@ -19,8 +20,8 @@ export interface PostApi {
     id,
     author,
     content,
-  }: UpdatePostDto) => Promise<UpdatePostDto>;
-  deletePost: (pid: number) => Promise<DeletePostDto>;
+  }: UpdatePostDto) => Promise<UpdatePostResponse>;
+  deletePost: (pid: number) => Promise<DeletePostResponse>;
 }
 
 export type GetUserPostsParams = {

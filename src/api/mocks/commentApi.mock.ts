@@ -1,7 +1,5 @@
 import { QueryCommentDto, QueryReplyDto } from "../dtos/comment.dto";
 
-export let next_cid = 103;
-
 const replyList: QueryReplyDto[] = [
   {
     id: 102,
@@ -14,6 +12,10 @@ const replyList: QueryReplyDto[] = [
     mentions: [],
   },
 ];
+
+export const commentState = {
+  nextCid: 102,
+};
 
 const commentList: QueryCommentDto[] = [
   {
