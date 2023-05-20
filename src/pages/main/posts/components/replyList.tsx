@@ -2,18 +2,15 @@ import { Box } from "@chakra-ui/layout";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import commentApi from "../../../../api/commentApi";
-import { CommentContent } from "../../../../api/interfaces/commentApi.interface";
 import Comment from "./comment";
 import { ThemeColor } from "../../../../common/styles/theme.style";
-const ReplyList = ({
-  comment_user_id,
-  Ispadding,
-  comment_id,
-}: {
-  comment_user_id: String;
-  Ispadding: boolean;
-  comment_id: number;
-}) => {
+import { QueryReplyDto } from "../../../../api/dtos/comment.dto";
+
+interface ReplyListProps {
+  IsPadding: boolean;
+  replies?: QueryReplyDto[];
+}
+const ReplyList = ({ IsPadding, replies }: ReplyListProps) => {
   //call comment data from api(임시)
   const [comments, setComments] = useState<CommentContent[]>([]);
 
@@ -28,6 +25,13 @@ const ReplyList = ({
   for (const comment of comments) {
     reply_comment_list.push(<Comment comment={comment}></Comment>);
   }
-  return <Box backgroundColor={ThemeColor.backgroundColor} paddingLeft={Ispadding ? "10%" : "0%"}>{reply_comment_list}</Box>;
+  return (
+    <Box
+      backgroundColor={ThemeColor.backgroundColor}
+      paddingLeft={Ispadding ? "10%" : "0%"}
+    >
+      {reply_comment_list}
+    </Box>
+  );
 };
 export default ReplyList;
