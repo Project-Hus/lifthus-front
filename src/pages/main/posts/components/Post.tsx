@@ -281,7 +281,7 @@ const Post = ({ post }: PostProp) => {
           </Button>
         </CardFooter>
         <Card {...disclosureProps}>
-          <CommentCreate rep_id={post.id} IsReply={false} onClose={onClose} />
+          <CommentCreate postId={post.id} onClose={onClose} />
 
           <CommentList comments={comments} />
         </Card>

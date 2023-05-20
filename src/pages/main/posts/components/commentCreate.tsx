@@ -95,31 +95,31 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
         content: text,
       });
     }
-
-    return (
-      <>
-        <form onSubmit={handleSubmit(save)}>
-          <Input
-            css={CommentEdit}
-            placeholder="write the reply"
-            {...register("NewComment")}
-            backgroundColor="white"
-          />
-          <Button
-            isLoading={createCommentLoading && createReplyLoading}
-            size="sm"
-            type="submit"
-            {...buttonProps}
-            variant="solid"
-            display="inline-block"
-            alignSelf="end"
-          >
-            Save
-          </Button>
-        </form>
-      </>
-    );
   };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(save)}>
+        <Input
+          css={CommentEdit}
+          placeholder="write the reply"
+          {...register("NewComment")}
+          backgroundColor="white"
+        />
+        <Button
+          isLoading={createCommentLoading && createReplyLoading}
+          size="sm"
+          type="submit"
+          {...buttonProps}
+          variant="solid"
+          display="inline-block"
+          alignSelf="end"
+        >
+          Save
+        </Button>
+      </form>
+    </>
+  );
 };
 
 export default CommentCreate;
