@@ -1,39 +1,59 @@
-import { CommentContent } from "../interfaces/commentApi.interface";
+import { QueryCommentDto, QueryReplyDto } from "../dtos/comment.dto";
 
-//make commentapi mock data
-const comment_list: { [key: number]: CommentContent } = {
-    1: {
-        rep_id: 2,
-        comment_id: 1,
-        created_at: new Date("2023-01-03"),
-        updated_at: new Date("2023-01-03"),
-        user_id: "succregi",
-        image_paths: [
-            "https://i.pinimg.com/originals/f0/c9/84/f0c9842b43c97fb7412c8cd99ca5218d.jpg",
-        ],
-        text: "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
+export let next_cid = 103;
 
-        IsReply: false,
+/**
+ * replyList
+ *
+ * the key is the parent comment id,
+ */
+const replyList: { [key: number]: QueryReplyDto[] } = {
+  100: [
+    {
+      id: 102,
+      parentId: 100,
+      author: 100,
+      createdAt: new Date("2023-01-03"),
+      updatedAt: new Date("2023-01-03"),
+      content: "This is the reply",
+      likenum: 3,
+      mentions: [],
     },
-    2: {
-        rep_id: 1,
-        comment_id: 2,
-        created_at: new Date("2023-01-05"),
-        updated_at: new Date("2023-01-05"),
-        user_id: "succregi",
-        text: "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
+  ],
+};
 
-        IsReply: false,
+/**
+ * commentList
+ *
+ * the key is the post id
+ */
+const commentList: { [key: number]: QueryCommentDto[] } = {
+  100: [
+    {
+      id: 100,
+      postId: 100,
+      author: 100,
+      createdAt: new Date("2023-01-03"),
+      updatedAt: new Date("2023-01-03"),
+      content:
+        "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
+      likenum: 5,
+      mentions: [],
+      replies: replyList[100],
     },
-    3: {
-        rep_id: 1,
-        comment_id: 3,
-        created_at: new Date("2023-01-05"),
-        updated_at: new Date("2023-01-05"),
-        user_id: "Tom",
-        text: "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
-        IsReply: false,
+    {
+      id: 101,
+      postId: 100,
+      author: 100,
+      createdAt: new Date("2023-01-03"),
+      updatedAt: new Date("2023-01-03"),
+      content:
+        "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
+      likenum: 5,
+      mentions: [],
+      replies: [],
     },
-}
+  ],
+};
 
-export default comment_list;
+export default commentList;

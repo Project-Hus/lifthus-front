@@ -2,6 +2,7 @@ import { QueryCommentDto } from "./comment.dto";
 
 export type QueryPostDto = {
   id: number;
+  userGroup?: number;
   author: number;
   createdAt: Date;
   updatedAt: Date;

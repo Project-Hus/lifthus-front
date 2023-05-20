@@ -1,5 +1,5 @@
 /* Mock server */
-interface UserProfileDB {
+export interface UserProfileDB {
   uid: number;
   registered: boolean;
   registered_at?: Date | null;

@@ -1,17 +1,13 @@
 import { QueryPostDto } from "../dtos/post.dto";
-import { RepContent } from "../interfaces/postApi.interface";
+import commentList from "./commentApi.mock";
 
-/*
-  rep_id?: number;
-  created_at: Date;
-  updated_at: Date;
-  user_id: string;
-  routine_id?: number;
-  image_paths?: string[];
-  text: string;
-*/
+let next_pid = 102;
 
-const rep_list: { [key: number]: QueryPostDto } = {
+/**
+ * postList
+ * the key is the author id
+ */
+const postList: { [key: number]: QueryPostDto } = {
   100: {
     id: 100,
     author: 100,
@@ -24,6 +20,7 @@ const rep_list: { [key: number]: QueryPostDto } = {
     content:
       "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
     likenum: 5,
+    comments: commentList[100],
   },
 
   101: {
@@ -39,4 +36,4 @@ const rep_list: { [key: number]: QueryPostDto } = {
   },
 };
 
-export default rep_list;
+export default postList;
