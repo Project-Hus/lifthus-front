@@ -17,7 +17,7 @@ import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { RepContent } from "../../../../api/interfaces/repsApi.interface";
+import { RepContent } from "../../../../api/interfaces/postApi.interface";
 
 import CommentList from "./commentList";
 
@@ -31,7 +31,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
-import RepsApi from "../../../../api/repsApi";
+import RepsApi from "../../../../api/postApi";
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
 

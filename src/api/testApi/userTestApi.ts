@@ -7,7 +7,7 @@ import {
   UserProfile,
 } from "../interfaces/userApi.interface";
 
-import user_list from "../mocks/userTestApi.mocks";
+import user_list from "../mocks/userTestApi.mock";
 
 const userTestApi: UserApi = {
   set_user_info: async ({

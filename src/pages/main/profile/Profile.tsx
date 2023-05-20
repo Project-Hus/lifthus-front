@@ -5,8 +5,8 @@ import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout"
 
 import ProfileCard from "./components/ProfileCard";
 import Reps from "../reps/Reps";
-import repsApi from "../../../api/repsApi";
-import { RepContent } from "../../../api/interfaces/repsApi.interface";
+import repsApi from "../../../api/postApi";
+import { RepContent } from "../../../api/interfaces/postApi.interface";
 import userApi from "../../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";

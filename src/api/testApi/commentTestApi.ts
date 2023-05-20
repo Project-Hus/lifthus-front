@@ -1,6 +1,6 @@
 //make testapi for comment
 import { CommentApi } from "../interfaces/commentApi.interface";
-import comment_list from "../mocks/commentApi.mocks";
+import comment_list from "../mocks/commentApi.mock";
 import { CommentContent } from "../interfaces/commentApi.interface";
 import { UserId } from "../interfaces/userApi.interface";
 import {

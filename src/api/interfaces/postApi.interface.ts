@@ -1,11 +1,11 @@
-import { UserId, UserName } from "./userApi.interface";
+import { Uid } from "./userApi.interface";
 
 export interface RepsApi {
-  get_user_reps: ({ user_id }: UserId) => Promise<RepContent[]>;
+  get_user_reps: ({ uid }: Uid) => Promise<RepContent[]>;
   getUserPosts: ({ username, skip }: GetUserPostsParams) => Promise<Post[]>;
-  post_rep: ({ user_id, rep }: PostRepParams) => Promise<UserId>;
-  update_rep: ({ user_id, rep_id, rep }: UpdateRepParams) => Promise<UserId>;
-  delete_rep: ({ uid, pid }: DeleteRepParams) => Promise<UserId>;
+  post_rep: ({ user_id, rep }: PostRepParams) => Promise<Uid>;
+  update_rep: ({ user_id, rep_id, rep }: UpdateRepParams) => Promise<Uid>;
+  delete_rep: ({ uid, pid }: DeleteRepParams) => Promise<Uid>;
 }
 
 export type Post = {

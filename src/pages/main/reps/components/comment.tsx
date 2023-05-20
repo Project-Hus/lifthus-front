@@ -24,32 +24,22 @@ import { Button } from "@chakra-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
 import { css } from "@emotion/react";
-import {
-  FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import { useForm } from "react-hook-form";
 import CommentCreate from "./commentCreate";
-import comment_list from "../../../../api/mocks/commentApi.mocks";
+import comment_list from "../../../../api/mocks/commentApi.mock";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 
-
 const Comment = ({ comment }: { comment: CommentContent }) => {
-
   const CommentBoard = styled(Card)`
-   
-    border-radius : 0%;
+    border-radius: 0%;
     box-shadow: none;
     background-color: ${ThemeColor.backgroundColor};
-    padding : 0.5em;
-  
+    padding: 0.5em;
   `;
-
 
   //get comment data
   const comment_user_id = comment.user_id;
@@ -136,8 +126,6 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
     },
   });
 
-
-
   //make delete function onclick the button
   const deleteComment = () => {
     deleteMutate();
@@ -168,7 +156,6 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
   //react-hook-form
   const { register, handleSubmit } = useForm();
 
-
   return (
     <>
       <CommentBoard>
@@ -176,7 +163,8 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
 
         {/* Comment_id {comment.comment_id} */}
         <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
-          <Avatar size="sm"
+          <Avatar
+            size="sm"
             name={comment_user_name}
             src={USER_PROFILE_IMAGE_ROUTE + comment_user_name + ".jpeg"}
           />
@@ -256,7 +244,13 @@ const Comment = ({ comment }: { comment: CommentContent }) => {
         {/* relpy comment window*/}
         <Box {...disclosureProps}>
           <Card>
-            <CommentCreate rep_id={comment.rep_id} IsReply={true} reply_to={comment.comment_id} onClose={onClose} reply_to_who={comment_user_name}></CommentCreate>
+            <CommentCreate
+              rep_id={comment.rep_id}
+              IsReply={true}
+              reply_to={comment.comment_id}
+              onClose={onClose}
+              reply_to_who={comment_user_name}
+            ></CommentCreate>
           </Card>
         </Box>
       </CommentBoard>
