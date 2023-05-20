@@ -4,7 +4,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
-import { SignParams } from "../../api/interfaces/authApi.interface";
+import {
+  SignParams,
+  SignResponse,
+} from "../../api/interfaces/authApi.interface";
 import { StatusInfo } from "../../api/interfaces/statusInfo.interface";
 import statusInfo from "../../api/interfaces/statusInfo.json";
 import userApi from "../../api/userApi";
@@ -37,9 +40,9 @@ const SignIn = () => {
 
   /* api */
   const { mutate, isLoading, data } = useMutation(
-    ({ user_id, password }: SignParams) => {
-      return authApi.sign_in_local({
-        user_id,
+    ({ username, password }: SignParams) => {
+      return authApi.signInLocal({
+        username,
         password,
       });
     },
@@ -51,25 +54,25 @@ const SignIn = () => {
     }
   );
 
-  const user_id = data?.user_id;
+  const uid = data?.uid;
   // with enabled false, isLoading2 becomes always true. so additional comparation with fetchStatus is needed.
   const { isLoading: isLoading2, fetchStatus } = useQuery({
-    queryKey: ["reps", user_id],
+    queryKey: ["uid", uid],
     queryFn: async () =>
-      typeof user_id === "undefined"
+      typeof uid === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : userApi.get_user_info({ user_id }),
+        : userApi.getUserInfo({ uid }),
     onSuccess: async (data) => {
       await set_user_info(data);
       if (data.registered) navigate("/");
       else navigate("/register");
     },
-    enabled: !!user_id,
+    enabled: !!uid,
   });
 
   // onSubmit
   const onSubmit: SubmitHandler<IFormInputValues> = () => {
-    mutate({ user_id: getValues("id"), password: getValues("password") });
+    mutate({ username: getValues("id"), password: getValues("password") });
   };
   return (
     <>
