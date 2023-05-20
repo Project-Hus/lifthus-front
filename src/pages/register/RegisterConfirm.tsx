@@ -12,9 +12,9 @@ import { RegisterParams } from "../../api/interfaces/registerApi.interface";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const RegisterConfirm = () => {
-  const { uid, set_user_info } = useUserStore((state) => ({
+  const { uid, setUserInfo } = useUserStore((state) => ({
     uid: state.uid,
-    set_user_info: state.set_user_info,
+    setUserInfo: state.setUserInfo,
   }));
 
   const registerInfo = useRegisterStore((state) => ({
@@ -44,7 +44,7 @@ const RegisterConfirm = () => {
         ? Promise.reject(new Error("undefined"))
         : userApi.getUserInfo({ uid: uidMutated }),
     onSuccess: (data) => {
-      set_user_info(data);
+      setUserInfo(data);
       navigate("/");
     },
     enabled: !!uidMutated,

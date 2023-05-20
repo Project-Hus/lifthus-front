@@ -1,5 +1,5 @@
 import { Avatar } from "@chakra-ui/avatar";
-import { Button, ButtonSpinner } from "@chakra-ui/button";
+import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
@@ -14,10 +14,8 @@ import {
   StarIcon,
 } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
-import useUserStore from "../../../../store/user.zustand";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { RepContent } from "../../../../api/interfaces/postApi.interface";
 
 import CommentList from "./commentList";
 

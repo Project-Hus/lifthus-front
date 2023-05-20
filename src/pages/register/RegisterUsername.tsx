@@ -28,21 +28,17 @@ const RegisterUsername = () => {
   const navigate = useNavigate();
 
   /* store */
-  const user_id = useUserStore((state) => state.user_id);
-  const user_name = useUserStore((state) => state.user_name);
-  const register_username = useRegisterStore(
-    (state) => state.register_username
-  );
-  const set_user_info = useUserStore((state) => state.set_user_info);
-  const set_register_info = useRegisterStore(
-    (state) => state.set_register_info
-  );
+  const uid = useUserStore((state) => state.uid);
+  const given_name = useUserStore((state) => state.given_name);
+  const registerUsername = useRegisterStore((state) => state.registerUsername);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
+  const setRegisterInfo = useRegisterStore((state) => state.setRegisterInfo);
 
   /* hook-form */
   const { register, watch, getValues, handleSubmit } =
     useForm<IFormInputValues>({
       shouldUseNativeValidation: true,
-      defaultValues: { username: register_username },
+      defaultValues: { username: registerUsername },
     });
 
   /* state */
@@ -52,12 +48,12 @@ const RegisterUsername = () => {
   /* api */
   const { mutate, isLoading } = useMutation(
     (regiUsername: RegisterUsernameParams) =>
-      registerApi.register_username(regiUsername),
+      registerApi.registerUsername(regiUsername),
     {
       onSuccess: () => {
         const username = getValues("username");
-        set_register_info({ register_username: username });
-        set_user_info({ username });
+        setRegisterInfo({ registerUsername: username });
+        setUserInfo({ username });
         navigate("/register/type");
       },
       onError: (err: StatusInfo) => {
@@ -68,13 +64,13 @@ const RegisterUsername = () => {
   );
 
   const onSubmit: SubmitHandler<IFormInputValues> = () => {
-    mutate({ user_id: user_id, username: getValues("username") });
+    mutate({ uid: uid, username: getValues("username") });
   };
 
   return (
     <>
       <Logo />
-      <p>{t("name_var", { name: user_name })},</p>
+      <p>{t("name_var", { name: given_name })},</p>
       <p>
         {!fname && <Trans i18nKey={"register.usernameAsking_message"} />}
         {fname && t("register.existingUsername_error")}

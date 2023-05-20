@@ -9,7 +9,7 @@ interface RegisterState {
   registerSquat: number;
   registerBenchpress: number;
   registerDeadlift: number;
-  set_register_info: (info: RegisterInfo) => void;
+  setRegisterInfo: (info: RegisterInfo) => void;
 }
 
 const useRegisterStore = create<RegisterState>()((set) => ({
@@ -20,7 +20,7 @@ const useRegisterStore = create<RegisterState>()((set) => ({
   registerSquat: NaN,
   registerBenchpress: NaN,
   registerDeadlift: NaN,
-  set_register_info: (info: RegisterInfo) =>
+  setRegisterInfo: (info: RegisterInfo) =>
     set((state) => ({
       ...state,
       ...info,
