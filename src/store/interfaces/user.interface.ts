@@ -1,11 +1,15 @@
 export interface UserInfo {
   uid?: number;
+  registered: boolean;
+  registered_at?: Date | null;
   username?: string;
-  registered?: boolean;
-  trainingType?: string;
-  bodyWeight?: number;
-  height?: number;
-  squat?: number;
-  benchpress?: number;
-  deadlift?: number;
+  email: string;
+  email_verified: boolean;
+  name?: string;
+  given_name?: string;
+  family_name?: string;
+  birthdate?: Date;
+  profile_image_url?: string;
+  created_at: Date;
+  updated_at: Date;
 }

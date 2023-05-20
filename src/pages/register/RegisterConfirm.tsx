@@ -12,57 +12,61 @@ import { RegisterParams } from "../../api/interfaces/registerApi.interface";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const RegisterConfirm = () => {
-  const { user_id, set_user_info } = useUserStore((state) => ({
-    user_id: state.user_id,
+  const { uid, set_user_info } = useUserStore((state) => ({
+    uid: state.uid,
     set_user_info: state.set_user_info,
   }));
-  const register_info = useRegisterStore((state) => ({
-    user_id: "",
-    username: state.register_username,
-    training_type: state.register_type,
-    body_weight: state.register_bodyweight,
-    height: state.register_height,
-    squat: state.register_squat,
-    benchpress: state.register_benchpress,
-    deadlift: state.register_deadlift,
+
+  const registerInfo = useRegisterStore((state) => ({
+    uid: NaN,
+    username: state.registerUsername,
+    trainingType: state.registerType,
+    bodyWeight: state.registerBodyWeight,
+    height: state.registerHeight,
+    squat: state.registerSquat,
+    benchpress: state.registerBenchpress,
+    deadlift: state.registerDeadlift,
   }));
 
-  register_info["user_id"] = user_id;
+  if (uid) registerInfo["uid"] = uid;
 
   const navigate = useNavigate();
 
   const { mutate, isLoading, data } = useMutation(
-    async (register_info: RegisterParams) => registerApi.register(register_info)
+    async (registerInfo: RegisterParams) => registerApi.register(registerInfo)
   );
-
-  const user_id_m = data?.user_id;
+  // if mutation is successful and got uid, then get user info and set it to store.
+  const uidMutated = data?.uid;
   const { isLoading: isLoading2, fetchStatus } = useQuery({
-    queryKey: ["user_info", user_id_m],
-    queryFn: () => userApi.get_user_info({ user_id }),
+    queryKey: ["user_info", uidMutated],
+    queryFn: () =>
+      typeof uidMutated === "undefined"
+        ? Promise.reject(new Error("undefined"))
+        : userApi.getUserInfo({ uid: uidMutated }),
     onSuccess: (data) => {
       set_user_info(data);
       navigate("/");
     },
-    enabled: !!user_id_m,
+    enabled: !!uidMutated,
   });
 
   const onClick = () => {
-    mutate(register_info);
+    mutate(registerInfo);
   };
 
   const total =
-    register_info.squat * 1 +
-    register_info.benchpress * 1 +
-    register_info.deadlift * 1;
+    registerInfo.squat * 1 +
+    registerInfo.benchpress * 1 +
+    registerInfo.deadlift * 1;
   return (
     <>
       {
         <Trans
           i18nKey={"register.welcome_message"}
           values={{
-            weight_ratio: (total / register_info.body_weight).toFixed(1),
+            weight_ratio: (total / registerInfo.bodyWeight).toFixed(1),
             total: total,
-            username: register_info.username,
+            username: registerInfo.username,
           }}
         />
       }
