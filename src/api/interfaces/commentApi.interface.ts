@@ -1,9 +1,8 @@
-import { UserId } from "./userApi.interface";
-import { RepContent } from "./repsApi.interface";
+import { Uid } from "./userApi.interface";
 
 // make commentapi interface function
 export interface CommentApi {
-  get_user_comments: ({ user_id }: UserId) => Promise<CommentContent[]>;
+  get_user_comments: ({ uid }: Uid) => Promise<CommentContent[]>;
 
   post_comment: ({
     user_id,
@@ -11,18 +10,18 @@ export interface CommentApi {
     rep_id,
     IsReply,
     reply_to,
-    reply_to_who
-  }: PostCommentParams) => Promise<UserId>;
+    reply_to_who,
+  }: PostCommentParams) => Promise<Uid>;
 
   update_comment: ({
     user_id,
     comment_id,
     comment,
-  }: UpdateCommentParams) => Promise<UserId>;
+  }: UpdateCommentParams) => Promise<Uid>;
   delete_comment: ({
     user_id,
     comment_id,
-  }: DeleteCommentParams) => Promise<UserId>;
+  }: DeleteCommentParams) => Promise<Uid>;
   get_rep_comments: (rep_id: number) => Promise<CommentContent[]>;
   get_reply_comments: (comment_id: number) => Promise<CommentContent[]>;
 }

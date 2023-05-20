@@ -7,9 +7,9 @@ import {
   RepContent,
   RepsApi,
   UpdateRepParams,
-} from "./interfaces/repsApi.interface";
+} from "./interfaces/postApi.interface";
 import { UserId } from "./interfaces/userApi.interface";
-import repsTestApi from "./testApi/repsTestApi";
+import repsTestApi from "./testApi/postTestApi";
 import { CreatePostDto, UpdatePostDto } from "./dtos/post.dto";
 import { UserName } from "./interfaces/userApi.interface";
 

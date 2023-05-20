@@ -1,10 +1,10 @@
-import { UserId } from "./userApi.interface";
+import { Uid } from "./userApi.interface";
 
 export interface RegisterApi {
   register_username: ({
     user_id,
     username,
-  }: RegisterUsernameParams) => Promise<UserId>;
+  }: RegisterUsernameParams) => Promise<Uid>;
   register: ({
     user_id,
     training_type,
@@ -13,7 +13,7 @@ export interface RegisterApi {
     squat,
     benchpress,
     deadlift,
-  }: RegisterParams) => Promise<UserId>;
+  }: RegisterParams) => Promise<Uid>;
 }
 
 export interface RegisterUsernameParams {

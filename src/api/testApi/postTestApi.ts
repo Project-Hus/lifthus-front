@@ -5,9 +5,9 @@ import {
   RepContent,
   RepsApi,
   UpdateRepParams,
-} from "../interfaces/repsApi.interface";
+} from "../interfaces/postApi.interface";
 import { UserId } from "../interfaces/userApi.interface";
-import rep_list from "../mocks/repsTestApi.mocks";
+import rep_list from "../mocks/postTestApi.mock";
 import userTestApi from "./userTestApi";
 let counter = 100;
 const repsTestApi: RepsApi = {
@@ -15,7 +15,7 @@ const repsTestApi: RepsApi = {
     const list = [];
     for (const _k in rep_list) {
       const k = Number(_k);
-      if (rep_list[k].user_id === user_id) {
+      if (rep_list[k].id === user_id) {
         const next_rep = Object.assign(rep_list[k]);
         next_rep["username"] = await (
           await userTestApi.get_user_info({ user_id })

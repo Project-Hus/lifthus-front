@@ -5,7 +5,7 @@ import {
 } from "../interfaces/registerApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
 import { UserId } from "../interfaces/userApi.interface";
-import user_list from "../mocks/userTestApi.mocks";
+import user_list from "../mocks/userTestApi.mock";
 import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {

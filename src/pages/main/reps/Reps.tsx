@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { RepContent } from "../../../api/interfaces/repsApi.interface";
+import { RepContent } from "../../../api/interfaces/postApi.interface";
 import Rep from "./components/Rep";
 
 const Reps = ({ reps }: { reps: RepContent[] }) => {
