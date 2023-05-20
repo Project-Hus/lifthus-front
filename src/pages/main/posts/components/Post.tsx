@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
   ChatIcon,
   ChevronDownIcon,
@@ -21,18 +21,13 @@ import CommentList from "./commentList";
 
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
-import {
-  useMutation,
-  useQuery,
-  QueryClient,
-  useQueryClient,
-} from "@tanstack/react-query";
-import commentApi from "../../../../api/commentApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
-import { QueryPostDto } from "../../../../api/dtos/post.dto";
+import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
 import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
+import postApi from "../../../../api/postApi";
 
 interface PostProp {
   post: QueryPostDto;
@@ -53,35 +48,39 @@ const Post = ({ post }: PostProp) => {
   //call comment data from api(임시)
   const [comments, setComments] = useState<QueryCommentDto[]>([]);
 
-  // rep의 refeching을 위해서 useQueryClient 객체 생성
+  // post의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
   const { mutate: deleteMutate, isLoading: isDeleteLoading } = useMutation(
-    async () => RepsApi.delete_rep({ uid: 0, pid: rep.rep_id }),
+    async () => postApi.deletePost(post.id),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["reps"] });
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
       },
     }
   );
 
   // make use state for edit rep
-  const [iseditRep, setEditRep] = useState(false);
+  const [isEdited, setEdited] = useState(false);
 
   const { mutate, isLoading } = useMutation(
-    async (rep: RepContent) =>
-      RepsApi.update_rep({ user_id: rep.user_id, rep_id: rep.rep_id, rep }),
+    async (post: QueryPostDto) =>
+      postApi.updatePost({
+        id: post.id,
+        author: post.author,
+        content: post.content,
+      }),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["reps", rep.user_id] });
+        queryClient.invalidateQueries({ queryKey: ["posts", post.author] });
         console.log("query reload");
-        setEditRep(false);
+        setEdited(false);
       },
     }
   );
 
   //이미지 미리보기
   const [imagePreview, setImagePreview] = useState<string[]>(
-    rep.image_srcs ? rep.image_srcs : []
+    post.images ? post.images : []
   );
 
   useEffect(() => {
@@ -107,16 +106,13 @@ const Post = ({ post }: PostProp) => {
     // 기존 이미지에서 변경되지 않은 경우
 
     try {
-      const editedRep: RepContent = {
-        rep_id: rep.rep_id,
-        created_at: rep.created_at,
-        updated_at: new Date(),
-        user_id: rep.user_id,
-        username: rep.username,
-        image_srcs: imagePreview ? imagePreview : [],
-        text: data.text,
+      const editedPost: UpdatePostDto = {
+        id: post.id,
+        author: post.author,
+        //images: imagePreview ? imagePreview : [],
+        content: data.text,
       };
-      await mutate(editedRep);
+      await mutate(editedPost);
     } catch (error) {
       console.error(error);
     }

@@ -50,7 +50,7 @@ const CreatePost = () => {
     async (post: CreatePostDto) => postApi.createPost(post),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["posts", uid] });
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
       },
     }
   );
