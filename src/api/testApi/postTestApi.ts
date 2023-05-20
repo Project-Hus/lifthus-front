@@ -6,13 +6,13 @@ import {
   UpdatePostResponse,
 } from "../dtos/post.dto";
 import { GetUserPostsParams, PostApi } from "../interfaces/postApi.interface";
-import postList, { postState } from "../mocks/postTestApi.mock";
-import rep_list from "../mocks/postTestApi.mock";
+import postList, { postState } from "../mocks/postApi.mock";
 import userTestApi from "./userTestApi";
 import statusInfo from "../interfaces/statusInfo.json";
 import { SigningState } from "../mocks/state.mcok";
 import { randomBytes } from "crypto";
-let counter = 100;
+import commentList, { replyList } from "../mocks/commentApi.mock";
+
 const postTestApi: PostApi = {
   getUserPosts: async ({
     username,
@@ -20,7 +20,20 @@ const postTestApi: PostApi = {
   }: GetUserPostsParams): Promise<QueryPostDto[]> => {
     try {
       const { uid } = await userTestApi.getIdByName({ username });
-      return Promise.resolve(postList.filter((post) => post.author === uid));
+      const userPosts = postList.filter((post) => post.author === uid);
+      for (let i = 0; i < userPosts.length; i++) {
+        const postComments = commentList.filter(
+          (c) => c.postId === userPosts[i].id
+        );
+        for (let j = 0; j < postComments.length; j++) {
+          const commentReplies = replyList.filter(
+            (c) => c.parentId === postComments[j].id
+          );
+          postComments[j].replies = commentReplies;
+        }
+        userPosts[i].comments = postComments;
+      }
+      return Promise.resolve(userPosts);
     } catch (e) {
       return Promise.reject(statusInfo.fail.Unauthorized);
     }
