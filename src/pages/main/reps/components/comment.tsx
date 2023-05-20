@@ -1,9 +1,3 @@
-import {
-  CommentContent,
-  PostCommentParams,
-  DeleteCommentParams,
-  UpdateCommentParams,
-} from "../../../../api/interfaces/commentApi.interface";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import {
   Avatar,
@@ -33,7 +27,7 @@ import CommentCreate from "./commentCreate";
 import comment_list from "../../../../api/mocks/commentApi.mock";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 
-const Comment = ({ comment }: { comment: CommentContent }) => {
+const Comment = ({ comment }: ) => {
   const CommentBoard = styled(Card)`
     border-radius: 0%;
     box-shadow: none;
