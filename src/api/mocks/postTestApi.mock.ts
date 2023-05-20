@@ -3,12 +3,8 @@ import commentList from "./commentApi.mock";
 
 let next_pid = 102;
 
-/**
- * postList
- * the key is the author id
- */
-const postList: { [key: number]: QueryPostDto } = {
-  100: {
+const postList: QueryPostDto[] = [
+  {
     id: 100,
     author: 100,
     createdAt: new Date("2023-01-03"),
@@ -20,10 +16,9 @@ const postList: { [key: number]: QueryPostDto } = {
     content:
       "Hello I love powerlifting and British singer with a flow Ed Sheeran.",
     likenum: 5,
-    comments: commentList[100],
+    comments: commentList.filter((comment) => comment.postId === 100),
   },
-
-  101: {
+  {
     id: 101,
     author: 100,
     createdAt: new Date("2023-01-05"),
@@ -34,6 +29,6 @@ const postList: { [key: number]: QueryPostDto } = {
       "People fall in love in mysterious ways. maybe just a touch of a hand. Me I fall in love with you every single day.",
     likenum: 3,
   },
-};
+];
 
 export default postList;

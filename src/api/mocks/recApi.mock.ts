@@ -1,5 +1,5 @@
-export const bodyInfoList = {
-  100: {
+export const bodyInfoList = [
+  {
     uid: 100,
     date: new Date("2021-01-01"),
     training_type: "powerlifting",
@@ -9,7 +9,7 @@ export const bodyInfoList = {
     benchpress: 100,
     deadlift: 100,
   },
-  101: {
+  {
     uid: 100,
     date: new Date("2021-01-01"),
     training_type: "powerlifting",
@@ -19,4 +19,4 @@ export const bodyInfoList = {
     benchpress: 100,
     deadlift: 100,
   },
-};
+];

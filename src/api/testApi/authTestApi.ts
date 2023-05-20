@@ -1,16 +1,19 @@
-import { AuthApi, SignParams } from "../interfaces/authApi.interface";
+import {
+  AuthApi,
+  SignParams,
+  SignResponse,
+} from "../interfaces/authApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
-import { SignResponse, UserId } from "../interfaces/userApi.interface";
 
-import user_list from "../mocks/userTestApi.mock";
 import userTestApi from "./userTestApi";
 
 const authTestApi: AuthApi = {
-  sign_in_local: ({ user_id, password }: SignParams): Promise<UserId> => {
+  signInLocal: ({ username, password }: SignParams): Promise<SignResponse> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
-        const signInReturns: UserId = {
-          user_id: user_id,
+        const signInReturns: SignResponse = {
+          uid: undefined,
+          username: undefined,
         };
         if (!(user_id in user_list)) {
           if (user_id === "fail")
