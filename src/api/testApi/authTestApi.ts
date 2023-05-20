@@ -4,6 +4,8 @@ import {
   SignResponse,
 } from "../interfaces/authApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
+import { Uid } from "../interfaces/userApi.interface";
+import userList, { nextUid } from "../mocks/userTestApi.mock";
 
 import userTestApi from "./userTestApi";
 
@@ -11,30 +13,24 @@ const authTestApi: AuthApi = {
   signInLocal: ({ username, password }: SignParams): Promise<SignResponse> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
-        const signInReturns: SignResponse = {
-          uid: undefined,
-          username: undefined,
-        };
-        if (!(user_id in user_list)) {
-          if (user_id === "fail")
-            return reject(statusInfo.fail.InternalServerError);
-          return reject(statusInfo.fail.NotAcceptable);
-        } else if (user_id in user_list && password === "1234")
-          return resolve(signInReturns);
+        const user = userList.find(
+          (user) => user.username === username && user.password === password
+        );
+        if (user) return resolve({ uid: user.id, username: user.username });
         else return reject(statusInfo.fail.Unauthorized);
       }, 500);
     });
   },
-  sign_up_local: ({ user_id, password }: SignParams): Promise<UserId> => {
+  singUpLocal: ({ username, password }: SignParams): Promise<Uid> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
-        const signUpReturns: UserId = { user_id };
-        if (user_id in user_list) return reject(statusInfo.fail.Conflict);
-        else if (user_id === "fail")
+        if (userList.find((user) => user.username))
+          return reject(statusInfo.fail.Conflict);
+        else if (username === "fail")
           return reject(statusInfo.fail.InternalServerError);
         else {
-          await userTestApi.set_user_info({
-            user_id,
+          await userTestApi.setUserinfo({
+            nextUid,
             new_user_info: {
               user_id,
               registered: false,

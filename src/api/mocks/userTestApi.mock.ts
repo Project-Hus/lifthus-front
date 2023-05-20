@@ -1,5 +1,5 @@
 /* Mock server */
-export interface UserProfileDB {
+export type UserProfileDB = {
   id: number;
   registered: boolean;
   registered_at?: Date | null;
@@ -13,7 +13,9 @@ export interface UserProfileDB {
   profile_image_url?: string;
   created_at: Date;
   updated_at: Date;
-}
+
+  password: string;
+};
 
 export let nextUid = 102;
 
@@ -32,6 +34,8 @@ const userList: UserProfileDB[] = [
     profile_image_url: "https://avatars.githubusercontent.com/u/48755175?v=4",
     created_at: new Date("2003-02-03"),
     updated_at: new Date("2005-04-25"),
+
+    password: "1234",
   },
   {
     id: 101,
@@ -47,6 +51,8 @@ const userList: UserProfileDB[] = [
     profile_image_url: "https://avatars.githubusercontent.com/u/48755175?v=4",
     created_at: new Date("2003-02-03"),
     updated_at: new Date("2005-04-25"),
+
+    password: "1234",
   },
 ];
 
