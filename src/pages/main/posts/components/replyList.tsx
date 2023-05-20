@@ -8,29 +8,19 @@ import { QueryReplyDto } from "../../../../api/dtos/comment.dto";
 
 interface ReplyListProps {
   IsPadding: boolean;
-  replies?: QueryReplyDto[];
+  replies: QueryReplyDto[];
 }
 const ReplyList = ({ IsPadding, replies }: ReplyListProps) => {
-  //call comment data from api(임시)
-  const [comments, setComments] = useState<CommentContent[]>([]);
-
-  const reply_comment_obj = useQuery({
-    queryKey: ["reply_comment_obj", comment_id],
-    queryFn: () => commentApi.get_reply_comments(comment_id),
-    onSuccess: (data: CommentContent[]) => {
-      setComments(data);
-    },
-  });
-  const reply_comment_list = [];
-  for (const comment of comments) {
-    reply_comment_list.push(<Comment comment={comment}></Comment>);
+  const replyCommentList = [];
+  for (const reply of replies) {
+    replyCommentList.push(<Comment comment={reply}></Comment>);
   }
   return (
     <Box
       backgroundColor={ThemeColor.backgroundColor}
-      paddingLeft={Ispadding ? "10%" : "0%"}
+      paddingLeft={IsPadding ? "10%" : "0%"}
     >
-      {reply_comment_list}
+      {replyCommentList}
     </Box>
   );
 };
