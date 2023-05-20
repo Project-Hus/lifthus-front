@@ -12,24 +12,24 @@ import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
 import { Uid } from "./interfaces/userApi.interface";
 
 const authApi: AuthApi = {
-  sign_in_local: async ({
+  signInLocal: async ({
     username,
     password,
   }: SignParams): Promise<SignResponse> => {
     if (process.env.NODE_ENV == "development") {
-      return authTestApi.sign_in_local({ username, password });
+      return authTestApi.signInLocal({ username, password });
     }
-    return authTestApi.sign_in_local({ username, password });
+    return authTestApi.signInLocal({ username, password });
   },
 
-  sign_up_local: async ({ username, password }: SignParams): Promise<Uid> => {
+  singUpLocal: async ({ username, password }: SignParams): Promise<Uid> => {
     if (process.env.NODE_ENV === "development") {
-      return authTestApi.sign_up_local({ username, password });
+      return authTestApi.singUpLocal({ username, password });
     }
-    return authTestApi.sign_up_local({ username, password });
+    return authTestApi.singUpLocal({ username, password });
   },
 
-  update_session: async (): Promise<SignResponse> => {
+  updateSession: async (): Promise<SignResponse> => {
     //if (process.env.NODE_ENV === "development") {
     //  return authTestApi.update_session();
     //}
@@ -76,7 +76,7 @@ const authApi: AuthApi = {
         ) {
           // for the case that Hus session checked but expired.
           console.log("retrying");
-          return authApi.update_session();
+          return authApi.updateSession();
         }
       }
       console.log(err);
