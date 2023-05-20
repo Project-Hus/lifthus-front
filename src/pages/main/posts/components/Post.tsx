@@ -21,24 +21,35 @@ import CommentList from "./commentList";
 
 import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
 import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
+import userApi from "../../../../api/userApi";
+import { Username } from "../../../../api/interfaces/userApi.interface";
 
 interface PostProp {
   post: QueryPostDto;
 }
+type FormData = {
+  content: string;
+  images: FileList;
+};
 const Post = ({ post }: PostProp) => {
-  const { register, handleSubmit, reset, watch } = useForm<FormData>();
+  // get username
+  const {
+    data,
+    isLoading: nameLoading,
+    isError,
+  } = useQuery<Username>(["username", post.author], () => {
+    return userApi.getNameById({ uid: post.author });
+  });
+  const username = data?.username;
 
-  type FormData = {
-    text: string;
-    image: FileList;
-  };
+  const { register, handleSubmit, reset, watch } = useForm<FormData>();
 
   //open/close comment window functions
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
@@ -59,11 +70,12 @@ const Post = ({ post }: PostProp) => {
     }
   );
 
-  // make use state for edit rep
+  // which the post is edited
   const [isEdited, setEdited] = useState(false);
 
+  // update post
   const { mutate, isLoading } = useMutation(
-    async (post: QueryPostDto) =>
+    async (post: UpdatePostDto) =>
       postApi.updatePost({
         id: post.id,
         author: post.author,
@@ -87,7 +99,7 @@ const Post = ({ post }: PostProp) => {
     console.log("previewimage", imagePreview);
   }, [imagePreview]);
 
-  const image = watch("image");
+  const image = watch("images");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target?.files;
     console.log("file", files);
@@ -102,7 +114,7 @@ const Post = ({ post }: PostProp) => {
   };
 
   const editRep = async (data: FormData) => {
-    if (data.text.length == 0) return alert("내용을 입력해주세요");
+    if (data.content.length == 0) return alert("내용을 입력해주세요");
     // 기존 이미지에서 변경되지 않은 경우
 
     try {
@@ -110,7 +122,7 @@ const Post = ({ post }: PostProp) => {
         id: post.id,
         author: post.author,
         //images: imagePreview ? imagePreview : [],
-        content: data.text,
+        content: data.content,
       };
       await mutate(editedPost);
     } catch (error) {
@@ -131,13 +143,13 @@ const Post = ({ post }: PostProp) => {
           <Flex letterSpacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
               <Avatar
-                name={rep.username}
-                src={USER_PROFILE_IMAGE_ROUTE + rep.username + ".jpeg"}
+                name={username}
+                src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}
               />
               <Box>
-                <Heading fontSize="1.1em">{rep.username}</Heading>
+                <Heading fontSize="1.1em">{username}</Heading>
                 <Text fontSize={"0.9em"} color="gray.400">
-                  {`${rep.updated_at}`.slice(0, 21)}
+                  {`${post.updatedAt}`.slice(0, 21)}
                 </Text>
               </Box>
             </Flex>
@@ -169,7 +181,7 @@ const Post = ({ post }: PostProp) => {
                       bgColor={ThemeColor.backgroundColorDarker}
                       color="yellow.400"
                       _hover={{ bgColor: "yellow.500", color: "white" }}
-                      onClick={() => setEditRep(true)}
+                      onClick={() => setEdited(true)}
                     >
                       <EditIcon />
                       &nbsp;Edit
@@ -198,7 +210,7 @@ const Post = ({ post }: PostProp) => {
             borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
           }}
         >
-          {iseditRep && imagePreview.length > 0 ? (
+          {isEdited && imagePreview.length > 0 ? (
             <>
               <Button onClick={() => setImagePreview([])}>
                 <CloseIcon />
@@ -208,19 +220,19 @@ const Post = ({ post }: PostProp) => {
           ) : (
             <></>
           )}
-          {iseditRep != true && (
-            <Image src={rep.image_srcs ? rep.image_srcs[0] : ""}></Image>
+          {isEdited != true && (
+            <Image src={post.images ? post.images[0] : ""}></Image>
           )}
         </div>
 
         <CardBody>
-          {iseditRep ? (
+          {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
                 <label htmlFor="file">
                   Uploaded file change
                   <Input
-                    {...register("image")}
+                    {...register("images")}
                     id="file"
                     type="file"
                     onChange={onLoadFile}
@@ -229,14 +241,14 @@ const Post = ({ post }: PostProp) => {
                 <Input
                   color="black"
                   backgroundColor="white"
-                  defaultValue={rep.text}
-                  {...register("text")}
+                  defaultValue={post.content}
+                  {...register("content")}
                 ></Input>
                 <Flex>
                   <Button
                     onClick={() => {
-                      setEditRep(false);
-                      setImagePreview(rep.image_srcs ? rep.image_srcs : []);
+                      setEdited(false);
+                      setImagePreview(post.images ? post.images : []);
                     }}
                   >
                     cancel
@@ -246,7 +258,7 @@ const Post = ({ post }: PostProp) => {
               </form>
             </>
           ) : (
-            <Text style={{ whiteSpace: "pre-wrap" }}>{rep.text}</Text>
+            <Text style={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
           )}
         </CardBody>
         <CardFooter justify="space-between">
@@ -269,11 +281,7 @@ const Post = ({ post }: PostProp) => {
           </Button>
         </CardFooter>
         <Card {...disclosureProps}>
-          <CommentCreate
-            rep_id={rep.rep_id}
-            IsReply={false}
-            onClose={onClose}
-          />
+          <CommentCreate rep_id={post.id} IsReply={false} onClose={onClose} />
 
           <CommentList data={comments} />
         </Card>
