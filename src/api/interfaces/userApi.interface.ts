@@ -1,9 +1,9 @@
 import { RegisterParams } from "./registerApi.interface";
 
 export interface UserApi {
-  set_user_info: ({ uid, new_user_info }: SetUserInfoParams) => Promise<Uid>;
-  get_user_info: ({ uid }: Uid) => Promise<UserProfile>;
-  get_id_by_name: ({ username }: Username) => Promise<Uid>;
+  setUserinfo: ({ uid, new_user_info }: SetUserInfoParams) => Promise<Uid>;
+  getUserInfo: ({ uid }: Uid) => Promise<UserProfile>;
+  getIdByName: ({ username }: Username) => Promise<Uid>;
 }
 export interface SetUserInfoParams {
   uid: number;
@@ -14,10 +14,6 @@ export interface Uid {
 }
 export interface Username {
   username: string;
-}
-export interface SignResponse {
-  user_id: string;
-  user_name: string;
 }
 
 export interface UserProfile {

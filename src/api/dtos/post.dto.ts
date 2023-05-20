@@ -1,12 +1,16 @@
+import { QueryCommentDto } from "./comment.dto";
+
 export type QueryPostDto = {
   id: number;
   author: number;
   createdAt: Date;
   updatedAt: Date;
   slug: string;
-  images: string[];
+  images?: string[];
   content: string;
   likenum: number;
+  comments?: QueryCommentDto[];
+  mentions?: string[];
 };
 
 export type CreatePostDto = {
@@ -19,4 +23,12 @@ export type UpdatePostDto = {
   id: number;
   author: number;
   content: string;
+};
+
+export type UpdatePostResponse = {
+  count: number;
+};
+
+export type DeletePostDto = {
+  count: number;
 };
