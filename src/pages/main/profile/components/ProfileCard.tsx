@@ -13,17 +13,17 @@ import { useQuery } from "@tanstack/react-query";
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { UserId } from "../../../../api/interfaces/userApi.interface";
+import { Uid } from "../../../../api/interfaces/userApi.interface";
 import userApi from "../../../../api/userApi";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import CreatePost from "./CreatePost";
 import ProfileTab from "./ProfileTab";
 
-const ProfileCard = ({ user_id }: UserId) => {
+const ProfileCard = ({ uid }: Uid) => {
   const { data } = useQuery({
-    queryKey: ["username", user_id],
-    queryFn: () => userApi.get_user_info({ user_id }),
+    queryKey: ["username", uid],
+    queryFn: () => userApi.getUserInfo({ uid }),
   });
   const username = data?.username;
   return (

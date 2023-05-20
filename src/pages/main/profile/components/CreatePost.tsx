@@ -5,7 +5,6 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { RepContent } from "../../../../api/interfaces/postApi.interface";
 import {
   Text,
   Avatar,
@@ -25,17 +24,19 @@ import {
   MenuItem,
   Textarea,
 } from "@chakra-ui/react";
-import RepsApi from "../../../../api/postApi";
+
 import useUserStore from "../../../../store/user.zustand";
 import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Image } from "@chakra-ui/image";
 import styled from "@emotion/styled";
+import postApi from "../../../../api/postApi";
+import { CreatePostDto } from "../../../../api/dtos/post.dto";
 let counter = 100;
 const CreatePost = () => {
   //call user_id from zustand
-  const { user_id, username } = useUserStore();
+  const { uid, username } = useUserStore();
   // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset, watch } = useForm<FormData>();
@@ -46,10 +47,10 @@ const CreatePost = () => {
   const disclosureProps = getDisclosureProps();
 
   const { mutate, isLoading } = useMutation(
-    async (rep: RepContent) => RepsApi.post_rep({ user_id, rep }),
+    async (post: CreatePostDto) => postApi.createPost(post),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["reps"] });
+        queryClient.invalidateQueries({ queryKey: ["posts", uid] });
       },
     }
   );
@@ -95,16 +96,12 @@ const CreatePost = () => {
     if (data.text.length == 0) return alert("내용을 입력해주세요");
 
     try {
-      const rep = {
-        rep_id: counter++,
-        created_at: new Date(),
-        updated_at: new Date(),
-        user_id: user_id,
-        username: username,
-        image_srcs: imagePreview,
-        text: data.text,
+      const post: CreatePostDto = {
+        author: uid,
+        // images: imagePreview,
+        content: data.text,
       };
-      await mutate(rep);
+      await mutate(post);
       setImagePreview([]);
       reset();
       onClose();
