@@ -1,5 +1,5 @@
 export type GetUserInfoDto = {
-  uid: number;
+  id: number;
   registered: boolean;
   registered_at?: Date | null;
   username?: string;
