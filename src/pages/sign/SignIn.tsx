@@ -47,6 +47,12 @@ const SignIn = () => {
       });
     },
     {
+      onSuccess: async (data) => {
+        await setUserInfo(data);
+        const userInfo = await userApi.getUserInfo({ uid: data?.uid });
+        await setUserInfo(userInfo);
+        navigate("/");
+      },
       onError: async (err: StatusInfo) => {
         if (err === statusInfo.fail.NotAcceptable) setFid(true);
         else setFailed(true);
@@ -64,6 +70,7 @@ const SignIn = () => {
         : userApi.getUserInfo({ uid }),
     onSuccess: async (data) => {
       await setUserInfo(data);
+      console.log("!!!", data);
       if (data.registered) navigate("/");
       else navigate("/register");
     },

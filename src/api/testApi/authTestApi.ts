@@ -1,5 +1,6 @@
 import {
   AuthApi,
+  SessionResponse,
   SignParams,
   SignResponse,
 } from "../interfaces/authApi.interface";
@@ -61,7 +62,7 @@ const authTestApi: AuthApi = {
       }, 500);
     });
   },
-  updateSession: (): Promise<SignResponse> => {
+  updateSession: (): Promise<SessionResponse> => {
     return new Promise((resolve, reject) => {
       return resolve({
         uid: SigningState.uid,

@@ -35,7 +35,7 @@ const App = () => {
     } else console.log("not signed in");
   });
 
-  const user_id = useUserStore((state) => state.uid);
+  const uid = useUserStore((state) => state.uid);
   const registered = useUserStore((state) => state.registered);
 
   return (
@@ -43,16 +43,16 @@ const App = () => {
       <Routes>
         <Route path="/pending/*" element={<Pending />} />
         {/* If the user has signed in and registered Let the Main component take control. */}
-        {user_id && registered && <Route path="/*" element={<Main />} />}
+        {uid && registered && <Route path="/*" element={<Main />} />}
         {/* If the user has signed but not registered, the user have to register him or herself */}
-        {user_id && !registered && (
+        {uid && !registered && (
           <Route>
             <Route path="/" element={<Navigate to="/register/" />} />
             <Route path="/register/*" element={<Register />} />
           </Route>
         )}
         {/* If the user hasn't signed in, the user needs to be authenticated */}
-        {!user_id && (
+        {!uid && (
           <Route>
             <Route index path="/*" element={<FirstPage />} />
           </Route>

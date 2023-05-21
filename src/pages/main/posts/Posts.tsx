@@ -9,7 +9,7 @@ interface PostsProps {
 const Posts = ({ posts }: PostsProps) => {
   const postList = [];
   for (const post of posts) {
-    postList.push(<Post post={post} />);
+    postList.push(<Post key={post.id} post={post} />);
   }
   return <PostBoard>{postList}</PostBoard>;
 };

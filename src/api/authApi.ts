@@ -1,5 +1,6 @@
 import {
   AuthApi,
+  SessionResponse,
   SignParams,
   SignResponse,
 } from "./interfaces/authApi.interface";
@@ -29,7 +30,7 @@ const authApi: AuthApi = {
     return authTestApi.signUpLocal({ username, password });
   },
 
-  updateSession: async (): Promise<SignResponse> => {
+  updateSession: async (): Promise<SessionResponse> => {
     //if (process.env.NODE_ENV === "development") {
     //  return authTestApi.update_session();
     //}
