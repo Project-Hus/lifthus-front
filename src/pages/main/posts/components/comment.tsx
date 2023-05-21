@@ -87,11 +87,11 @@ const Comment = ({ comment }: CommentProps) => {
     onSuccess: (data) => {
       if ("postId" in comment)
         queryClient.invalidateQueries({
-          queryKey: ["comments", comment.postId],
+          queryKey: ["posts"],
         });
       if ("parentId" in comment)
         queryClient.invalidateQueries({
-          queryKey: ["replies", comment.parentId],
+          queryKey: ["posts"],
         });
 
       onClose();
@@ -111,13 +111,12 @@ const Comment = ({ comment }: CommentProps) => {
     onSuccess: (data) => {
       if ("postId" in comment)
         queryClient.invalidateQueries({
-          queryKey: ["comments", comment.postId],
+          queryKey: ["posts"],
         });
       if ("parentId" in comment)
         queryClient.invalidateQueries({
-          queryKey: ["replies", comment.parentId],
+          queryKey: ["posts"],
         });
-      console.log("delete success", author, comment.id);
     },
     onError: (error) => {
       console.log(error);

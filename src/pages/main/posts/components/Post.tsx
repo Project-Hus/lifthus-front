@@ -81,7 +81,7 @@ const Post = ({ post }: PostProp) => {
       }),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["posts", post.author] });
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
         console.log("query reload");
         setEdited(false);
       },

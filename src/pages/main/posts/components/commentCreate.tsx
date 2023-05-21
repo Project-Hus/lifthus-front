@@ -49,7 +49,7 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
         await commentApi.createComment(comment);
       },
       onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
         reset();
       },
       onError: (error) => {
@@ -62,7 +62,7 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
       await commentApi.createReply(comment);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["replies", parentId] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
       reset();
       parentId && onClose ? onClose() : onOpen();
     },
@@ -73,7 +73,6 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
 
   //save comment function
   const save = (data: any) => {
-    console.log(data.NewComment);
     if (data.NewComment == "") {
       alert("please write the comment");
       return;
