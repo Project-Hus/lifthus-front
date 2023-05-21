@@ -26,6 +26,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
+
 import styled from "@emotion/styled";
 import { repFoldStandard } from "../../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
@@ -237,6 +238,7 @@ const Post = ({ post }: PostProp) => {
         </div>
 
         <CardBody paddingTop="0.5em">
+
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
@@ -279,6 +281,7 @@ const Post = ({ post }: PostProp) => {
                   <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
               </IconbuttonStyle>
             </>}
+
         </CardBody>
         <CardFooter justify="space-between">
           <Button

@@ -142,6 +142,7 @@ const Comment = ({ comment }: CommentProps) => {
     setCommentEdit(false);
   };
 
+
   const [IsFold, setFold] = useState(true);
 
   const IconbuttonStyle = styled.div`
@@ -153,7 +154,6 @@ const Comment = ({ comment }: CommentProps) => {
   }
   
 `
-
 
   return (
     <>
@@ -221,14 +221,15 @@ const Comment = ({ comment }: CommentProps) => {
             </Flex>
           </>
         )}
-        <Flex >
 
+        <Flex >
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
               reply
             </Button>
           )}
           {uid == author && (
+
             <Menu>
               <MenuButton
                 as={IconButton}
@@ -249,7 +250,6 @@ const Comment = ({ comment }: CommentProps) => {
                 </MenuItem>
               </MenuList>
             </Menu>
-
           )}
         </Flex>
         {/* relpy comment window*/}
@@ -263,6 +263,7 @@ const Comment = ({ comment }: CommentProps) => {
             )}
           </Card>
         </Box>
+
       </CommentBoard >
       {
         "postId" in comment && comment.replies && (
