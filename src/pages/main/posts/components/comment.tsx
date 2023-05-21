@@ -52,7 +52,6 @@ const Comment = ({ comment }: CommentProps) => {
   //Call the CommentText
   const EditInputRef = useRef<HTMLInputElement>(null);
 
-  // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
 
   //open/close comment window functions
