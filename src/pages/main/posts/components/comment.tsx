@@ -1,5 +1,5 @@
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import { Avatar, Box, Card, Input, useDisclosure } from "@chakra-ui/react";
+import { Avatar, Box, Card, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -19,6 +19,7 @@ import {
 import { Username } from "../../../../api/interfaces/userApi.interface";
 import useUserStore from "../../../../store/user.zustand";
 import { commentFoldStandard } from "../../../../common/constraints";
+import { EditIcon } from "@chakra-ui/icons";
 
 interface CommentProps {
   comment: QueryCommentDto | QueryReplyDto;
@@ -178,7 +179,7 @@ const Comment = ({ comment }: CommentProps) => {
         {/* comment content */}
         {IsCommentEdit == false && (
           <>
-            <Text style={{ whiteSpace: "pre-wrap" }} size="sm" color="white">
+            <Text style={{ whiteSpace: "pre-wrap" }} size="sm" fontSize="sm" color="white">
               {(IsFold && comment.content.length > commentFoldStandard.Length) ?
                 comment.content.slice(0, commentFoldStandard.Length) + "..." :
                 comment.content}
@@ -220,7 +221,7 @@ const Comment = ({ comment }: CommentProps) => {
             </Flex>
           </>
         )}
-        <Flex justifyContent={"space-between"}>
+        <Flex >
 
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
@@ -228,18 +229,27 @@ const Comment = ({ comment }: CommentProps) => {
             </Button>
           )}
           {uid == author && (
-            <div>
-              <Button
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<EditIcon />}
+                variant="outline"
+                alignSelf="end"
                 size="sm"
-                isLoading={deleteIsLoading}
-                onClick={deleteComment}
-              >
-                delete
-              </Button>
-              <Button size="sm" onClick={() => setCommentEdit(true)}>
-                Edit
-              </Button>
-            </div>
+              />
+              <MenuList>
+                <MenuItem>
+                  <Button isLoading={deleteIsLoading} onClick={deleteComment}>
+                    delete
+                  </Button>
+                </MenuItem>
+                <MenuItem>
+                  <Button onClick={() => setCommentEdit(true)}>Edit</Button>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+
           )}
         </Flex>
         {/* relpy comment window*/}
