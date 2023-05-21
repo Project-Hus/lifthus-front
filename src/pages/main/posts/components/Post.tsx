@@ -135,13 +135,18 @@ const Post = ({ post }: PostProp) => {
   const [IsFold, setFold] = useState(true);
 
   const IconbuttonStyle = styled.div`
-  padding-top: 0.0em;
-  & > Button {background-color: ${ThemeColor.backgroundColorDarker};
-      padding-left: 0.0em;
-      :hover {text-decoration-line: underline;}
-      :hover {background-color: ${ThemeColor.backgroundColorDarker};}
-  }
-  `
+    padding-top: 0em;
+    & > Button {
+      background-color: ${ThemeColor.backgroundColorDarker};
+      padding-left: 0em;
+      :hover {
+        text-decoration-line: underline;
+      }
+      :hover {
+        background-color: ${ThemeColor.backgroundColorDarker};
+      }
+    }
+  `;
   return (
     <>
       <Card
@@ -238,7 +243,6 @@ const Post = ({ post }: PostProp) => {
         </div>
 
         <CardBody paddingTop="0.5em">
-
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
@@ -270,18 +274,35 @@ const Post = ({ post }: PostProp) => {
                 </Flex>
               </form>
             </>
-          ) :
+          ) : (
             <>
-              <Text style={{ whiteSpace: "pre-wrap" }}>{(IsFold && post.content.length > repFoldStandard.Length) ?
-                post.content.slice(0, repFoldStandard.Length) + "..." :
-                post.content}</Text>
+              <Text style={{ whiteSpace: "pre-wrap" }}>
+                {IsFold && post.content.length > repFoldStandard.Length
+                  ? post.content.slice(0, repFoldStandard.Length) + "..."
+                  : post.content}
+              </Text>
               <IconbuttonStyle>
-                {(IsFold && post.content.length > repFoldStandard.Length) ?
-                  <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> :
-                  <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+                {IsFold && post.content.length > repFoldStandard.Length ? (
+                  <Button
+                    alignSelf="flex-start"
+                    onClick={() => setFold(false)}
+                    size="sm"
+                  >
+                    more...
+                  </Button>
+                ) : (
+                  <Button
+                    alignSelf="flex-start"
+                    onClick={() => setFold(true)}
+                    size="sm"
+                  >
+                    {" "}
+                    shortly...
+                  </Button>
+                )}
               </IconbuttonStyle>
-            </>}
-
+            </>
+          )}
         </CardBody>
         <CardFooter justify="space-between">
           <Button
