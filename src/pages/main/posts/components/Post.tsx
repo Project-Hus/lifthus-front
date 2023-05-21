@@ -13,6 +13,7 @@ import {
   EditIcon,
   StarIcon,
 } from "@chakra-ui/icons";
+
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
@@ -55,9 +56,6 @@ const Post = ({ post }: PostProp) => {
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
-
-  //call comment data from api(임시)
-  const [comments, setComments] = useState<QueryCommentDto[]>([]);
 
   // post의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
@@ -282,8 +280,7 @@ const Post = ({ post }: PostProp) => {
         </CardFooter>
         <Card {...disclosureProps}>
           <CommentCreate postId={post.id} onClose={onClose} />
-
-          <CommentList comments={comments} />
+          {post.comments && <CommentList comments={post.comments} />}
         </Card>
       </Card>
     </>

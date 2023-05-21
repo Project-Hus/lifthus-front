@@ -10,7 +10,7 @@ interface CommentListProps {
 const CommentList = ({ comments }: CommentListProps) => {
   const commentList = [];
   for (const comment of comments) {
-    commentList.push(<Comment comment={comment}></Comment>);
+    commentList.push(<Comment key={comment.id} comment={comment}></Comment>);
   }
 
   return (

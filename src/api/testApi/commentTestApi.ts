@@ -70,11 +70,11 @@ const commentTestApi: CommentApi = {
     let cidx = commentList.findIndex(
       (c) => c.id === comment.id && c.author === comment.author
     );
-    if (!cidx) {
+    if (cidx == -1) {
       cidx = replyList.findIndex(
         (c) => c.id === comment.id && c.author === comment.author
       );
-      if (!cidx) return Promise.reject(statusInfo.fail.Unauthorized);
+      if (cidx == -1) return Promise.reject(statusInfo.fail.Unauthorized);
       replyList[cidx].content = comment.content;
     } else {
       commentList[cidx].content = comment.content;

@@ -13,7 +13,7 @@ interface ReplyListProps {
 const ReplyList = ({ IsPadding, replies }: ReplyListProps) => {
   const replyCommentList = [];
   for (const reply of replies) {
-    replyCommentList.push(<Comment comment={reply}></Comment>);
+    replyCommentList.push(<Comment key={reply.id} comment={reply}></Comment>);
   }
   return (
     <Box
