@@ -187,124 +187,120 @@ const ProfileTab = () => {
           </Card>
         </TabPanel>
         <TabPanel>
-          <p>
-            <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>
-              BIG 3
-            </FormLabel>
-            <StatGroup
-              border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
-              borderRadius="1em"
-              padding="0.5em"
-            >
-              <Stat>
-                <StatLabel>Squat</StatLabel>
-                <StatNumber>
-                  {160}
-                  <Text display={"inline"} fontSize="0.5em">
-                    kg
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="increase" />
-                  23.36%
-                </StatHelpText>
-              </Stat>
+          <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>
+            BIG 3
+          </FormLabel>
+          <StatGroup
+            border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
+            borderRadius="1em"
+            padding="0.5em"
+          >
+            <Stat>
+              <StatLabel>Squat</StatLabel>
+              <StatNumber>
+                {160}
+                <Text display={"inline"} fontSize="0.5em">
+                  kg
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="increase" />
+                23.36%
+              </StatHelpText>
+            </Stat>
 
-              <Stat>
-                <StatLabel>Benchpress</StatLabel>
-                <StatNumber>
-                  {120}
-                  <Text display={"inline"} fontSize="0.5em">
-                    kg
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
-                </StatHelpText>
-              </Stat>
-              <Stat>
-                <StatLabel>Deadlift</StatLabel>
-                <StatNumber>
-                  {180}
-                  <Text display={"inline"} fontSize="0.5em">
-                    kg
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
-                </StatHelpText>
-              </Stat>
-              <Stat>
-                <StatLabel>
-                  <Text>Total</Text>
-                </StatLabel>
-                <StatNumber>
-                  {sbd_total}
-                  <Text display={"inline"} fontSize="0.5em">
-                    kg
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
-                </StatHelpText>
-              </Stat>
-            </StatGroup>
-          </p>
-          <p>
-            <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>
-              Body
-            </FormLabel>
-            <StatGroup
-              border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
-              borderRadius="1em"
-              padding="0.5em"
-            >
-              <Stat>
-                <StatLabel>Height</StatLabel>
-                <StatNumber>
-                  {183}
-                  <Text display={"inline"} fontSize="0.5em">
-                    cm
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
-                </StatHelpText>
-              </Stat>
-              <Stat>
-                <StatLabel>Weight</StatLabel>
-                <StatNumber>
-                  {105}
-                  <Text display={"inline"} fontSize="0.5em">
-                    kg
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
-                </StatHelpText>
-              </Stat>
-              <Stat>
-                <StatLabel>
-                  <Text>Fat Percentage</Text>
-                </StatLabel>
-                <StatNumber>
-                  {18}
-                  <Text display={"inline"} fontSize="0.5em">
-                    %
-                  </Text>
-                </StatNumber>
-                <StatHelpText>
-                  <StatArrow type="decrease" />
-                  9.05%
-                </StatHelpText>
-              </Stat>
-            </StatGroup>
-          </p>
+            <Stat>
+              <StatLabel>Benchpress</StatLabel>
+              <StatNumber>
+                {120}
+                <Text display={"inline"} fontSize="0.5em">
+                  kg
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="decrease" />
+                9.05%
+              </StatHelpText>
+            </Stat>
+            <Stat>
+              <StatLabel>Deadlift</StatLabel>
+              <StatNumber>
+                {180}
+                <Text display={"inline"} fontSize="0.5em">
+                  kg
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="decrease" />
+                9.05%
+              </StatHelpText>
+            </Stat>
+            <Stat>
+              <StatLabel>
+                <Text>Total</Text>
+              </StatLabel>
+              <StatNumber>
+                {sbd_total}
+                <Text display={"inline"} fontSize="0.5em">
+                  kg
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="decrease" />
+                9.05%
+              </StatHelpText>
+            </Stat>
+          </StatGroup>
+          <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>
+            Body
+          </FormLabel>
+          <StatGroup
+            border={`ridge 0.1em ${ThemeColor.backgroundColor}`}
+            borderRadius="1em"
+            padding="0.5em"
+          >
+            <Stat>
+              <StatLabel>Height</StatLabel>
+              <StatNumber>
+                {183}
+                <Text display={"inline"} fontSize="0.5em">
+                  cm
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="decrease" />
+                9.05%
+              </StatHelpText>
+            </Stat>
+            <Stat>
+              <StatLabel>Weight</StatLabel>
+              <StatNumber>
+                {105}
+                <Text display={"inline"} fontSize="0.5em">
+                  kg
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="decrease" />
+                9.05%
+              </StatHelpText>
+            </Stat>
+            <Stat>
+              <StatLabel>
+                <Text>Fat Percentage</Text>
+              </StatLabel>
+              <StatNumber>
+                {18}
+                <Text display={"inline"} fontSize="0.5em">
+                  %
+                </Text>
+              </StatNumber>
+              <StatHelpText>
+                <StatArrow type="decrease" />
+                9.05%
+              </StatHelpText>
+            </Stat>
+          </StatGroup>
         </TabPanel>
         <TabPanel>프로필 설정</TabPanel>
       </TabPanels>

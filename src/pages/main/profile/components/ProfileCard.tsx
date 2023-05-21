@@ -70,17 +70,11 @@ const ProfileCard = ({ uid }: Uid) => {
               <Box>
                 <Heading paddingLeft={"0.2em"}>{username}</Heading>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
-                  <Link to="">
-                    <LinkChakra>{5} followers</LinkChakra>
-                  </Link>
+                  <LinkChakra>{5} followers</LinkChakra>
                   {" · "}
-                  <Link to="">
-                    <LinkChakra>{8} following</LinkChakra>
-                  </Link>
+                  <LinkChakra>{8} following</LinkChakra>
                   {" · "}
-                  <Link to="">
-                    <LinkChakra>{2} groups</LinkChakra>
-                  </Link>
+                  <LinkChakra>{2} groups</LinkChakra>
                 </Text>
               </Box>
               <div
