@@ -177,7 +177,13 @@ const Comment = ({ comment }: CommentProps) => {
             ? createdAt.toString().slice(0, 21)
             : updatedAt.toString().slice(0, 21)}
         </Text>
-        {/* comment edit window */}
+        {/* comment content */}
+        {IsCommentEdit == false && (
+          <Text color="white" fontSize="sm">
+            {comment.content}
+          </Text>
+        )}
+        {/* comment edit */}
         {IsCommentEdit == true && (
           <>
             <Input
