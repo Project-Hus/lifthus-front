@@ -150,7 +150,7 @@ const Post = ({ post }: PostProp) => {
         margin="0.5em"
         marginBottom={"0em"}
       >
-        <CardHeader>
+        <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
               <Avatar
@@ -236,7 +236,7 @@ const Post = ({ post }: PostProp) => {
           )}
         </div>
 
-        <CardBody>
+        <CardBody paddingTop="0.5em">
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
