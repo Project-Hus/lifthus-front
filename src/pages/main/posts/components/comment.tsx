@@ -217,26 +217,12 @@ const Comment = ({ comment }: CommentProps) => {
             </Button>
           )}
           {uid == author && (
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<EditIcon />}
-                variant="outline"
-                alignSelf="end"
-                size="sm"
-              />
-              <MenuList>
-                <MenuItem>
-                  <Button isLoading={deleteIsLoading} onClick={deleteComment}>
-                    delete
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button onClick={() => setCommentEdit(true)}>Edit</Button>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <>
+              <Button isLoading={deleteIsLoading} onClick={deleteComment}>
+                delete
+              </Button>
+              <Button onClick={() => setCommentEdit(true)}>Edit</Button>
+            </>
           )}
         </Flex>
         {/* relpy comment window*/}
