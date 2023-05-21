@@ -178,7 +178,7 @@ const Comment = ({ comment }: CommentProps) => {
         {/* comment content */}
         {IsCommentEdit == false && (
           <>
-            <Text size="sm" color="white">
+            <Text style={{ whiteSpace: "pre-wrap" }} size="sm" color="white">
               {(IsFold && comment.content.length > commentFoldStandard.Length) ?
                 comment.content.slice(0, commentFoldStandard.Length) + "..." :
                 comment.content}
