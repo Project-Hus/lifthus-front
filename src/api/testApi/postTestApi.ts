@@ -10,7 +10,6 @@ import postList, { postState } from "../mocks/postApi.mock";
 import userTestApi from "./userTestApi";
 import statusInfo from "../interfaces/statusInfo.json";
 import { SigningState } from "../mocks/state.mcok";
-import { randomBytes } from "crypto";
 import commentList, { replyList } from "../mocks/commentApi.mock";
 
 const postTestApi: PostApi = {
@@ -46,7 +45,7 @@ const postTestApi: PostApi = {
       author: SigningState.uid,
       createdAt: new Date(),
       updatedAt: new Date(),
-      slug: randomBytes(8).toString("hex"),
+      slug: new Date().getTime().toString(),
       images: [],
       content: post.content,
       likenum: 0,
