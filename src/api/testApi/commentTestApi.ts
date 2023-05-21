@@ -85,11 +85,11 @@ const commentTestApi: CommentApi = {
     let cidx = commentList.findIndex(
       (c) => c.id === cid && c.author === SigningState.uid
     );
-    if (!cidx) {
+    if (cidx == -1) {
       cidx = replyList.findIndex(
         (c) => c.id === cid && c.author === SigningState.uid
       );
-      if (!cidx) return { count: 0 };
+      if (cidx == -1) return { count: 0 };
       replyList.splice(cidx, 1);
     } else {
       commentList.splice(cidx, 1);
