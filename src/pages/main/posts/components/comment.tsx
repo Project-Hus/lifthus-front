@@ -1,23 +1,11 @@
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import {
-  Avatar,
-  Box,
-  Card,
-  IconButton,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Avatar, Box, Card, Input, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
 import { useRef, useState } from "react";
-import { EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import { useForm } from "react-hook-form";
