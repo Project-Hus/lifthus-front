@@ -1,5 +1,16 @@
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import { Avatar, Box, Card, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Card,
+  IconButton,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useDisclosure,
+} from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -8,7 +19,6 @@ import commentApi from "../../../../api/commentApi";
 import { useRef, useState } from "react";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
-import { useForm } from "react-hook-form";
 import CommentCreate from "./commentCreate";
 import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import {
@@ -142,18 +152,21 @@ const Comment = ({ comment }: CommentProps) => {
     setCommentEdit(false);
   };
 
-
   const [IsFold, setFold] = useState(true);
 
   const IconbuttonStyle = styled.div`
-  padding-top: 0.0em;
-  & > Button {background-color: ${ThemeColor.backgroundColor};
-      padding-left: 0.0em;
-      :hover {text-decoration-line: underline;}
-      :hover {background-color: ${ThemeColor.backgroundColor};}
-  }
-  
-`
+    padding-top: 0em;
+    & > Button {
+      background-color: ${ThemeColor.backgroundColor};
+      padding-left: 0em;
+      :hover {
+        text-decoration-line: underline;
+      }
+      :hover {
+        background-color: ${ThemeColor.backgroundColor};
+      }
+    }
+  `;
 
   return (
     <>
@@ -179,19 +192,39 @@ const Comment = ({ comment }: CommentProps) => {
         {/* comment content */}
         {IsCommentEdit == false && (
           <>
-            <Text style={{ whiteSpace: "pre-wrap" }} size="sm" fontSize="sm" color="white">
-              {(IsFold && comment.content.length > commentFoldStandard.Length) ?
-                comment.content.slice(0, commentFoldStandard.Length) + "..." :
-                comment.content}
+            <Text
+              style={{ whiteSpace: "pre-wrap" }}
+              size="sm"
+              fontSize="sm"
+              color="white"
+            >
+              {IsFold && comment.content.length > commentFoldStandard.Length
+                ? comment.content.slice(0, commentFoldStandard.Length) + "..."
+                : comment.content}
             </Text>
 
-            {comment.content.length > commentFoldStandard.Length &&
+            {comment.content.length > commentFoldStandard.Length && (
               <IconbuttonStyle>
-                {IsFold ?
-                  <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> :
-                  <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+                {IsFold ? (
+                  <Button
+                    alignSelf="flex-start"
+                    onClick={() => setFold(false)}
+                    size="sm"
+                  >
+                    more...
+                  </Button>
+                ) : (
+                  <Button
+                    alignSelf="flex-start"
+                    onClick={() => setFold(true)}
+                    size="sm"
+                  >
+                    {" "}
+                    shortly...
+                  </Button>
+                )}
               </IconbuttonStyle>
-            }
+            )}
           </>
         )}
         {/* comment edit */}
@@ -222,34 +255,25 @@ const Comment = ({ comment }: CommentProps) => {
           </>
         )}
 
-        <Flex >
+        <Flex>
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
               reply
             </Button>
           )}
           {uid == author && (
-
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<EditIcon />}
-                variant="outline"
-                alignSelf="end"
+            <>
+              <Button
                 size="sm"
-              />
-              <MenuList>
-                <MenuItem>
-                  <Button isLoading={deleteIsLoading} onClick={deleteComment}>
-                    delete
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button onClick={() => setCommentEdit(true)}>Edit</Button>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+                isLoading={deleteIsLoading}
+                onClick={deleteComment}
+              >
+                delete
+              </Button>
+              <Button size="sm" onClick={() => setCommentEdit(true)}>
+                Edit
+              </Button>
+            </>
           )}
         </Flex>
         {/* relpy comment window*/}
@@ -263,16 +287,13 @@ const Comment = ({ comment }: CommentProps) => {
             )}
           </Card>
         </Box>
-
-      </CommentBoard >
-      {
-        "postId" in comment && comment.replies && (
-          <ReplyList
-            replies={comment.replies}
-            IsPadding={!!comment.postId}
-          ></ReplyList>
-        )
-      }
+      </CommentBoard>
+      {"postId" in comment && comment.replies && (
+        <ReplyList
+          replies={comment.replies}
+          IsPadding={!!comment.postId}
+        ></ReplyList>
+      )}
     </>
   );
 };
