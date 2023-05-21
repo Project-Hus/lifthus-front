@@ -18,6 +18,7 @@ import {
 } from "../../../../api/dtos/comment.dto";
 import { Username } from "../../../../api/interfaces/userApi.interface";
 import useUserStore from "../../../../store/user.zustand";
+import { commentFoldStandard } from "../../../../common/constraints";
 
 interface CommentProps {
   comment: QueryCommentDto | QueryReplyDto;
@@ -139,8 +140,19 @@ const Comment = ({ comment }: CommentProps) => {
     });
     setCommentEdit(false);
   };
-  //react-hook-form
-  const { register, handleSubmit } = useForm();
+
+  const [IsFold, setFold] = useState(true);
+
+  const IconbuttonStyle = styled.div`
+  padding-top: 0.0em;
+  & > Button {background-color: ${ThemeColor.backgroundColor};
+      padding-left: 0.0em;
+      :hover {text-decoration-line: underline;}
+      :hover {background-color: ${ThemeColor.backgroundColor};}
+  }
+  
+`
+
 
   return (
     <>
@@ -165,9 +177,21 @@ const Comment = ({ comment }: CommentProps) => {
         </Text>
         {/* comment content */}
         {IsCommentEdit == false && (
-          <Text color="white" fontSize="sm">
-            {comment.content}
-          </Text>
+          <>
+            <Text size="sm" color="white">
+              {(IsFold && comment.content.length > commentFoldStandard.Length) ?
+                comment.content.slice(0, commentFoldStandard.Length) + "..." :
+                comment.content}
+            </Text>
+
+            {comment.content.length > commentFoldStandard.Length &&
+              <IconbuttonStyle>
+                {IsFold ?
+                  <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> :
+                  <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+              </IconbuttonStyle>
+            }
+          </>
         )}
         {/* comment edit */}
         {IsCommentEdit == true && (
@@ -196,14 +220,15 @@ const Comment = ({ comment }: CommentProps) => {
             </Flex>
           </>
         )}
-        <Flex>
+        <Flex justifyContent={"space-between"}>
+
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
               reply
             </Button>
           )}
           {uid == author && (
-            <>
+            <div>
               <Button
                 size="sm"
                 isLoading={deleteIsLoading}
@@ -214,7 +239,7 @@ const Comment = ({ comment }: CommentProps) => {
               <Button size="sm" onClick={() => setCommentEdit(true)}>
                 Edit
               </Button>
-            </>
+            </div>
           )}
         </Flex>
         {/* relpy comment window*/}
@@ -228,13 +253,15 @@ const Comment = ({ comment }: CommentProps) => {
             )}
           </Card>
         </Box>
-      </CommentBoard>
-      {"postId" in comment && comment.replies && (
-        <ReplyList
-          replies={comment.replies}
-          IsPadding={!!comment.postId}
-        ></ReplyList>
-      )}
+      </CommentBoard >
+      {
+        "postId" in comment && comment.replies && (
+          <ReplyList
+            replies={comment.replies}
+            IsPadding={!!comment.postId}
+          ></ReplyList>
+        )
+      }
     </>
   );
 };
