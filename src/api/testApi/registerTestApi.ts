@@ -4,38 +4,43 @@ import {
   RegisterParams,
 } from "../interfaces/registerApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
-import { UserId } from "../interfaces/userApi.interface";
-import user_list from "../mocks/userTestApi.mocks";
+import { Uid, Username } from "../interfaces/userApi.interface";
+import { RecDB, recList, recState } from "../mocks/recApi.mock";
+import { SigningState } from "../mocks/state.mcok";
+import userList from "../mocks/userTestApi.mock";
 import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
-  register_username: async ({
-    user_id,
+  registerUsername: async ({
+    uid,
     username,
-  }: RegisterUsernameParams): Promise<UserId> => {
-    let name_flag = true;
-    for (const key in user_list) {
-      if (user_list[key]["username"] === username) {
-        name_flag = false;
-        break;
-      }
-    }
-    if (name_flag) {
-      userTestApi.set_user_info({ user_id, new_user_info: { username } });
-      return { user_id };
+  }: RegisterUsernameParams): Promise<Username> => {
+    if (!userList.find((user) => user.username === username)) {
+      userTestApi.setUserinfo({ uid, newUserinfo: { username } });
+      return { username };
     }
     return Promise.reject(statusInfo.fail.Conflict);
   },
 
-  register: async (register_info: RegisterParams): Promise<UserId> => {
+  register: async (registerInfo: RegisterParams): Promise<Uid> => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
-        const new_user_info = { registered: true, ...register_info };
-        await userTestApi.set_user_info({
-          user_id: register_info.user_id,
-          new_user_info,
-        });
-        return resolve({ user_id: register_info.user_id });
+        if (!SigningState.uid) return reject(statusInfo.fail.Unauthorized);
+        const newRec: RecDB = {
+          id: recState.nextRid,
+          author: SigningState.uid,
+          date: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
+          trainingType: registerInfo.trainingType,
+          bodyWeight: registerInfo.bodyWeight,
+          height: registerInfo.height,
+          squat: registerInfo.squat,
+          benchpress: registerInfo.benchpress,
+          deadlift: registerInfo.deadlift,
+        };
+        recList.push(newRec);
+        recState.nextRid += 1;
       }, 500);
     });
   },

@@ -3,21 +3,21 @@ import {
   RegisterUsernameParams,
   RegisterParams,
 } from "./interfaces/registerApi.interface";
-import { UserId } from "./interfaces/userApi.interface";
+import { Uid, Username } from "./interfaces/userApi.interface";
 
 import registerTestApi from "./testApi/registerTestApi";
 
 const registerApi: RegisterApi = {
-  register_username: async ({
-    user_id,
+  registerUsername: async ({
+    uid,
     username,
-  }: RegisterUsernameParams): Promise<UserId> => {
+  }: RegisterUsernameParams): Promise<Username> => {
     if (process.env.NODE_ENV == "development") {
-      return registerTestApi.register_username({ user_id, username });
+      return registerTestApi.registerUsername({ uid, username });
     }
-    return registerTestApi.register_username({ user_id, username });
+    return registerTestApi.registerUsername({ uid, username });
   },
-  register: async (register_info: RegisterParams): Promise<UserId> => {
+  register: async (register_info: RegisterParams): Promise<Uid> => {
     if (process.env.NODE_ENV == "development") {
       return registerTestApi.register(register_info);
     }

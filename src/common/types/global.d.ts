@@ -1,5 +1,3 @@
 export {};
 
-declare global {
-  type PrimaryKey = number | bigint;
-}
+declare global {}

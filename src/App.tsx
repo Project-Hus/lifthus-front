@@ -5,14 +5,14 @@ import { ThemeColor } from "./common/styles/theme.style";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import Main from "./contents/main/Main";
+import Main from "./pages/main/Main";
 
 import useUserStore from "./store/user.zustand";
-import FirstPage from "./contents/sign/FirstPage";
-import Register from "./contents/register/Register";
+import FirstPage from "./pages/sign/FirstPage";
+import Register from "./pages/register/Register";
 
 import authApi from "./api/authApi";
-import Pending from "./contents/pending/Pending";
+import Pending from "./pages/pending/Pending";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -25,17 +25,17 @@ const AppStyled = styled.div`
 `;
 
 const App = () => {
-  const set_user_info = useUserStore((state) => state.set_user_info);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== checking session to get signed or unsigned session ===== */
-  authApi.update_session().then((res) => {
-    if (res.user_id && res.user_name) {
-      set_user_info({ user_id: res.user_id });
-      set_user_info({ user_name: res.user_name });
-      console.log(res.user_id, "signed in");
+  authApi.updateSession().then((res) => {
+    if (res.uid && res.username) {
+      setUserInfo({ uid: res.uid });
+      setUserInfo({ username: res.username });
+      console.log(res.uid, "signed in");
     } else console.log("not signed in");
   });
 
-  const user_id = useUserStore((state) => state.user_id);
+  const uid = useUserStore((state) => state.uid);
   const registered = useUserStore((state) => state.registered);
 
   return (
@@ -43,16 +43,16 @@ const App = () => {
       <Routes>
         <Route path="/pending/*" element={<Pending />} />
         {/* If the user has signed in and registered Let the Main component take control. */}
-        {user_id && registered && <Route path="/*" element={<Main />} />}
+        {uid && registered && <Route path="/*" element={<Main />} />}
         {/* If the user has signed but not registered, the user have to register him or herself */}
-        {user_id && !registered && (
+        {uid && !registered && (
           <Route>
             <Route path="/" element={<Navigate to="/register/" />} />
             <Route path="/register/*" element={<Register />} />
           </Route>
         )}
         {/* If the user hasn't signed in, the user needs to be authenticated */}
-        {!user_id && (
+        {!uid && (
           <Route>
             <Route index path="/*" element={<FirstPage />} />
           </Route>

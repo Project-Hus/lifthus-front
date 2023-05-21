@@ -1,38 +1,37 @@
-import { RegisterParams } from "./registerApi.interface";
+import { GetUserInfoDto } from "../dtos/user.dto";
 
 export interface UserApi {
-  set_user_info: ({
-    user_id,
-    new_user_info,
-  }: SetUserInfoParams) => Promise<UserId>;
-  get_user_info: ({ user_id }: UserId) => Promise<UserProfile>;
-  get_id_by_name: ({ username }: Username) => Promise<UserId>;
+  setUserinfo: ({ uid, newUserinfo }: SetUserInfoParams) => Promise<Uid>;
+  getUserInfo: ({ uid }: Uid) => Promise<GetUserInfoDto>;
+  getIdByName: ({ username }: Username) => Promise<Uid>;
+  getNameById: ({ uid }: Uid) => Promise<Username>;
 }
 export interface SetUserInfoParams {
-  user_id: string;
-  new_user_info: RegisterParams | UserProfile;
+  uid: number;
+  newUserinfo: UserMutationParams;
 }
-export interface UserId {
-  user_id: string;
-}
-export interface UserName {
-  user_name: string;
-}
-export interface SignResponse {
-  user_id: string;
-  user_name: string;
-}
-export interface Username {
-  username: string;
-}
-export interface UserProfile {
-  user_id?: string;
+
+export type UserMutationParams = {
+  id?: number;
   registered?: boolean;
+  registered_at?: Date | null;
   username?: string;
-  training_type?: string;
-  body_weight?: number;
-  height?: number;
-  squat?: number;
-  benchpress?: number;
-  deadlift?: number;
-}
+  email?: string;
+  email_verified?: boolean;
+  name?: string;
+  given_name?: string;
+  family_name?: string;
+  birthdate?: Date;
+  profile_image_url?: string;
+  created_at?: Date;
+  updated_at?: Date;
+
+  password?: string;
+};
+
+export type Uid = {
+  uid: number;
+};
+export type Username = {
+  username: string;
+};

@@ -14,6 +14,10 @@
       "code": 401,
       "message": "Unauthorized"
     },
+    "NotFound": {
+      "code": 404,
+      "message": "Not Found"
+    },
     "NotAcceptable": {
       "code": 406,
       "message": "Not Acceptable"

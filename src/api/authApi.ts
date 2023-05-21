@@ -1,28 +1,36 @@
-import { AuthApi, SignParams } from "./interfaces/authApi.interface";
-import { SignResponse, UserId } from "./interfaces/userApi.interface";
+import {
+  AuthApi,
+  SessionResponse,
+  SignParams,
+  SignResponse,
+} from "./interfaces/authApi.interface";
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";
 import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
+import { Uid } from "./interfaces/userApi.interface";
 
 const authApi: AuthApi = {
-  sign_in_local: async ({ user_id, password }: SignParams): Promise<UserId> => {
+  signInLocal: async ({
+    username,
+    password,
+  }: SignParams): Promise<SignResponse> => {
     if (process.env.NODE_ENV == "development") {
-      return authTestApi.sign_in_local({ user_id, password });
+      return authTestApi.signInLocal({ username, password });
     }
-    return authTestApi.sign_in_local({ user_id, password });
+    return authTestApi.signInLocal({ username, password });
   },
 
-  sign_up_local: async ({ user_id, password }: SignParams): Promise<UserId> => {
+  signUpLocal: async ({ username, password }: SignParams): Promise<Uid> => {
     if (process.env.NODE_ENV === "development") {
-      return authTestApi.sign_up_local({ user_id, password });
+      return authTestApi.signUpLocal({ username, password });
     }
-    return authTestApi.sign_up_local({ user_id, password });
+    return authTestApi.signUpLocal({ username, password });
   },
 
-  update_session: async (): Promise<SignResponse> => {
+  updateSession: async (): Promise<SessionResponse> => {
     //if (process.env.NODE_ENV === "development") {
     //  return authTestApi.update_session();
     //}
@@ -34,10 +42,10 @@ const authApi: AuthApi = {
       console.log(res, res.data);
       // if ok, server returns uid and maintaining session
       if (res.status == statusInfo.succ.Ok.code)
-        return { user_id: res.data.user_id, user_name: res.data.user_name };
+        return { uid: res.data.user_id, username: res.data.user_name };
       // if it is not ok or created, return empty string
       if (res.status != statusInfo.succ.Created.code)
-        return { user_id: "", user_name: "" };
+        return { uid: undefined, username: "" };
       console.log("new session created");
 
       // if it is created, server returns sid
@@ -49,7 +57,7 @@ const authApi: AuthApi = {
         { withCredentials: true }
       );
       if (res.status != statusInfo.succ.Ok.code)
-        return { user_id: "", user_name: "" };
+        return { uid: undefined, username: "" };
       console.log("hus session checked");
 
       // if hus says ok, request signed token from lifthus
@@ -58,7 +66,7 @@ const authApi: AuthApi = {
       });
       console.log("got signed token");
       // if it's ok, server returns uid
-      return { user_id: res.data.user_id, user_name: res.data.user_name };
+      return { uid: res.data.user_id, username: res.data.user_name };
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const rstatus = err.response?.status;
@@ -69,11 +77,11 @@ const authApi: AuthApi = {
         ) {
           // for the case that Hus session checked but expired.
           console.log("retrying");
-          return authApi.update_session();
+          return authApi.updateSession();
         }
       }
       console.log(err);
-      return { user_id: "", user_name: "" };
+      return { uid: undefined, username: "" };
     }
   },
 };
