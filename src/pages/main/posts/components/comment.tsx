@@ -218,10 +218,16 @@ const Comment = ({ comment }: CommentProps) => {
           )}
           {uid == author && (
             <>
-              <Button isLoading={deleteIsLoading} onClick={deleteComment}>
+              <Button
+                size="sm"
+                isLoading={deleteIsLoading}
+                onClick={deleteComment}
+              >
                 delete
               </Button>
-              <Button onClick={() => setCommentEdit(true)}>Edit</Button>
+              <Button size="sm" onClick={() => setCommentEdit(true)}>
+                Edit
+              </Button>
             </>
           )}
         </Flex>
