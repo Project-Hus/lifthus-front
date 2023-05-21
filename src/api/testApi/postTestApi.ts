@@ -32,7 +32,7 @@ const postTestApi: PostApi = {
         }
         userPosts[i].comments = postComments;
       }
-      return Promise.resolve(userPosts);
+      return Promise.resolve(userPosts.reverse());
     } catch (e) {
       return Promise.reject(statusInfo.fail.Unauthorized);
     }
