@@ -1,5 +1,5 @@
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import { Avatar, Box, Card, Input, useDisclosure } from "@chakra-ui/react";
+import { Avatar, Box, Card, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -18,6 +18,8 @@ import {
 } from "../../../../api/dtos/comment.dto";
 import { Username } from "../../../../api/interfaces/userApi.interface";
 import useUserStore from "../../../../store/user.zustand";
+import { commentFoldStandard } from "../../../../common/constraints";
+import { EditIcon } from "@chakra-ui/icons";
 
 interface CommentProps {
   comment: QueryCommentDto | QueryReplyDto;
@@ -139,8 +141,19 @@ const Comment = ({ comment }: CommentProps) => {
     });
     setCommentEdit(false);
   };
-  //react-hook-form
-  const { register, handleSubmit } = useForm();
+
+
+  const [IsFold, setFold] = useState(true);
+
+  const IconbuttonStyle = styled.div`
+  padding-top: 0.0em;
+  & > Button {background-color: ${ThemeColor.backgroundColor};
+      padding-left: 0.0em;
+      :hover {text-decoration-line: underline;}
+      :hover {background-color: ${ThemeColor.backgroundColor};}
+  }
+  
+`
 
   return (
     <>
@@ -165,9 +178,21 @@ const Comment = ({ comment }: CommentProps) => {
         </Text>
         {/* comment content */}
         {IsCommentEdit == false && (
-          <Text color="white" fontSize="sm">
-            {comment.content}
-          </Text>
+          <>
+            <Text style={{ whiteSpace: "pre-wrap" }} size="sm" fontSize="sm" color="white">
+              {(IsFold && comment.content.length > commentFoldStandard.Length) ?
+                comment.content.slice(0, commentFoldStandard.Length) + "..." :
+                comment.content}
+            </Text>
+
+            {comment.content.length > commentFoldStandard.Length &&
+              <IconbuttonStyle>
+                {IsFold ?
+                  <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> :
+                  <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+              </IconbuttonStyle>
+            }
+          </>
         )}
         {/* comment edit */}
         {IsCommentEdit == true && (
@@ -196,25 +221,35 @@ const Comment = ({ comment }: CommentProps) => {
             </Flex>
           </>
         )}
-        <Flex>
+
+        <Flex >
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
               reply
             </Button>
           )}
           {uid == author && (
-            <>
-              <Button
+
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<EditIcon />}
+                variant="outline"
+                alignSelf="end"
                 size="sm"
-                isLoading={deleteIsLoading}
-                onClick={deleteComment}
-              >
-                delete
-              </Button>
-              <Button size="sm" onClick={() => setCommentEdit(true)}>
-                Edit
-              </Button>
-            </>
+              />
+              <MenuList>
+                <MenuItem>
+                  <Button isLoading={deleteIsLoading} onClick={deleteComment}>
+                    delete
+                  </Button>
+                </MenuItem>
+                <MenuItem>
+                  <Button onClick={() => setCommentEdit(true)}>Edit</Button>
+                </MenuItem>
+              </MenuList>
+            </Menu>
           )}
         </Flex>
         {/* relpy comment window*/}
@@ -228,13 +263,16 @@ const Comment = ({ comment }: CommentProps) => {
             )}
           </Card>
         </Box>
-      </CommentBoard>
-      {"postId" in comment && comment.replies && (
-        <ReplyList
-          replies={comment.replies}
-          IsPadding={!!comment.postId}
-        ></ReplyList>
-      )}
+
+      </CommentBoard >
+      {
+        "postId" in comment && comment.replies && (
+          <ReplyList
+            replies={comment.replies}
+            IsPadding={!!comment.postId}
+          ></ReplyList>
+        )
+      }
     </>
   );
 };

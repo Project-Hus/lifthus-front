@@ -26,6 +26,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
+
+import styled from "@emotion/styled";
+import { repFoldStandard } from "../../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
 import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
@@ -128,6 +131,17 @@ const Post = ({ post }: PostProp) => {
     }
   };
 
+  // function for floding the comment
+  const [IsFold, setFold] = useState(true);
+
+  const IconbuttonStyle = styled.div`
+  padding-top: 0.0em;
+  & > Button {background-color: ${ThemeColor.backgroundColorDarker};
+      padding-left: 0.0em;
+      :hover {text-decoration-line: underline;}
+      :hover {background-color: ${ThemeColor.backgroundColorDarker};}
+  }
+  `
   return (
     <>
       <Card
@@ -137,7 +151,7 @@ const Post = ({ post }: PostProp) => {
         margin="0.5em"
         marginBottom={"0em"}
       >
-        <CardHeader>
+        <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
               <Avatar
@@ -204,8 +218,8 @@ const Post = ({ post }: PostProp) => {
             display: "flex",
             justifyContent: "center",
             backgroundColor: ThemeColor.backgroundColor,
-            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
-            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
+            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
+            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
           }}
         >
           {isEdited && imagePreview.length > 0 ? (
@@ -223,7 +237,8 @@ const Post = ({ post }: PostProp) => {
           )}
         </div>
 
-        <CardBody>
+        <CardBody paddingTop="0.5em">
+
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
@@ -255,9 +270,18 @@ const Post = ({ post }: PostProp) => {
                 </Flex>
               </form>
             </>
-          ) : (
-            <Text style={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
-          )}
+          ) :
+            <>
+              <Text style={{ whiteSpace: "pre-wrap" }}>{(IsFold && post.content.length > repFoldStandard.Length) ?
+                post.content.slice(0, repFoldStandard.Length) + "..." :
+                post.content}</Text>
+              <IconbuttonStyle>
+                {(IsFold && post.content.length > repFoldStandard.Length) ?
+                  <Button alignSelf="flex-start" onClick={() => setFold(false)} size="sm">more...</Button> :
+                  <Button alignSelf="flex-start" onClick={() => setFold(true)} size="sm"> shortly...</Button>}
+              </IconbuttonStyle>
+            </>}
+
         </CardBody>
         <CardFooter justify="space-between">
           <Button
