@@ -318,29 +318,33 @@ const Post = ({ post }: PostProp) => {
             </>
           )}
         </CardBody>
-        <CardFooter justify="space-between">
-          <Button
-            flex="1"
-            variant="ghost"
-            leftIcon={<StarIcon />}
-            _hover={{ bg: ThemeColor.backgroundColor }}
-          >
-            Like
-          </Button>
-          <Button
-            {...buttonProps}
-            flex="1"
-            variant="ghost"
-            leftIcon={<ChatIcon />}
-            _hover={{ bg: ThemeColor.backgroundColor }}
-          >
-            Comment
-          </Button>
-        </CardFooter>
-        <Card {...disclosureProps}>
-          <CommentCreate postId={post.id} onClose={onClose} />
-          {post.comments && <CommentList comments={post.comments} />}
-        </Card>
+        {!isEdited && (
+          <CardFooter justify="space-between">
+            <Button
+              flex="1"
+              variant="ghost"
+              leftIcon={<StarIcon />}
+              _hover={{ bg: ThemeColor.backgroundColor }}
+            >
+              Like
+            </Button>
+            <Button
+              {...buttonProps}
+              flex="1"
+              variant="ghost"
+              leftIcon={<ChatIcon />}
+              _hover={{ bg: ThemeColor.backgroundColor }}
+            >
+              Comment
+            </Button>
+          </CardFooter>
+        )}
+        {!isEdited && (
+          <Card {...disclosureProps}>
+            <CommentCreate postId={post.id} onClose={onClose} />
+            {post.comments && <CommentList comments={post.comments} />}
+          </Card>
+        )}
       </Card>
     </>
   );
