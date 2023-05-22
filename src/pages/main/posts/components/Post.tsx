@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   ChatIcon,
   ChevronDownIcon,
@@ -11,6 +11,7 @@ import {
   CopyIcon,
   DeleteIcon,
   EditIcon,
+  PlusSquareIcon,
   StarIcon,
 } from "@chakra-ui/icons";
 
@@ -73,6 +74,13 @@ const Post = ({ post }: PostProp) => {
 
   // which the post is edited
   const [isEdited, setEdited] = useState(false);
+
+  // useRef를 이용해 input태그에 접근한다.
+  const imageInput = useRef<HTMLInputElement>(null);
+  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
+  const onCickImageUpload = () => {
+    imageInput.current?.click();
+  };
 
   // update post
   const { mutate, isLoading } = useMutation(
@@ -138,12 +146,11 @@ const Post = ({ post }: PostProp) => {
     padding-top: 0em;
     & > Button {
       background-color: ${ThemeColor.backgroundColorDarker};
-      padding-left: 0em;
       :hover {
         text-decoration-line: underline;
       }
       :hover {
-        background-color: ${ThemeColor.backgroundColorDarker};
+        background-color: ${ThemeColor.backgroundColor};
       }
     }
   `;
@@ -246,31 +253,38 @@ const Post = ({ post }: PostProp) => {
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
-                <label htmlFor="file">
-                  Uploaded file change
-                  <Input
-                    {...register("images")}
-                    id="file"
-                    type="file"
-                    onChange={onLoadFile}
-                  ></Input>
-                </label>
                 <Input
                   color="black"
                   backgroundColor="white"
                   defaultValue={post.content}
                   {...register("content")}
                 ></Input>
-                <Flex>
-                  <Button
-                    onClick={() => {
-                      setEdited(false);
-                      setImagePreview(post.images ? post.images : []);
-                    }}
-                  >
-                    cancel
-                  </Button>
-                  <Button type="submit">edit</Button>
+                <Flex justifyContent={"space-between"}>
+                  <IconbuttonStyle>
+                    <Button onClick={onCickImageUpload}>
+                      <PlusSquareIcon />
+                      <Input
+                        {...register("images")}
+                        id="file"
+                        type="file"
+                        onChange={onLoadFile}
+                        ref={imageInput}
+                        display="none"
+                      ></Input>
+                    </Button>
+                    <Button>share routine</Button>
+                  </IconbuttonStyle>
+                  <div>
+                    <Button
+                      onClick={() => {
+                        setEdited(false);
+                        setImagePreview(post.images ? post.images : []);
+                      }}
+                    >
+                      cancel
+                    </Button>
+                    <Button type="submit">edit</Button>
+                  </div>
                 </Flex>
               </form>
             </>
