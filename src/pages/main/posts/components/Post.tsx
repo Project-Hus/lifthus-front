@@ -29,7 +29,7 @@ import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
-import { repFoldStandard } from "../../../../common/constraints";
+import { postFoldStandard } from "../../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
 import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
@@ -291,28 +291,31 @@ const Post = ({ post }: PostProp) => {
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {IsFold && post.content.length > repFoldStandard.Length
-                  ? post.content.slice(0, repFoldStandard.Length) + "..."
+                {IsFold && post.content.length > postFoldStandard.Length
+                  ? post.content.slice(0, postFoldStandard.Length) + "..."
                   : post.content}
               </Text>
               <IconbuttonStyle>
-                {IsFold && post.content.length > repFoldStandard.Length ? (
-                  <Button
-                    alignSelf="flex-start"
-                    onClick={() => setFold(false)}
-                    size="sm"
-                  >
-                    more...
-                  </Button>
-                ) : (
-                  <Button
-                    alignSelf="flex-start"
-                    onClick={() => setFold(true)}
-                    size="sm"
-                  >
-                    {" "}
-                    shortly...
-                  </Button>
+                {post.content.length > postFoldStandard.Length && (
+                  <>
+                    <Button
+                      alignSelf="flex-start"
+                      onClick={() => setFold(false)}
+                      size="sm"
+                      display={IsFold ? "block" : "none"}
+                    >
+                      more...
+                    </Button>
+                    <Button
+                      alignSelf="flex-start"
+                      onClick={() => setFold(true)}
+                      size="sm"
+                      display={IsFold ? "none" : "block"}
+                    >
+                      {" "}
+                      shortly...
+                    </Button>
+                  </>
                 )}
               </IconbuttonStyle>
             </>
