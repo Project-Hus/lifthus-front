@@ -275,6 +275,7 @@ const Post = ({ post }: PostProp) => {
                     <Button>share routine</Button>
                   </IconbuttonStyle>
                   <div>
+                    <Button type="submit">edit</Button>
                     <Button
                       onClick={() => {
                         setEdited(false);
@@ -283,7 +284,6 @@ const Post = ({ post }: PostProp) => {
                     >
                       cancel
                     </Button>
-                    <Button type="submit">edit</Button>
                   </div>
                 </Flex>
               </form>

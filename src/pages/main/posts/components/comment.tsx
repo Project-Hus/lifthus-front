@@ -237,9 +237,6 @@ const Comment = ({ comment }: CommentProps) => {
               backgroundColor="white"
             />
             <Flex direction={"row"} alignSelf="self-end">
-              <Button size="sm" onClick={() => setCommentEdit(false)}>
-                Cancel
-              </Button>
               <Button
                 size="sm"
                 type="submit"
@@ -250,6 +247,9 @@ const Comment = ({ comment }: CommentProps) => {
                 display="inline-block"
               >
                 Save
+              </Button>
+              <Button size="sm" onClick={() => setCommentEdit(false)}>
+                Cancel
               </Button>
             </Flex>
           </>
