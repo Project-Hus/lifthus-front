@@ -270,7 +270,13 @@ const Comment = ({ comment }: CommentProps) => {
               >
                 delete
               </Button>
-              <Button size="sm" onClick={() => setCommentEdit(true)}>
+              <Button
+                size="sm"
+                onClick={() => {
+                  setCommentEdit(true);
+                  onClose();
+                }}
+              >
                 Edit
               </Button>
             </>
