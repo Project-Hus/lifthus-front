@@ -17,8 +17,9 @@ const ReplyList = ({ IsPadding, replies }: ReplyListProps) => {
   }
   return (
     <Box
-      backgroundColor={ThemeColor.backgroundColor}
-      paddingLeft={IsPadding ? "10%" : "0%"}
+      backgroundColor={ThemeColor.backgroundColorDarker}
+      paddingLeft={IsPadding ? "5%" : "0%"}
+      background-clip="content-box"
     >
       {replyCommentList}
     </Box>

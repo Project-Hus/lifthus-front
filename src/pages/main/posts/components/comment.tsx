@@ -255,13 +255,13 @@ const Comment = ({ comment }: CommentProps) => {
           </>
         )}
 
-        <Flex>
+        <Flex justifyContent={"flex-end"}>
           {IsCommentEdit == false && (
             <Button size="sm" alignSelf="start" {...buttonProps}>
               reply
             </Button>
           )}
-          {uid == author && (
+          {uid == author && IsCommentEdit == false && (
             <>
               <Button
                 size="sm"
