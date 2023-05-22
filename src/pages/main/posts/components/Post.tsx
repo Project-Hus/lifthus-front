@@ -2,6 +2,8 @@ import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
+import { Textarea } from "@chakra-ui/react";
+
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React, { useEffect, useRef } from "react";
 import {
@@ -26,7 +28,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
 import { postFoldStandard } from "../../../../common/constraints";
@@ -35,6 +37,7 @@ import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
 import userApi from "../../../../api/userApi";
 import { Username } from "../../../../api/interfaces/userApi.interface";
+import { on } from "events";
 
 interface PostProp {
   post: QueryPostDto;
@@ -54,8 +57,9 @@ const Post = ({ post }: PostProp) => {
   });
   const username = data?.username;
 
-  const { register, handleSubmit, reset, watch } = useForm<FormData>();
-
+  const { register, handleSubmit, reset, watch, setValue } =
+    useForm<FormData>();
+  const { ref, ...rest } = register("content");
   //open/close comment window functions
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
@@ -76,7 +80,7 @@ const Post = ({ post }: PostProp) => {
   const [isEdited, setEdited] = useState(false);
 
   // useRef를 이용해 input태그에 접근한다.
-  const imageInput = useRef<HTMLInputElement>(null);
+  const imageInput = useRef<HTMLInputElement | null>(null);
   // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
   const onCickImageUpload = () => {
     imageInput.current?.click();
@@ -154,6 +158,25 @@ const Post = ({ post }: PostProp) => {
       }
     }
   `;
+
+  //resizing textarea
+  function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    let textarea = e.target;
+
+    textarea!.style.height = "0px";
+
+    let scrollHeight = textarea.scrollHeight;
+
+    textarea.style.height = scrollHeight + "px";
+  }
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    if (textareaRef.current) {
+      console.log(textareaRef.current.scrollHeight + "px");
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + "px";
+    }
+  });
   return (
     <>
       <Card
@@ -253,12 +276,22 @@ const Post = ({ post }: PostProp) => {
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
-                <Input
+                <Textarea
+                  border="0px"
                   color="black"
                   backgroundColor="white"
                   defaultValue={post.content}
-                  {...register("content")}
-                ></Input>
+                  overflowWrap="anywhere"
+                  overflow="hidden"
+                  resize="none"
+                  {...rest}
+                  ref={(e) => {
+                    ref(e);
+                    textareaRef.current = e;
+                  }}
+                  onChange={resize}
+                  box-sizing="border-box"
+                ></Textarea>
                 <Flex justifyContent={"space-between"}>
                   <IconbuttonStyle>
                     <Button onClick={onCickImageUpload}>

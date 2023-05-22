@@ -9,6 +9,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
 import styled from "@emotion/styled";
@@ -16,7 +17,7 @@ import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import commentApi from "../../../../api/commentApi";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import CommentCreate from "./commentCreate";
@@ -62,7 +63,7 @@ const Comment = ({ comment }: CommentProps) => {
   const { uid, username } = useUserStore();
 
   //Call the CommentText
-  const EditInputRef = useRef<HTMLInputElement>(null);
+  const EditInputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const queryClient = useQueryClient();
 
@@ -168,6 +169,33 @@ const Comment = ({ comment }: CommentProps) => {
     }
   `;
 
+  //resizing textarea
+  const TextareaStyle = styled.div`
+  & > textarea {
+    resize: none;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    background-color: white
+    resize: none;
+    box-sizing : border-box;
+  }
+  `;
+  function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    let textarea = e.target;
+
+    textarea!.style.height = "0px";
+
+    let scrollHeight = textarea.scrollHeight;
+
+    textarea.style.height = scrollHeight + "px";
+  }
+  useEffect(() => {
+    if (EditInputRef.current) {
+      EditInputRef.current.style.height =
+        EditInputRef.current.scrollHeight + "px";
+    }
+  });
+
   return (
     <>
       <CommentBoard>
@@ -230,12 +258,15 @@ const Comment = ({ comment }: CommentProps) => {
         {/* comment edit */}
         {IsCommentEdit == true && (
           <>
-            <Input
-              name="EditedComment"
-              defaultValue={comment.content}
-              ref={EditInputRef}
-              backgroundColor="white"
-            />
+            <TextareaStyle>
+              <Textarea
+                name="EditedComment"
+                defaultValue={comment.content}
+                ref={EditInputRef}
+                backgroundColor="white"
+                onChange={resize}
+              />
+            </TextareaStyle>
             <Flex direction={"row"} alignSelf="self-end">
               <Button
                 size="sm"
