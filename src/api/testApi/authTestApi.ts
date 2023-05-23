@@ -76,11 +76,11 @@ const authTestApi: AuthApi = {
       });
 
       // if ok, server maintains session and returns uid and username
-      if (res.status == statusInfo.succ.Ok.code) {
+      if (res.status === statusInfo.succ.Ok.code) {
         return { uid: res.data.uid, username: res.data.usename };
       }
       // if it is not ok or created, return empty string
-      if (res.status != statusInfo.succ.Created.code) {
+      if (res.status !== statusInfo.succ.Created.code) {
         localStorage.setItem("lifthus_st", "");
         return { uid: undefined, username: "" };
       }
@@ -99,7 +99,7 @@ const authTestApi: AuthApi = {
         {},
         { withCredentials: true, headers: { Authorization } }
       );
-      if (res.status != statusInfo.succ.Ok.code)
+      if (res.status !== statusInfo.succ.Ok.code)
         return { uid: undefined, username: "" };
       console.log("hus session checked");
 
