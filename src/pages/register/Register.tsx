@@ -20,7 +20,7 @@ import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
 
 const Register = () => {
   const { t, i18n } = useTranslation();
-  const user_name = useUserStore((state) => state.username);
+  const givenName = useUserStore((state) => state.given_name);
   return (
     <FlexCenterLayout>
       <Routes>
@@ -35,7 +35,7 @@ const Register = () => {
               <br />
               <br />
               <p>
-                {t("register.Hi")} {t("name_var", { name: user_name })},
+                {t("register.Hi")} {t("name_var", { name: givenName })},
               </p>
               {t("register.workOut_message")}
               <BlueButton to="username">{t("register.WORK_OUT")}</BlueButton>

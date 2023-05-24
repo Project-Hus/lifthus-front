@@ -61,11 +61,7 @@ const updateSession = async (): Promise<SessionResponse> => {
     const sid = res.data;
     // checking hus session
     res = await axios.post(
-      HUS_AUTH_URL +
-        `/auth/session/check/${
-          process.env.NODE_ENV === "development" ? "localhost" : "lifthus"
-        }/` +
-        sid,
+      HUS_AUTH_URL + `/auth/session/check/lifthus/` + sid,
       {},
       { withCredentials: true }
     );

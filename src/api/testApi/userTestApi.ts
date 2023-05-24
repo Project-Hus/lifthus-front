@@ -8,6 +8,8 @@ import {
 import userList from "../mocks/userTestApi.mock";
 import statusInfo from "../interfaces/statusInfo.json";
 import user_list from "../mocks/userTestApi.mock";
+import axios from "axios";
+import { LIFTHUS_AUTH_URL } from "../../common/routes";
 
 const userTestApi: UserApi = {
   setUserinfo: async ({
@@ -19,7 +21,18 @@ const userTestApi: UserApi = {
     return { uid };
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
-    return { ...userList.find((user) => user.id === uid) } as GetUserInfoDto;
+    try {
+      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
+        withCredentials: true,
+        headers: {
+          Authorization: localStorage.getItem("lifthus_st"),
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
+    }
   },
   getIdByName: async ({ username }: Username): Promise<Uid> => {
     const user = userList.find((user) => user.username === username);
