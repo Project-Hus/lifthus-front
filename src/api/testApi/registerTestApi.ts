@@ -1,3 +1,6 @@
+import axios from "axios";
+import { LIFTHUS_AUTH_URL } from "../../common/routes";
+import { GetUserInfoDto } from "../dtos/user.dto";
 import {
   RegisterApi,
   RegisterUsernameParams,
@@ -11,38 +14,44 @@ import userList from "../mocks/userTestApi.mock";
 import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
-  registerUsername: async ({
-    uid,
-    username,
-  }: RegisterUsernameParams): Promise<Username> => {
-    if (!userList.find((user) => user.username === username)) {
-      userTestApi.setUserinfo({ uid, newUserinfo: { username } });
-      return { username };
+  registerUsername: async (
+    regiName: RegisterUsernameParams
+  ): Promise<GetUserInfoDto> => {
+    try {
+      const lst = localStorage.getItem("lifthus_st");
+      if (!lst) return Promise.reject(statusInfo.fail.Unauthorized);
+      const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", regiName, {
+        withCredentials: true,
+        headers: {
+          Authorization: lst,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
     }
-    return Promise.reject(statusInfo.fail.Conflict);
   },
 
-  register: async (registerInfo: RegisterParams): Promise<Uid> => {
-    return new Promise((resolve, reject) => {
-      setTimeout(async () => {
-        if (!SigningState.uid) return reject(statusInfo.fail.Unauthorized);
-        const newRec: RecDB = {
-          id: recState.nextRid,
-          author: SigningState.uid,
-          date: new Date(),
-          created_at: new Date(),
-          updated_at: new Date(),
-          trainingType: registerInfo.trainingType,
-          bodyWeight: registerInfo.bodyWeight,
-          height: registerInfo.height,
-          squat: registerInfo.squat,
-          benchpress: registerInfo.benchpress,
-          deadlift: registerInfo.deadlift,
-        };
-        recList.push(newRec);
-        recState.nextRid += 1;
-      }, 500);
-    });
+  register: async (registerInfo: RegisterParams): Promise<RegisterParams> => {
+    try {
+      const lst = localStorage.getItem("lifthus_st");
+      if (!lst) return Promise.reject(statusInfo.fail.Unauthorized);
+      const res = await axios.post(
+        LIFTHUS_AUTH_URL + "/auth/user",
+        registerInfo,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: lst,
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
+    }
   },
 };
 export default registerTestApi;

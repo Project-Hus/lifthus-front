@@ -13,3 +13,9 @@ export type GetUserInfoDto = {
   created_at: Date;
   updated_at: Date;
 };
+
+export type UpdateUserInfoDto = {
+  uid: number;
+  username?: string;
+  birthdate?: Date;
+};

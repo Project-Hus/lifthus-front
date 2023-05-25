@@ -35,10 +35,16 @@ const userApi: UserApi = {
     return userTestApi.getIdByName({ username });
   },
   getNameById: async ({ uid }: Uid): Promise<Username> => {
-    if (process.env.NODE_ENV === "development") {
-      return userTestApi.getNameById({ uid });
+    try {
+      if (process.env.NODE_ENV === "development") {
+        return await userTestApi.getNameById({ uid });
+      }
+      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
     }
-    return userTestApi.getNameById({ uid });
   },
 };
 

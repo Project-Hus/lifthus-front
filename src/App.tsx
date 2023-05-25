@@ -33,6 +33,7 @@ const App = () => {
     if (res.uid) {
       const userInfo = await userApi.getUserInfo({ uid: res.uid });
       setUserInfo(userInfo);
+      console.log(userInfo, "YOs");
     } else console.log("not signed in");
   });
 
