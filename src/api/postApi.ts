@@ -23,9 +23,10 @@ const postApi: PostApi = {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.createPost(post);
     }
-    return await axios.post("https://api.lifthus.com/post/post", post, {
+    const res = await axios.post("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
+    return res.data;
   },
   updatePost: async (post: UpdatePostDto) => {
     if (process.env.NODE_ENV === "development") {

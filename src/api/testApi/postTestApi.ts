@@ -28,21 +28,14 @@ const postTestApi: PostApi = {
   },
 
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
-    if (!SigningState.uid) return Promise.reject(statusInfo.fail.Unauthorized);
-    const newPost: QueryPostDto = {
-      id: postState.nextPid,
-      author: SigningState.uid,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      slug: new Date().getTime().toString(),
-      images: [],
-      content: post.content,
-      likenum: 0,
-      mentions: [],
-    };
-    postList.push(newPost);
-    postState.nextPid += 1;
-    return newPost;
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.post("https://api.lifthus.com/post/post", post, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
   },
 
   updatePost: async (post: UpdatePostDto): Promise<UpdatePostResponse> => {
