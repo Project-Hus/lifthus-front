@@ -19,22 +19,22 @@ const Profile = () => {
 
   const [posts, setPosts] = useState<QueryPostDto[]>([]);
 
-  const { data: uidObj } = useQuery({
-    queryKey: ["uid", username],
+  const { data: user } = useQuery({
+    queryKey: ["user", { username }],
     queryFn: () =>
       typeof username === "undefined"
         ? Promise.reject(new Error("undefined"))
         : userApi.getUserInfoByUsername({ username }),
   });
 
-  const uid = uidObj?.uid;
+  const uid = user?.uid;
 
   const { data } = useQuery({
     queryKey: ["posts"],
     queryFn: () =>
-      typeof username === "undefined"
+      typeof username === "undefined" || typeof uid === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : repsApi.getUserPosts({ username }),
+        : repsApi.getUserPosts({ uid }),
     onSuccess: (data) => {
       setPosts(data);
     },

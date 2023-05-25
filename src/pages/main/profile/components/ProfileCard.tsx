@@ -22,10 +22,11 @@ import ProfileTab from "./ProfileTab";
 
 const ProfileCard = ({ uid }: Uid) => {
   const { data } = useQuery({
-    queryKey: ["username", uid],
+    queryKey: ["user", { uid: uid }],
     queryFn: () => userApi.getUserInfo({ uid }),
   });
   const username = data?.username;
+  const profileImage = data?.profile_image_url;
   return (
     <>
       <Card
@@ -51,7 +52,7 @@ const ProfileCard = ({ uid }: Uid) => {
         >
           <div style={{ display: "flex" }}>
             <Img
-              src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}
+              src={profileImage}
               alt={`${username}'s profile image`}
               borderRadius={"2em"}
               objectFit={"cover"}

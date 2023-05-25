@@ -7,10 +7,7 @@ import {
 } from "../dtos/post.dto";
 
 export interface PostApi {
-  getUserPosts: ({
-    username,
-    skip,
-  }: GetUserPostsParams) => Promise<QueryPostDto[]>;
+  getUserPosts: ({ uid, skip }: GetUserPostsParams) => Promise<QueryPostDto[]>;
   createPost: ({
     userGroup,
     author,
@@ -25,6 +22,6 @@ export interface PostApi {
 }
 
 export type GetUserPostsParams = {
-  username: string;
+  uid: number;
   skip?: number;
 };
