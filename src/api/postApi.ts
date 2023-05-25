@@ -11,34 +11,41 @@ const postApi: PostApi = {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.getUserPosts({ uid, skip });
     }
-    return await axios.get(
-      `https://api.lifthus.com/post/query/post/${uid}/${skip}`
+    const res = await axios.get(
+      `https://api.lifthus.com/post/query/post/${uid}/${skip}`,
+      {
+        withCredentials: true,
+      }
     );
+    return res.data;
   },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.createPost(post);
     }
-    return await axios.post("https://api.lifthus.com/post/post", post, {
+    const res = await axios.post("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
+    return res.data;
   },
   updatePost: async (post: UpdatePostDto) => {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.updatePost(post);
     }
-    return await axios.put("https://api.lifthus.com/post/post", post, {
+    const res = await axios.put("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
+    return res.data;
   },
   deletePost: async (pid: number) => {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.deletePost(pid);
     }
-    return await axios.delete("https://api.lifthus.com/post/post", {
+    const res = await axios.delete("https://api.lifthus.com/post/post/" + pid, {
       data: { pid },
       withCredentials: true,
     });
+    return res.data;
   },
 };
 

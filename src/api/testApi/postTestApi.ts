@@ -18,44 +18,45 @@ const postTestApi: PostApi = {
     uid,
     skip = 0,
   }: GetUserPostsParams): Promise<QueryPostDto[]> => {
-    return await axios.get(
-      `https://api.lifthus.com/post/query/post/${uid}/${skip}`
+    const res = await axios.get(
+      `https://api.lifthus.com/post/query/post/${uid}/${skip}`,
+      {
+        withCredentials: true,
+      }
     );
+    return res.data;
   },
 
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
-    if (!SigningState.uid) return Promise.reject(statusInfo.fail.Unauthorized);
-    const newPost: QueryPostDto = {
-      id: postState.nextPid,
-      author: SigningState.uid,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      slug: new Date().getTime().toString(),
-      images: [],
-      content: post.content,
-      likenum: 0,
-      mentions: [],
-    };
-    postList.push(newPost);
-    postState.nextPid += 1;
-    return newPost;
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.post("https://api.lifthus.com/post/post", post, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
   },
 
   updatePost: async (post: UpdatePostDto): Promise<UpdatePostResponse> => {
-    if (SigningState.uid !== post.author)
-      return Promise.reject(statusInfo.fail.Unauthorized);
-    const pidx = postList.findIndex((p) => p.id === post.id);
-    postList[pidx] = { ...postList[pidx], ...post };
-    return { count: 1 };
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.put("https://api.lifthus.com/post/post", post, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
   },
   deletePost: async (pid): Promise<DeletePostResponse> => {
-    if (!SigningState.uid) return Promise.reject(statusInfo.fail.Unauthorized);
-    const pidx = postList.findIndex(
-      (p) => p.id === pid && p.author === SigningState.uid
-    );
-    if (pidx === -1) return Promise.reject(statusInfo.fail.NotFound);
-    postList.splice(pidx, 1);
-    return { count: 1 };
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.delete("https://api.lifthus.com/post/post/" + pid, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
   },
 };
 
