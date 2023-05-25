@@ -38,7 +38,7 @@ const RegisterConfirm = () => {
   // if mutation is successful and got uid, then get user info and set it to store.
   const uidMutated = data?.uid;
   const { isLoading: isLoading2, fetchStatus } = useQuery({
-    queryKey: ["user_info", uidMutated],
+    queryKey: ["user", { uid: uidMutated }],
     queryFn: () =>
       typeof uidMutated === "undefined"
         ? Promise.reject(new Error("undefined"))

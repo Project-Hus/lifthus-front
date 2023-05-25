@@ -63,7 +63,7 @@ const SignIn = () => {
   const uid = data?.uid;
   // with enabled false, isLoading2 becomes always true. so additional comparation with fetchStatus is needed.
   const { isLoading: isLoading2, fetchStatus } = useQuery({
-    queryKey: ["uid", uid],
+    queryKey: ["user", { uid: uid }],
     queryFn: async () =>
       typeof uid === "undefined"
         ? Promise.reject(new Error("undefined"))

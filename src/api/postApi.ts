@@ -5,14 +5,14 @@ import postTestApi from "./testApi/postTestApi";
 
 const postApi: PostApi = {
   getUserPosts: async ({
-    username,
-    skip,
+    uid,
+    skip = 0,
   }: GetUserPostsParams): Promise<QueryPostDto[]> => {
     if (process.env.NODE_ENV === "development") {
-      return postTestApi.getUserPosts({ username, skip });
+      return postTestApi.getUserPosts({ uid, skip });
     }
     return await axios.get(
-      `https://api.lifthus.com/post/query/post/${username}/${skip}`
+      `https://api.lifthus.com/post/query/post/${uid}/${skip}`
     );
   },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
