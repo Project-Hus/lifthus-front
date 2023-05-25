@@ -11,9 +11,13 @@ const postApi: PostApi = {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.getUserPosts({ uid, skip });
     }
-    return await axios.get(
-      `https://api.lifthus.com/post/query/post/${uid}/${skip}`
+    const res = await axios.get(
+      `https://api.lifthus.com/post/query/post/${uid}/${skip}`,
+      {
+        withCredentials: true,
+      }
     );
+    return res.data;
   },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
     if (process.env.NODE_ENV === "development") {
