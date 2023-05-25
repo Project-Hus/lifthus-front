@@ -11,31 +11,16 @@ import userTestApi from "./userTestApi";
 import statusInfo from "../interfaces/statusInfo.json";
 import { SigningState } from "../mocks/state.mcok";
 import commentList, { replyList } from "../mocks/commentApi.mock";
+import axios from "axios";
 
 const postTestApi: PostApi = {
   getUserPosts: async ({
     username,
     skip,
   }: GetUserPostsParams): Promise<QueryPostDto[]> => {
-    try {
-      const { uid } = await userTestApi.getIdByName({ username });
-      const userPosts = postList.filter((post) => post.author === uid);
-      for (let i = 0; i < userPosts.length; i++) {
-        const postComments = commentList.filter(
-          (c) => c.postId === userPosts[i].id
-        );
-        for (let j = 0; j < postComments.length; j++) {
-          const commentReplies = replyList.filter(
-            (c) => c.parentId === postComments[j].id
-          );
-          postComments[j].replies = commentReplies;
-        }
-        userPosts[i].comments = postComments;
-      }
-      return Promise.resolve(userPosts.reverse());
-    } catch (e) {
-      return Promise.reject(statusInfo.fail.Unauthorized);
-    }
+    return await axios.get(
+      `https://api.lifthus.com/post/query/post/${username}/${skip}`
+    );
   },
 
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {

@@ -24,7 +24,7 @@ const Profile = () => {
     queryFn: () =>
       typeof username === "undefined"
         ? Promise.reject(new Error("undefined"))
-        : userApi.getIdByName({ username }),
+        : userApi.getUserInfoByUsername({ username }),
   });
 
   const uid = uidObj?.uid;

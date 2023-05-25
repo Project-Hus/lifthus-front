@@ -47,17 +47,6 @@ const Comment = ({ comment }: CommentProps) => {
   const createdAt = comment.createdAt;
   const updatedAt = comment.updatedAt;
   const [authorname, setAuthorname] = useState("loading...");
-  useQuery(
-    ["username", author],
-    () => {
-      return userApi.getNameById({ uid: author });
-    },
-    {
-      onSuccess: (data: Username) => {
-        setAuthorname(data.username);
-      },
-    }
-  );
 
   const { uid, username } = useUserStore();
 
