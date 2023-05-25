@@ -2,8 +2,10 @@ import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
+import { Textarea } from "@chakra-ui/react";
+
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   ChatIcon,
   ChevronDownIcon,
@@ -11,6 +13,7 @@ import {
   CopyIcon,
   DeleteIcon,
   EditIcon,
+  PlusSquareIcon,
   StarIcon,
 } from "@chakra-ui/icons";
 
@@ -25,15 +28,17 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
-import { repFoldStandard } from "../../../../common/constraints";
+import { postFoldStandard } from "../../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
 import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
 import userApi from "../../../../api/userApi";
 import { Username } from "../../../../api/interfaces/userApi.interface";
+
+import { on } from "events";
 import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
 
 interface PostProp {
@@ -54,8 +59,9 @@ const Post = ({ post }: PostProp) => {
   });
   const username = data?.username;
 
-  const { register, handleSubmit, reset, watch } = useForm<FormData>();
-
+  const { register, handleSubmit, reset, watch, setValue } =
+    useForm<FormData>();
+  const { ref, ...rest } = register("content");
   //open/close comment window functions
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
@@ -74,6 +80,13 @@ const Post = ({ post }: PostProp) => {
 
   // which the post is edited
   const [isEdited, setEdited] = useState(false);
+
+  // useRef를 이용해 input태그에 접근한다.
+  const imageInput = useRef<HTMLInputElement | null>(null);
+  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
+  const onCickImageUpload = () => {
+    imageInput.current?.click();
+  };
 
   // update post
   const { mutate, isLoading } = useMutation(
@@ -139,15 +152,33 @@ const Post = ({ post }: PostProp) => {
     padding-top: 0em;
     & > Button {
       background-color: ${ThemeColor.backgroundColorDarker};
-      padding-left: 0em;
       :hover {
         text-decoration-line: underline;
       }
       :hover {
-        background-color: ${ThemeColor.backgroundColorDarker};
+        background-color: ${ThemeColor.backgroundColor};
       }
     }
   `;
+
+  //resizing textarea
+  function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    let textarea = e.target;
+
+    textarea!.style.height = "0px";
+
+    let scrollHeight = textarea.scrollHeight;
+
+    textarea.style.height = scrollHeight + "px";
+  }
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    if (textareaRef.current) {
+      console.log(textareaRef.current.scrollHeight + "px");
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + "px";
+    }
+  });
   return (
     <>
       <Card
@@ -247,87 +278,111 @@ const Post = ({ post }: PostProp) => {
           {isEdited ? (
             <>
               <form onSubmit={handleSubmit(editRep)}>
-                <label htmlFor="file">
-                  Uploaded file change
-                  <Input
-                    {...register("images")}
-                    id="file"
-                    type="file"
-                    onChange={onLoadFile}
-                  ></Input>
-                </label>
-                <Input
+                <Textarea
+                  border="0px"
                   color="black"
                   backgroundColor="white"
                   defaultValue={post.content}
-                  {...register("content")}
-                ></Input>
-                <Flex>
-                  <Button
-                    onClick={() => {
-                      setEdited(false);
-                      setImagePreview(post.images ? post.images : []);
-                    }}
-                  >
-                    cancel
-                  </Button>
-                  <Button type="submit">edit</Button>
+                  overflowWrap="anywhere"
+                  overflow="hidden"
+                  resize="none"
+                  {...rest}
+                  ref={(e) => {
+                    ref(e);
+                    textareaRef.current = e;
+                  }}
+                  onChange={resize}
+                  box-sizing="border-box"
+                ></Textarea>
+                <Flex justifyContent={"space-between"}>
+                  <IconbuttonStyle>
+                    <Button onClick={onCickImageUpload}>
+                      <PlusSquareIcon />
+                      <Input
+                        {...register("images")}
+                        id="file"
+                        type="file"
+                        onChange={onLoadFile}
+                        ref={imageInput}
+                        display="none"
+                      ></Input>
+                    </Button>
+                    <Button>share routine</Button>
+                  </IconbuttonStyle>
+                  <div>
+                    <Button type="submit">edit</Button>
+                    <Button
+                      onClick={() => {
+                        setEdited(false);
+                        setImagePreview(post.images ? post.images : []);
+                      }}
+                    >
+                      cancel
+                    </Button>
+                  </div>
                 </Flex>
               </form>
             </>
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {IsFold && post.content.length > repFoldStandard.Length
-                  ? post.content.slice(0, repFoldStandard.Length) + "..."
+                {IsFold && post.content.length > postFoldStandard.Length
+                  ? post.content.slice(0, postFoldStandard.Length) + "..."
                   : post.content}
               </Text>
               <IconbuttonStyle>
-                {IsFold && post.content.length > repFoldStandard.Length ? (
-                  <Button
-                    alignSelf="flex-start"
-                    onClick={() => setFold(false)}
-                    size="sm"
-                  >
-                    more...
-                  </Button>
-                ) : (
-                  <Button
-                    alignSelf="flex-start"
-                    onClick={() => setFold(true)}
-                    size="sm"
-                  >
-                    {" "}
-                    shortly...
-                  </Button>
+                {post.content.length > postFoldStandard.Length && (
+                  <>
+                    <Button
+                      alignSelf="flex-start"
+                      onClick={() => setFold(false)}
+                      size="sm"
+                      display={IsFold ? "block" : "none"}
+                    >
+                      more...
+                    </Button>
+                    <Button
+                      alignSelf="flex-start"
+                      onClick={() => setFold(true)}
+                      size="sm"
+                      display={IsFold ? "none" : "block"}
+                    >
+                      {" "}
+                      shortly...
+                    </Button>
+                  </>
                 )}
               </IconbuttonStyle>
             </>
           )}
         </CardBody>
-        <CardFooter justify="space-between">
-          <Button
-            flex="1"
-            variant="ghost"
-            leftIcon={<StarIcon />}
-            _hover={{ bg: ThemeColor.backgroundColor }}
-          >
-            Like
-          </Button>
-          <Button
-            {...buttonProps}
-            flex="1"
-            variant="ghost"
-            leftIcon={<ChatIcon />}
-            _hover={{ bg: ThemeColor.backgroundColor }}
-          >
-            Comment
-          </Button>
-        </CardFooter>
-        <Card {...disclosureProps}>
-          <CommentCreate postId={post.id} onClose={onClose} />
-          {post.comments && <CommentList comments={post.comments} />}
-        </Card>
+        {!isEdited && (
+          <CardFooter justify="space-between">
+            <Button
+              flex="1"
+              variant="ghost"
+              leftIcon={<StarIcon />}
+              _hover={{ bg: ThemeColor.backgroundColor }}
+            >
+              Like
+            </Button>
+            <Button
+              {...buttonProps}
+              flex="1"
+              variant="ghost"
+              leftIcon={<ChatIcon />}
+              _hover={{ bg: ThemeColor.backgroundColor }}
+            >
+              Comment
+            </Button>
+          </CardFooter>
+        )}
+        {!isEdited && (
+          <Card {...disclosureProps}>
+            <CommentCreate postId={post.id} onClose={onClose} />
+            {post.comments && <CommentList comments={post.comments} />}
+          </Card>
+        )}
       </Card>
     </>
   );
