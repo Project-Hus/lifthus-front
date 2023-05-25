@@ -32,18 +32,20 @@ const postApi: PostApi = {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.updatePost(post);
     }
-    return await axios.put("https://api.lifthus.com/post/post", post, {
+    const res = await axios.put("https://api.lifthus.com/post/post", post, {
       withCredentials: true,
     });
+    return res.data;
   },
   deletePost: async (pid: number) => {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.deletePost(pid);
     }
-    return await axios.delete("https://api.lifthus.com/post/post", {
+    const res = await axios.delete("https://api.lifthus.com/post/post/" + pid, {
       data: { pid },
       withCredentials: true,
     });
+    return res.data;
   },
 };
 
