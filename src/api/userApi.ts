@@ -28,23 +28,19 @@ const userApi: UserApi = {
       return Promise.reject(err);
     }
   },
-  getIdByName: async ({ username }: Username): Promise<Uid> => {
+  getUserInfoByUsername: async ({
+    username,
+  }: Username): Promise<GetUserInfoDto> => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.getIdByName({ username });
+      return userTestApi.getUserInfoByUsername({ username });
     }
-    return userTestApi.getIdByName({ username });
-  },
-  getNameById: async ({ uid }: Uid): Promise<Username> => {
-    try {
-      if (process.env.NODE_ENV === "development") {
-        return await userTestApi.getNameById({ uid });
+    const res = await axios.get(
+      LIFTHUS_AUTH_URL + "/auth/username/" + username,
+      {
+        withCredentials: true,
       }
-      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      return Promise.reject(err);
-    }
+    );
+    return res.data;
   },
 };
 

@@ -34,15 +34,20 @@ const userTestApi: UserApi = {
       return Promise.reject(err);
     }
   },
-  getIdByName: async ({ username }: Username): Promise<Uid> => {
-    const user = userList.find((user) => user.username === username);
-    if (user) return { uid: user.id };
-    return Promise.reject(statusInfo.fail.Conflict);
-  },
-  getNameById: async ({ uid }: Uid): Promise<Username> => {
-    const user = userList.find((user) => user.id === uid);
-    if (user && user.username) return { username: user.username };
-    return Promise.reject(statusInfo.fail.Conflict);
+  getUserInfoByUsername: async ({
+    username,
+  }: Username): Promise<GetUserInfoDto> => {
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.get(
+      LIFTHUS_AUTH_URL + "/auth/username/" + username,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: lst,
+        },
+      }
+    );
+    return res.data;
   },
 };
 export default userTestApi;
