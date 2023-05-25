@@ -37,7 +37,9 @@ import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
 import userApi from "../../../../api/userApi";
 import { Username } from "../../../../api/interfaces/userApi.interface";
+
 import { on } from "events";
+import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
 
 interface PostProp {
   post: QueryPostDto;
@@ -52,8 +54,8 @@ const Post = ({ post }: PostProp) => {
     data,
     isLoading: nameLoading,
     isError,
-  } = useQuery<Username>(["username", post.author], () => {
-    return userApi.getNameById({ uid: post.author });
+  } = useQuery<GetUserInfoDto>(["user", post.author], () => {
+    return userApi.getUserInfo({ uid: post.author });
   });
   const username = data?.username;
 

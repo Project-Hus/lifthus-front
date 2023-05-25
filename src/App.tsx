@@ -13,6 +13,8 @@ import Register from "./pages/register/Register";
 
 import authApi from "./api/authApi";
 import Pending from "./pages/pending/Pending";
+import userApi from "./api/userApi";
+import { GetUserInfoDto } from "./api/dtos/user.dto";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -27,11 +29,11 @@ const AppStyled = styled.div`
 const App = () => {
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== checking session to get signed or unsigned session ===== */
-  authApi.updateSession().then((res) => {
-    if (res.uid && res.username) {
-      setUserInfo({ uid: res.uid });
-      setUserInfo({ username: res.username });
-      console.log(res.uid, "signed in");
+  authApi.updateSession().then(async (res) => {
+    if (res.uid) {
+      const userInfo = await userApi.getUserInfo({ uid: res.uid });
+      setUserInfo(userInfo);
+      console.log(userInfo, "YOs");
     } else console.log("not signed in");
   });
 

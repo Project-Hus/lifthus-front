@@ -1,5 +1,5 @@
 export type GetUserInfoDto = {
-  id: number;
+  uid: number;
   registered: boolean;
   registered_at?: Date | null;
   username?: string;
@@ -12,4 +12,10 @@ export type GetUserInfoDto = {
   profile_image_url?: string;
   created_at: Date;
   updated_at: Date;
+};
+
+export type UpdateUserInfoDto = {
+  uid: number;
+  username?: string;
+  birthdate?: Date;
 };

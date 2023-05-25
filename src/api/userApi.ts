@@ -1,3 +1,5 @@
+import axios from "axios";
+import { LIFTHUS_AUTH_URL } from "../common/routes";
 import { GetUserInfoDto } from "./dtos/user.dto";
 import {
   SetUserInfoParams,
@@ -15,22 +17,30 @@ const userApi: UserApi = {
     return userTestApi.setUserinfo(user);
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
-    if (process.env.NODE_ENV === "development") {
-      return userTestApi.getUserInfo({ uid });
+    try {
+      if (process.env.NODE_ENV === "development") {
+        return await userTestApi.getUserInfo({ uid });
+      }
+      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
     }
-    return userTestApi.getUserInfo({ uid });
   },
-  getIdByName: async ({ username }: Username): Promise<Uid> => {
+  getUserInfoByUsername: async ({
+    username,
+  }: Username): Promise<GetUserInfoDto> => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.getIdByName({ username });
+      return userTestApi.getUserInfoByUsername({ username });
     }
-    return userTestApi.getIdByName({ username });
-  },
-  getNameById: async ({ uid }: Uid): Promise<Username> => {
-    if (process.env.NODE_ENV === "development") {
-      return userTestApi.getNameById({ uid });
-    }
-    return userTestApi.getNameById({ uid });
+    const res = await axios.get(
+      LIFTHUS_AUTH_URL + "/auth/username/" + username,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
   },
 };
 

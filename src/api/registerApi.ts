@@ -1,3 +1,6 @@
+import axios from "axios";
+import { LIFTHUS_AUTH_URL } from "../common/routes";
+import { GetUserInfoDto } from "./dtos/user.dto";
 import {
   RegisterApi,
   RegisterUsernameParams,
@@ -8,20 +11,35 @@ import { Uid, Username } from "./interfaces/userApi.interface";
 import registerTestApi from "./testApi/registerTestApi";
 
 const registerApi: RegisterApi = {
-  registerUsername: async ({
-    uid,
-    username,
-  }: RegisterUsernameParams): Promise<Username> => {
-    if (process.env.NODE_ENV == "development") {
-      return registerTestApi.registerUsername({ uid, username });
+  registerUsername: async (
+    regiName: RegisterUsernameParams
+  ): Promise<GetUserInfoDto> => {
+    try {
+      if (process.env.NODE_ENV == "development") {
+        return registerTestApi.registerUsername(regiName);
+      }
+      const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", regiName, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
     }
-    return registerTestApi.registerUsername({ uid, username });
   },
-  register: async (register_info: RegisterParams): Promise<Uid> => {
-    if (process.env.NODE_ENV == "development") {
-      return registerTestApi.register(register_info);
+  register: async (regiInfo: RegisterParams): Promise<RegisterParams> => {
+    try {
+      if (process.env.NODE_ENV == "development") {
+        return registerTestApi.register(regiInfo);
+      }
+      const res = await axios.post(LIFTHUS_AUTH_URL + "/auth/user", regiInfo, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
     }
-    return registerTestApi.register(register_info);
   },
 };
 

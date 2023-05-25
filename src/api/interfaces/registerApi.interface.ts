@@ -1,10 +1,11 @@
+import { GetUserInfoDto } from "../dtos/user.dto";
 import { Uid, Username } from "./userApi.interface";
 
 export interface RegisterApi {
   registerUsername: ({
     uid,
     username,
-  }: RegisterUsernameParams) => Promise<Username>;
+  }: RegisterUsernameParams) => Promise<GetUserInfoDto>;
   register: ({
     uid,
     trainingType,
@@ -13,7 +14,7 @@ export interface RegisterApi {
     squat,
     benchpress,
     deadlift,
-  }: RegisterParams) => Promise<Uid>;
+  }: RegisterParams) => Promise<RegisterParams>;
 }
 
 export type RegisterUsernameParams = {
