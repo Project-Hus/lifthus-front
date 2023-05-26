@@ -8,7 +8,6 @@ import {
   CreateCommentDto,
   CreateReplyDto,
 } from "../../../../api/dtos/comment.dto";
-import { type } from "os";
 
 interface CommentCreateProps {
   postId?: number;

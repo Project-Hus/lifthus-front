@@ -31,6 +31,7 @@ import { Username } from "../../../../api/interfaces/userApi.interface";
 import useUserStore from "../../../../store/user.zustand";
 import { commentFoldStandard } from "../../../../common/constraints";
 import { EditIcon } from "@chakra-ui/icons";
+import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
 
 interface CommentProps {
   comment: QueryCommentDto | QueryReplyDto;
@@ -47,9 +48,19 @@ const Comment = ({ comment }: CommentProps) => {
   const author = comment.author;
   const createdAt = comment.createdAt;
   const updatedAt = comment.updatedAt;
-  const [authorname, setAuthorname] = useState("loading...");
 
-  const { uid, username } = useUserStore();
+  const {
+    data,
+    isLoading: nameLoading,
+    isError,
+  } = useQuery<GetUserInfoDto>(["user", author], () => {
+    return userApi.getUserInfo({ uid: author });
+  });
+
+  const authorname = data?.username;
+  const profileImage = data?.profile_image_url;
+
+  const { uid } = useUserStore();
 
   //Call the CommentText
   const EditInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -192,11 +203,7 @@ const Comment = ({ comment }: CommentProps) => {
 
         {/* Comment_id {comment.comment_id} */}
         <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
-          <Avatar
-            size="sm"
-            name={authorname}
-            src={USER_PROFILE_IMAGE_ROUTE + authorname + ".jpeg"}
-          />
+          <Avatar size="sm" name={authorname} src={profileImage} />
           <Text as="b" fontSize="sm" color="white">
             {authorname}
           </Text>
@@ -306,7 +313,7 @@ const Comment = ({ comment }: CommentProps) => {
         <Box {...disclosureProps}>
           <Card>
             {"postId" in comment && (
-              <CommentCreate postId={comment.postId} onClose={onClose} />
+              <CommentCreate parentId={comment.id} onClose={onClose} />
             )}
             {"parentId" in comment && (
               <CommentCreate parentId={comment.parentId} onClose={onClose} />

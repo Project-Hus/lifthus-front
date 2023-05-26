@@ -35,6 +35,7 @@ const commentTestApi: CommentApi = {
     return res.data;
   },
   createReply: async (reply: CreateReplyDto): Promise<QueryReplyDto> => {
+    console.log(reply);
     const lst = localStorage.getItem("lifthus_st");
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, reply, {
       withCredentials: true,
