@@ -15,7 +15,8 @@ export const LIFTHUS_AUTH_URL =
 
 export const LIFTHUS_API_URL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:9091"
+    ? //? "http://localhost:9091"
+      "https://api.lifthus.com"
     : "https://api.lifthus.com";
 
 export const HUS_AUTH_URL =
@@ -26,7 +27,8 @@ export const HUS_AUTH_URL =
 
 export const HUS_API_URL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:9090"
+    ? //? "http://localhost:9090"
+      "https://api.cloudhus.com"
     : "https://api.cloudhus.com";
 
 /* API ENDPOINTS */
