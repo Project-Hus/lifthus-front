@@ -18,49 +18,31 @@ import { SigningState } from "../mocks/state.mcok";
 
 import statusInfo from "../interfaces/statusInfo.json";
 import Sign from "../../pages/sign/Sign";
+import axios from "axios";
+import { LIFTHUS_API_URL } from "../../common/routes";
 
 const commentTestApi: CommentApi = {
   createComment: async (
     comment: CreateCommentDto
   ): Promise<QueryCommentDto> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (SigningState.uid !== comment.author)
-          return Promise.reject(statusInfo.fail.Unauthorized);
-        const newComment: QueryCommentDto = {
-          id: commentState.nextCid,
-          postId: comment.postId,
-          author: SigningState.uid,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          content: comment.content,
-          likenum: 0,
-          mentions: [],
-        };
-        commentList.push(newComment);
-        commentState.nextCid += 1;
-      }, 500);
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, comment, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
     });
+    return res.data;
   },
   createReply: async (reply: CreateReplyDto): Promise<QueryReplyDto> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (SigningState.uid !== reply.author)
-          return Promise.reject(statusInfo.fail.Unauthorized);
-        const newReply: QueryReplyDto = {
-          id: commentState.nextCid,
-          parentId: reply.parentId,
-          author: SigningState.uid,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          content: reply.content,
-          likenum: 0,
-          mentions: [],
-        };
-        replyList.push(newReply);
-        commentState.nextCid += 1;
-      }, 500);
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, reply, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
     });
+    return res.data;
   },
   updateComment: async (
     comment: UpdateCommentDto

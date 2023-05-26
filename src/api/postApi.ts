@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LIFTHUS_API_URL } from "../common/routes";
 import { CreatePostDto, QueryPostDto, UpdatePostDto } from "./dtos/post.dto";
 import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 import postTestApi from "./testApi/postTestApi";
@@ -12,7 +13,7 @@ const postApi: PostApi = {
       return postTestApi.getUserPosts({ uid, skip });
     }
     const res = await axios.get(
-      `https://api.lifthus.com/post/query/post/${uid}/${skip}`,
+      LIFTHUS_API_URL + `/post/query/post/${uid}/${skip}`,
       {
         withCredentials: true,
       }
