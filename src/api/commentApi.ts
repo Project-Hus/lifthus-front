@@ -44,13 +44,19 @@ const commentApi: CommentApi = {
     if (process.env.NODE_ENV === "development") {
       return commentTestApi.updateComment(comment);
     }
-    return commentTestApi.updateComment(comment);
+    const res = await axios.put(LIFTHUS_API_URL + `/post/comment`, comment, {
+      withCredentials: true,
+    });
+    return res.data;
   },
   deleteComment: async (cid: number): Promise<DeleteCommentResponse> => {
     if (process.env.NODE_ENV === "development") {
       return commentTestApi.deleteComment(cid);
     }
-    return commentTestApi.deleteComment(cid);
+    const res = await axios.delete(LIFTHUS_API_URL + `/post/comment/${cid}`, {
+      withCredentials: true,
+    });
+    return res.data;
   },
 };
 export default commentApi;

@@ -1,17 +1,5 @@
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import {
-  Avatar,
-  Box,
-  Card,
-  IconButton,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Textarea,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Avatar, Box, Card, Textarea, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -21,16 +9,13 @@ import { useEffect, useRef, useState } from "react";
 import ReplyList from "./replyList";
 import userApi from "../../../../api/userApi";
 import CommentCreate from "./commentCreate";
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import {
   QueryCommentDto,
   QueryReplyDto,
   UpdateCommentDto,
 } from "../../../../api/dtos/comment.dto";
-import { Username } from "../../../../api/interfaces/userApi.interface";
 import useUserStore from "../../../../store/user.zustand";
 import { commentFoldStandard } from "../../../../common/constraints";
-import { EditIcon } from "@chakra-ui/icons";
 import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
 
 interface CommentProps {
