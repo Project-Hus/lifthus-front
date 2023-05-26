@@ -58,6 +58,7 @@ const Post = ({ post }: PostProp) => {
     return userApi.getUserInfo({ uid: post.author });
   });
   const username = data?.username;
+  const profileImage = data?.profile_image_url;
 
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();
@@ -191,10 +192,7 @@ const Post = ({ post }: PostProp) => {
         <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar
-                name={username}
-                src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}
-              />
+              <Avatar name={username} src={profileImage} />
               <Box>
                 <Heading fontSize="1.1em">{username}</Heading>
                 <Text fontSize={"0.9em"} color="gray.400">

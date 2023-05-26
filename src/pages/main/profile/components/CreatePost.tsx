@@ -36,7 +36,7 @@ import { CreatePostDto } from "../../../../api/dtos/post.dto";
 let counter = 100;
 const CreatePost = () => {
   //call user_id from zustand
-  const { uid, username } = useUserStore();
+  const { uid, username, profile_image_url } = useUserStore();
   // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset, watch } = useForm<FormData>();
@@ -123,10 +123,7 @@ const CreatePost = () => {
         <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar
-                name={username}
-                src={USER_PROFILE_IMAGE_ROUTE + username + ".jpeg"}
-              />
+              <Avatar name={username} src={profile_image_url} />
               <Box>
                 <Heading fontSize="1.1em">{username}</Heading>
                 <Text fontSize={"0.9em"} color="gray.400"></Text>
