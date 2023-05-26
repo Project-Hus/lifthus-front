@@ -22,7 +22,7 @@ const BottomNav = ({ username }: { username: string }) => {
             <Users />
           </NavItem>
         </NavLink>
-        <NavLink to="/training" onClick={() => setActiveNav(1)}>
+        <NavLink to="/routine" onClick={() => setActiveNav(1)}>
           <NavItem active={true ? activeNav == 1 : false}>
             <Dumbbell />
           </NavItem>

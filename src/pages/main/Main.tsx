@@ -5,6 +5,7 @@ import ErrorPage from "../../common/components/ErrorPage";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
 import useUserStore from "../../store/user.zustand";
+import Routine from "../routine/Routine";
 import BottomNav from "./BottomNav";
 import Profile from "./profile/Profile";
 
@@ -18,7 +19,7 @@ const Main = () => {
       <Routes>
         <Route index element={<div>Home</div>} />
         <Route path="group" element={<div>group</div>} />
-        <Route path="training" element={<div>training</div>} />
+        <Route path="routine" element={<Routine />} />
         <Route path="statistics" element={<div>statistics</div>} />
         <Route path="profile/:username" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
