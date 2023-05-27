@@ -17,16 +17,13 @@ const userApi: UserApi = {
     return userTestApi.setUserinfo(user);
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
-    try {
-      if (process.env.NODE_ENV === "development") {
-        return await userTestApi.getUserInfo({ uid });
-      }
-      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      return Promise.reject(err);
+    if (process.env.NODE_ENV === "development") {
+      return await userTestApi.getUserInfo({ uid });
     }
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
+      withCredentials: true,
+    });
+    return res.data;
   },
   getUserInfoByUsername: async ({
     username,

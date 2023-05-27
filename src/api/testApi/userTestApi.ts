@@ -21,18 +21,14 @@ const userTestApi: UserApi = {
     return { uid };
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
-    try {
-      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
-        withCredentials: true,
-        headers: {
-          Authorization: localStorage.getItem("lifthus_st"),
-        },
-      });
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      return Promise.reject(err);
-    }
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
   },
   getUserInfoByUsername: async ({
     username,
