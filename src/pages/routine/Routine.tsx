@@ -17,28 +17,34 @@ import { Text } from '@chakra-ui/react'
 const backbuttonstyle = css`
   background-color: ${ThemeColor.backgroundColor};
   float: right;
-  font-size : 7vw;
+  font-size : 4vw;
   :hover {
     background-color: ${ThemeColor.backgroundColor};
-    filter: brightness(0.8);
   }
 
 `
 const titlestyle = css`
   flex-grow: 1;
-  font-size : 7vw
+  font-size : 6vw
 `
 
+const buttonstyle = css`
+
+  svg { display : none; }
+
+  & :hover { background-color: ${ThemeColor.backgroundColorDarker} };
+
+`
 
 const Routine = () => {
   return (
     <div style={{ margin: "5em" }}>
       <TodaysRoutine />
-      <Accordion allowMultiple={true}>
+      <Accordion allowMultiple={true} >
 
-        <AccordionItem>
+        <AccordionItem border="none">
           <h2 >
-            <AccordionButton width="80vw" alignItems="center">
+            <AccordionButton width="80vw" alignItems="center" css={buttonstyle}>
 
               <Box as="span" css={titlestyle} >
                 프로그램 선택
@@ -52,9 +58,9 @@ const Routine = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem>
+        <AccordionItem border="none" >
           <h2>
-            <AccordionButton>
+            <AccordionButton css={buttonstyle}>
               <Box as="span" css={titlestyle}>
                 임시루틴
               </Box>
@@ -68,14 +74,14 @@ const Routine = () => {
             commodo consequat.
           </AccordionPanel>
         </AccordionItem>
-        <AccordionItem>
+        <AccordionItem border="none">
           <h2>
-            <AccordionButton>
+            <AccordionButton css={buttonstyle}>
               <Box as="span" css={titlestyle}>
                 기록하기
               </Box>
               <AccordionIcon />
-            </AccordionButton>
+            </AccordionButton >
           </h2>
           <AccordionPanel pb={4}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -84,9 +90,9 @@ const Routine = () => {
             commodo consequat.
           </AccordionPanel>
         </AccordionItem>
-        <AccordionItem>
+        <AccordionItem border="none">
           <h2>
-            <AccordionButton>
+            <AccordionButton css={buttonstyle}>
               <Box as="span" css={titlestyle}>
                 프로그램 생성
               </Box>
@@ -102,7 +108,7 @@ const Routine = () => {
         </AccordionItem>
       </Accordion>
       <br></br>
-      <Button fontSize="1.5em " css={backbuttonstyle} >뒤로 가기</Button>
+      <Button css={backbuttonstyle} >뒤로 가기</Button>
     </div >
 
 
