@@ -256,20 +256,22 @@ const Comment = ({ comment }: CommentProps) => {
                 color="white"
                 onClick={editComment}
                 isLoading={EditIsLoading}
-                leftIcon={<CheckIcon />}
                 _hover={{ bg: ThemeColor.backgroundColorDarker }}
                 variant="ghost"
-              />
+              >
+                <CheckIcon />
+              </Button>
               <Button
                 type="submit"
                 {...EditbuttonProps}
                 color="white"
                 onClick={() => setCommentEdit(false)}
                 isLoading={EditIsLoading}
-                leftIcon={<CloseIcon />}
                 _hover={{ bg: ThemeColor.backgroundColorDarker }}
                 variant="ghost"
-              />
+              >
+                <CloseIcon />
+              </Button>
             </Flex>
           </>
         )}
@@ -281,8 +283,9 @@ const Comment = ({ comment }: CommentProps) => {
               color="white"
               _hover={{ bg: ThemeColor.backgroundColorDarker }}
               {...buttonProps}
-              leftIcon={<>💬</>}
-            ></Button>
+            >
+              💬
+            </Button>
           )}
           {uid == author && IsCommentEdit == false && (
             <>
@@ -290,21 +293,23 @@ const Comment = ({ comment }: CommentProps) => {
                 variant="ghost"
                 color="white"
                 isLoading={deleteIsLoading}
-                leftIcon={<EditIcon />}
                 _hover={{ bg: ThemeColor.backgroundColorDarker }}
                 onClick={() => {
                   setCommentEdit(true);
                   onClose();
                 }}
-              />
+              >
+                <EditIcon />
+              </Button>
               <Button
                 variant="ghost"
                 color="white"
                 isLoading={deleteIsLoading}
-                leftIcon={<DeleteIcon />}
                 _hover={{ bg: ThemeColor.backgroundColorDarker }}
                 onClick={deleteComment}
-              />
+              >
+                <DeleteIcon />
+              </Button>
             </>
           )}
         </Flex>

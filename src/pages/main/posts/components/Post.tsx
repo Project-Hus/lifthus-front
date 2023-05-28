@@ -319,10 +319,11 @@ const Post = ({ post }: PostProp) => {
                     <Button
                       type="submit"
                       color="white"
-                      leftIcon={<CheckIcon />}
-                      _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                      _hover={{ bg: ThemeColor.backgroundColor }}
                       variant="ghost"
-                    />
+                    >
+                      <CheckIcon />
+                    </Button>
                     <Button
                       type="submit"
                       color="white"
@@ -330,10 +331,11 @@ const Post = ({ post }: PostProp) => {
                         setEdited(false);
                         setImagePreview(post.images ? post.images : []);
                       }}
-                      leftIcon={<CloseIcon />}
-                      _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                      _hover={{ bg: ThemeColor.backgroundColor }}
                       variant="ghost"
-                    />
+                    >
+                      <CloseIcon />
+                    </Button>
                   </div>
                 </Flex>
               </form>
