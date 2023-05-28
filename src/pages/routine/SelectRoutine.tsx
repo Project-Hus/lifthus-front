@@ -1,10 +1,42 @@
 //create routine page tap
 
-import { SearchIcon } from "@chakra-ui/icons";
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Input, Flex, Card } from "@chakra-ui/react";
-
-
+import { BellIcon, SearchIcon, StarIcon } from "@chakra-ui/icons";
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Input, Flex, Card, Img, Text, Box, Th, Button, textDecoration } from "@chakra-ui/react";
+import { routineDB, routineList } from "../../api/mocks/routineApi.mock";
+import { css } from "@emotion/react";
+import { ThemeColor } from "../../common/styles/theme.style";
+import { useState } from "react";
+import { routineFoldStandard } from "../../common/constraints";
 const SelectRoutine = () => {
+    const searchResult: routineDB[] = routineList
+    const CardStyle = css`
+    color: white;
+    border-radius : 5% 5% 0px 0px;
+    box-shadow  : 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};}};
+    `
+    //make state for selected result
+    const [selectedResult, setSelectedResult] = useState<number>(-1);
+    const handleResultClick = (resultId: number) => {
+        if (selectedResult === resultId) {
+            setSelectedResult(-1); // 같은 버튼을 클릭하면 선택 해제
+        } else {
+            setSelectedResult(resultId); // 다른 버튼을 클릭하면 선택
+        }
+    };
+    const changeResultColor = (resultId: number) => {
+        // 선택한 버튼에 따라 색상 스키마 지정
+        if (selectedResult === resultId) {
+            return ThemeColor.basicColor; // 선택된 버튼의 글자 색상을 파란색으로 지정
+        }
+        else {
+            return ThemeColor.backgroundColor; // 선택되지 않은 버튼의 글자 색상을 회색으로 지정
+        }
+    }
+    //설명 접기 기능을 위한 state
+    const [IsFold, setFold] = useState(true);
+
+
+
     return (
         <div >
             <Tabs isFitted variant='unstyled' >
@@ -24,13 +56,140 @@ const SelectRoutine = () => {
                                 <Input type="text" placeholder="프로그램 검색" />
                             </Flex>
                         </form>
-                        <Card marginTop="0.5em">
-                            Search 결과 출력
-                        </Card>
+                        <Box>
+
+                            {searchResult.length > 0 && searchResult.map((result, idx) => {
+                                return (
+                                    <Card bg={changeResultColor(idx)} onClick={() => handleResultClick(idx)} marginY="0.5em" css={CardStyle} key={idx}>
+                                        <div>
+
+
+                                            <Flex direction={"row"} margin="0.3em" >
+
+                                                {result.images && result.images?.map((srcs) => {
+                                                    return (<Img width="20%" height="20%" src={srcs}></Img>)
+                                                }
+                                                )
+
+                                                }
+
+
+
+                                                <div>
+                                                    <Flex >
+                                                        <Text fontSize="ms" paddingLeft="0.5em" fontWeight={"bold"}>{result.routineName}</Text>
+                                                        <Text fontSize="ms" paddingLeft="0.5em">{"by" + result.author}</Text>
+                                                    </Flex>
+                                                    <Text
+                                                        style={{ whiteSpace: "pre-wrap" }}
+                                                        size="sm"
+                                                        fontSize="sm"
+                                                        color="white"
+                                                    >
+                                                        {result.description.length > routineFoldStandard.Length
+                                                            ? result.description.slice(0, routineFoldStandard.Length) + "..."
+                                                            : result.description}
+                                                    </Text>
+                                                </div>
+
+                                            </Flex>
+
+                                            <Box float="right">
+                                                <StarIcon />{result.starednum}
+                                                <BellIcon />{result.likenum}
+                                            </Box >
+                                        </div>
+                                    </Card>
+                                )
+                            }
+                            )
+                            }
+                        </Box>
+                        <Box height="10%"></Box>
+                        {selectedResult !== -1 &&
+                            <>
+                                < Card bg={changeResultColor(selectedResult)} onClick={() => handleResultClick(selectedResult)} marginY="0.5em" css={CardStyle} >
+                                    <div>
+                                        <Flex direction={"row"} margin="0.3em" >
+                                            <div>
+                                                <Flex>
+                                                    <Text fontSize="ms" fontWeight={"bold"}>{searchResult[selectedResult].routineName}</Text>
+                                                    <Text fontSize="ms" paddingLeft="0.5em">{"by" + searchResult[selectedResult].author}</Text>
+                                                </Flex>
+                                            </div>
+
+                                        </Flex>
+                                        <Box float="right">
+                                            <StarIcon />{searchResult[selectedResult].starednum}
+                                            <BellIcon />{searchResult[selectedResult].likenum}
+                                        </Box >
+                                    </div>
+                                </Card>
+                                {/* 세부사항 요약창 작성 */}
+                                <Card bg={ThemeColor.backgroundColor} color="white">
+                                    <Flex>
+                                        {searchResult[selectedResult].images && searchResult[selectedResult].images?.map((srcs) => {
+                                            return (<Img float="left" width="20%" height="20%" src={srcs}></Img>)
+                                        }
+                                        )
+                                        }
+                                        {searchResult[selectedResult].description.length > routineFoldStandard.Length && (
+                                            <>
+                                                <Text
+                                                    style={{ whiteSpace: "pre-wrap" }}
+                                                    size="sm"
+                                                    fontSize="sm"
+                                                    color="white"
+                                                >
+                                                    {IsFold && searchResult[selectedResult].description.length > routineFoldStandard.Length
+                                                        ? searchResult[selectedResult].description.slice(0, routineFoldStandard.Length) + "..."
+                                                        : searchResult[selectedResult].description}
+                                                </Text>
+
+                                                {IsFold ? (
+                                                    <Button bg={ThemeColor.backgroundColor}
+                                                        _hover={{
+                                                            backgroundColor: ThemeColor.backgroundColor,
+                                                            textDecoration: "underline",
+                                                        }}
+
+                                                        alignSelf="flex-start"
+                                                        onClick={() => setFold(false)}
+                                                        size="sm"
+                                                    >
+                                                        more...
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        _hover={{
+                                                            backgroundColor: ThemeColor.backgroundColor,
+                                                            textDecoration: "underline",
+                                                        }}
+
+                                                        bg={ThemeColor.backgroundColor}
+                                                        alignSelf="flex-start"
+                                                        onClick={() => setFold(true)}
+                                                        size="sm"
+                                                    >
+                                                        {" "}
+                                                        shortly...
+                                                    </Button>
+                                                )}
+
+                                            </>
+                                        )}
+                                    </Flex>
+                                    <Flex alignSelf="center">
+                                        <Button>프로그램 시작</Button>
+                                        <Button>자세히 보기</Button>
+                                    </Flex>
+                                </Card>
+                            </>
+                        }
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-        </div>
+        </div >
     );
 
 }
