@@ -13,7 +13,7 @@ const postApi: PostApi = {
       return postTestApi.getUserPosts({ uid, skip });
     }
     const res = await axios.get(
-      LIFTHUS_API_URL + `/post/query/post/${uid}/${skip}`,
+      LIFTHUS_API_URL + `/post/query/post/user/${uid}/${skip}`,
       {
         withCredentials: true,
       }
