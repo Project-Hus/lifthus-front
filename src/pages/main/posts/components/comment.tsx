@@ -186,7 +186,6 @@ const Comment = ({ comment }: CommentProps) => {
     <>
       <CommentBoard>
         {/* the main comment */}
-
         {/* Comment_id {comment.comment_id} */}
         <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
           <Avatar size="sm" name={authorname} src={profileImage} />
@@ -275,8 +274,15 @@ const Comment = ({ comment }: CommentProps) => {
             </Flex>
           </>
         )}
-
         <Flex justifyContent={"flex-end"}>
+          <Button
+            variant="ghost"
+            color="white"
+            _hover={{ bg: ThemeColor.backgroundColorDarker }}
+            {...buttonProps}
+          >
+            🤍 {comment.likenum}
+          </Button>
           {IsCommentEdit == false && (
             <Button
               variant="ghost"

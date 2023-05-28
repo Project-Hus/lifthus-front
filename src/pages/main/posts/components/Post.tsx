@@ -378,7 +378,7 @@ const Post = ({ post }: PostProp) => {
             <Button
               flex="1"
               variant="ghost"
-              leftIcon={<>👍</>}
+              leftIcon={<>🤍</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
             >
               {post.likenum} Likes
