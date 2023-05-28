@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Text,
   Avatar,
@@ -12,28 +8,22 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Flex,
   Heading,
   Input,
-  Menu,
-  MenuButton,
   useDisclosure,
-  MenuList,
-  MenuItem,
   Textarea,
 } from "@chakra-ui/react";
 
 import useUserStore from "../../../../store/user.zustand";
 import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Image } from "@chakra-ui/image";
 import styled from "@emotion/styled";
 import postApi from "../../../../api/postApi";
 import { CreatePostDto } from "../../../../api/dtos/post.dto";
-let counter = 100;
+
 const CreatePost = () => {
   //call user_id from zustand
   const { uid, username, profile_image_url } = useUserStore();
@@ -179,8 +169,13 @@ const CreatePost = () => {
                 </Button>
                 <Button>share routine</Button>
               </IconbuttonStyle>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "posting..." : "post"}
+              <Button
+                variant="ghost"
+                color={"white"}
+                type="submit"
+                _hover={{ bg: ThemeColor.backgroundColor }}
+              >
+                {isLoading ? "..." : "Post"}
               </Button>
             </Flex>
           </form>
