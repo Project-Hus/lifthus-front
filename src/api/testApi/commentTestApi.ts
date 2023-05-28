@@ -9,15 +9,6 @@ import {
   UpdateCommentResponse,
 } from "../dtos/comment.dto";
 import { CommentApi } from "../interfaces/commentApi.interface";
-import comment_list, {
-  commentList,
-  commentState,
-  replyList,
-} from "../mocks/commentApi.mock";
-import { SigningState } from "../mocks/state.mcok";
-
-import statusInfo from "../interfaces/statusInfo.json";
-import Sign from "../../pages/sign/Sign";
 import axios from "axios";
 import { LIFTHUS_API_URL } from "../../common/routes";
 

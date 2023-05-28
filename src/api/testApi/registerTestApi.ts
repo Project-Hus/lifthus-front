@@ -7,11 +7,6 @@ import {
   RegisterParams,
 } from "../interfaces/registerApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
-import { Uid, Username } from "../interfaces/userApi.interface";
-import { RecDB, recList, recState } from "../mocks/recApi.mock";
-import { SigningState } from "../mocks/state.mcok";
-import userList from "../mocks/userTestApi.mock";
-import userTestApi from "./userTestApi";
 
 const registerTestApi: RegisterApi = {
   registerUsername: async (

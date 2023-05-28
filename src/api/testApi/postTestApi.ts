@@ -6,11 +6,6 @@ import {
   UpdatePostResponse,
 } from "../dtos/post.dto";
 import { GetUserPostsParams, PostApi } from "../interfaces/postApi.interface";
-import postList, { postState } from "../mocks/postApi.mock";
-import userTestApi from "./userTestApi";
-import statusInfo from "../interfaces/statusInfo.json";
-import { SigningState } from "../mocks/state.mcok";
-import commentList, { replyList } from "../mocks/commentApi.mock";
 import axios from "axios";
 import { LIFTHUS_API_URL } from "../../common/routes";
 

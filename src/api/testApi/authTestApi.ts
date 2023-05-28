@@ -7,7 +7,7 @@ import {
   SignResponse,
 } from "../interfaces/authApi.interface";
 import statusInfo from "../interfaces/statusInfo.json";
-import { Uid, UserMutationParams } from "../interfaces/userApi.interface";
+import { Uid } from "../interfaces/userApi.interface";
 import { SigningState } from "../mocks/state.mcok";
 import userList, { userState } from "../mocks/userTestApi.mock";
 
