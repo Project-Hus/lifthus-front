@@ -59,6 +59,16 @@ const postTestApi: PostApi = {
     });
     return res.data;
   },
+  likePost: async (pid: number) => {
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.post(LIFTHUS_API_URL + `/post/post/like/${pid}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
+  },
 };
 
 export default postTestApi;

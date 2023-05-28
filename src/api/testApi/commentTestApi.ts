@@ -66,5 +66,18 @@ const commentTestApi: CommentApi = {
     });
     return res.data;
   },
+  likeComment: async (cid: number): Promise<number> => {
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.post(
+      LIFTHUS_API_URL + `/post/comment/like/${cid}`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: lst,
+        },
+      }
+    );
+    return res.data;
+  },
 };
 export default commentTestApi;
