@@ -64,6 +64,7 @@ const commentApi: CommentApi = {
     }
     const res = await axios.post(
       LIFTHUS_API_URL + `/post/comment/like/${cid}`,
+      {},
       {
         withCredentials: true,
       }

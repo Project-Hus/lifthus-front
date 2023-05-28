@@ -70,6 +70,7 @@ const commentTestApi: CommentApi = {
     const lst = localStorage.getItem("lifthus_st");
     const res = await axios.post(
       LIFTHUS_API_URL + `/post/comment/like/${cid}`,
+      {},
       {
         withCredentials: true,
         headers: {

@@ -52,9 +52,13 @@ const postApi: PostApi = {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.likePost(pid);
     }
-    const res = await axios.post(LIFTHUS_API_URL + `/post/post/like/${pid}`, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      LIFTHUS_API_URL + `/post/post/like/${pid}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   },
 };

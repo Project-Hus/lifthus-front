@@ -380,7 +380,9 @@ const Post = ({ post }: PostProp) => {
               variant="ghost"
               leftIcon={<>🤍</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
-              onClick={() => {}}
+              onClick={() => {
+                postApi.likePost(post.id);
+              }}
             >
               {post.likenum} Likes
             </Button>

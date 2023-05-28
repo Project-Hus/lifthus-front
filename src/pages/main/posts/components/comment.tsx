@@ -279,7 +279,9 @@ const Comment = ({ comment }: CommentProps) => {
             variant="ghost"
             color="white"
             _hover={{ bg: ThemeColor.backgroundColorDarker }}
-            {...buttonProps}
+            onClick={() => {
+              commentApi.likeComment(comment.id);
+            }}
           >
             🤍 {comment.likenum}
           </Button>
