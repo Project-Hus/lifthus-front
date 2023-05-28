@@ -190,7 +190,7 @@ const Post = ({ post }: PostProp) => {
 
   // like post mutation
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation(
-    async () => postApi.likePost(post.id),
+    () => postApi.likePost(post.id),
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });

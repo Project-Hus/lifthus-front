@@ -1,5 +1,12 @@
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import { Avatar, Box, Card, Textarea, useDisclosure } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Card,
+  Spinner,
+  Textarea,
+  useDisclosure,
+} from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -182,6 +189,14 @@ const Comment = ({ comment }: CommentProps) => {
     }
   });
 
+  // like comment mutation
+  const { mutate: likeMutate, isLoading: likeLoading } = useMutation({
+    mutationFn: () => commentApi.likeComment(comment.id),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   return (
     <>
       <CommentBoard>
@@ -279,11 +294,10 @@ const Comment = ({ comment }: CommentProps) => {
             variant="ghost"
             color="white"
             _hover={{ bg: ThemeColor.backgroundColorDarker }}
-            onClick={() => {
-              commentApi.likeComment(comment.id);
-            }}
+            onClick={() => likeMutate()}
+            leftIcon={likeLoading ? <Spinner /> : <>🤍</>}
           >
-            🤍 {comment.likenum}
+            {comment.likenum}
           </Button>
           {IsCommentEdit == false && (
             <Button
