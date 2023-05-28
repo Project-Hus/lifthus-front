@@ -2,7 +2,7 @@ import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
-import { Textarea } from "@chakra-ui/react";
+import { Spinner, Textarea } from "@chakra-ui/react";
 
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React, { useEffect, useRef } from "react";
@@ -79,10 +79,11 @@ const Post = ({ post }: PostProp) => {
 
   // post의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
-  const { mutate: deleteMutate, isLoading: isDeleteLoading } = useMutation(
+
+  const { mutate: deleteMutate } = useMutation(
     async () => postApi.deletePost(post.id),
     {
-      onSuccess(data, variables, context) {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
       },
     }
@@ -141,7 +142,6 @@ const Post = ({ post }: PostProp) => {
   const editRep = async (data: FormData) => {
     if (data.content.length == 0) return alert("내용을 입력해주세요");
     // 기존 이미지에서 변경되지 않은 경우
-
     try {
       const editedPost: UpdatePostDto = {
         id: post.id,
@@ -188,6 +188,16 @@ const Post = ({ post }: PostProp) => {
     }
   }
 
+  // like post mutation
+  const { mutate: likeMutate, isLoading: likeLoading } = useMutation(
+    () => postApi.likePost(post.id),
+    {
+      onSuccess(data, variables, context) {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+      },
+    }
+  );
+
   return (
     <>
       <Card
@@ -204,7 +214,7 @@ const Post = ({ post }: PostProp) => {
               <Box>
                 <Heading fontSize="1.1em">{username}</Heading>
                 <Text fontSize={"0.9em"} color="gray.400">
-                  {`${post.updatedAt}`.slice(0, 21)}
+                  {`${post.createdAt}`.slice(0, 21)}
                 </Text>
               </Box>
             </Flex>
@@ -378,11 +388,9 @@ const Post = ({ post }: PostProp) => {
             <Button
               flex="1"
               variant="ghost"
-              leftIcon={<>🤍</>}
+              leftIcon={<>{likeLoading ? <Spinner /> : "🤍"}</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
-              onClick={() => {
-                postApi.likePost(post.id);
-              }}
+              onClick={() => likeMutate()}
             >
               {post.likenum} Likes
             </Button>
