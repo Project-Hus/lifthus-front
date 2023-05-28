@@ -58,5 +58,18 @@ const commentApi: CommentApi = {
     });
     return res.data;
   },
+  likeComment: async (cid: number): Promise<number> => {
+    if (process.env.NODE_ENV === "development") {
+      return commentTestApi.likeComment(cid);
+    }
+    const res = await axios.post(
+      LIFTHUS_API_URL + `/post/comment/like/${cid}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  },
 };
 export default commentApi;

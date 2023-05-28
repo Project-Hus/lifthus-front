@@ -8,16 +8,15 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React, { useEffect, useRef } from "react";
 import {
   ChatIcon,
+  CheckIcon,
   ChevronDownIcon,
   CloseIcon,
   CopyIcon,
   DeleteIcon,
   EditIcon,
   PlusSquareIcon,
-  StarIcon,
 } from "@chakra-ui/icons";
 
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
@@ -28,18 +27,26 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
 import { postFoldStandard } from "../../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
-import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
 import userApi from "../../../../api/userApi";
-import { Username } from "../../../../api/interfaces/userApi.interface";
 
-import { on } from "events";
 import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
+
+//resizing textarea
+function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  let textarea = e.target;
+
+  textarea!.style.height = "0px";
+
+  let scrollHeight = textarea.scrollHeight;
+
+  textarea.style.height = scrollHeight + "px";
+}
 
 interface PostProp {
   post: QueryPostDto;
@@ -48,6 +55,8 @@ type FormData = {
   content: string;
   images: FileList;
 };
+
+// Post component
 const Post = ({ post }: PostProp) => {
   // get username
   const {
@@ -162,16 +171,6 @@ const Post = ({ post }: PostProp) => {
     }
   `;
 
-  //resizing textarea
-  function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    let textarea = e.target;
-
-    textarea!.style.height = "0px";
-
-    let scrollHeight = textarea.scrollHeight;
-
-    textarea.style.height = scrollHeight + "px";
-  }
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   useEffect(() => {
     if (textareaRef.current) {
@@ -180,6 +179,15 @@ const Post = ({ post }: PostProp) => {
         textareaRef.current.scrollHeight + "px";
     }
   });
+
+  // get the number of comments
+  let numComments = post.comments ? post.comments.length : 0;
+  if (post.comments) {
+    for (const c of post.comments) {
+      numComments += c.replies ? c.replies.length : 0;
+    }
+  }
+
   return (
     <>
       <Card
@@ -308,14 +316,25 @@ const Post = ({ post }: PostProp) => {
                     <Button>share routine</Button>
                   </IconbuttonStyle>
                   <div>
-                    <Button type="submit">edit</Button>
                     <Button
+                      type="submit"
+                      color="white"
+                      _hover={{ bg: ThemeColor.backgroundColor }}
+                      variant="ghost"
+                    >
+                      <CheckIcon />
+                    </Button>
+                    <Button
+                      type="submit"
+                      color="white"
                       onClick={() => {
                         setEdited(false);
                         setImagePreview(post.images ? post.images : []);
                       }}
+                      _hover={{ bg: ThemeColor.backgroundColor }}
+                      variant="ghost"
                     >
-                      cancel
+                      <CloseIcon />
                     </Button>
                   </div>
                 </Flex>
@@ -359,19 +378,22 @@ const Post = ({ post }: PostProp) => {
             <Button
               flex="1"
               variant="ghost"
-              leftIcon={<StarIcon />}
+              leftIcon={<>🤍</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
+              onClick={() => {
+                postApi.likePost(post.id);
+              }}
             >
-              Like
+              {post.likenum} Likes
             </Button>
             <Button
               {...buttonProps}
               flex="1"
               variant="ghost"
-              leftIcon={<ChatIcon />}
+              leftIcon={<>💬</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
             >
-              Comment
+              {numComments} Comments
             </Button>
           </CardFooter>
         )}

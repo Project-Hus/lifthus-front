@@ -19,6 +19,7 @@ export interface PostApi {
     content,
   }: UpdatePostDto) => Promise<UpdatePostResponse>;
   deletePost: (pid: number) => Promise<DeletePostResponse>;
+  likePost: (pid: number) => Promise<number>;
 }
 
 export type GetUserPostsParams = {

@@ -27,4 +27,5 @@ export interface CommentApi {
     content,
   }: UpdateCommentDto) => Promise<UpdateCommentResponse>;
   deleteComment: (cid: number) => Promise<DeleteCommentResponse>;
+  likeComment: (cid: number) => Promise<number>;
 }

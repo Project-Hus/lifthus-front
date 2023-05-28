@@ -17,6 +17,7 @@ import {
 import useUserStore from "../../../../store/user.zustand";
 import { commentFoldStandard } from "../../../../common/constraints";
 import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
+import { CheckIcon, CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 interface CommentProps {
   comment: QueryCommentDto | QueryReplyDto;
@@ -185,7 +186,6 @@ const Comment = ({ comment }: CommentProps) => {
     <>
       <CommentBoard>
         {/* the main comment */}
-
         {/* Comment_id {comment.comment_id} */}
         <Flex flex="1" gap="2" alignItems="center" flexWrap="wrap">
           <Avatar size="sm" name={authorname} src={profileImage} />
@@ -250,46 +250,73 @@ const Comment = ({ comment }: CommentProps) => {
             </TextareaStyle>
             <Flex direction={"row"} alignSelf="self-end">
               <Button
-                size="sm"
                 type="submit"
                 {...EditbuttonProps}
+                color="white"
                 onClick={editComment}
                 isLoading={EditIsLoading}
-                variant="solid"
-                display="inline-block"
+                _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                variant="ghost"
               >
-                Save
+                <CheckIcon />
               </Button>
-              <Button size="sm" onClick={() => setCommentEdit(false)}>
-                Cancel
+              <Button
+                type="submit"
+                {...EditbuttonProps}
+                color="white"
+                onClick={() => setCommentEdit(false)}
+                isLoading={EditIsLoading}
+                _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                variant="ghost"
+              >
+                <CloseIcon />
               </Button>
             </Flex>
           </>
         )}
-
         <Flex justifyContent={"flex-end"}>
+          <Button
+            variant="ghost"
+            color="white"
+            _hover={{ bg: ThemeColor.backgroundColorDarker }}
+            onClick={() => {
+              commentApi.likeComment(comment.id);
+            }}
+          >
+            🤍 {comment.likenum}
+          </Button>
           {IsCommentEdit == false && (
-            <Button size="sm" alignSelf="start" {...buttonProps}>
-              reply
+            <Button
+              variant="ghost"
+              color="white"
+              _hover={{ bg: ThemeColor.backgroundColorDarker }}
+              {...buttonProps}
+            >
+              💬
             </Button>
           )}
           {uid == author && IsCommentEdit == false && (
             <>
               <Button
-                size="sm"
+                variant="ghost"
+                color="white"
                 isLoading={deleteIsLoading}
-                onClick={deleteComment}
-              >
-                delete
-              </Button>
-              <Button
-                size="sm"
+                _hover={{ bg: ThemeColor.backgroundColorDarker }}
                 onClick={() => {
                   setCommentEdit(true);
                   onClose();
                 }}
               >
-                Edit
+                <EditIcon />
+              </Button>
+              <Button
+                variant="ghost"
+                color="white"
+                isLoading={deleteIsLoading}
+                _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                onClick={deleteComment}
+              >
+                <DeleteIcon />
               </Button>
             </>
           )}
