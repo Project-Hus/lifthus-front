@@ -41,6 +41,17 @@ import { Username } from "../../../../api/interfaces/userApi.interface";
 import { on } from "events";
 import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
 
+//resizing textarea
+function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  let textarea = e.target;
+
+  textarea!.style.height = "0px";
+
+  let scrollHeight = textarea.scrollHeight;
+
+  textarea.style.height = scrollHeight + "px";
+}
+
 interface PostProp {
   post: QueryPostDto;
 }
@@ -48,6 +59,8 @@ type FormData = {
   content: string;
   images: FileList;
 };
+
+// Post component
 const Post = ({ post }: PostProp) => {
   // get username
   const {
@@ -162,16 +175,6 @@ const Post = ({ post }: PostProp) => {
     }
   `;
 
-  //resizing textarea
-  function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    let textarea = e.target;
-
-    textarea!.style.height = "0px";
-
-    let scrollHeight = textarea.scrollHeight;
-
-    textarea.style.height = scrollHeight + "px";
-  }
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   useEffect(() => {
     if (textareaRef.current) {
@@ -180,6 +183,15 @@ const Post = ({ post }: PostProp) => {
         textareaRef.current.scrollHeight + "px";
     }
   });
+
+  // get the number of comments
+  let numComments = post.comments ? post.comments.length : 0;
+  if (post.comments) {
+    for (const c of post.comments) {
+      numComments += c.replies ? c.replies.length : 0;
+    }
+  }
+
   return (
     <>
       <Card
@@ -359,19 +371,19 @@ const Post = ({ post }: PostProp) => {
             <Button
               flex="1"
               variant="ghost"
-              leftIcon={<StarIcon />}
+              leftIcon={<>👍</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
             >
-              Like
+              {post.likenum} Likes
             </Button>
             <Button
               {...buttonProps}
               flex="1"
               variant="ghost"
-              leftIcon={<ChatIcon />}
+              leftIcon={<>💬</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
             >
-              Comment
+              {numComments} Comments
             </Button>
           </CardFooter>
         )}
