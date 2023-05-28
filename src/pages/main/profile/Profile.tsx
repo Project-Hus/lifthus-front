@@ -17,8 +17,6 @@ import Posts from "../posts/Posts";
 const Profile = () => {
   const username = useParams().username;
 
-  const [posts, setPosts] = useState<QueryPostDto[]>([]);
-
   const { data: user } = useQuery({
     queryKey: ["user", { username }],
     queryFn: () =>
@@ -29,15 +27,12 @@ const Profile = () => {
 
   const uid = user?.uid;
 
-  const { data } = useQuery({
+  const { data: posts, isLoading } = useQuery({
     queryKey: ["posts", { uid }],
     queryFn: () =>
       typeof username === "undefined" || typeof uid === "undefined"
         ? Promise.reject(new Error("undefined"))
         : repsApi.getUserPosts({ uid }),
-    onSuccess: (data) => {
-      setPosts(data);
-    },
     enabled: !!uid,
   });
 
@@ -54,7 +49,7 @@ const Profile = () => {
                 <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
-                <Posts posts={posts} />
+                <Posts posts={posts ? posts : []} />
               </Suspense>
             </ErrorBoundary>
           )}
