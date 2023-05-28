@@ -44,6 +44,8 @@ const RoutineMenu = () => {
 `
 
     const buttonstyle = css`
+    padding-top: 5%;
+    padding-bottom   : 5%;
     height : 8vh;
     width : 80vw;
     align-items : center;
@@ -55,8 +57,8 @@ const RoutineMenu = () => {
 `
     return (
         <>
-            <Box p={4}>
-                <Stack direction="column" spacing={4}>
+            <Box>
+                <Stack direction="column" >
                     {(selectedButton == "none" || selectedButton == "button1")
                         && <Button color={changeButtonColor("button1")} css={buttonstyle} onClick={() => handleButtonClick('button1')}>
                             <Box as="span" css={titlestyle} >
