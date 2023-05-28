@@ -5,7 +5,7 @@ import {
   SignResponse,
 } from "./interfaces/authApi.interface";
 
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";

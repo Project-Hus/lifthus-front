@@ -6,7 +6,6 @@ import {
   RegisterUsernameParams,
   RegisterParams,
 } from "./interfaces/registerApi.interface";
-import { Uid, Username } from "./interfaces/userApi.interface";
 
 import registerTestApi from "./testApi/registerTestApi";
 

@@ -6,7 +6,6 @@ import {
   Username,
 } from "../interfaces/userApi.interface";
 import userList from "../mocks/userTestApi.mock";
-import statusInfo from "../interfaces/statusInfo.json";
 import user_list from "../mocks/userTestApi.mock";
 import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../../common/routes";

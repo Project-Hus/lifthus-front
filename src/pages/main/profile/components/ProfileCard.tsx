@@ -12,12 +12,10 @@ import { Button } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 
 import React from "react";
-import { Link } from "react-router-dom";
 import { Uid } from "../../../../api/interfaces/userApi.interface";
 import userApi from "../../../../api/userApi";
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
-import CreatePost from "./CreatePost";
+import CreatePost from "../../posts/components/CreatePost";
 import ProfileTab from "./ProfileTab";
 
 const ProfileCard = ({ uid }: Uid) => {
