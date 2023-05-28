@@ -8,16 +8,15 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React, { useEffect, useRef } from "react";
 import {
   ChatIcon,
+  CheckIcon,
   ChevronDownIcon,
   CloseIcon,
   CopyIcon,
   DeleteIcon,
   EditIcon,
   PlusSquareIcon,
-  StarIcon,
 } from "@chakra-ui/icons";
 
-import { USER_PROFILE_IMAGE_ROUTE } from "../../../../common/routes";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
@@ -28,17 +27,14 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CommentCreate from "./commentCreate";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
 import { postFoldStandard } from "../../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
-import { QueryCommentDto } from "../../../../api/dtos/comment.dto";
 import postApi from "../../../../api/postApi";
 import userApi from "../../../../api/userApi";
-import { Username } from "../../../../api/interfaces/userApi.interface";
 
-import { on } from "events";
 import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
 
 //resizing textarea
@@ -320,15 +316,24 @@ const Post = ({ post }: PostProp) => {
                     <Button>share routine</Button>
                   </IconbuttonStyle>
                   <div>
-                    <Button type="submit">edit</Button>
                     <Button
+                      type="submit"
+                      color="white"
+                      leftIcon={<CheckIcon />}
+                      _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                      variant="ghost"
+                    />
+                    <Button
+                      type="submit"
+                      color="white"
                       onClick={() => {
                         setEdited(false);
                         setImagePreview(post.images ? post.images : []);
                       }}
-                    >
-                      cancel
-                    </Button>
+                      leftIcon={<CloseIcon />}
+                      _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                      variant="ghost"
+                    />
                   </div>
                 </Flex>
               </form>
