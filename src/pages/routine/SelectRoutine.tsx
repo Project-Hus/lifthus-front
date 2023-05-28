@@ -6,7 +6,7 @@ import { routineDB, routineList } from "../../api/mocks/routineApi.mock";
 import { css } from "@emotion/react";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { useState } from "react";
-import { routineFoldStandard } from "../../common/constraints";
+import RoutineShort from "./RoutineShort";
 const SelectRoutine = () => {
     const searchResult: routineDB[] = routineList
     const CardStyle = css`
@@ -41,8 +41,8 @@ const SelectRoutine = () => {
         <div >
             <Tabs isFitted variant='unstyled' >
                 <TabList >
-                    <Tab _selected={{ color: 'white', bg: "#9298E2" }}>나의 프로그램</Tab>
-                    <Tab _selected={{ color: 'white', bg: "#9298E2" }}>프로그램 검색</Tab>
+                    <Tab _selected={{ color: 'white', bg: "#9298E2" }} fontSize="3vw">나의 프로그램</Tab>
+                    <Tab _selected={{ color: 'white', bg: "#9298E2" }} fontSize="3vw">프로그램 검색</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
@@ -61,44 +61,7 @@ const SelectRoutine = () => {
                             {searchResult.length > 0 && searchResult.map((result, idx) => {
                                 return (
                                     <Card bg={changeResultColor(idx)} onClick={() => handleResultClick(idx)} marginY="0.5em" css={CardStyle} key={idx}>
-                                        <div>
-
-
-                                            <Flex direction={"row"} margin="0.3em" >
-
-                                                {result.images && result.images?.map((srcs) => {
-                                                    return (<Img width="20%" height="20%" src={srcs}></Img>)
-                                                }
-                                                )
-
-                                                }
-
-
-
-                                                <div>
-                                                    <Flex >
-                                                        <Text fontSize="ms" paddingLeft="0.5em" fontWeight={"bold"}>{result.routineName}</Text>
-                                                        <Text fontSize="ms" paddingLeft="0.5em">{"by" + result.author}</Text>
-                                                    </Flex>
-                                                    <Text
-                                                        style={{ whiteSpace: "pre-wrap" }}
-                                                        size="sm"
-                                                        fontSize="sm"
-                                                        color="white"
-                                                    >
-                                                        {result.description.length > routineFoldStandard.Length
-                                                            ? result.description.slice(0, routineFoldStandard.Length) + "..."
-                                                            : result.description}
-                                                    </Text>
-                                                </div>
-
-                                            </Flex>
-
-                                            <Box float="right">
-                                                <StarIcon />{result.starednum}
-                                                <BellIcon />{result.likenum}
-                                            </Box >
-                                        </div>
+                                        <RoutineShort isDetail={false} result={result} idx={idx} />
                                     </Card>
                                 )
                             }
@@ -126,64 +89,13 @@ const SelectRoutine = () => {
                                     </div>
                                 </Card>
                                 {/* 세부사항 요약창 작성 */}
-                                <Card bg={ThemeColor.backgroundColor} color="white">
-                                    <Flex>
-                                        {searchResult[selectedResult].images && searchResult[selectedResult].images?.map((srcs) => {
-                                            return (<Img float="left" width="20%" height="20%" src={srcs}></Img>)
-                                        }
-                                        )
-                                        }
-                                        {searchResult[selectedResult].description.length > routineFoldStandard.Length && (
-                                            <>
-                                                <Text
-                                                    style={{ whiteSpace: "pre-wrap" }}
-                                                    size="sm"
-                                                    fontSize="sm"
-                                                    color="white"
-                                                >
-                                                    {IsFold && searchResult[selectedResult].description.length > routineFoldStandard.Length
-                                                        ? searchResult[selectedResult].description.slice(0, routineFoldStandard.Length) + "..."
-                                                        : searchResult[selectedResult].description}
-                                                </Text>
+                                <RoutineShort isDetail={true} result={searchResult[selectedResult]} idx={selectedResult} />
 
-                                                {IsFold ? (
-                                                    <Button bg={ThemeColor.backgroundColor}
-                                                        _hover={{
-                                                            backgroundColor: ThemeColor.backgroundColor,
-                                                            textDecoration: "underline",
-                                                        }}
+                                <Flex alignSelf="center" justifyContent={"space-between"}>
+                                    <Button bg={ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }} > 프로그램 시작</Button>
+                                    <Button bg={ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>자세히 보기</Button>
+                                </Flex>
 
-                                                        alignSelf="flex-start"
-                                                        onClick={() => setFold(false)}
-                                                        size="sm"
-                                                    >
-                                                        more...
-                                                    </Button>
-                                                ) : (
-                                                    <Button
-                                                        _hover={{
-                                                            backgroundColor: ThemeColor.backgroundColor,
-                                                            textDecoration: "underline",
-                                                        }}
-
-                                                        bg={ThemeColor.backgroundColor}
-                                                        alignSelf="flex-start"
-                                                        onClick={() => setFold(true)}
-                                                        size="sm"
-                                                    >
-                                                        {" "}
-                                                        shortly...
-                                                    </Button>
-                                                )}
-
-                                            </>
-                                        )}
-                                    </Flex>
-                                    <Flex alignSelf="center">
-                                        <Button>프로그램 시작</Button>
-                                        <Button>자세히 보기</Button>
-                                    </Flex>
-                                </Card>
                             </>
                         }
                     </TabPanel>
