@@ -1,15 +1,34 @@
 import { AddIcon, PlusSquareIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Img, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { Link, useNavigate } from "react-router-dom";
 import RoutineMenu from "../RoutineMenu";
+import { routineDB, routineList } from "../../../api/mocks/routineApi.mock";
+import { set } from "react-hook-form";
 
 const TodaysRoutine = () => {
-  const todayList: any[] = [3, 3, 3]
+  const todayList: routineDB[] = routineList;
   const today = new Date().toDateString();
 
   const [IsRoutineMenu, setIsRoutineMenu] = useState(false);
+
+  const [time, setTime] = useState(0);
+  const [start, setStart] = useState(false);
+  const handleTimer = (seconds: number) => {
+    setTime(seconds);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prev) => prev - 1);
+    }, 1000);
+    console.log(time)
+    return () => clearInterval(timer);
+  }, [time]);
+
+
+
   const navigate = useNavigate();
   const goRoutineMenu = () => {
     // articles 경로로 이동
@@ -35,21 +54,20 @@ const TodaysRoutine = () => {
                     <AccordionButton _expanded={{ bg: ThemeColor.basicColor }}>
                       <Box as="span" flex='1' textAlign='left'>
                         <Flex direction={"row"} justifyContent={"space-between"}>
-                          <Img src="https://bit.ly/sage-adebayo" boxSize="2em" borderRadius="full" />
-                          <Text>운동종류</Text>
-                          <Text>중량</Text>
-                          <Text>횟수</Text>
+                          {routine.images ? <Img src={routine.images[0]} boxSize="2em" /> : null}
+                          <Text>{routine.routineName}</Text>
+                          <Text>{routine.weight.toString() + "kg"}</Text>
+                          <Text>{"x" + routine.sets}</Text>
                           <Flex direction={"column"}>
                             <TriangleUpIcon />
                             <TriangleDownIcon />
                           </Flex>
-                          <Text>성공여부</Text>
+                          <Button onClick={() => handleTimer(routine.timer ? routine.timer : 0)}>성공여부</Button>
                         </Flex>
                       </Box>
                     </AccordionButton>
                   </h2>
                   <AccordionPanel pb={4}>
-                    {routine}
                   </AccordionPanel>
                 </AccordionItem>
               )
