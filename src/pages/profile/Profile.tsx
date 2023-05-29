@@ -13,9 +13,13 @@ import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Posts from "../../common/posts/Posts";
 import ProfileTab from "./components/Profile/ProfileTab";
 import FollowList from "./FollowList";
+import CreatePost from "../../common/posts/components/CreatePost";
+import useUserStore from "../../store/user.zustand";
 
 const Profile = () => {
   const username = useParams().username;
+
+  const { uid: clientUid } = useUserStore();
 
   const { data: user } = useQuery({
     queryKey: ["user", { username }],
@@ -62,7 +66,15 @@ const Profile = () => {
                   />
                 </Routes>
                 <Routes>
-                  <Route index element={<Posts posts={posts ? posts : []} />} />
+                  <Route
+                    index
+                    element={
+                      <>
+                        {clientUid === user.uid ? <CreatePost /> : null}
+                        <Posts posts={posts ? posts : []} />
+                      </>
+                    }
+                  />
                 </Routes>
               </Suspense>
             </ErrorBoundary>

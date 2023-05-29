@@ -2,7 +2,6 @@ import { Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import React from "react";
 import { QueryPostDto } from "../../api/dtos/post.dto";
-import CreatePost from "./components/CreatePost";
 import Post from "./components/Post";
 
 interface PostsProps {
@@ -12,7 +11,6 @@ const Posts = ({ posts }: PostsProps) => {
   const postList = posts.map((post) => <Post key={post.id} post={post} />);
   return (
     <>
-      <CreatePost />
       <PostBoard>
         {postList.length ? (
           postList
