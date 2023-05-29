@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import ErrorPage from "../../common/components/ErrorPage";
-import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import ErrorPage from "../common/components/ErrorPage";
+import BasicPageLayout from "../common/components/layouts/BasicPageLayout";
 
-import useUserStore from "../../store/user.zustand";
-import Routine from "../routine/Routine";
+import useUserStore from "../store/user.zustand";
+import Routine from "./routine/Routine";
 import BottomNav from "./BottomNav";
 import Profile from "./profile/Profile";
 

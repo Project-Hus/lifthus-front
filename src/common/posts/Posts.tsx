@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import React from "react";
-import { QueryPostDto } from "../../../api/dtos/post.dto";
+import { QueryPostDto } from "../../api/dtos/post.dto";
 import Post from "./components/Post";
 
 interface PostsProps {

@@ -14,9 +14,9 @@ import {
 
 import "./calendar.css";
 
-import { ThemeColor } from "../../../../common/styles/theme.style";
+import { ThemeColor } from "../../../common/styles/theme.style";
 
-import useUserStore from "../../../../store/user.zustand";
+import useUserStore from "../../../store/user.zustand";
 
 import { Card, CardBody } from "@chakra-ui/card";
 import {

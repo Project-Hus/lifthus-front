@@ -1,4 +1,4 @@
-import { ThemeColor } from "../../../../common/styles/theme.style";
+import { ThemeColor } from "../../styles/theme.style";
 import {
   Avatar,
   Box,
@@ -11,19 +11,19 @@ import styled from "@emotion/styled";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import commentApi from "../../../../api/commentApi";
+import commentApi from "../../../api/commentApi";
 import { useEffect, useRef, useState } from "react";
 import ReplyList from "./replyList";
-import userApi from "../../../../api/userApi";
+import userApi from "../../../api/userApi";
 import CommentCreate from "./commentCreate";
 import {
   QueryCommentDto,
   QueryReplyDto,
   UpdateCommentDto,
-} from "../../../../api/dtos/comment.dto";
-import useUserStore from "../../../../store/user.zustand";
-import { commentFoldStandard } from "../../../../common/constraints";
-import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
+} from "../../../api/dtos/comment.dto";
+import useUserStore from "../../../store/user.zustand";
+import { commentFoldStandard } from "../../constraints";
+import { GetUserInfoDto } from "../../../api/dtos/user.dto";
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 interface CommentProps {

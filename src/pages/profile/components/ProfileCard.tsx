@@ -12,19 +12,21 @@ import { Button, Spinner } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
-import { Uid } from "../../../../api/interfaces/userApi.interface";
-import relationApi from "../../../../api/relationApi";
-import userApi from "../../../../api/userApi";
-import { ThemeColor } from "../../../../common/styles/theme.style";
-import useUserStore from "../../../../store/user.zustand";
-import CreatePost from "../../posts/components/CreatePost";
+import { Uid } from "../../../api/interfaces/userApi.interface";
+import relationApi from "../../../api/relationApi";
+import userApi from "../../../api/userApi";
+import { ThemeColor } from "../../../common/styles/theme.style";
+import useUserStore from "../../../store/user.zustand";
+import CreatePost from "../../../common/posts/components/CreatePost";
 import ProfileTab from "./ProfileTab";
 
 const ProfileCard = ({ uid }: Uid) => {
-  const { uid: clientUid } = useUserStore();
-
   const queryClient = useQueryClient();
 
+  // client's uid
+  const { uid: clientUid } = useUserStore();
+
+  // profile user's info
   const { data: userinfo } = useQuery({
     queryKey: ["user", { uid: uid }],
     queryFn: () => userApi.getUserInfo({ uid }),
@@ -32,16 +34,19 @@ const ProfileCard = ({ uid }: Uid) => {
   const username = userinfo?.username;
   const profileImage = userinfo?.profile_image_url;
 
+  // profile user's following list
   const { data: userFollowing } = useQuery({
     queryKey: ["following", { uid: uid }],
     queryFn: () => relationApi.getUserFollowing({ uid }),
   });
 
+  // profile user's follower list
   const { data: userFollowers, isLoading: followersLoading } = useQuery({
     queryKey: ["followers", { uid: uid }],
     queryFn: () => relationApi.getUserFollowers({ uid }),
   });
 
+  // follow mutation
   const { mutate: followUser } = useMutation({
     mutationFn: () => relationApi.followUser({ uid }),
     onSuccess: () => {
@@ -49,6 +54,7 @@ const ProfileCard = ({ uid }: Uid) => {
     },
   });
 
+  // unfollow mutation
   const { mutate: unfollowUser } = useMutation({
     mutationFn: () => relationApi.unfollowUser({ uid }),
     onSuccess: () => {

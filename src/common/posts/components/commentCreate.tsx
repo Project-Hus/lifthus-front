@@ -1,13 +1,13 @@
 import { Button, Card, Flex, Input, useDisclosure } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import commentApi from "../../../../api/commentApi";
-import useUserStore from "../../../../store/user.zustand";
+import commentApi from "../../../api/commentApi";
+import useUserStore from "../../../store/user.zustand";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import {
   CreateCommentDto,
   CreateReplyDto,
-} from "../../../../api/dtos/comment.dto";
+} from "../../../api/dtos/comment.dto";
 
 interface CommentCreateProps {
   postId?: number;
