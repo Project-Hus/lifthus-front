@@ -121,10 +121,6 @@ const Post = ({ post }: PostProp) => {
     post.images ? post.images : []
   );
 
-  useEffect(() => {
-    console.log("previewimage", imagePreview);
-  }, [imagePreview]);
-
   const image = watch("images");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target?.files;

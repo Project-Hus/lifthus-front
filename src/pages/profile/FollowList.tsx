@@ -1,6 +1,6 @@
 import React from "react";
 
-const FollowList = () => {
+const FollowList = ({ type }: { type: "following" | "followers" }) => {
   return <div>FollowList</div>;
 };
 

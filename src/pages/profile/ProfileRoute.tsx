@@ -9,8 +9,14 @@ const ProfileRoute = () => {
   return (
     <Routes>
       <Route path=":username" element={<Profile />} />
-      <Route path=":username/following" element={<FollowList />} />
-      <Route path=":username/followers" element={<FollowList />} />
+      <Route
+        path=":username/following"
+        element={<FollowList type="following" />}
+      />
+      <Route
+        path=":username/followers"
+        element={<FollowList type="followers" />}
+      />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
