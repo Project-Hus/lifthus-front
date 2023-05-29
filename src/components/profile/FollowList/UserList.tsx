@@ -2,8 +2,8 @@ import { Box, Flex, Img, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import userApi from "../../../../api/userApi";
-import { ThemeColor } from "../../../../common/styles/theme.style";
+import userApi from "../../../api/userApi";
+import { ThemeColor } from "../../../common/styles/theme.style";
 
 const UserList = ({ users }: { users: number[] }) => {
   const userList = users.map((uid) => <UserListItem key={uid} uid={uid} />);

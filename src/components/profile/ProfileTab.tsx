@@ -24,7 +24,8 @@ import {
 
 import CalendarHeatmap from "react-calendar-heatmap";
 import { Avatar, FormLabel } from "@chakra-ui/react";
-import { ThemeColor } from "../../../../common/styles/theme.style";
+import ProfileSetting from "./profileTab/ProfileSetting";
+import { ThemeColor } from "../../common/styles/theme.style";
 
 const ProfileTab = () => {
   // later query last rec
@@ -299,7 +300,9 @@ const ProfileTab = () => {
             </Stat>
           </StatGroup>
         </TabPanel>
-        <TabPanel>프로필 설정</TabPanel>
+        <TabPanel>
+          <ProfileSetting />
+        </TabPanel>
       </TabPanels>
     </Tabs>
   );

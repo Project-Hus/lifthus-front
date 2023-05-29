@@ -12,12 +12,12 @@ import { Button, Spinner } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
-import { Uid } from "../../../../api/interfaces/userApi.interface";
-import relationApi from "../../../../api/relationApi";
-import userApi from "../../../../api/userApi";
-import { ThemeColor } from "../../../../common/styles/theme.style";
-import useUserStore from "../../../../store/user.zustand";
 import { Link } from "react-router-dom";
+import { Uid } from "../../api/interfaces/userApi.interface";
+import relationApi from "../../api/relationApi";
+import userApi from "../../api/userApi";
+import { ThemeColor } from "../../common/styles/theme.style";
+import useUserStore from "../../store/user.zustand";
 
 const ProfileCard = ({ uid }: Uid) => {
   const queryClient = useQueryClient();

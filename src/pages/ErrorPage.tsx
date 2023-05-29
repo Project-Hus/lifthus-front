@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { t } from "i18next";
 import React from "react";
 
-import Logo from "./Logo";
+import Logo from "../common/components/Logo";
 
 const ErrorPage = () => {
   return (
