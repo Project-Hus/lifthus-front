@@ -13,23 +13,6 @@ import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
 import { Uid } from "./interfaces/userApi.interface";
 
 const authApi: AuthApi = {
-  signInLocal: async ({
-    username,
-    password,
-  }: SignParams): Promise<SignResponse> => {
-    if (process.env.NODE_ENV == "development") {
-      return authTestApi.signInLocal({ username, password });
-    }
-    return authTestApi.signInLocal({ username, password });
-  },
-
-  signUpLocal: async ({ username, password }: SignParams): Promise<Uid> => {
-    if (process.env.NODE_ENV === "development") {
-      return authTestApi.signUpLocal({ username, password });
-    }
-    return authTestApi.signUpLocal({ username, password });
-  },
-
   updateSession: async (): Promise<SessionResponse> => {
     if (process.env.NODE_ENV === "development") {
       return await authTestApi.updateSession();

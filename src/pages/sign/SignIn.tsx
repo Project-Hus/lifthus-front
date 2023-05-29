@@ -38,56 +38,13 @@ const SignIn = () => {
       shouldUseNativeValidation: true,
     });
 
-  /* api */
-  const { mutate, isLoading, data } = useMutation(
-    ({ username, password }: SignParams) => {
-      return authApi.signInLocal({
-        username,
-        password,
-      });
-    },
-    {
-      onSuccess: async (data) => {
-        await setUserInfo(data);
-        const userInfo = await userApi.getUserInfo({ uid: data?.uid });
-        await setUserInfo(userInfo);
-        navigate("/");
-      },
-      onError: async (err: StatusInfo) => {
-        if (err === statusInfo.fail.NotAcceptable) setFid(true);
-        else setFailed(true);
-      },
-    }
-  );
-
-  const uid = data?.uid;
-  // with enabled false, isLoading2 becomes always true. so additional comparation with fetchStatus is needed.
-  const { isLoading: isLoading2, fetchStatus } = useQuery({
-    queryKey: ["user", { uid: uid }],
-    queryFn: async () =>
-      typeof uid === "undefined"
-        ? Promise.reject(new Error("undefined"))
-        : userApi.getUserInfo({ uid }),
-    onSuccess: async (data) => {
-      await setUserInfo(data);
-      console.log("!!!", data);
-      if (data.registered) navigate("/");
-      else navigate("/register");
-    },
-    enabled: !!uid,
-  });
-
-  // onSubmit
-  const onSubmit: SubmitHandler<IFormInputValues> = () => {
-    mutate({ username: getValues("id"), password: getValues("password") });
-  };
   return (
     <>
       <Logo to="/sign" />
       {location.state?.from === "/sign/up" && (
         <div style={{ marginTop: "0.5em" }}>{t("sign.welcome_message")}</div>
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(() => {})}>
         <FormInput
           {...register("id", {
             required: true,
@@ -126,13 +83,7 @@ const SignIn = () => {
           })}
         />
         <div>&nbsp;</div>
-        {isLoading || (isLoading2 && fetchStatus == "fetching") ? (
-          <>
-            <BlueSpinner />
-          </>
-        ) : (
-          <SubmitLink>{t("sign.SignIn")}</SubmitLink>
-        )}
+        <SubmitLink>{t("sign.SignIn")}</SubmitLink>
         {failed && !fid && (
           <div style={{ fontSize: "0.7em" }}>{t("sign.signIn_error")}</div>
         )}

@@ -5,8 +5,7 @@ import {
   UserApi,
   Username,
 } from "../interfaces/userApi.interface";
-import userList from "../mocks/userTestApi.mock";
-import user_list from "../mocks/userTestApi.mock";
+
 import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../../common/routes";
 
@@ -15,9 +14,7 @@ const userTestApi: UserApi = {
     uid,
     newUserinfo,
   }: SetUserInfoParams): Promise<Uid> => {
-    const uidx = userList.findIndex((user) => user.id === uid);
-    userList[uidx] = { ...user_list[uidx], ...newUserinfo };
-    return { uid };
+    return Promise.reject("not implemented");
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
     const lst = localStorage.getItem("lifthus_st");
