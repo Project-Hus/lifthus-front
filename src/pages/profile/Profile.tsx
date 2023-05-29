@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from "react";
 import { Route, Routes, useParams } from "react-router";
 
-import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
 
 import ProfileCard from "./components/Profile/ProfileCard";
 import repsApi from "../../api/postApi";
@@ -38,7 +38,7 @@ const Profile = () => {
 
   if (!!uid)
     return (
-      <BasicPageLayout>
+      <BasicPageLayoutNoMargin>
         <QueryErrorResetBoundary>
           {({ reset }) => (
             <ErrorBoundary
@@ -68,7 +68,7 @@ const Profile = () => {
             </ErrorBoundary>
           )}
         </QueryErrorResetBoundary>
-      </BasicPageLayout>
+      </BasicPageLayoutNoMargin>
     );
   return <ErrorPage />;
 };

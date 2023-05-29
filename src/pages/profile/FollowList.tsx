@@ -1,21 +1,11 @@
-import {
-  Card,
-  Img,
-  Tab,
-  TabList,
-  Tabs,
-  Link as LinkChkra,
-  Text,
-  CardHeader,
-} from "@chakra-ui/react";
+import { Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import relationApi from "../../api/relationApi";
 import userApi from "../../api/userApi";
 import ErrorPage from "../../common/components/ErrorPage";
-import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
 import UserList from "./components/FollowList/UserList";
 
@@ -57,7 +47,7 @@ const FollowList = ({ type }: { type: "following" | "followers" }) => {
 
   if (!user) return <ErrorPage />;
   return (
-    <BasicPageLayout>
+    <>
       <Tabs
         size="lg"
         bgColor={ThemeColor.backgroundColorDarker}
@@ -93,7 +83,7 @@ const FollowList = ({ type }: { type: "following" | "followers" }) => {
       {type === "followers" && userFollowers && (
         <UserList users={userFollowers} />
       )}
-    </BasicPageLayout>
+    </>
   );
 };
 
