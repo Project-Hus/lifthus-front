@@ -17,8 +17,6 @@ import relationApi from "../../../../api/relationApi";
 import userApi from "../../../../api/userApi";
 import { ThemeColor } from "../../../../common/styles/theme.style";
 import useUserStore from "../../../../store/user.zustand";
-import CreatePost from "../../../../common/posts/components/CreatePost";
-import ProfileTab from "./ProfileTab";
 import { Link } from "react-router-dom";
 
 const ProfileCard = ({ uid }: Uid) => {
@@ -104,7 +102,9 @@ const ProfileCard = ({ uid }: Uid) => {
             />
             <Stack paddingRight={"0"}>
               <Box>
-                <Heading paddingLeft={"0.2em"}>{username}</Heading>
+                <LinkChakra as={Link} to={`/profile/${userinfo?.username}`}>
+                  <Heading paddingLeft={"0.2em"}>{username}</Heading>
+                </LinkChakra>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
                   <LinkChakra as={Link} to="following">
                     {userFollowing ? userFollowing.length : 0} following
@@ -173,7 +173,6 @@ const ProfileCard = ({ uid }: Uid) => {
       </Card>
       <hr />
       <hr />
-      <ProfileTab />
     </>
   );
 };

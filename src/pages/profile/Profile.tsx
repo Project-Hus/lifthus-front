@@ -11,6 +11,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "../../common/components/ErrorPage";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Posts from "../../common/posts/Posts";
+import ProfileTab from "./components/Profile/ProfileTab";
+import FollowList from "./FollowList";
 
 const Profile = () => {
   const username = useParams().username;
@@ -47,6 +49,18 @@ const Profile = () => {
                 <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
+                <Routes>
+                  <Route index element={<ProfileTab />} />
+                  <Route index element={<Posts posts={posts ? posts : []} />} />
+                  <Route
+                    path="following"
+                    element={<FollowList type="following" />}
+                  />
+                  <Route
+                    path="followers"
+                    element={<FollowList type="followers" />}
+                  />
+                </Routes>
                 <Routes>
                   <Route index element={<Posts posts={posts ? posts : []} />} />
                 </Routes>
