@@ -69,5 +69,11 @@ const authTestApi: AuthApi = {
       return { uid: undefined, username: "" };
     }
   },
+  signOut: async (): Promise<boolean> => {
+    const res = await axios.delete(HUS_AUTH_URL + "/auth/session/revoke", {
+      withCredentials: true,
+    });
+    return res.status === statusInfo.succ.Ok.code ? true : false;
+  },
 };
 export default authTestApi;
