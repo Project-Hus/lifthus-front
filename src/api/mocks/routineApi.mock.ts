@@ -1,4 +1,4 @@
-export type routineDB = {
+export type programDB = {
     id: number;
     author: number;
     date: Date;
@@ -19,7 +19,7 @@ export const recState = {
     nextRid: 102,
 };
 
-export const routineList: routineDB[] = [
+export const programList: programDB[] = [
     {
         id: 100,
         author: 100,
