@@ -90,12 +90,11 @@ const ProfileCard = ({ uid }: Uid) => {
             <Img
               src={profileImage}
               alt={`${username}'s profile image`}
-              borderRadius={"2em"}
               objectFit={"cover"}
               sx={{
-                w: "6em",
-                h: "6em",
-                borderRadius: "2em",
+                w: "5em",
+                h: "5em",
+                borderRadius: "1em",
                 "@media screen and (max-width: 350px)": {
                   maxW: "5em;",
                   maxH: "5em;",
@@ -107,12 +106,12 @@ const ProfileCard = ({ uid }: Uid) => {
               <Box>
                 <Heading paddingLeft={"0.2em"}>{username}</Heading>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
-                  <LinkChakra as={Link} to="followers">
-                    {userFollowers ? userFollowers.length : 0} followers
-                  </LinkChakra>
-                  {" · "}
                   <LinkChakra as={Link} to="following">
                     {userFollowing ? userFollowing.length : 0} following
+                  </LinkChakra>
+                  {" · "}
+                  <LinkChakra as={Link} to="followers">
+                    {userFollowers ? userFollowers.length : 0} followers
                   </LinkChakra>
                 </Text>
               </Box>
@@ -175,7 +174,6 @@ const ProfileCard = ({ uid }: Uid) => {
       <hr />
       <hr />
       <ProfileTab />
-      <CreatePost />
     </>
   );
 };

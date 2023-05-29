@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from "react";
-import { useParams } from "react-router";
+import { Route, Routes, useParams } from "react-router";
 
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
@@ -47,7 +47,9 @@ const Profile = () => {
                 <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
-                <Posts posts={posts ? posts : []} />
+                <Routes>
+                  <Route index element={<Posts posts={posts ? posts : []} />} />
+                </Routes>
               </Suspense>
             </ErrorBoundary>
           )}
