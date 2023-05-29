@@ -15,17 +15,27 @@ const TodaysRoutine = () => {
 
   const [time, setTime] = useState(0);
   const [start, setStart] = useState(false);
+  let [reps, setReps] = useState(0);
+
   const handleTimer = (seconds: number) => {
+    if (start) {
+      setTime(0);
+      setStart(false);
+      return;
+    }
     setTime(seconds);
+    setStart(true);
   };
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prev) => prev - 1);
     }, 1000);
+    if (start == false) {
+      clearInterval(timer);
+    }
     console.log(time)
-    return () => clearInterval(timer);
-  }, [time]);
+  }, [start]);
 
 
 
@@ -56,12 +66,25 @@ const TodaysRoutine = () => {
                         <Flex direction={"row"} justifyContent={"space-between"}>
                           {routine.images ? <Img src={routine.images[0]} boxSize="2em" /> : null}
                           <Text>{routine.routineName}</Text>
-                          <Text>{routine.weight.toString() + "kg"}</Text>
-                          <Text>{"x" + routine.sets}</Text>
-                          <Flex direction={"column"}>
-                            <TriangleUpIcon />
-                            <TriangleDownIcon />
+                          {routine.weight && <Text>{routine.weight + "kg"}</Text>}
+                          {routine.sets && (
+                            <>
+                              <Text>{"x" + routine.sets}</Text>
+                              <Text>{reps + "/" + routine.sets}</Text>
+                            </>
+                          )
+                          }
+                          {!routine.timer && <Flex direction={"column"}>
+                            <TriangleUpIcon onClick={() => setReps(reps++)} />
+                            <TriangleDownIcon onClick={() => setReps(reps > 0 ? reps-- : 0)} />
                           </Flex>
+                          }
+                          {routine.timer &&
+                            <Flex direction={"column"}>
+                              <Text>{"remaining"}</Text>
+                              <Text>{time + "초"}</Text>
+                            </Flex>
+                          }
                           <Button onClick={() => handleTimer(routine.timer ? routine.timer : 0)}>성공여부</Button>
                         </Flex>
                       </Box>

@@ -11,8 +11,8 @@ export type routineDB = {
     starednum: number;
     routineName: string;
     timer?: number;
-    sets: number;
-    weight: number;
+    sets?: number;
+    weight?: number;
 };
 
 export const recState = {
@@ -31,10 +31,8 @@ export const routineList: routineDB[] = [
         trainingType: "strength",
         description: "This is a description",
         likenum: 10,
-        weight: 100,
         starednum: 10,
-        sets: 3,
-        timer: 600
+        timer: 600,
 
 
 
