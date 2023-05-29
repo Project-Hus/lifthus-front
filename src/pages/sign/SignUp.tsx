@@ -32,34 +32,10 @@ const SignUp = () => {
   const [failed, setFailed] = useState(false);
   const [fid, setFid] = useState(false);
 
-  /* api */
-  const { mutate, isLoading } = useMutation(
-    ({ username, password }: SignParams) => {
-      return authApi.signUpLocal({
-        username,
-        password,
-      });
-    },
-    {
-      onSuccess: () => {
-        navigate("/sign/in", { state: { from: pathname } });
-      },
-      onError: (err: StatusInfo) => {
-        if (err === statusInfo.fail.Conflict) setFid(true);
-        else setFailed(true);
-      },
-    }
-  );
-
-  // onSubmit
-  const onSubmit: SubmitHandler<IFormInputValues> = () => {
-    mutate({ username: getValues("id"), password: getValues("password") });
-  };
-
   return (
     <>
       <Logo to="/sign" />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(() => {})}>
         <FormInput
           label={t("sign.ID")}
           placeholder="ID"
@@ -117,12 +93,9 @@ const SignUp = () => {
         <div>&nbsp;</div>
         {(watch("id") || "").length >= password_limit.min &&
           (watch("check") || "") === (watch("password") || "") &&
-          (watch("password") || "").length >= password_limit.min &&
-          (isLoading ? (
-            <BlueSpinner />
-          ) : (
+          (watch("password") || "").length >= password_limit.min && (
             <SubmitLink>{t("sign.SignUp")}</SubmitLink>
-          ))}
+          )}
         {failed && !fid && (
           <div style={{ fontSize: "0.7em" }}>{t("sign.signUp_error")}</div>
         )}
