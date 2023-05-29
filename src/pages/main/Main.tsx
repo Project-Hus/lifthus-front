@@ -19,7 +19,7 @@ const Main = () => {
       <Routes>
         <Route index element={<div>Home</div>} />
         <Route path="group" element={<div>group</div>} />
-        <Route path="routine" element={<Routine />} />
+        <Route path="routine/*" element={<Routine />} />
         <Route path="statistics" element={<div>statistics</div>} />
         <Route path="profile/:username" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
