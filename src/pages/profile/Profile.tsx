@@ -1,18 +1,18 @@
 import React, { Suspense, useState } from "react";
-import { useParams } from "react-router";
+import { Route, Routes, useParams } from "react-router";
 
-import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
-import ProfileCard from "./components/ProfileCard";
-import Reps from "../posts/Posts";
-import repsApi from "../../../api/postApi";
-import userApi from "../../../api/userApi";
+import ProfileCard from "./components/Profile/ProfileCard";
+import repsApi from "../../api/postApi";
+import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorPage from "../../../common/components/ErrorPage";
-import BlueSpinner from "../../../common/components/spinners/BlueSpinner";
-import { QueryPostDto } from "../../../api/dtos/post.dto";
-import Posts from "../posts/Posts";
+import ErrorPage from "../../common/components/ErrorPage";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import Posts from "../../common/posts/Posts";
+import ProfileTab from "./components/Profile/ProfileTab";
+import FollowList from "./FollowList";
 
 const Profile = () => {
   const username = useParams().username;
@@ -49,7 +49,21 @@ const Profile = () => {
                 <ProfileCard uid={uid} />
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
-                <Posts posts={posts ? posts : []} />
+                <Routes>
+                  <Route index element={<ProfileTab />} />
+                  <Route index element={<Posts posts={posts ? posts : []} />} />
+                  <Route
+                    path="following"
+                    element={<FollowList type="following" />}
+                  />
+                  <Route
+                    path="followers"
+                    element={<FollowList type="followers" />}
+                  />
+                </Routes>
+                <Routes>
+                  <Route index element={<Posts posts={posts ? posts : []} />} />
+                </Routes>
               </Suspense>
             </ErrorBoundary>
           )}

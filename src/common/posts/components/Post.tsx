@@ -17,7 +17,7 @@ import {
   PlusSquareIcon,
 } from "@chakra-ui/icons";
 
-import { ThemeColor } from "../../../../common/styles/theme.style";
+import { ThemeColor } from "../../styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 import CommentList from "./commentList";
@@ -30,12 +30,12 @@ import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
-import { postFoldStandard } from "../../../../common/constraints";
-import { QueryPostDto, UpdatePostDto } from "../../../../api/dtos/post.dto";
-import postApi from "../../../../api/postApi";
-import userApi from "../../../../api/userApi";
+import { postFoldStandard } from "../../constraints";
+import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
+import postApi from "../../../api/postApi";
+import userApi from "../../../api/userApi";
 
-import { GetUserInfoDto } from "../../../../api/dtos/user.dto";
+import { GetUserInfoDto } from "../../../api/dtos/user.dto";
 
 //resizing textarea
 function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -120,10 +120,6 @@ const Post = ({ post }: PostProp) => {
   const [imagePreview, setImagePreview] = useState<string[]>(
     post.images ? post.images : []
   );
-
-  useEffect(() => {
-    console.log("previewimage", imagePreview);
-  }, [imagePreview]);
 
   const image = watch("images");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {

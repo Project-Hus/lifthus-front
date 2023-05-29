@@ -5,7 +5,7 @@ import { ThemeColor } from "./common/styles/theme.style";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import Main from "./pages/main/Main";
+import Main from "./pages/Main";
 
 import useUserStore from "./store/user.zustand";
 import FirstPage from "./pages/sign/FirstPage";

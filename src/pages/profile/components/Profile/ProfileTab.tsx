@@ -14,10 +14,6 @@ import {
 
 import "./calendar.css";
 
-import { ThemeColor } from "../../../../common/styles/theme.style";
-
-import useUserStore from "../../../../store/user.zustand";
-
 import { Card, CardBody } from "@chakra-ui/card";
 import {
   CalendarIcon,
@@ -28,6 +24,7 @@ import {
 
 import CalendarHeatmap from "react-calendar-heatmap";
 import { Avatar, FormLabel } from "@chakra-ui/react";
+import { ThemeColor } from "../../../../common/styles/theme.style";
 
 const ProfileTab = () => {
   // later query last rec
