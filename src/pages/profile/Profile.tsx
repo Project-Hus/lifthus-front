@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
-import ProfileCard from "./components/ProfileCard";
+import ProfileCard from "./components/Profile/ProfileCard";
 import repsApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
