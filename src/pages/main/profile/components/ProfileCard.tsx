@@ -8,23 +8,54 @@ import {
   Heading,
   Box,
 } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { Button, Spinner } from "@chakra-ui/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
 import { Uid } from "../../../../api/interfaces/userApi.interface";
+import relationApi from "../../../../api/relationApi";
 import userApi from "../../../../api/userApi";
 import { ThemeColor } from "../../../../common/styles/theme.style";
+import useUserStore from "../../../../store/user.zustand";
 import CreatePost from "../../posts/components/CreatePost";
 import ProfileTab from "./ProfileTab";
 
 const ProfileCard = ({ uid }: Uid) => {
-  const { data } = useQuery({
+  const { uid: clientUid } = useUserStore();
+
+  const queryClient = useQueryClient();
+
+  const { data: userinfo } = useQuery({
     queryKey: ["user", { uid: uid }],
     queryFn: () => userApi.getUserInfo({ uid }),
   });
-  const username = data?.username;
-  const profileImage = data?.profile_image_url;
+  const username = userinfo?.username;
+  const profileImage = userinfo?.profile_image_url;
+
+  const { data: userFollowing } = useQuery({
+    queryKey: ["following", { uid: uid }],
+    queryFn: () => relationApi.getUserFollowing({ uid }),
+  });
+
+  const { data: userFollowers, isLoading: followersLoading } = useQuery({
+    queryKey: ["followers", { uid: uid }],
+    queryFn: () => relationApi.getUserFollowers({ uid }),
+  });
+
+  const { mutate: followUser } = useMutation({
+    mutationFn: () => relationApi.followUser({ uid }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["followers", { uid: uid }]);
+    },
+  });
+
+  const { mutate: unfollowUser } = useMutation({
+    mutationFn: () => relationApi.unfollowUser({ uid }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["followers", { uid: uid }]);
+    },
+  });
+
   return (
     <>
       <Card
@@ -69,11 +100,13 @@ const ProfileCard = ({ uid }: Uid) => {
               <Box>
                 <Heading paddingLeft={"0.2em"}>{username}</Heading>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
-                  <LinkChakra>{5} followers</LinkChakra>
+                  <LinkChakra>
+                    {userFollowers ? userFollowers.length : 0} followers
+                  </LinkChakra>
                   {" · "}
-                  <LinkChakra>{8} following</LinkChakra>
-                  {" · "}
-                  <LinkChakra>{2} groups</LinkChakra>
+                  <LinkChakra>
+                    {userFollowing ? userFollowing.length : 0} following
+                  </LinkChakra>
                 </Text>
               </Box>
               <div
@@ -116,7 +149,16 @@ const ProfileCard = ({ uid }: Uid) => {
                     marginLeft: "auto",
                   }}
                 >
-                  <Button variant="outline">Follow</Button>
+                  {clientUid !== uid &&
+                    (userFollowers?.includes(clientUid) ? (
+                      <Button variant="solid" onClick={() => unfollowUser()}>
+                        {followersLoading ? <Spinner /> : "Unfollow"}
+                      </Button>
+                    ) : (
+                      <Button variant="outline" onClick={() => followUser()}>
+                        {followersLoading ? <Spinner /> : "Follow"}
+                      </Button>
+                    ))}
                 </div>
               </div>
             </Stack>
