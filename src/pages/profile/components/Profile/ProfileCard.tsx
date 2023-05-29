@@ -19,6 +19,7 @@ import { ThemeColor } from "../../../../common/styles/theme.style";
 import useUserStore from "../../../../store/user.zustand";
 import CreatePost from "../../../../common/posts/components/CreatePost";
 import ProfileTab from "./ProfileTab";
+import { Link } from "react-router-dom";
 
 const ProfileCard = ({ uid }: Uid) => {
   const queryClient = useQueryClient();
@@ -106,11 +107,11 @@ const ProfileCard = ({ uid }: Uid) => {
               <Box>
                 <Heading paddingLeft={"0.2em"}>{username}</Heading>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
-                  <LinkChakra>
+                  <LinkChakra as={Link} to="followers">
                     {userFollowers ? userFollowers.length : 0} followers
                   </LinkChakra>
                   {" · "}
-                  <LinkChakra>
+                  <LinkChakra as={Link} to="following">
                     {userFollowing ? userFollowing.length : 0} following
                   </LinkChakra>
                 </Text>
