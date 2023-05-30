@@ -7,15 +7,12 @@ import FormInput, {
 
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
-import { useLocation } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import SubmitLink from "../../common/components/links/SubmitLink";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
-
-  const { pathname } = useLocation();
 
   /* hook-form */
   const { register, handleSubmit, watch, getValues } =

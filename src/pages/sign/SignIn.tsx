@@ -9,7 +9,6 @@ import FormInput, {
 import SubmitLink from "../../common/components/links/SubmitLink";
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
-import useUserStore from "../../store/user.zustand";
 
 const SignIn = () => {
   const { t, i18n } = useTranslation();
@@ -18,8 +17,6 @@ const SignIn = () => {
   const [fid, setFid] = useState(false);
 
   let location = useLocation();
-
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   /* hook-form */
   const { register, handleSubmit, watch, getValues } =
