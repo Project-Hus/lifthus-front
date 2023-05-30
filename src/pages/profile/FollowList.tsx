@@ -53,7 +53,7 @@ const FollowList = ({ type }: { type: "following" | "followers" }) => {
         bgColor={ThemeColor.backgroundColorDarker}
         variant="unstyled"
         align="end"
-        defaultIndex={type === "following" ? 0 : 1}
+        index={type === "following" ? 0 : 1}
       >
         <TabList>
           <Tab
