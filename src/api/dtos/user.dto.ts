@@ -12,10 +12,20 @@ export type GetUserInfoDto = {
   profile_image_url?: string;
   created_at: Date;
   updated_at: Date;
+
+  usercode: string;
+  company: string;
+  location: string;
+  contact: string;
 };
 
 export type UpdateUserInfoDto = {
   uid: number;
   username?: string;
   birthdate?: Date;
+
+  usercode?: string;
+  company?: string;
+  location?: string;
+  contact?: string;
 };
