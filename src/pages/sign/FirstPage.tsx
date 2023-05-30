@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router";
 import BigThemeBtn from "../../common/components/buttons/BigThemeBtn";
-import ErrorPage from "../../common/components/ErrorPage";
+import ErrorPage from "../ErrorPage";
 
 import Logo from "../../common/components/Logo";
 

@@ -12,15 +12,16 @@ import { Button, Spinner } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
-import { Uid } from "../../../../api/interfaces/userApi.interface";
-import relationApi from "../../../../api/relationApi";
-import userApi from "../../../../api/userApi";
-import { ThemeColor } from "../../../../common/styles/theme.style";
-import useUserStore from "../../../../store/user.zustand";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Uid } from "../../api/interfaces/userApi.interface";
+import relationApi from "../../api/relationApi";
+import userApi from "../../api/userApi";
+import { ThemeColor } from "../../common/styles/theme.style";
+import useUserStore from "../../store/user.zustand";
 
 const ProfileCard = ({ uid }: Uid) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // client's uid
   const { uid: clientUid } = useUserStore();
@@ -102,15 +103,21 @@ const ProfileCard = ({ uid }: Uid) => {
             />
             <Stack paddingRight={"0"}>
               <Box>
-                <LinkChakra as={Link} to={`/profile/${userinfo?.username}`}>
+                <LinkChakra
+                  onClick={() => navigate(`/profile/${userinfo?.username}`)}
+                >
                   <Heading paddingLeft={"0.2em"}>{username}</Heading>
                 </LinkChakra>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
-                  <LinkChakra as={Link} to="following">
+                  <LinkChakra
+                    onClick={() => navigate(`/profile/${username}/following`)}
+                  >
                     {userFollowing ? userFollowing.length : 0} following
                   </LinkChakra>
                   {" · "}
-                  <LinkChakra as={Link} to="followers">
+                  <LinkChakra
+                    onClick={() => navigate(`/profile/${username}/followers`)}
+                  >
                     {userFollowers ? userFollowers.length : 0} followers
                   </LinkChakra>
                 </Text>

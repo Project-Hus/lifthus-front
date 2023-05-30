@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import ErrorPage from "../../common/components/ErrorPage";
+import ErrorPage from "../ErrorPage";
 import Profile from "./Profile";
 
 const ProfileRoute = () => {

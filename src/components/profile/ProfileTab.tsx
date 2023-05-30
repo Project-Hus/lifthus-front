@@ -24,9 +24,11 @@ import {
 
 import CalendarHeatmap from "react-calendar-heatmap";
 import { Avatar, FormLabel } from "@chakra-ui/react";
-import { ThemeColor } from "../../../../common/styles/theme.style";
+import ProfileSetting from "./profileTab/ProfileSetting";
+import { ThemeColor } from "../../common/styles/theme.style";
+import { GetUserInfoDto } from "../../api/dtos/user.dto";
 
-const ProfileTab = () => {
+const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
   // later query last rec
   const sbd_total = 460; // s + b + d
   return (
@@ -152,7 +154,7 @@ const ProfileTab = () => {
                     #ID
                   </Heading>
                   <Text pt="2" fontSize="sm">
-                    #12a2g
+                    {user.usercode}
                   </Text>
                 </Box>
                 <Box>
@@ -160,7 +162,7 @@ const ProfileTab = () => {
                     🏢 Company
                   </Heading>
                   <Text pt="2" fontSize="sm">
-                    PKNU
+                    {user.company}
                   </Text>
                 </Box>
                 <Box>
@@ -168,7 +170,7 @@ const ProfileTab = () => {
                     🗺️ Location
                   </Heading>
                   <Text pt="2" fontSize="sm">
-                    Busan
+                    {user.location}
                   </Text>
                 </Box>
                 <Box>
@@ -176,7 +178,7 @@ const ProfileTab = () => {
                     ☏ Contact
                   </Heading>
                   <Text pt="2" fontSize="sm">
-                    lifthus531@gmail.com
+                    {user.contact}
                   </Text>
                 </Box>
               </Stack>
@@ -299,7 +301,9 @@ const ProfileTab = () => {
             </Stat>
           </StatGroup>
         </TabPanel>
-        <TabPanel>프로필 설정</TabPanel>
+        <TabPanel>
+          <ProfileSetting />
+        </TabPanel>
       </TabPanels>
     </Tabs>
   );

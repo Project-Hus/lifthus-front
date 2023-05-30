@@ -1,20 +1,18 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { Route, Routes, useParams } from "react-router";
-
 import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
-
-import ProfileCard from "./components/Profile/ProfileCard";
 import repsApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorPage from "../../common/components/ErrorPage";
+import ErrorPage from "../ErrorPage";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
-import Posts from "../../common/posts/Posts";
-import ProfileTab from "./components/Profile/ProfileTab";
+import Posts from "../../components/Posts";
 import FollowList from "./FollowList";
-import CreatePost from "../../common/posts/components/CreatePost";
 import useUserStore from "../../store/user.zustand";
+import CreatePost from "../../components/posts/CreatePost";
+import ProfileCard from "../../components/profile/ProfileCard";
+import ProfileTab from "../../components/profile/ProfileTab";
 
 const Profile = () => {
   const username = useParams().username;
@@ -54,7 +52,7 @@ const Profile = () => {
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
                 <Routes>
-                  <Route index element={<ProfileTab />} />
+                  <Route index element={<ProfileTab user={user} />} />
                   <Route index element={<Posts posts={posts ? posts : []} />} />
                   <Route
                     path="following"
