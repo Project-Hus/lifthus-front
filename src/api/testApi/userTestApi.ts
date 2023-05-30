@@ -1,8 +1,8 @@
 import { GetUserInfoDto } from "../dtos/user.dto";
 import {
-  SetUserInfoParams,
   Uid,
   UserApi,
+  UserMutationParams,
   Username,
 } from "../interfaces/userApi.interface";
 
@@ -10,11 +10,15 @@ import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../../common/routes";
 
 const userTestApi: UserApi = {
-  setUserinfo: async ({
-    uid,
-    newUserinfo,
-  }: SetUserInfoParams): Promise<Uid> => {
-    return Promise.reject("not implemented");
+  setUserinfo: async (newUserinfo: UserMutationParams): Promise<Uid> => {
+    const lst = localStorage.getItem("lifthus_st");
+    const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", newUserinfo, {
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
     const lst = localStorage.getItem("lifthus_st");
