@@ -20,7 +20,7 @@ const userApi: UserApi = {
     if (process.env.NODE_ENV === "development") {
       return await userTestApi.getUserInfo({ uid });
     }
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
       withCredentials: true,
     });
     return res.data;
@@ -32,7 +32,7 @@ const userApi: UserApi = {
       return userTestApi.getUserInfoByUsername({ username });
     }
     const res = await axios.get(
-      LIFTHUS_AUTH_URL + "/auth/username/" + username,
+      LIFTHUS_AUTH_URL + "/auth/username/info/" + username,
       {
         withCredentials: true,
       }

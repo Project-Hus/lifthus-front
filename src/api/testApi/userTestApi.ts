@@ -18,7 +18,7 @@ const userTestApi: UserApi = {
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
     const lst = localStorage.getItem("lifthus_st");
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
       withCredentials: true,
       headers: {
         Authorization: lst,
@@ -31,7 +31,7 @@ const userTestApi: UserApi = {
   }: Username): Promise<GetUserInfoDto> => {
     const lst = localStorage.getItem("lifthus_st");
     const res = await axios.get(
-      LIFTHUS_AUTH_URL + "/auth/username/" + username,
+      LIFTHUS_AUTH_URL + "/auth/username/info/" + username,
       {
         withCredentials: true,
         headers: {
