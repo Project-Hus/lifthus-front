@@ -7,21 +7,14 @@ import FormInput, {
 
 import Logo from "../../common/components/Logo";
 import { password_limit } from "../../common/constraints";
-import { useLocation, useNavigate } from "react-router-dom";
-import authApi from "../../api/authApi";
+import { useLocation } from "react-router-dom";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { SignParams } from "../../api/interfaces/authApi.interface";
-import BlueSpinner from "../../common/components/spinners/BlueSpinner";
-import { StatusInfo } from "../../api/interfaces/statusInfo.interface";
-import statusInfo from "../../api/interfaces/statusInfo.json";
+import { useForm } from "react-hook-form";
 import SubmitLink from "../../common/components/links/SubmitLink";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
 
-  let navigate = useNavigate();
   const { pathname } = useLocation();
 
   /* hook-form */
