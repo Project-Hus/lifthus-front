@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from "react";
 import { Route, Routes, useParams } from "react-router";
 
-import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
 
 import ProfileCard from "./components/Profile/ProfileCard";
 import repsApi from "../../api/postApi";
@@ -13,9 +13,13 @@ import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Posts from "../../common/posts/Posts";
 import ProfileTab from "./components/Profile/ProfileTab";
 import FollowList from "./FollowList";
+import CreatePost from "../../common/posts/components/CreatePost";
+import useUserStore from "../../store/user.zustand";
 
 const Profile = () => {
   const username = useParams().username;
+
+  const { uid: clientUid } = useUserStore();
 
   const { data: user } = useQuery({
     queryKey: ["user", { username }],
@@ -38,7 +42,7 @@ const Profile = () => {
 
   if (!!uid)
     return (
-      <BasicPageLayout>
+      <BasicPageLayoutNoMargin>
         <QueryErrorResetBoundary>
           {({ reset }) => (
             <ErrorBoundary
@@ -62,13 +66,21 @@ const Profile = () => {
                   />
                 </Routes>
                 <Routes>
-                  <Route index element={<Posts posts={posts ? posts : []} />} />
+                  <Route
+                    index
+                    element={
+                      <>
+                        {clientUid === user.uid ? <CreatePost /> : null}
+                        <Posts posts={posts ? posts : []} />
+                      </>
+                    }
+                  />
                 </Routes>
               </Suspense>
             </ErrorBoundary>
           )}
         </QueryErrorResetBoundary>
-      </BasicPageLayout>
+      </BasicPageLayoutNoMargin>
     );
   return <ErrorPage />;
 };

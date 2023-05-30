@@ -5,10 +5,12 @@ import Profile from "./Profile";
 
 const ProfileRoute = () => {
   return (
-    <Routes>
-      <Route path=":username/*" element={<Profile />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
+    <div>
+      <Routes>
+        <Route path=":username/*" element={<Profile />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </div>
   );
 };
 

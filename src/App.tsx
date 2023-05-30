@@ -14,11 +14,10 @@ import Register from "./pages/register/Register";
 import authApi from "./api/authApi";
 import Pending from "./pages/pending/Pending";
 import userApi from "./api/userApi";
-import { GetUserInfoDto } from "./api/dtos/user.dto";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   font-size: calc(14px + 2vmin);
