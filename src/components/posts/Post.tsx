@@ -221,7 +221,7 @@ const Post = ({ post }: PostProp) => {
                     variant="unstyled"
                     isActive={isOpen}
                     as={Button}
-                    color={ThemeColor.basicColor}
+                    color="white"
                     rightIcon={<ChevronDownIcon fontSize="2.2em" />}
                   />
                   <MenuList
@@ -388,7 +388,7 @@ const Post = ({ post }: PostProp) => {
               _hover={{ bg: ThemeColor.backgroundColor }}
               onClick={() => likeMutate()}
             >
-              {post.likenum} Likes
+              <Text color="white">{post.likenum} Likes</Text>
             </Button>
             <Button
               {...buttonProps}
@@ -397,7 +397,7 @@ const Post = ({ post }: PostProp) => {
               leftIcon={<>💬</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
             >
-              {numComments} Comments
+              <Text color="white">{numComments} Comments</Text>
             </Button>
           </CardFooter>
         )}
