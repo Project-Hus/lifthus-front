@@ -27,6 +27,7 @@ import { Avatar, FormLabel } from "@chakra-ui/react";
 import ProfileSetting from "./profileTab/ProfileSetting";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { GetUserInfoDto } from "../../api/dtos/user.dto";
+import ProfileContact from "./profileTab/ProfileContact";
 
 const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
   // later query last rec
@@ -142,48 +143,7 @@ const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
           </div>
         </TabPanel>
         <TabPanel>
-          <Card
-            borderRadius={"1em"}
-            bgColor={ThemeColor.backgroundColor}
-            color={"white"}
-          >
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    #ID
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    {user.usercode}
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    🏢 Company
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    {user.company}
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    🗺️ Location
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    {user.location}
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    ☏ Contact
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    {user.contact}
-                  </Text>
-                </Box>
-              </Stack>
-            </CardBody>
-          </Card>
+          <ProfileContact user={user} />
         </TabPanel>
         <TabPanel>
           <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>

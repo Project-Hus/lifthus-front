@@ -7,11 +7,21 @@ import {
   StackDivider,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
-import { GetUserInfoDto } from "../../../api/dtos/user.dto";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { GetUserInfoDto, UpdateUserInfoDto } from "../../../api/dtos/user.dto";
 import { ThemeColor } from "../../../common/styles/theme.style";
 
 const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
+  const propInfo: UpdateUserInfoDto = {
+    uid: user.uid,
+    company: user.company,
+    location: user.location,
+    contact: user.contact,
+  };
+  const [contactInfo, setContactInfo] = useState<UpdateUserInfoDto>(propInfo);
+
+  const { register, handleSubmit, watch } = useForm<UpdateUserInfoDto>();
   return (
     <Card
       borderRadius={"1em"}
