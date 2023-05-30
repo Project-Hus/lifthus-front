@@ -52,7 +52,7 @@ const Profile = () => {
               </Suspense>
               <Suspense fallback={<BlueSpinner />}>
                 <Routes>
-                  <Route index element={<ProfileTab />} />
+                  <Route index element={<ProfileTab user={user} />} />
                   <Route index element={<Posts posts={posts ? posts : []} />} />
                   <Route
                     path="following"
