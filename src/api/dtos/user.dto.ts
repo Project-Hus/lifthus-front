@@ -24,7 +24,6 @@ export type UpdateUserInfoDto = {
   username?: string;
   birthdate?: Date;
 
-  usercode?: string;
   company?: string;
   location?: string;
   contact?: string;

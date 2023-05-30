@@ -10,16 +10,16 @@ import {
 import userTestApi from "./testApi/userTestApi";
 
 const userApi: UserApi = {
-  setUserinfo: async (newUserinfo: UserMutationParams) => {
+  setUserInfo: async (newUserinfo: UserMutationParams) => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.setUserinfo(newUserinfo);
+      return userTestApi.setUserInfo(newUserinfo);
     }
     const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", newUserinfo, {
       withCredentials: true,
     });
     return res.data;
   },
-  getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
+  getUserInfo: async ({ uid }: Uid) => {
     if (process.env.NODE_ENV === "development") {
       return await userTestApi.getUserInfo({ uid });
     }
