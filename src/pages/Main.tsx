@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import ErrorPage from "../common/components/ErrorPage";
+import ErrorPage from "./ErrorPage";
 
 import useUserStore from "../store/user.zustand";
 import Routine from "./routine/Routine";

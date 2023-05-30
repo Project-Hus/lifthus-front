@@ -15,14 +15,13 @@ import {
   useDisclosure,
   Textarea,
 } from "@chakra-ui/react";
-
-import useUserStore from "../../../store/user.zustand";
 import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { ThemeColor } from "../../styles/theme.style";
 import { Image } from "@chakra-ui/image";
 import styled from "@emotion/styled";
-import postApi from "../../../api/postApi";
-import { CreatePostDto } from "../../../api/dtos/post.dto";
+import useUserStore from "../../store/user.zustand";
+import { CreatePostDto } from "../../api/dtos/post.dto";
+import postApi from "../../api/postApi";
+import { ThemeColor } from "../../common/styles/theme.style";
 
 const CreatePost = () => {
   //call user_id from zustand

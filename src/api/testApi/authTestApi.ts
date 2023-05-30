@@ -69,5 +69,12 @@ const authTestApi: AuthApi = {
       return { uid: undefined, username: "" };
     }
   },
+  signOut: async (): Promise<boolean> => {
+    localStorage.setItem("lifthus_st", "");
+    const res = await axios.delete(HUS_AUTH_URL + "/auth/session/revoke", {
+      withCredentials: true,
+    });
+    return res.status === statusInfo.succ.Ok.code ? true : Promise.reject();
+  },
 };
 export default authTestApi;

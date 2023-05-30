@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@chakra-ui/layout";
+import { QueryCommentDto } from "../../api/dtos/comment.dto";
 import Comment from "./comment";
-import { QueryCommentDto } from "../../../api/dtos/comment.dto";
 
 interface CommentListProps {
   comments: QueryCommentDto[];

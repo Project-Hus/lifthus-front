@@ -2,6 +2,7 @@ import { Uid } from "./userApi.interface";
 
 export interface AuthApi {
   updateSession: () => Promise<SessionResponse>;
+  signOut: () => Promise<boolean>;
 }
 export type SignParams = {
   username: string;

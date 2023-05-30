@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "public/callback/googleCallback.js", "public/callback"  ]
+, "public/callback/googleCallback.js", "public/callback", "src/components/posts", "src/components/Posts.tsx"  ]
 }

@@ -4,10 +4,10 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import relationApi from "../../api/relationApi";
 import userApi from "../../api/userApi";
-import ErrorPage from "../../common/components/ErrorPage";
+import ErrorPage from "../ErrorPage";
 import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
-import UserList from "./components/FollowList/UserList";
+import UserList from "../../components/profile/FollowList/UserList";
 
 const FollowList = ({ type }: { type: "following" | "followers" }) => {
   const username = useParams().username;
@@ -53,7 +53,7 @@ const FollowList = ({ type }: { type: "following" | "followers" }) => {
         bgColor={ThemeColor.backgroundColorDarker}
         variant="unstyled"
         align="end"
-        defaultIndex={type === "following" ? 0 : 1}
+        index={type === "following" ? 0 : 1}
       >
         <TabList>
           <Tab

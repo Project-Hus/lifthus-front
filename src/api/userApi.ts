@@ -2,25 +2,28 @@ import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../common/routes";
 import { GetUserInfoDto } from "./dtos/user.dto";
 import {
-  SetUserInfoParams,
   Uid,
   UserApi,
+  UserMutationParams,
   Username,
 } from "./interfaces/userApi.interface";
 import userTestApi from "./testApi/userTestApi";
 
 const userApi: UserApi = {
-  setUserinfo: async (user: SetUserInfoParams) => {
+  setUserinfo: async (newUserinfo: UserMutationParams) => {
     if (process.env.NODE_ENV === "development") {
-      return userTestApi.setUserinfo(user);
+      return userTestApi.setUserinfo(newUserinfo);
     }
-    return userTestApi.setUserinfo(user);
+    const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", newUserinfo, {
+      withCredentials: true,
+    });
+    return res.data;
   },
   getUserInfo: async ({ uid }: Uid): Promise<GetUserInfoDto> => {
     if (process.env.NODE_ENV === "development") {
       return await userTestApi.getUserInfo({ uid });
     }
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/" + uid, {
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
       withCredentials: true,
     });
     return res.data;
@@ -32,7 +35,7 @@ const userApi: UserApi = {
       return userTestApi.getUserInfoByUsername({ username });
     }
     const res = await axios.get(
-      LIFTHUS_AUTH_URL + "/auth/username/" + username,
+      LIFTHUS_AUTH_URL + "/auth/username/info/" + username,
       {
         withCredentials: true,
       }
