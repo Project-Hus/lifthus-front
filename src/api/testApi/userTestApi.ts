@@ -10,7 +10,9 @@ import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../../common/routes";
 
 const userTestApi: UserApi = {
-  setUserinfo: async (newUserinfo: UserMutationParams): Promise<Uid> => {
+  setUserInfo: async (
+    newUserinfo: UserMutationParams
+  ): Promise<GetUserInfoDto> => {
     const lst = localStorage.getItem("lifthus_st");
     const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", newUserinfo, {
       withCredentials: true,
