@@ -23,7 +23,7 @@ import useUserStore from "../../../store/user.zustand";
 const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
   const queryClient = useQueryClient();
 
-  const { setUserInfo } = useUserStore();
+  const { setUserInfo, uid } = useUserStore();
 
   const [contactInfo, setContactInfo] = useState<UpdateUserInfoDto>({
     uid: user.uid,
@@ -63,21 +63,21 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
             {...register("company")}
             title="🏢 Company"
             content={contactInfo.company || ""}
-            change={true}
+            change={uid === user.uid}
             onSubmit={onSubmit}
           />
           <Contact
             {...register("location")}
             title="🗺️ Location"
             content={contactInfo.location || ""}
-            change={true}
+            change={uid === user.uid}
             onSubmit={onSubmit}
           />
           <Contact
             {...register("contact")}
             title="☏ Contact"
             content={contactInfo.contact || ""}
-            change={true}
+            change={uid === user.uid}
             onSubmit={onSubmit}
           />
         </Stack>
