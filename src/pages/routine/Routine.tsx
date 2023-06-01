@@ -15,7 +15,7 @@ const Routine = () => {
         <Route path="menu" element={<RoutineMenu />} />
         <Route path="menu/createprogramm" element={<CreateProgramm />} />
         <Route path="menu/detail" element={<DetailProgram />} />
-        <Route path="menu/detail_start " element={<StartProgram />} />
+        <Route path="menu/start" element={<StartProgram />} />
       </Routes>
     </div >
 
