@@ -2,12 +2,11 @@ import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
-import { Spinner, Textarea } from "@chakra-ui/react";
+import { Spinner, Textarea, Link as LinkChakra } from "@chakra-ui/react";
 
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React, { useEffect, useRef } from "react";
 import {
-  ChatIcon,
   CheckIcon,
   ChevronDownIcon,
   CloseIcon,
@@ -36,6 +35,7 @@ import postApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 
 import { GetUserInfoDto } from "../../api/dtos/user.dto";
+import { Link } from "react-router-dom";
 
 //resizing textarea
 function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -208,7 +208,9 @@ const Post = ({ post }: PostProp) => {
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
               <Avatar name={username} src={profileImage} />
               <Box>
-                <Heading fontSize="1.1em">{username}</Heading>
+                <LinkChakra as={Link} to={`/profile/${username}`}>
+                  <Heading fontSize="1.1em">{username}</Heading>
+                </LinkChakra>
                 <Text fontSize={"0.9em"} color="gray.400">
                   {`${post.createdAt}`.slice(0, 21)}
                 </Text>
@@ -221,7 +223,7 @@ const Post = ({ post }: PostProp) => {
                     variant="unstyled"
                     isActive={isOpen}
                     as={Button}
-                    color={ThemeColor.basicColor}
+                    color="white"
                     rightIcon={<ChevronDownIcon fontSize="2.2em" />}
                   />
                   <MenuList
@@ -388,7 +390,7 @@ const Post = ({ post }: PostProp) => {
               _hover={{ bg: ThemeColor.backgroundColor }}
               onClick={() => likeMutate()}
             >
-              {post.likenum} Likes
+              <Text color="white">{post.likenum} Likes</Text>
             </Button>
             <Button
               {...buttonProps}
@@ -397,7 +399,7 @@ const Post = ({ post }: PostProp) => {
               leftIcon={<>💬</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
             >
-              {numComments} Comments
+              <Text color="white">{numComments} Comments</Text>
             </Button>
           </CardFooter>
         )}

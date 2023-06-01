@@ -1,7 +1,7 @@
 import { GetUserInfoDto } from "../dtos/user.dto";
 
 export interface UserApi {
-  setUserinfo: (newUserinfo: UserMutationParams) => Promise<Uid>;
+  setUserInfo: (newUserinfo: UserMutationParams) => Promise<GetUserInfoDto>;
   getUserInfo: ({ uid }: Uid) => Promise<GetUserInfoDto>;
   getUserInfoByUsername: ({ username }: Username) => Promise<GetUserInfoDto>;
 }
