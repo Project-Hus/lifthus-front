@@ -4,7 +4,7 @@ import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CreateProgram from "./CreateProgram";
+import CreateProgram from "./CreateProgram/CreateProgram";
 
 const RoutineMenu = () => {
 
