@@ -1,8 +1,7 @@
 name: Other
 description: Choose if your issue doesn't apply to the other templates
 labels: ["Other"]
-assignees:
-  - lifthus
+# assignees:
 body:
   - type: textarea
     id: issue-content
