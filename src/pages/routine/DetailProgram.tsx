@@ -97,7 +97,7 @@ const DetailProgram = () => {
                         <span>
                             <Flex >
                                 <Text>1rm:</Text>
-                                <Input marginX="0.3em" type="number" />{"kg"}
+                                <Input min="0" width="auto" type="number" />kg
                             </Flex>
                         </span>
 
