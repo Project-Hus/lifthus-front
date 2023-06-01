@@ -15,7 +15,7 @@ const RoutineShort = ({ result, isDetail }: { result: programDB, isDetail: boole
 
             <Flex direction={"row"} margin="0.3em" >
 
-                {(result.images && isDetail == false) && result.images?.map((srcs, idx) => {
+                {(result.images) && result.images?.map((srcs, idx) => {
                     return (<Img width="20%" height="20%" src={srcs} key={idx}></Img>)
                 }
                 )
