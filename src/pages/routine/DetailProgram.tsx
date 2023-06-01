@@ -1,11 +1,13 @@
 import { StarIcon, BellIcon } from "@chakra-ui/icons";
-import { Box, Card, Flex, Img, Text } from "@chakra-ui/react";
+import { Box, Button, Card, Flex, Img, Input, Text } from "@chakra-ui/react";
 import RoutineShort from "./RoutineShort";
 import { programDB } from "../../api/mocks/routineApi.mock";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import useProgramStore from "../../store/program.zustand";
-
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import UnitRoutine from "./UnitRoutine";
+import { start } from "repl";
 const DetailProgram = () => {
     const CardStyle = css`
     color: white;
@@ -27,14 +29,25 @@ const DetailProgram = () => {
         created_at: currentProgram.created_at,
         date: currentProgram.date,
     }
+    const [isStart, setStart] = useState(true);
+    const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
+    const todayDate = new Date().toISOString().split('T')[0]
+    const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
+        setStartDate(e.target.value);
+    }
+    // Date 를 입력받고 7일 후 날짜를 반환하는 함수
+    const getEndDate = (startDate: string, week: number) => {
+        const start = new Date(startDate);
+        const end = new Date(start.setDate(start.getDate() + 7 * week));
+        return end.toISOString().slice(0, 10);
+    }
+
     return (
         <>
-
-            {/* <RoutineShort isDetail={false} result={program} /> */}
+            {/* 프로그램 기몬 정보 창 */}
             < Card bg={ThemeColor.basicColor} marginY="0.5em" css={CardStyle} width="100%">
                 <div>
                     <Flex direction={"row"} margin="0.3em" >
-                        <Img src={program.images ? program.images[0] : ""} width="100px" height="100px" />
                         <div>
 
                             <Flex>
@@ -50,8 +63,32 @@ const DetailProgram = () => {
                     </Box >
                 </div >
             </Card >
-            {/* 세부사항 요약창 작성 */}
-            {/* < RoutineShort isDetail={true} result={program} /> */}
+            {/* 프로그램 세부 설명창 */}
+
+            < RoutineShort isDetail={true} result={program} />
+            <Box float="right">
+                <StarIcon marginRight="0.3em" />
+                <BellIcon marginLeft="0.3em" />
+            </Box >
+            <br></br>
+            <Box>
+                <Flex alignSelf="center" justifyContent={"space-between"}>
+                    <Button onClick={() => setStart(!isStart)} bg={isStart ? "#9298E2" : ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }} > {isStart ? "취소" : "프로그램 시작"}</Button>
+                    <Button bg={ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>변형하기</Button>
+                </Flex>
+            </Box>
+            {/* 날짜 입력 창 */}
+            <Flex>
+                <Text flex={2}>시작일</Text>
+                <Input flex={4} defaultValue={todayDate} onChange={handleStartDate} type="date" />
+            </Flex>
+            {/* 주차별 루틴 */}
+            <UnitRoutine isStart={isStart} unitDate={"week"} startDate={startDate} num={1} />
+
+            <Flex>
+                <Button flex={1}>Work out!</Button>
+            </Flex>
+
 
         </>
     )
