@@ -3,7 +3,7 @@ import { Box, Button, Flex, FormLabel, Input, Text, Textarea } from "@chakra-ui/
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
-const CreateProgramm = () => {
+const CreateProgram = () => {
     //일정을 담는 리스트
     const [routineList, setRoutineList] = useState<string[]>([]);
 
@@ -75,4 +75,4 @@ const CreateProgramm = () => {
     );
 }
 
-export default CreateProgramm;
+export default CreateProgram;

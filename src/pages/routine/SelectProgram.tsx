@@ -46,10 +46,6 @@ const SelectProgram = () => {
 
     return (
         <>
-
-
-
-
             <div >
                 <Tabs isFitted variant='unstyled' >
                     <TabList >
