@@ -24,6 +24,8 @@ export type exerciseDB = {
     trainingType: string;
     images: string[];
     description: string;
+    bodyPort?: string;
+    time?: string
 }
 export const recState = {
     nextRid: 102,
