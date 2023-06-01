@@ -1,11 +1,11 @@
-import { CheckIcon, EditIcon, TriangleDownIcon } from "@chakra-ui/icons"
+import { CheckIcon, DeleteIcon, EditIcon, TriangleDownIcon } from "@chakra-ui/icons"
 import { Box, Button, Card, Flex, Text } from "@chakra-ui/react"
 import { useDisclosure } from '@chakra-ui/react'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { exerciseDB } from "../../api/mocks/routineApi.mock"
 import SearchExercise from "./CreateProgram/SearchExrcise"
 
-export const WeekProgramForm = ({ week }: { week: number }) => {
+export const WeekProgramForm = ({ week, }: { week: number, }) => {
     const { getDisclosureProps, getButtonProps, isOpen, onClose } = useDisclosure()
 
     const buttonProps = getButtonProps()
@@ -34,7 +34,7 @@ export const WeekProgramForm = ({ week }: { week: number }) => {
     )
 }
 
-const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
+const DayProgramForm = ({ weekdays, }: { weekdays: string, }) => {
     //for expand and collapse of day program
     const { getDisclosureProps, getButtonProps, isOpen, onClose, onOpen } = useDisclosure()
     const buttonProps = getButtonProps()
@@ -42,18 +42,30 @@ const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
     //for expand searchWindow
     const EditProps = useDisclosure()
     const EditbuttonProps = EditProps.getButtonProps()
-    const EditdisclosureProps = EditProps.getDisclosureProps()
-
     //state for day of exercise list
     const [exerciseList, setExerciseList] = useState<exerciseDB[]>([])
+    const EditdisclosureProps = EditProps.getDisclosureProps()
 
+    const addExercise = (exercise: exerciseDB) => {
+        setExerciseList([...exerciseList, exercise])
+    }
 
+    const deleteExercise = (exercise: exerciseDB) => {
+        setExerciseList(exerciseList.filter((item) => item.id !== exercise.id))
+    }
     return (
         <Box paddingLeft="3%">
             <Flex direction="column">
                 <Box {...buttonProps}><TriangleDownIcon transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"} />{weekdays + "요일"}</Box>
-                <Box {...disclosureProps}>{weekdays}</Box>
-                <Box {...EditdisclosureProps} ><SearchExercise /></Box>
+                {exerciseList.map((exercise, idx) =>
+                    <Box key={idx}>
+                        <Box>
+                            {exercise.name}
+                        </Box>
+                        <Button onClick={() => deleteExercise(exercise)}><DeleteIcon /></Button>
+                    </Box>
+                )}
+                <Box {...EditdisclosureProps} ><SearchExercise addExercise={addExercise} /></Box>
                 <Button {...EditdisclosureProps}>make new excercise</Button>
                 {EditProps.isOpen
                     ? <Button {...EditbuttonProps}><CheckIcon /></Button>

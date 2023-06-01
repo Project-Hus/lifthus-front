@@ -16,7 +16,7 @@ type SearchFormData = {
 
 
 
-const SearchExercise = () => {
+const SearchExercise = ({ addExercise }: { addExercise: (excercise: exerciseDB) => void }) => {
     const [SearchResult, setSearchResult] = useState<exerciseDB[]>([]);
     type SearchFormData = {
         searchTerm: string;
@@ -27,6 +27,12 @@ const SearchExercise = () => {
     const onSubmit = () => {
         setSearchResult(exerciseList);
     }
+
+    const addExerciseHandler = (exercise: exerciseDB) => {
+        console.log("clicked")
+        addExercise(exercise);
+    }
+
 
 
     return (
@@ -44,7 +50,7 @@ const SearchExercise = () => {
                                 <Text>{exercise.name}</Text>
                                 <Text>{exercise.trainingType}</Text>
                                 <Text>{exercise.bodyPort ? exercise.bodyPort : "없음"}</Text>
-                                <Button><AddIcon /></Button>
+                                <Button onClick={() => addExerciseHandler(exercise)}><AddIcon /></Button>
                             </Flex>
                         </div>
                     )
