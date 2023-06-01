@@ -7,7 +7,9 @@ import { css } from "@emotion/react";
 import useProgramStore from "../../store/program.zustand";
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import UnitRoutine from "./UnitRoutine";
-import { start } from "repl";
+import { useNavigate } from "react-router-dom";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+
 const DetailProgram = () => {
     const CardStyle = css`
     color: white;
@@ -44,78 +46,56 @@ const DetailProgram = () => {
         return end.toISOString().slice(0, 10);
     }
 
+    const navigate = useNavigate();
+    const goProgramStart = () => {
+        navigate('/routine/menu/start');
+    };
+
     return (
-        <>
-            {/* 프로그램 기몬 정보 창 */}
-            < Card bg={ThemeColor.basicColor} marginY="0.5em" css={CardStyle} width="100%">
-                <div>
-                    <Flex direction={"row"} margin="0.3em" >
-                        <div>
+        <BasicPageLayout>
 
-                            <Flex>
-                                <Text fontSize="ms" fontWeight={"bold"}>{program.routineName}</Text>
-                                <Text fontSize="ms" paddingLeft="0.5em">{"by" + program.author}</Text>
-                            </Flex>
-                        </div>
+            <>
 
+                {/* 프로그램 기몬 정보 창 */}
+                < Card bg={ThemeColor.basicColor} marginY="0.5em" css={CardStyle} width="100%">
+                    <div>
+                        <Flex direction={"row"} margin="0.3em" >
+                            <div>
+
+                                <Flex>
+                                    <Text fontSize="ms" fontWeight={"bold"}>{program.routineName}</Text>
+                                    <Text fontSize="ms" paddingLeft="0.5em">{"by" + program.author}</Text>
+                                </Flex>
+                            </div>
+
+                        </Flex>
+                        <Box float="right">
+                            <StarIcon />{program.starednum}
+                            <BellIcon />{program.likenum}
+                        </Box >
+                    </div >
+                </Card >
+                {/* 프로그램 세부 설명창 */}
+
+                < RoutineShort isDetail={true} result={program} />
+                <Box float="right">
+                    <StarIcon marginRight="0.3em" />
+                    <BellIcon marginLeft="0.3em" />
+                </Box >
+                <br></br>
+                <Box>
+                    <Flex alignSelf="center" justifyContent={"space-between"}>
+                        <Button onClick={goProgramStart} bg={isStart ? "#9298E2" : ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }} >
+                            {"프로그램 시작"}
+                        </Button>
+                        <Button bg={ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>변형하기</Button>
                     </Flex>
-                    <Box float="right">
-                        <StarIcon />{program.starednum}
-                        <BellIcon />{program.likenum}
-                    </Box >
-                </div >
-            </Card >
-            {/* 프로그램 세부 설명창 */}
+                </Box>
+                {/* 주차별 루틴 */}
+                <UnitRoutine isStart={false} unitDate={"week"} startDate={startDate} num={1} />
+            </>
+        </BasicPageLayout>
 
-            < RoutineShort isDetail={true} result={program} />
-            <Box float="right">
-                <StarIcon marginRight="0.3em" />
-                <BellIcon marginLeft="0.3em" />
-            </Box >
-            <br></br>
-            <Box>
-                <Flex alignSelf="center" justifyContent={"space-between"}>
-                    <Button onClick={() => setStart(!isStart)} bg={isStart ? "#9298E2" : ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }} > {isStart ? "취소" : "프로그램 시작"}</Button>
-                    <Button bg={ThemeColor.backgroundColor} flexGrow={1} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>변형하기</Button>
-                </Flex>
-            </Box>
-            {/* 날짜 입력 창 */}
-            <Flex>
-                <Text flex={2}>시작일</Text>
-                <Input flex={4} defaultValue={todayDate} onChange={handleStartDate} type="date" />
-            </Flex>
-            {/* 운동 목록 */}
-            {ExerciseList.map((exercise, index) => {
-                return (
-                    <Flex key={index} alignItems={"center"}>
-                        <div>
-                            <Flex alignItems={"center"}>
-                                <Img src={exercise.images[0]} width="30%" />
-                                <Text >{exercise.name}</Text>
-                            </Flex>
-                        </div>
-                        <span>
-                            <Flex >
-                                <Text>1rm:</Text>
-                                <Input min="0" width="auto" type="number" />kg
-                            </Flex>
-                        </span>
-
-                    </Flex>
-
-                )
-            })
-            }
-
-            {/* 주차별 루틴 */}
-            <UnitRoutine isStart={isStart} unitDate={"week"} startDate={startDate} num={1} />
-
-            <Flex>
-                <Button flex={1}>Work out!</Button>
-            </Flex>
-
-
-        </>
     )
 }
 export default DetailProgram;

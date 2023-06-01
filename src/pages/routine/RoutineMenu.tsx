@@ -1,9 +1,10 @@
 import { Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Button, Box, Stack } from "@chakra-ui/react";
-import SelectProgram from "./SelectRoutine";
+import SelectProgram from "./SelectProgram";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import CreateProgramm from "./CreateProgramm";
 
 const RoutineMenu = () => {
 
@@ -83,7 +84,7 @@ const RoutineMenu = () => {
                     {(selectedButton == "none" || selectedButton == "button4")
                         && <Button color={changeButtonColor("button4")} css={buttonstyle} onClick={() => handleButtonClick('button4')}>
                             <Box as="span" css={titlestyle} >
-                                임시 루틴
+                                새 프로그램 생성
                             </Box>
                         </Button>
                     }
@@ -92,7 +93,7 @@ const RoutineMenu = () => {
             {selectedButton && (
                 <Box p={4}>
                     {selectedButton === 'button1' && <SelectProgram />}
-
+                    {selectedButton === 'button4' && <CreateProgramm />}
                 </Box>
             )}
 
