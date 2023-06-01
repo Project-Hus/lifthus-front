@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import relationApi from "../../api/relationApi";
 import userApi from "../../api/userApi";
 import ErrorPage from "../ErrorPage";
-import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
 import UserList from "../../components/profile/FollowList/UserList";
 

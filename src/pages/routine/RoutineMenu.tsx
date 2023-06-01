@@ -1,10 +1,11 @@
 import { Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Button, Box, Stack } from "@chakra-ui/react";
-import SelectRoutine from "./SelectRoutine";
+import SelectProgram from "./SelectRoutine";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CreateProgramm from "./CreateProgramm";
+import SelectRoutine from "./SelectRoutine";
 
 const RoutineMenu = () => {
 

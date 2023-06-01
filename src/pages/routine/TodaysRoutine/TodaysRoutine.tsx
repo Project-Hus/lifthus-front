@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { Link, useNavigate } from "react-router-dom";
 import RoutineMenu from "../RoutineMenu";
-import { routineDB, routineList } from "../../../api/mocks/routineApi.mock";
+import { programDB, programList } from "../../../api/mocks/routineApi.mock";
 import { set } from "react-hook-form";
 
 const TodaysRoutine = () => {
-  const todayList: routineDB[] = routineList;
+  const todayList: programDB[] = programList;
   const today = new Date().toDateString();
 
   const [IsRoutineMenu, setIsRoutineMenu] = useState(false);
@@ -41,7 +41,7 @@ const TodaysRoutine = () => {
 
   const navigate = useNavigate();
   const goRoutineMenu = () => {
-    // articles 경로로 이동
+    // menu 경로로 이동
     navigate('/routine/menu');
   };
   return (
@@ -85,7 +85,7 @@ const TodaysRoutine = () => {
                               <Text>{time + "초"}</Text>
                             </Flex>
                           }
-                          <Button onClick={() => handleTimer(routine.timer ? routine.timer : 0)}>성공여부</Button>
+                          <Box onClick={() => handleTimer(routine.timer ? routine.timer : 0)}>성공여부</Box>
                         </Flex>
                       </Box>
                     </AccordionButton>

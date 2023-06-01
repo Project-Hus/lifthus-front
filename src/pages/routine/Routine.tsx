@@ -3,6 +3,8 @@ import TodaysRoutine from "./TodaysRoutine/TodaysRoutine";
 import { Route, Routes } from "react-router-dom";
 import RoutineMenu from "./RoutineMenu";
 import CreateProgramm from "./CreateProgramm";
+import DetailProgram from "./DetailProgram";
+import StartProgram from "./StartPrgram";
 
 const Routine = () => {
 
@@ -12,6 +14,8 @@ const Routine = () => {
         <Route path="/" element={<TodaysRoutine />} />
         <Route path="menu" element={<RoutineMenu />} />
         <Route path="menu/createprogramm" element={<CreateProgramm />} />
+        <Route path="menu/detail" element={<DetailProgram />} />
+        <Route path="menu/detail_start " element={<StartProgram />} />
       </Routes>
     </div >
 
