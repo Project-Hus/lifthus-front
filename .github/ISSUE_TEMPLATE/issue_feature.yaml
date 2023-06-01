@@ -2,8 +2,7 @@ name: Feature request
 description: Request new feature
 title: "[Feature]: "
 labels: ["feature"]
-assignees:
-  - lifthus
+# assignees:
 body:
   - type: markdown
     attributes:
