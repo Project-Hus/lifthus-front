@@ -2,8 +2,7 @@ name: Improvement
 description: Suggest improvement to the code, structure, etc
 title: "[Improvement]: "
 labels: ["improvement"]
-assignees:
-  - lifthus
+# assignees:
 body:
   - type: markdown
     attributes:
