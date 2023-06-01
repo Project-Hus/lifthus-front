@@ -1,5 +1,5 @@
 import { Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Button, Box, Stack } from "@chakra-ui/react";
-import SelectRoutine from "./SelectRoutine";
+import SelectProgram from "./SelectRoutine";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
@@ -91,7 +91,7 @@ const RoutineMenu = () => {
             </Box>
             {selectedButton && (
                 <Box p={4}>
-                    {selectedButton === 'button1' && <SelectRoutine />}
+                    {selectedButton === 'button1' && <SelectProgram />}
 
                 </Box>
             )}

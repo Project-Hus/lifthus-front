@@ -1,4 +1,4 @@
-export type routineDB = {
+export type programDB = {
     id: number;
     author: number;
     date: Date;
@@ -15,11 +15,47 @@ export type routineDB = {
     weight?: number;
 };
 
+export type exerciseDB = {
+    id: number;
+    name: string;
+    author: number;
+    created_at: Date;
+    updated_at: Date;
+    trainingType: string;
+    images: string[];
+    description: string;
+}
 export const recState = {
     nextRid: 102,
 };
 
-export const routineList: routineDB[] = [
+export const exerciseList: exerciseDB[] = [
+    {
+        id: 100,
+        author: 100,
+        images: ["https://bit.ly/sage-adebayo"],
+        created_at: new Date("2021-01-01"),
+        updated_at: new Date("2021-01-01"),
+        trainingType: "strength",
+        description: "This is a description",
+        name: "testExercise",
+
+    },
+    {
+        id: 101,
+        author: 101,
+        images: ["https://bit.ly/sage-adebayo"],
+        created_at: new Date("2021-01-01"),
+        updated_at: new Date("2021-01-01"),
+        trainingType: "strength",
+        description: "This is a descriptiondddddddddd dddd",
+        name: "testExercise222",
+
+    }
+]
+
+
+export const programList: programDB[] = [
     {
         id: 100,
         author: 100,
