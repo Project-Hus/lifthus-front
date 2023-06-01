@@ -1,7 +1,7 @@
 import { StarIcon, BellIcon } from "@chakra-ui/icons";
 import { Box, Button, Card, Flex, Img, Input, Text } from "@chakra-ui/react";
 import RoutineShort from "./RoutineShort";
-import { programDB } from "../../api/mocks/routineApi.mock";
+import { exerciseList, programDB } from "../../api/mocks/routineApi.mock";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import useProgramStore from "../../store/program.zustand";
@@ -14,6 +14,8 @@ const DetailProgram = () => {
     border-radius : 5% 5% 0px 0px;
     box-shadow  : 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};}};
     `
+    const ExerciseList = exerciseList
+
     const currentProgram = useProgramStore()
     const program: programDB = {
         id: currentProgram.id,
@@ -82,6 +84,29 @@ const DetailProgram = () => {
                 <Text flex={2}>시작일</Text>
                 <Input flex={4} defaultValue={todayDate} onChange={handleStartDate} type="date" />
             </Flex>
+            {/* 운동 목록 */}
+            {ExerciseList.map((exercise, index) => {
+                return (
+                    <Flex key={index} alignItems={"center"}>
+                        <div>
+                            <Flex alignItems={"center"}>
+                                <Img src={exercise.images[0]} width="30%" />
+                                <Text >{exercise.name}</Text>
+                            </Flex>
+                        </div>
+                        <span>
+                            <Flex >
+                                <Text>1rm:</Text>
+                                <Input marginX="0.3em" type="number" />{"kg"}
+                            </Flex>
+                        </span>
+
+                    </Flex>
+
+                )
+            })
+            }
+
             {/* 주차별 루틴 */}
             <UnitRoutine isStart={isStart} unitDate={"week"} startDate={startDate} num={1} />
 
