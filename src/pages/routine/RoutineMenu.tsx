@@ -83,7 +83,7 @@ const RoutineMenu = () => {
                     {(selectedButton == "none" || selectedButton == "button4")
                         && <Button color={changeButtonColor("button4")} css={buttonstyle} onClick={() => handleButtonClick('button4')}>
                             <Box as="span" css={titlestyle} >
-                                임시 루틴
+                                프로그램 생성
                             </Box>
                         </Button>
                     }
