@@ -1,4 +1,4 @@
-import { TriangleDownIcon } from "@chakra-ui/icons";
+import { DeleteIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -10,11 +10,35 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { week } from "../../../store/interfaces/program.interface";
+import { useProgramPlanStore } from "../../../store/program.zustand";
 import WeekProgramForm from "../unitProgramForm";
 
 const CreateProgram = () => {
+  const { programInfo, plan, setProgramPlanInfo, setWeekInfo } =
+    useProgramPlanStore();
+
+  const emptyWeek: week = {
+    idx: plan.weeks.length + 1,
+    days: [
+      {
+        dayname: "월",
+      },
+      {
+        dayname: "화",
+      },
+      {
+        dayname: "수",
+      },
+      {
+        dayname: "목",
+      },
+      {
+        dayname: "금",
+      },
+    ],
+  };
   //일정을 담는 리스트
-  const [routineList, setRoutineList] = useState<string[]>([]);
 
   const { register, handleSubmit, control } = useForm();
 
@@ -28,8 +52,6 @@ const CreateProgram = () => {
     name: "weeks",
   });
 
-  const [weekList, setweekList] = useState<number[]>([]);
-  let countweek = 1;
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,30 +73,20 @@ const CreateProgram = () => {
       <div>
         <Button
           type="button"
-          onClick={() => setweekList([...weekList, weekList.length + 1])}
+          onClick={() => setWeekInfo([...plan.weeks, emptyWeek])}
         >
           Week+
         </Button>
         <Button>Day+</Button>
       </div>
       <div>
-        {weekList.map((week: number, idx) => {
-          return <WeekProgramForm key={idx} week={week} />;
+        {plan.weeks?.map((week, idx) => {
+          return (
+            <>
+              <WeekProgramForm key={idx + "1"} week={week} idx={idx} />
+            </>
+          );
         })}
-
-        <Flex direction="column">
-          <>
-            <input
-              type="text"
-              placeholder={`${1}주차 내용`}
-              {...register(`weeks.content` as const)}
-            />
-          </>
-        </Flex>
-
-        <Button type="button" onClick={() => remove()}>
-          삭제
-        </Button>
       </div>
 
       {fields.length > 0 && <Button>Work Out!</Button>}

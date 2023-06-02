@@ -14,25 +14,38 @@ import SearchExercise from "./CreateProgram/SearchExrcise";
 import { ThemeColor } from "../../common/styles/theme.style";
 import ExerciseInfo from "./CreateProgram/ExcerciseInfo";
 import { useNavigate } from "react-router-dom";
+import { use } from "i18next";
+import { week } from "../../store/interfaces/program.interface";
+import { useProgramPlanStore } from "../../store/program.zustand";
 
-export const WeekProgramForm = ({ week }: { week: number }) => {
+export const WeekProgramForm = ({ week, idx }: { week: week; idx: number }) => {
   const { getDisclosureProps, getButtonProps, isOpen, onClose } =
     useDisclosure();
 
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
-  const defaultDays = ["월", "화", "수", "목", "금"];
+  const { setWeekInfo, plan } = useProgramPlanStore();
+  const targetweek = week;
 
   return (
     <>
-      <Box {...buttonProps}>
-        {week + "주차"}
-        {isOpen && <TriangleDownIcon />}
-      </Box>
-      {defaultDays.map((day, index) => {
+      <Flex paddingX="1em" justifyContent={"space-between"}>
+        <Box flex="2" {...buttonProps}>
+          <Text>{idx + 1 + "주차"}</Text>
+          {isOpen && <TriangleDownIcon />}
+        </Box>
+        <Button
+          onClick={() =>
+            setWeekInfo(plan.weeks.filter((week) => week !== targetweek))
+          }
+        >
+          <DeleteIcon />
+        </Button>
+      </Flex>
+      {week.days?.map((day, index) => {
         return (
           <Box key={index} {...disclosureProps}>
-            <DayProgramForm weekdays={day} />
+            <DayProgramForm weekdays={day.dayname ? day.dayname : ""} />
           </Box>
         );
       })}
