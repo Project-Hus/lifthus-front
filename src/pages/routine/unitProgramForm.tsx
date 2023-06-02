@@ -1,4 +1,5 @@
 import {
+  AddIcon,
   CheckIcon,
   DeleteIcon,
   EditIcon,
@@ -12,6 +13,7 @@ import { exerciseDB } from "../../api/mocks/routineApi.mock";
 import SearchExercise from "./CreateProgram/SearchExrcise";
 import { ThemeColor } from "../../common/styles/theme.style";
 import ExerciseInfo from "./CreateProgram/ExcerciseInfo";
+import { useNavigate } from "react-router-dom";
 
 export const WeekProgramForm = ({ week }: { week: number }) => {
   const { getDisclosureProps, getButtonProps, isOpen, onClose } =
@@ -39,6 +41,11 @@ export const WeekProgramForm = ({ week }: { week: number }) => {
 };
 
 const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
+  const navigate = useNavigate();
+  const goToCreateExcercise = () => {
+    navigate("/routine/menu/createexcercise");
+  };
+
   //for expand and collapse of day program
   const { getDisclosureProps, getButtonProps, isOpen, onClose, onOpen } =
     useDisclosure();
@@ -87,9 +94,15 @@ const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
         </Box>
         <Button {...EditdisclosureProps}>make new excercise</Button>
         {EditProps.isOpen ? (
-          <Button {...EditbuttonProps}>
-            <CheckIcon />
-          </Button>
+          <>
+            <Button {...EditbuttonProps}>
+              <CheckIcon />
+            </Button>
+            <Button onClick={goToCreateExcercise}>
+              <AddIcon />
+              새동작 생성하기
+            </Button>
+          </>
         ) : (
           <Button {...EditbuttonProps}>
             <EditIcon />

@@ -28,7 +28,7 @@ const ExerciseInfo = ({
           <Flex alignItems={"center"}>
             <Input type="number" defaultValue={60}></Input> {"%"}
             {"X"}
-            <Input type="number" defaultValue={3} value={reps}></Input>
+            <Input type="number" defaultValue={3} value={reps} readOnly></Input>
             <Flex direction={"column"}>
               <Button onClick={() => setReps(++reps)}>
                 <TriangleUpIcon />

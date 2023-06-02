@@ -5,9 +5,9 @@ import RoutineMenu from "./RoutineMenu";
 import CreateProgram from "./CreateProgram/CreateProgram";
 import DetailProgram from "./DetailProgram";
 import StartProgram from "./StartPrgram";
+import CreateExcercise from "./CreateProgram/CreateExcercise";
 
 const Routine = () => {
-
   return (
     <div style={{ margin: "5em" }}>
       <Routes>
@@ -16,10 +16,9 @@ const Routine = () => {
         <Route path="menu/createprogramm" element={<CreateProgram />} />
         <Route path="menu/detail" element={<DetailProgram />} />
         <Route path="menu/start" element={<StartProgram />} />
+        <Route path="menu/createexcercise" element={<CreateExcercise />} />
       </Routes>
-    </div >
-
-
+    </div>
   );
 };
 
