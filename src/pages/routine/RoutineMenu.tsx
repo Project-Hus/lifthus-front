@@ -4,7 +4,7 @@ import { ThemeColor } from "../../common/styles/theme.style";
 import { css } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CreateProgramm from "./CreateProgramm";
+import CreateProgram from "./CreateProgram/CreateProgram";
 
 const RoutineMenu = () => {
 
@@ -93,7 +93,7 @@ const RoutineMenu = () => {
             {selectedButton && (
                 <Box p={4}>
                     {selectedButton === 'button1' && <SelectProgram />}
-                    {selectedButton === 'button4' && <CreateProgramm />}
+                    {selectedButton === 'button4' && <CreateProgram />}
                 </Box>
             )}
 
