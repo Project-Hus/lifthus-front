@@ -7,6 +7,7 @@ import useUserStore from "../store/user.zustand";
 import Routine from "./routine/Routine";
 import BottomNav from "./BottomNav";
 import ProfileRoute from "./profile/ProfileRoute";
+import Home from "./home/Home";
 
 const Main = () => {
   let username = useUserStore((state) => state.username);
@@ -16,7 +17,7 @@ const Main = () => {
     <React.Fragment>
       {/*registered === false && <Navigate to="/register" />*/}
       <Routes>
-        <Route index element={<div>Home</div>} />
+        <Route index element={<Home />} />
         <Route path="group" element={<div>group</div>} />
         <Route path="routine/*" element={<Routine />} />
         <Route path="statistics" element={<div>statistics</div>} />
