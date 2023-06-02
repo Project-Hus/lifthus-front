@@ -8,6 +8,7 @@ import Routine from "./routine/Routine";
 import BottomNav from "./BottomNav";
 import ProfileRoute from "./profile/ProfileRoute";
 import Home from "./home/Home";
+import { Img } from "@chakra-ui/react";
 
 const Main = () => {
   let username = useUserStore((state) => state.username);
@@ -18,9 +19,25 @@ const Main = () => {
       {/*registered === false && <Navigate to="/register" />*/}
       <Routes>
         <Route index element={<Home />} />
-        <Route path="group" element={<div>group</div>} />
+        <Route
+          path="group"
+          element={
+            <Img
+              objectFit="cover"
+              src="https://media.tenor.com/t3buP-QoO9oAAAAM/jim-carrey-work.gif"
+            />
+          }
+        />
         <Route path="routine/*" element={<Routine />} />
-        <Route path="statistics" element={<div>statistics</div>} />
+        <Route
+          path="statistics"
+          element={
+            <Img
+              objectFit="cover"
+              src="https://media.tenor.com/t3buP-QoO9oAAAAM/jim-carrey-work.gif"
+            />
+          }
+        />
         <Route path="profile/*" element={<ProfileRoute />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
