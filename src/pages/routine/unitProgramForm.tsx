@@ -26,16 +26,19 @@ export const WeekProgramForm = ({ week, idx }: { week: week; idx: number }) => {
   const disclosureProps = getDisclosureProps();
   const { setWeekInfo, plan } = useProgramPlanStore();
   const targetweek = week;
-  const newWeeks = plan.weeks.filter((week) => week !== targetweek);
 
   return (
     <>
-      <Flex {...buttonProps} paddingX="1em" justifyContent={"space-between"}>
-        <Box>
+      <Flex paddingX="1em" justifyContent={"space-between"}>
+        <Box flex="2" {...buttonProps}>
           <Text>{idx + 1 + "주차"}</Text>
           {isOpen && <TriangleDownIcon />}
         </Box>
-        <Button onClick={() => setWeekInfo(newWeeks)}>
+        <Button
+          onClick={() =>
+            setWeekInfo(plan.weeks.filter((week) => week !== targetweek))
+          }
+        >
           <DeleteIcon />
         </Button>
       </Flex>

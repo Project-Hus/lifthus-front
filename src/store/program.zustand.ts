@@ -1,11 +1,14 @@
 import { create } from "zustand";
 import { exerciseDB, programDB } from "../api/mocks/routineApi.mock";
 import {
+  day,
   programInfo,
   programPlanInfo,
   week,
 } from "./interfaces/program.interface";
 //make interface for useProgramStore
+
+import { produce } from "immer";
 
 //현재 조회중인 프로그램과 일정에 대한 정보를 담고 있다.
 export const useProgramPlanStore = create<programPlanInfo>()((set) => ({
@@ -24,31 +27,7 @@ export const useProgramPlanStore = create<programPlanInfo>()((set) => ({
     timer: 0,
   },
   plan: {
-    weeks: [
-      {
-        days: [
-          {
-            dayname: "월",
-          },
-
-          {
-            dayname: "화",
-          },
-
-          {
-            dayname: "수",
-          },
-
-          {
-            dayname: "목",
-          },
-
-          {
-            dayname: "금",
-          },
-        ],
-      },
-    ],
+    weeks: [],
   },
   setProgramPlanInfo: (info: programDB) =>
     set((state) => ({
