@@ -22,9 +22,9 @@ const BottomNav = ({ username }: { username: string }) => {
             <Users />
           </NavItem>
         </NavLink>
-        <NavLink to="/routine" onClick={() => setActiveNav(1)}>
+        <NavLink to="/statistics" onClick={() => setActiveNav(1)}>
           <NavItem active={true ? activeNav == 1 : false}>
-            <Dumbbell />
+            <StatGraph />
           </NavItem>
         </NavLink>
         <NavLink to="/" onClick={() => setActiveNav(2)}>
@@ -32,9 +32,9 @@ const BottomNav = ({ username }: { username: string }) => {
             <Home />
           </NavItem>
         </NavLink>
-        <NavLink to="/statistics" onClick={() => setActiveNav(3)}>
+        <NavLink to="/routine" onClick={() => setActiveNav(3)}>
           <NavItem active={true ? activeNav == 3 : false}>
-            <StatGraph />
+            <Dumbbell />
           </NavItem>
         </NavLink>
         <NavLink to={`/profile/${username}`} onClick={() => setActiveNav(4)}>
