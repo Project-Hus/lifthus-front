@@ -2,8 +2,9 @@ import { TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, FormLabel, Input, Text, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import WeekProgramForm from "../unitProgramForm";
 
-const CreateProgramm = () => {
+const CreateProgram = () => {
     //일정을 담는 리스트
     const [routineList, setRoutineList] = useState<string[]>([]);
 
@@ -20,21 +21,23 @@ const CreateProgramm = () => {
     });
     const days = ["월", "화", "수", "목", "금", "토", "일"]
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <FormLabel htmlFor="name">이름</FormLabel>
-                <Input id="name" type="text"  {...register("name")} />
-            </div>
-            <div>
-                <FormLabel htmlFor="file">사진:</FormLabel>
-                <Input id="file" type="file"  {...register("photo")} />
-            </div>
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    <FormLabel htmlFor="name">이름</FormLabel>
+                    <Input id="name" type="text"  {...register("name")} />
+                </div>
+                <div>
+                    <FormLabel htmlFor="file">사진:</FormLabel>
+                    <Input id="file" type="file"  {...register("photo")} />
+                </div>
 
-            <div>
-                <label>설명:</label>
-                <Textarea  {...register("description")} required />
-                <span>설명을 입력하세요.</span>
-            </div>
+                <div>
+                    <label>설명:</label>
+                    <Textarea  {...register("description")} required />
+                    <span>설명을 입력하세요.</span>
+                </div>
+            </form>
             <div>
                 <Button type="button" onClick={() => append({ content: '' })}>
                     Week+
@@ -42,15 +45,8 @@ const CreateProgramm = () => {
                 <Button>Day+</Button>
 
             </div>
-            {days.slice(0, 5).map((day, index) => (
-                <>
-                    <Box>{day}</Box>
-                </>
-            )
-            )
-            }
             <div>
-                <Box><TriangleDownIcon transform={"rotate(270deg)"} />{1 + "주차"}</Box>
+                <WeekProgramForm week={1} />
                 <Flex direction="column">
                     <>
                         <input
@@ -67,12 +63,16 @@ const CreateProgramm = () => {
             </div>
 
 
-            {fields.length > 0 && <Button>
-                Work Out!
-            </Button>}
+            {
+                fields.length > 0 && <Button>
+                    Work Out!
+                </Button>
+            }
+        </>
 
-        </form>
+
+
     );
 }
 
-export default CreateProgramm;
+export default CreateProgram;

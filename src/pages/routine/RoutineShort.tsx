@@ -1,11 +1,11 @@
 import { StarIcon, BellIcon } from "@chakra-ui/icons";
 import { Card, Flex, Img, Text, Box, Button } from "@chakra-ui/react";
 import { routineFoldStandard } from "../../common/constraints";
-import { routineDB } from "../../api/mocks/routineApi.mock";
+import { programDB } from "../../api/mocks/routineApi.mock";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { useState } from "react";
 //make component for routine short
-const RoutineShort = ({ result, idx, isDetail }: { result: routineDB, idx: number, isDetail: boolean }) => {
+const RoutineShort = ({ result, isDetail }: { result: programDB, isDetail: boolean }) => {
     //설명 접기 기능을 위한 state
     const [IsFold, setFold] = useState(true);
 
@@ -15,8 +15,8 @@ const RoutineShort = ({ result, idx, isDetail }: { result: routineDB, idx: numbe
 
             <Flex direction={"row"} margin="0.3em" >
 
-                {(result.images && isDetail == false) && result.images?.map((srcs) => {
-                    return (<Img width="20%" height="20%" src={srcs}></Img>)
+                {(result.images) && result.images?.map((srcs, idx) => {
+                    return (<Img width="20%" height="20%" src={srcs} key={idx}></Img>)
                 }
                 )
 
