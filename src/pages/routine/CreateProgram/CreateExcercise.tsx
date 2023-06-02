@@ -9,9 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import WeekProgramForm from "../unitProgramForm";
 
 const CreateExcercise = () => {
+  const navigate = useNavigate();
+  const goToCreateProgram = () => {
+    navigate("/routine/menu/createprogram");
+  };
   const [routineList, setRoutineList] = useState<string[]>([]);
 
   const { register, handleSubmit, control } = useForm();
@@ -70,6 +75,7 @@ const CreateExcercise = () => {
         </div>
       </form>
 
+      <Button onClick={goToCreateProgram}>돌아가기</Button>
       <Button>생성</Button>
     </>
   );
