@@ -22,6 +22,7 @@ export interface day {
   exerciseList?: exerciseDB[];
 }
 export interface week {
+  idx?: number;
   days?: day[];
 }
 export interface plan {
@@ -32,4 +33,14 @@ export interface programPlanInfo {
   plan: plan;
   setProgramPlanInfo: (info: programDB) => void;
   setWeekInfo: (weeks: week[]) => void;
+  //   setDayInfo: ({ days, week }: { days: day[]; week: week }) => void;
+  //   setExerciseInfo: ({
+  //     week,
+  //     dayname,
+  //     exerciseList,
+  //   }: {
+  //     week: week;
+  //     dayname: string;
+  //     exerciseList: exerciseDB[];
+  //   }) => void;
 }

@@ -19,6 +19,7 @@ const CreateProgram = () => {
     useProgramPlanStore();
 
   const emptyWeek: week = {
+    idx: plan.weeks.length + 1,
     days: [
       {
         dayname: "월",
@@ -51,14 +52,6 @@ const CreateProgram = () => {
     name: "weeks",
   });
 
-  const [weekList, setweekList] = useState<number[]>([]);
-  let countweek = 1;
-
-  const onRemove = (targetweek: number) => {
-    setTimeout(() => {
-      setweekList(weekList.filter((week) => week !== targetweek));
-    }, 0);
-  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,7 +83,7 @@ const CreateProgram = () => {
         {plan.weeks?.map((week, idx) => {
           return (
             <>
-              <WeekProgramForm key={idx} week={week} idx={idx} />
+              <WeekProgramForm key={idx + "1"} week={week} idx={idx} />
             </>
           );
         })}
