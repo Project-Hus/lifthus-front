@@ -39,7 +39,7 @@ export const programList: programDB[] = [
     description: "This is a description",
     likenum: 10,
     starnum: 10,
-    weeks: [],
+    weeks: [1, 2, 3],
     days: [],
     acts: [],
   },

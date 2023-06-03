@@ -27,10 +27,11 @@ import DetailProgram from "./DetailProgram";
 import useProgramStore, {
   useProgramPlanStore,
 } from "../../store/program.zustand";
+import { programList } from "../../api/mocks/program.mock";
 const SelectProgram = () => {
-  const searchResult: programDB[] = [];
+  const searchResult: programDB[] = programList;
   //현재 선택한 프로그램의 정보 저장
-  const { program } = useProgramPlanStore();
+  const { program, setProgramPlanInfo } = useProgramPlanStore();
   const CardStyle = css`
     color: white;
     border-radius : 5% 5% 0px 0px;
@@ -56,6 +57,7 @@ const SelectProgram = () => {
   //경로 이동을 위한 useNavigate
   const navigate = useNavigate();
   const goDetailRoutine = () => {
+    setProgramPlanInfo(searchResult[selectedResult]);
     navigate("/routine/menu/detail");
   };
 

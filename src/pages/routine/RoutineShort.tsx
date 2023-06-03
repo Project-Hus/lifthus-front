@@ -23,14 +23,16 @@ const RoutineShort = ({
             return <Img width="20%" height="20%" src={srcs} key={idx}></Img>;
           })}
         <div>
-          <Flex>
-            <Text fontSize="ms" paddingLeft="0.5em" fontWeight={"bold"}>
-              {result.name}
-            </Text>
-            <Text fontSize="ms" paddingLeft="0.5em">
-              {"by" + result.author}
-            </Text>
-          </Flex>
+          {!isDetail && (
+            <Flex>
+              <Text fontSize="ms" paddingLeft="0.5em" fontWeight={"bold"}>
+                {result.name}
+              </Text>
+              <Text fontSize="ms" paddingLeft="0.5em">
+                {"by" + result.author}
+              </Text>
+            </Flex>
+          )}
           <Text
             style={{ whiteSpace: "pre-wrap" }}
             size="sm"
