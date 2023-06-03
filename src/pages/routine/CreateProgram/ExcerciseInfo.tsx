@@ -1,27 +1,20 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { exerciseDB } from "../../../api/mocks/routineApi.mock";
+import { actDB } from "../../../store/interfaces/program.interface";
+import useProgramPlanStore from "../../../store/program.zustand";
 
-const ExerciseInfo = ({
-  excercise,
-  deleteExercise,
-  isEditing,
-}: {
-  excercise: exerciseDB;
-  deleteExercise: Function;
-  isEditing: boolean;
-}) => {
+const ActInfo = ({ act, isEditing }: { act: actDB; isEditing: boolean }) => {
   let [reps, setReps] = useState<number>(3);
-
+  const { setProgramPlanInfo } = useProgramPlanStore();
   return (
     <Box>
       <Flex justifyContent={"space-between"} alignItems="center">
-        <Text>{excercise.name}</Text>
-        <Text>{excercise.trainingType}</Text>
+        <Text>{act.name}</Text>
+        <Text>{act.type}</Text>
 
         {isEditing ? (
-          <Button onClick={() => deleteExercise(excercise)}>
+          <Button onClick={() => setProgramPlanInfo({})}>
             <DeleteIcon />
           </Button>
         ) : (
@@ -43,4 +36,4 @@ const ExerciseInfo = ({
     </Box>
   );
 };
-export default ExerciseInfo;
+export default ActInfo;

@@ -9,23 +9,21 @@ import {
 import { Box, Button, Card, Flex, Input, Text } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { exerciseDB } from "../../api/mocks/routineApi.mock";
 import SearchExercise from "./CreateProgram/SearchExrcise";
 import { ThemeColor } from "../../common/styles/theme.style";
 import ExerciseInfo from "./CreateProgram/ExcerciseInfo";
 import { useNavigate } from "react-router-dom";
 import { use } from "i18next";
-import { week } from "../../store/interfaces/program.interface";
+import { actDB, week } from "../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../store/program.zustand";
 
-export const WeekProgramForm = ({ week, idx }: { week: week; idx: number }) => {
+export const WeekProgramForm = ({ idx }: { idx: number }) => {
   const { getDisclosureProps, getButtonProps, isOpen, onClose } =
     useDisclosure();
 
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
-  const { setWeekInfo, plan } = useProgramPlanStore();
-  const targetweek = week;
+  const { setProgramPlanInfo, program } = useProgramPlanStore();
 
   return (
     <>
@@ -34,30 +32,37 @@ export const WeekProgramForm = ({ week, idx }: { week: week; idx: number }) => {
           <Text>{idx + 1 + "주차"}</Text>
           {isOpen && <TriangleDownIcon />}
         </Box>
-        <Button
-          onClick={() =>
-            setWeekInfo(plan.weeks.filter((week) => week !== targetweek))
-          }
-        >
+        <Button onClick={() => {}}>
           <DeleteIcon />
         </Button>
       </Flex>
-      {week.days?.map((day, index) => {
+      {program.days.map((day, index) => {
         return (
-          <Box key={index} {...disclosureProps}>
-            <DayProgramForm weekdays={day.dayname ? day.dayname : ""} />
-          </Box>
+          <>
+            {day.week === idx && (
+              <Box key={index} {...disclosureProps}>
+                <DayProgramForm weekNum={idx} dayNum={day.dayNum} />
+              </Box>
+            )}
+          </>
         );
       })}
     </>
   );
 };
 
-const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
+const DayProgramForm = ({
+  weekNum,
+  dayNum,
+}: {
+  weekNum: number;
+  dayNum: number;
+}) => {
   const navigate = useNavigate();
   const goToCreateExcercise = () => {
     navigate("/routine/menu/createexcercise");
   };
+  const { setProgramPlanInfo, program } = useProgramPlanStore();
 
   //for expand and collapse of day program
   const { getDisclosureProps, getButtonProps, isOpen, onClose, onOpen } =
@@ -68,16 +73,8 @@ const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
   const EditProps = useDisclosure();
   const EditbuttonProps = EditProps.getButtonProps();
   //state for day of exercise list
-  const [exerciseList, setExerciseList] = useState<exerciseDB[]>([]);
+  const [exerciseList, setExerciseList] = useState<actDB[]>([]);
   const EditdisclosureProps = EditProps.getDisclosureProps();
-
-  const addExercise = (exercise: exerciseDB) => {
-    setExerciseList([...exerciseList, exercise]);
-  };
-
-  const deleteExercise = (exercise: exerciseDB) => {
-    setExerciseList(exerciseList.filter((item) => item.id !== exercise.id));
-  };
 
   return (
     <Box paddingLeft="3%">
@@ -86,24 +83,23 @@ const DayProgramForm = ({ weekdays }: { weekdays: string }) => {
           <TriangleDownIcon
             transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
           />
-          {weekdays + "요일"}
+          {dayNum + "요일"}
         </Box>
         <Card
           {...disclosureProps}
           bg={ThemeColor.backgroundColor}
           color="white"
         >
-          {exerciseList.map((exercise, idx) => (
+          {program.acts.map((act, idx) => (
             <ExerciseInfo
               key={idx}
-              excercise={exercise}
-              deleteExercise={deleteExercise}
+              act={act.actDB}
               isEditing={EditProps.isOpen}
             />
           ))}
         </Card>
         <Box {...EditdisclosureProps}>
-          <SearchExercise addExercise={addExercise} />
+          <SearchExercise dayNum={dayNum} weekNum={weekNum} />
         </Box>
         <Button {...EditdisclosureProps}>make new excercise</Button>
         {EditProps.isOpen ? (

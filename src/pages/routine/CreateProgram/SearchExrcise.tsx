@@ -4,18 +4,23 @@ import { Button, Flex, Img, Input, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { exerciseDB, exerciseList } from "../../../api/mocks/routineApi.mock";
+import { exerciseList } from "../../../api/mocks/program.mock";
+import { actDB } from "../../../store/interfaces/program.interface";
+import { useProgramPlanStore } from "../../../store/program.zustand";
 
 type SearchFormData = {
   searchTerm: string;
 };
 
 const SearchExercise = ({
-  addExercise,
+  weekNum,
+  dayNum,
 }: {
-  addExercise: (excercise: exerciseDB) => void;
+  weekNum: number;
+  dayNum: number;
 }) => {
-  const [SearchResult, setSearchResult] = useState<exerciseDB[]>([]);
+  const { setProgramPlanInfo, program } = useProgramPlanStore();
+  const [SearchResult, setSearchResult] = useState<actDB[]>([]);
   type SearchFormData = {
     searchTerm: string;
   };
@@ -26,9 +31,13 @@ const SearchExercise = ({
     setSearchResult(exerciseList);
   };
 
-  const addExerciseHandler = (exercise: exerciseDB) => {
-    console.log("clicked");
-    addExercise(exercise);
+  const addExerciseHandler = (act: actDB) => {
+    const newact = {
+      week: weekNum,
+      dayNum: dayNum,
+      actDB: act,
+    };
+    setProgramPlanInfo({ acts: [...program.acts, newact] });
   };
 
   return (
@@ -48,7 +57,7 @@ const SearchExercise = ({
               <Flex justifyContent={"space-between"}>
                 <Img src={exercise.images[0]} width="10%" alt="exercise" />
                 <Text>{exercise.name}</Text>
-                <Text>{exercise.trainingType}</Text>
+                <Text>{exercise.type}</Text>
                 <Text>{exercise.bodyPart ? exercise.bodyPart : "없음"}</Text>
                 <Button onClick={() => addExerciseHandler(exercise)}>
                   <AddIcon />
