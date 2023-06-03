@@ -3,6 +3,7 @@ import { Box, Flex, Img, Text } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { programList } from "../../api/mocks/program.mock";
 import DayRoutine from "./DayRoutine";
+import { userRMInfo } from "./StartPrgram";
 
 //make WeekRoutine compoenet
 const UnitRoutine = ({
@@ -10,15 +11,17 @@ const UnitRoutine = ({
   unitDate,
   startDate,
   num,
+  RMInfo,
 }: {
   isStart: boolean;
   unitDate: string;
   startDate: string;
   num: number;
+  RMInfo: userRMInfo;
 }) => {
   const testmock = programList;
   const routine = testmock[1];
-  const days: string[] = ["월", "화", "수", "목", "금", "토", "일"];
+  const dayname: string[] = ["월", "화", "수", "목", "금", "토", "일"];
 
   const getStartDate = (startDate: string, num: number) => {
     const date = new Date(startDate);
@@ -31,18 +34,17 @@ const UnitRoutine = ({
     return end.toISOString().slice(0, 10);
   };
   //day Routine을 위한 useDisclosure
-  const dayWindowHandle = useDisclosure();
-  const buttonProps = dayWindowHandle.getButtonProps();
-  const disclosureProps = dayWindowHandle.getDisclosureProps();
+  const { getButtonProps, getDisclosureProps, isOpen } = useDisclosure();
+  const buttonProps = getButtonProps();
+  const disclosureProps = getDisclosureProps();
 
   return (
     <Box>
-      <Flex justifyContent={"space-between"}>
-        <Text>{num + "주차"}</Text>
-        <TriangleDownIcon
-          {...buttonProps}
-          transform={dayWindowHandle.isOpen ? "rotate(0deg)" : "rotate(270deg)"}
-        />
+      <Flex {...buttonProps} justifyContent={"space-between"}>
+        <Flex alignItems="center">
+          <Text>{num + "주차"}</Text>
+          {isOpen && <TriangleDownIcon transform={"rotate(0deg)"} />}
+        </Flex>
         {isStart && (
           <Text>
             {" "}
@@ -51,14 +53,16 @@ const UnitRoutine = ({
         )}
       </Flex>
       <div {...disclosureProps}>
-        {days.map((day, index) => {
+        {dayname.map((day, index) => {
           return (
             <>
               <DayRoutine
                 key={index}
                 routine={routine}
-                idx={index}
+                startDate={new Date(getStartDate(startDate, num))}
                 isStart={isStart}
+                RMInfo={RMInfo}
+                idx={index}
               />
             </>
           );

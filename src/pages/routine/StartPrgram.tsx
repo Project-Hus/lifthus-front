@@ -7,8 +7,13 @@ import { css } from "@emotion/react";
 import useProgramStore from "../../store/program.zustand";
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import UnitRoutine from "./UnitRoutine";
-import { start } from "repl";
 import { useNavigate } from "react-router-dom";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import { exerciseList } from "../../api/mocks/program.mock";
+
+export interface userRMInfo {
+  [key: string]: number;
+}
 const StartProgram = () => {
   const CardStyle = css`
     color: white;
@@ -40,8 +45,16 @@ const StartProgram = () => {
     navigate("/routine/menu/detail");
   };
 
+  //1rm 정보 전달 객체
+  const [RMInfo, setRMInfo] = useState<userRMInfo>({} as userRMInfo);
+
+  const handleRMInfo = (e: ChangeEvent<HTMLInputElement>) => {
+    RMInfo[e.target.id] = Number(e.target.value);
+    setRMInfo(RMInfo);
+  };
+
   return (
-    <>
+    <BasicPageLayout>
       {/* 프로그램 기몬 정보 창 */}
       <Card
         bg={ThemeColor.basicColor}
@@ -82,7 +95,7 @@ const StartProgram = () => {
         <Flex alignSelf="center" justifyContent={"space-between"}>
           <Button
             onClick={goDetailRoutine}
-            bg={isStart ? "#9298E2" : ThemeColor.backgroundColor}
+            bg={"#9298E2"}
             flexGrow={1}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
@@ -108,20 +121,41 @@ const StartProgram = () => {
         />
       </Flex>
       {/* 운동 목록 */}
-      {ExerciseList.map((exercise, index) => {
+      {/* api완료 되면 exerciseList-> program.acts로 변경함 */}
+      {exerciseList.map((exercise, index) => {
+        //api완료 되면 dummy->exercise.actDB로 바꿔야 함.
+        const dummy = exerciseList;
         return (
-          <Flex key={index} alignItems={"center"}>
+          <Flex
+            width="100%"
+            key={index}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+            paddingRight="2em"
+          >
             <div>
               <Flex alignItems={"center"}>
-                <Img src={exercise.actDB.images[0]} width="30%" />
-                <Text>{exercise.actDB.name}</Text>
+                <Img
+                  src={dummy[index].images[0]}
+                  width="30%"
+                  marginRight="0.5em"
+                />
+                <Text fontSize="3vw">{dummy[index].name}</Text>
               </Flex>
             </div>
             <span>
-              <Flex>
-                <Text>1rm:</Text>
-                <Input min="0" width="auto" type="number" />
-                kg
+              <Flex alignItems={"center"}>
+                <Text fontSize="3vw">1rm:</Text>
+                <Input
+                  id={dummy[index].name}
+                  min="0"
+                  width="5vw"
+                  type="number"
+                  fontSize="sm"
+                  padding="0"
+                  onChange={handleRMInfo}
+                />
+                <Text fontSize="3vw">kg</Text>
               </Flex>
             </span>
           </Flex>
@@ -134,12 +168,13 @@ const StartProgram = () => {
         unitDate={"week"}
         startDate={startDate}
         num={1}
+        RMInfo={RMInfo}
       />
 
       <Flex>
         <Button flex={1}>Work out!</Button>
       </Flex>
-    </>
+    </BasicPageLayout>
   );
 };
 export default StartProgram;

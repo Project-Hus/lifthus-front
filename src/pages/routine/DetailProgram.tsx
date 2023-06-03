@@ -9,6 +9,7 @@ import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import UnitRoutine from "./UnitRoutine";
 import { useNavigate } from "react-router-dom";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import { userRMInfo } from "./StartPrgram";
 
 const DetailProgram = () => {
   const CardStyle = css`
@@ -18,22 +19,8 @@ const DetailProgram = () => {
     `;
   const ExerciseList = [];
 
-  const { program: currentProgram } = useProgramStore();
-  const program: programDB = {
-    id: currentProgram.id,
-    name: currentProgram.name,
-    author: currentProgram.author,
-    starnum: currentProgram.starnum,
-    likenum: currentProgram.likenum,
-    description: currentProgram.description,
-    tag: currentProgram.tag,
-    images: currentProgram.images,
-    updated_at: currentProgram.updated_at,
-    created_at: currentProgram.created_at,
-    weeks: currentProgram.weeks,
-    acts: currentProgram.acts,
-    days: currentProgram.days,
-  };
+  const { program } = useProgramStore();
+
   const [isStart, setStart] = useState(true);
   const [startDate, setStartDate] = useState(
     new Date().toISOString().slice(0, 10)
@@ -93,6 +80,7 @@ const DetailProgram = () => {
           <BellIcon marginLeft="0.3em" />
         </Box>
         <br></br>
+        {/* 프로그램 시작 버튼 */}
         <Box>
           <Flex alignSelf="center" justifyContent={"space-between"}>
             <Button
@@ -118,6 +106,7 @@ const DetailProgram = () => {
           unitDate={"week"}
           startDate={startDate}
           num={1}
+          RMInfo={{} as userRMInfo}
         />
       </>
     </BasicPageLayout>
