@@ -36,17 +36,19 @@ const DayRoutine = ({
     return newDate;
   };
   const newDate = addDaysToDate({ date: startDate, days: idx });
+  console.log(RMInfo);
   return (
     <>
-      <Box {...daybuttonProps}>
+      <Box {...daybuttonProps} fontSize="0.7em">
         <Flex alignItems={"center"}>
-          {" "}
-          <TriangleDownIcon
-            transform={
-              dayWindowHandle.isOpen ? "rotate(0deg)" : "rotate(270deg)"
-            }
-          />
-          <Text>{dayname[idx] + "요일"}</Text>
+          <Flex alignItems={"center"} marginRight="2.4em">
+            <TriangleDownIcon
+              transform={
+                dayWindowHandle.isOpen ? "rotate(0deg)" : "rotate(270deg)"
+              }
+            />
+            <Text>{dayname[idx] + "요일"}</Text>
+          </Flex>
           <Text>{newDate.toISOString().slice(0, 10)}</Text>
         </Flex>
       </Box>
@@ -63,7 +65,7 @@ const DayRoutine = ({
               >
                 {act.images ? <Img src={act.images[0]} boxSize="2em" /> : null}
                 <Text>{act.name}</Text>
-                {isStart ? <Text>{20 * RMInfo[act.name] + "kg"}</Text> : "60%"}
+                {isStart ? <Text>{20 * RMInfo.rm + "kg"}</Text> : "60%"}
                 {
                   <>
                     <Text>{"x" + 3}</Text>

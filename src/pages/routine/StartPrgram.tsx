@@ -12,14 +12,15 @@ import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { exerciseList } from "../../api/mocks/program.mock";
 
 export interface userRMInfo {
-  [key: string]: number;
+  actname: string;
+  rm: number;
 }
 const StartProgram = () => {
   const CardStyle = css`
     color: white;
-    border-radius : 5% 5% 0px 0px;
-    box-shadow  : 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};}};
-    `;
+    border-radius: 5% 5% 0px 0px;
+    box-shadow: 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};
+  `;
 
   const { program } = useProgramStore();
   const ExerciseList = program.acts;
@@ -49,7 +50,8 @@ const StartProgram = () => {
   const [RMInfo, setRMInfo] = useState<userRMInfo>({} as userRMInfo);
 
   const handleRMInfo = (e: ChangeEvent<HTMLInputElement>) => {
-    RMInfo[e.target.id] = Number(e.target.value);
+    RMInfo.rm = Number(e.target.value);
+    RMInfo.actname = e.target.id;
     setRMInfo(RMInfo);
   };
 

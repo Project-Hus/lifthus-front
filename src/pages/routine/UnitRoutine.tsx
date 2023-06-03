@@ -39,8 +39,8 @@ const UnitRoutine = ({
   const disclosureProps = getDisclosureProps();
 
   return (
-    <Box>
-      <Flex {...buttonProps} justifyContent={"space-between"}>
+    <Box paddingY="0.5em">
+      <Flex {...buttonProps} justifyContent={"space-between"} fontSize="0.7em">
         <Flex alignItems="center">
           <Text>{num + "주차"}</Text>
           {isOpen && <TriangleDownIcon transform={"rotate(0deg)"} />}
