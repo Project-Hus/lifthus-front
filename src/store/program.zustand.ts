@@ -1,68 +1,49 @@
 import { create } from "zustand";
-import { exerciseDB, programDB } from "../api/mocks/routineApi.mock";
-import {
-  day,
-  programInfo,
-  programPlanInfo,
-  week,
-} from "./interfaces/program.interface";
+import { programDB, week } from "./interfaces/program.interface";
 //make interface for useProgramStore
 
 import { produce } from "immer";
 
+export interface programInfo {
+  program: programDB;
+  setProgramInfo: (info: programDB) => void;
+
+  //하루 단위 동안 act 에도 순서가 있다. index로
+}
+
+export interface programPlanInfo {
+  program: programDB;
+  setProgramPlanInfo: (partialProgram: Partial<programDB>) => void;
+}
+
 //현재 조회중인 프로그램과 일정에 대한 정보를 담고 있다.
-export const useProgramPlanStore = create<programPlanInfo>()((set) => ({
-  programInfo: {
+export const useProgramPlanStore = create<programPlanInfo>((set) => ({
+  program: {
     id: 0,
     author: 0,
-    date: new Date(),
     created_at: new Date(),
     updated_at: new Date(),
-    trainingType: "",
+    tag: [],
     images: [],
     description: "",
     likenum: 0,
-    starednum: 0,
-    routineName: "",
+    starnum: 0,
+    name: "",
     timer: 0,
-  },
-  plan: {
     weeks: [],
+    days: [],
+    acts: [],
   },
-  setProgramPlanInfo: (info: programDB) =>
-    set((state) => ({
-      ...state,
-      ...info,
-    })),
 
-  setWeekInfo: (weeks: week[]) =>
+  setProgramPlanInfo: (partialProgram) => {
     set((state) => ({
       ...state,
-      plan: {
-        weeks: weeks,
+      program: {
+        ...state.program,
+        ...partialProgram,
       },
-    })),
+    }));
+  },
 }));
 
-//현재 조회중인 프로그램의 일정을 포함한 모든 정보
-const useProgramStore = create<programInfo>()((set) => ({
-  id: 0,
-  author: 0,
-  date: new Date(),
-  created_at: new Date(),
-  updated_at: new Date(),
-  trainingType: "",
-  images: [],
-  description: "",
-  likenum: 0,
-  starednum: 0,
-  routineName: "",
-  timer: 0,
-  setProgramInfo: (info: programDB) =>
-    set((state) => ({
-      ...state,
-      ...info,
-    })),
-}));
-
-export default useProgramStore;
+export default useProgramPlanStore;

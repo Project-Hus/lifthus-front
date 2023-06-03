@@ -15,29 +15,8 @@ import { useProgramPlanStore } from "../../../store/program.zustand";
 import WeekProgramForm from "../unitProgramForm";
 
 const CreateProgram = () => {
-  const { programInfo, plan, setProgramPlanInfo, setWeekInfo } =
-    useProgramPlanStore();
+  const { program, setProgramPlanInfo } = useProgramPlanStore();
 
-  const emptyWeek: week = {
-    idx: plan.weeks.length + 1,
-    days: [
-      {
-        dayname: "월",
-      },
-      {
-        dayname: "화",
-      },
-      {
-        dayname: "수",
-      },
-      {
-        dayname: "목",
-      },
-      {
-        dayname: "금",
-      },
-    ],
-  };
   //일정을 담는 리스트
 
   const { register, handleSubmit, control } = useForm();
@@ -73,17 +52,21 @@ const CreateProgram = () => {
       <div>
         <Button
           type="button"
-          onClick={() => setWeekInfo([...plan.weeks, emptyWeek])}
+          onClick={() =>
+            setProgramPlanInfo({
+              weeks: [...program.weeks, program.weeks.length + 1],
+            })
+          }
         >
           Week+
         </Button>
         <Button>Day+</Button>
       </div>
       <div>
-        {plan.weeks?.map((week, idx) => {
+        {program.weeks.map((idx) => {
           return (
             <>
-              <WeekProgramForm key={idx + "1"} week={week} idx={idx} />
+              <WeekProgramForm key={idx + "1"} idx={idx} />
             </>
           );
         })}
