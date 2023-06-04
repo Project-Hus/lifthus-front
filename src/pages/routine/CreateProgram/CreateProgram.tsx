@@ -56,6 +56,9 @@ const CreateProgram = () => {
   useEffect(() => {
     console.log("weeks", program.weeks);
   }, [program.weeks]);
+  useEffect(() => {
+    console.log("days", program.days);
+  }, [program.days]);
 
   const addweeks = () => {
     const temp =
@@ -64,6 +67,38 @@ const CreateProgram = () => {
         : program.weeks[program.weeks.length - 1].weeknum + 1;
     setProgramPlanInfo({
       weeks: [...program.weeks, { weeknum: temp }],
+      days: [
+        ...program.days,
+
+        {
+          week: temp,
+          dayNum: 1,
+        },
+        {
+          week: temp,
+          dayNum: 2,
+        },
+        {
+          week: temp,
+          dayNum: 3,
+        },
+        {
+          week: temp,
+          dayNum: 4,
+        },
+        {
+          week: temp,
+          dayNum: 5,
+        },
+        {
+          week: temp,
+          dayNum: 6,
+        },
+        {
+          week: temp,
+          dayNum: 7,
+        },
+      ],
     });
   };
 
@@ -186,7 +221,7 @@ const CreateProgram = () => {
           {program.weeks.map((week, index) => {
             return (
               <WeekProgramForm
-                key={index}
+                key={index + 2}
                 week={week.weeknum}
                 idx={index + 1}
               />

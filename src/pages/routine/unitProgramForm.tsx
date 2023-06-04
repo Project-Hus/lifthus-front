@@ -33,9 +33,18 @@ export const WeekProgramForm = ({
 
   const deleteWeek = () => {
     const changedweek = program.weeks.filter((week) => week.weeknum !== weekId);
-    setProgramPlanInfo({ weeks: changedweek });
+    const changedday = program.days.filter((day) => day.week !== weekId);
+    const changedact = program.acts.filter((act) => act.week !== weekId);
+    setProgramPlanInfo({
+      weeks: changedweek,
+      days: changedday,
+      acts: changedact,
+    });
   };
 
+  useEffect(() => {
+    console.log("daus", program.days);
+  }, []);
   return (
     <>
       <Flex paddingX="1em" justifyContent={"space-between"}>
@@ -89,7 +98,7 @@ const DayProgramForm = ({
   const [exerciseList, setExerciseList] = useState<actDB[]>([]);
   const EditdisclosureProps = EditProps.getDisclosureProps();
 
-  const dayname: string[] = ["월", "화", "수", "목", "금", "토", "일"];
+  const dayname: string[] = ["더미", "월", "화", "수", "목", "금", "토", "일"];
 
   return (
     <Box paddingLeft="3%">
