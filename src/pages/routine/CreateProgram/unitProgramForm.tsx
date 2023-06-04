@@ -9,13 +9,13 @@ import {
 import { Box, Button, Card, Flex, Input, Text } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import SearchExercise from "./CreateProgram/SearchExrcise";
-import { ThemeColor } from "../../common/styles/theme.style";
-import ExerciseInfo from "./CreateProgram/ExcerciseInfo";
+import SearchExercise from "./SearchExrcise";
+import { ThemeColor } from "../../../common/styles/theme.style";
+import ExerciseInfo from "./ExcerciseInfo";
 import { useNavigate } from "react-router-dom";
 import { use } from "i18next";
-import { actDB, week } from "../../store/interfaces/program.interface";
-import { useProgramPlanStore } from "../../store/program.zustand";
+import { actDB, week } from "../../../store/interfaces/program.interface";
+import { useProgramPlanStore } from "../../../store/program.zustand";
 import { useFormContext } from "react-hook-form";
 
 export const WeekProgramForm = ({
