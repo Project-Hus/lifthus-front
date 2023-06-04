@@ -6,12 +6,15 @@ import {
   CheckboxGroup,
   Flex,
   FormLabel,
+  HStack,
   Img,
   Input,
   Radio,
   RadioGroup,
+  Stack,
   Text,
   Textarea,
+  VStack,
 } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
@@ -101,6 +104,7 @@ const CreateProgram = () => {
       ],
     });
   };
+  const [inputvalue, setInputValue] = useState<string>("");
 
   return (
     <BasicPageLayout>
@@ -153,27 +157,37 @@ const CreateProgram = () => {
               onChange={handleImageChange}
             />
           </div>
-          <div>
+          <div style={{ textAlign: "center" }}>
             <Text textAlign={"center"}>태그</Text>
+
+            <Input
+              width="30%"
+              name="tag"
+              textAlign={"center"}
+              placeholder="관련 태그를 입력해주세요"
+              onChange={(e) => {
+                setInputValue(e.target.value);
+              }}
+            />
+            <Button
+              onClick={() =>
+                setProgramPlanInfo({ tag: [...program.tag, inputvalue] })
+              }
+            >
+              태그 추가
+            </Button>
+            <Button onClick={() => setProgramPlanInfo({ tag: [] })}>
+              태그 리셋
+            </Button>
+            {program.tag.map((tag, index) => {
+              return (
+                <div>
+                  <Text key={index}>{tag}</Text>
+                </div>
+              );
+            })}
           </div>
-          <div>
-            <Box textAlign={"center"}>
-              <RadioGroup>
-                <Radio>반복</Radio>
-                <Radio>시간</Radio>
-                <Radio>단순</Radio>
-              </RadioGroup>
-            </Box>
-          </div>
-          <div>
-            <Box textAlign={"center"}>
-              <CheckboxGroup>
-                <Checkbox>상체</Checkbox>
-                <Checkbox>하체</Checkbox>
-                <Checkbox>기타</Checkbox>
-              </CheckboxGroup>
-            </Box>
-          </div>
+
           <div>
             <Text textAlign={"center"}>설명</Text>
             <Textarea
@@ -182,54 +196,40 @@ const CreateProgram = () => {
               placeholder="설명을 입력하세요"
             />
           </div>
-        </form>
-        <Flex>
-          <Button
-            border="2px"
-            bg={ThemeColor.backgroundColor}
-            color={ThemeColor.backgroundColorDarker}
-            flex={1}
-          >
-            <Text color="green">Day+</Text>
-          </Button>
-          <Button
-            border="2px"
-            bg={ThemeColor.backgroundColor}
-            color={ThemeColor.backgroundColorDarker}
-            flex={1}
-            type="button"
-            onClick={
-              () => addweeks()
-              // setProgramPlanInfo({
-              //   weeks: [
-              //     ...program.weeks,
-              //     //weeknum을 기존 weeks의 마지막weeknum 값+1
-              //     {
-              //       weeknum:
-              //         program.weeks.length == 0
-              //           ? 0
-              //           : program.weeks[program.weeks.length - 1].weeknum + 1,
-              //     },
-              //   ],
-              // })
-            }
-          >
-            <Text color={ThemeColor.basicColor}>Week+</Text>
-          </Button>
-        </Flex>
-        <div>
-          {program.weeks.map((week, index) => {
-            return (
-              <WeekProgramForm
-                key={index + 2}
-                week={week.weeknum}
-                idx={index + 1}
-              />
-            );
-          })}
-        </div>
+          <Flex>
+            <Button
+              border="2px"
+              bg={ThemeColor.backgroundColor}
+              color={ThemeColor.backgroundColorDarker}
+              flex={1}
+            >
+              <Text color="green">Day+</Text>
+            </Button>
+            <Button
+              border="2px"
+              bg={ThemeColor.backgroundColor}
+              color={ThemeColor.backgroundColorDarker}
+              flex={1}
+              type="button"
+              onClick={() => addweeks()}
+            >
+              <Text color={ThemeColor.basicColor}>Week+</Text>
+            </Button>
+          </Flex>
+          <div>
+            {program.weeks.map((week, index) => {
+              return (
+                <WeekProgramForm
+                  key={index}
+                  week={week.weeknum}
+                  idx={index + 1}
+                />
+              );
+            })}
+          </div>
 
-        {<Button>Work Out!</Button>}
+          {<Button type="submit">Work Out!</Button>}
+        </form>
       </FormProvider>
     </BasicPageLayout>
   );
