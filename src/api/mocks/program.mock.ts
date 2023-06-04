@@ -40,7 +40,12 @@ export const programList: programDB[] = [
     likenum: 10,
     starnum: 10,
     weeks: [1, 2, 3],
-    days: [],
+    days: [
+      {
+        dayNum: 0,
+        week: 2,
+      },
+    ],
     acts: [],
   },
   {
