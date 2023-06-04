@@ -14,7 +14,16 @@ export interface programInfo {
 export interface programPlanInfo {
   program: programDB;
   setProgramPlanInfo: (partialProgram: Partial<programDB>) => void;
+  resetProgramPlanInfo: () => void;
 }
+export const resetweek = (weeks: number[]) => {
+  const n = weeks.length;
+  const resultweeks = [];
+  for (let i = 0; i < n; i++) {
+    resultweeks.push(i + 1);
+  }
+  return resultweeks;
+};
 
 //현재 조회중인 프로그램과 일정에 대한 정보를 담고 있다.
 export const useProgramPlanStore = create<programPlanInfo>((set) => ({
@@ -41,6 +50,26 @@ export const useProgramPlanStore = create<programPlanInfo>((set) => ({
       program: {
         ...state.program,
         ...partialProgram,
+      },
+    }));
+  },
+  resetProgramPlanInfo: () => {
+    set(() => ({
+      program: {
+        id: 0,
+        author: 0,
+        created_at: new Date(),
+        updated_at: new Date(),
+        tag: [],
+        images: [],
+        description: "",
+        likenum: 0,
+        starnum: 0,
+        name: "",
+        timer: 0,
+        weeks: [],
+        days: [],
+        acts: [],
       },
     }));
   },
