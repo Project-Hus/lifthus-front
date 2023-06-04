@@ -10,7 +10,7 @@ export const exerciseList: actDB[] = [
     tag: ["strength"],
     description: "This is a description",
     name: "testExercise",
-    order: 1,
+    order: 2,
     type: "repeat",
   },
   {
@@ -22,7 +22,7 @@ export const exerciseList: actDB[] = [
     tag: ["strength"],
     description: "This is a descriptiondddddddddd dddd",
     name: "testExercise222",
-    order: 2,
+    order: 3,
     type: "simple",
   },
 ];
@@ -65,5 +65,68 @@ export const programList: programDB[] = [
     weeks: [],
     days: [],
     acts: [],
+  },
+];
+interface routineAct {
+  act_id: number;
+  day: number;
+  lap: number;
+  order: number;
+  reps: number;
+  w_ratio: number;
+  warmup: boolean;
+  week: number;
+}
+
+export const routineActList: routineAct[] = [
+  {
+    act_id: 1,
+    day: 1,
+    lap: 2,
+    order: 1,
+    reps: 10,
+    w_ratio: 0.75,
+    warmup: true,
+    week: 1,
+  },
+  {
+    act_id: 2,
+    day: 3,
+    lap: 1,
+    order: 2,
+    reps: 8,
+    w_ratio: 0.8,
+    warmup: false,
+    week: 2,
+  },
+  {
+    act_id: 3,
+    day: 2,
+    lap: 1,
+    order: 3,
+    reps: 12,
+    w_ratio: 0.85,
+    warmup: true,
+    week: 1,
+  },
+  {
+    act_id: 4,
+    day: 4,
+    lap: 3,
+    order: 2,
+    reps: 6,
+    w_ratio: 0.9,
+    warmup: false,
+    week: 3,
+  },
+  {
+    act_id: 5,
+    day: 2,
+    lap: 2,
+    order: 1,
+    reps: 8,
+    w_ratio: 0.75,
+    warmup: true,
+    week: 2,
   },
 ];

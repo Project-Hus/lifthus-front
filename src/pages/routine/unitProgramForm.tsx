@@ -102,6 +102,11 @@ const DayProgramForm = ({
   const EditdisclosureProps = EditProps.getDisclosureProps();
 
   const dayname: string[] = ["더미", "월", "화", "수", "목", "금", "토", "일"];
+  //order 값이 작은 순 정렬
+  const dayAct = program.acts.filter(
+    (act) => act.week === weekNum && act.dayNum === dayNum
+  );
+  const sortedayAct = dayAct.sort((a, b) => a.actDB.order - b.actDB.order);
 
   return (
     <Box paddingLeft="3%">
@@ -117,17 +122,9 @@ const DayProgramForm = ({
           bg={ThemeColor.backgroundColor}
           color="white"
         >
-          {program.acts.map(
-            (act, idx) =>
-              act.week === weekNum &&
-              act.dayNum === dayNum && (
-                <ExerciseInfo
-                  key={idx}
-                  act={act}
-                  isEditing={EditProps.isOpen}
-                />
-              )
-          )}
+          {sortedayAct.map((act, idx) => (
+            <ExerciseInfo key={idx} act={act} isEditing={EditProps.isOpen} />
+          ))}
         </Card>
         <Box {...EditdisclosureProps}>
           <SearchExercise dayNum={dayNum} weekNum={weekNum} />
