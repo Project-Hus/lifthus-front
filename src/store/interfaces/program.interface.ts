@@ -9,7 +9,7 @@ export interface programDB {
   likenum: number;
   starnum: number;
   name: string;
-  weeks: number[];
+  weeks: week[];
   days: day[];
   acts: act[];
 }
@@ -32,7 +32,9 @@ interface day {
   week: number;
 }
 
-export interface week {}
+export interface week {
+  weeknum: number;
+}
 export interface act {
   week: number;
   dayNum: number;
