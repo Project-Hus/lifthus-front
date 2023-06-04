@@ -6,13 +6,14 @@ import {
   CheckboxGroup,
   Flex,
   FormLabel,
+  Img,
   Input,
   Radio,
   RadioGroup,
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../../common/styles/theme.style";
@@ -37,6 +38,17 @@ const CreateProgram = () => {
     name: "weeks",
   });
 
+  //이미지 미리보기
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    } else {
+      setSelectedImage(null);
+    }
+  };
+
   return (
     <BasicPageLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,14 +61,34 @@ const CreateProgram = () => {
         </div>
         <div>
           <FormLabel htmlFor="file">
-            <Box _hover={{ background: ThemeColor.backgroundColorDarker }}>
+            <Box
+              _hover={{ background: ThemeColor.backgroundColorDarker }}
+              marginY="0.5em"
+              borderRadius="8%"
+              border="solid 2px"
+            >
               <Flex direction={"column"} alignItems="center">
-                <PlusSquareIcon boxSize={"10"} />
-                <Text>이미지를 첨부해주세요</Text>
+                {selectedImage ? (
+                  <Img marginY="0.5em" src={selectedImage} alt="Preview" />
+                ) : (
+                  <PlusSquareIcon boxSize={"10"} />
+                )}
+
+                <Text>
+                  {selectedImage ? "이미지 변경하기" : "이미지를 첨부해주세요"}
+                </Text>
               </Flex>
             </Box>
           </FormLabel>
-          <Input hidden id="file" type="file" {...register("photo")} />
+
+          <Input
+            hidden
+            id="file"
+            type="file"
+            accept="image/*"
+            {...register("photo")}
+            onChange={handleImageChange}
+          />
         </div>
         <div>
           <Text textAlign={"center"}>태그</Text>
@@ -113,10 +145,10 @@ const CreateProgram = () => {
         </Button>
       </Flex>
       <div>
-        {program.weeks.map((idx) => {
+        {program.weeks.map((week) => {
           return (
             <>
-              <WeekProgramForm key={idx + "1"} idx={idx} />
+              <WeekProgramForm key={week} week={week} />
             </>
           );
         })}
