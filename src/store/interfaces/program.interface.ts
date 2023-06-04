@@ -13,7 +13,6 @@ export interface programDB {
   days: day[];
   acts: act[];
 }
-type actType = "repeat" | "time" | "simple";
 export interface actDB {
   id: number;
   name: string;
@@ -25,7 +24,7 @@ export interface actDB {
   description: string;
   bodyPart?: string[];
   order: number;
-  type: actType;
+  type: string;
 }
 interface day {
   dayNum: number; //월 화 수 목 금 토 일 1 2 3 4 5 6 7
