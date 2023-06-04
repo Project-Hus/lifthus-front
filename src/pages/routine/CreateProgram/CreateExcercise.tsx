@@ -51,6 +51,10 @@ const CreateExcercise = () => {
       setSelectedImage(null);
     }
   };
+  //태그 관련 state
+  const [tagvalue, setagValue] = useState<string[]>([]);
+  const [inputvalue, setInputValue] = useState<string>("");
+
   return (
     <BasicPageLayout>
       <Box as="span" css={titlestyle}>
@@ -89,6 +93,30 @@ const CreateExcercise = () => {
             </Flex>
           </Box>
         </FormLabel>
+        <div style={{ textAlign: "center" }}>
+          <Text textAlign={"center"}>태그</Text>
+
+          <Input
+            width="30%"
+            name="tag"
+            textAlign={"center"}
+            placeholder="관련 태그를 입력해주세요"
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+          />
+          <Button onClick={() => setagValue([...tagvalue, inputvalue])}>
+            태그 추가
+          </Button>
+          <Button onClick={() => setagValue([])}>태그 리셋</Button>
+          {tagvalue.map((tag, index) => {
+            return (
+              <div>
+                <Text key={index}>{tag}</Text>
+              </div>
+            );
+          })}
+        </div>
         <Input
           hidden
           id="file"
@@ -139,8 +167,14 @@ const CreateExcercise = () => {
             required
           />
         </div>
-        <Button onClick={goToCreateProgram}>돌아가기</Button>
-        <Button type="submit">생성</Button>
+        <Flex>
+          <Button flex={1} onClick={goToCreateProgram}>
+            취소
+          </Button>
+          <Button flex={1} type="submit">
+            생성
+          </Button>
+        </Flex>
       </form>
     </BasicPageLayout>
   );
