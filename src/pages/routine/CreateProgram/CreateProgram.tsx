@@ -65,11 +65,18 @@ const CreateProgram = () => {
               _hover={{ background: ThemeColor.backgroundColorDarker }}
               marginY="0.5em"
               borderRadius="8%"
-              border="solid 2px"
             >
               <Flex direction={"column"} alignItems="center">
                 {selectedImage ? (
-                  <Img marginY="0.5em" src={selectedImage} alt="Preview" />
+                  <Img
+                    maxWidth="70%"
+                    maxHeight="70%"
+                    marginY="0.5em"
+                    borderRadius="8%"
+                    src={selectedImage}
+                    alt="Preview"
+                    objectFit="cover"
+                  />
                 ) : (
                   <PlusSquareIcon boxSize={"10"} />
                 )}
