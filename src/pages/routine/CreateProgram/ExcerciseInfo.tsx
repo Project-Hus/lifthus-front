@@ -21,7 +21,7 @@ const ActInfo = ({ act, isEditing }: { act: actDB; isEditing: boolean }) => {
           <Flex alignItems={"center"}>
             <Input type="number" defaultValue={60}></Input> {"%"}
             {"X"}
-            <Input type="number" defaultValue={3} value={reps} readOnly></Input>
+            <Input type="number" value={reps} readOnly></Input>
             <Flex direction={"column"}>
               <Button onClick={() => setReps(++reps)}>
                 <TriangleUpIcon />
