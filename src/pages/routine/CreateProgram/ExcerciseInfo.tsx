@@ -1,20 +1,28 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { actDB } from "../../../store/interfaces/program.interface";
+import { act } from "../../../store/interfaces/program.interface";
 import useProgramPlanStore from "../../../store/program.zustand";
 
-const ActInfo = ({ act, isEditing }: { act: actDB; isEditing: boolean }) => {
+const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
   let [reps, setReps] = useState<number>(3);
-  const { setProgramPlanInfo } = useProgramPlanStore();
+  const { setProgramPlanInfo, program } = useProgramPlanStore();
+
+  const deleteAct = () => {
+    const delAct = act;
+    const newacts = program.acts.filter((act) => delAct !== act);
+    setProgramPlanInfo({ acts: newacts });
+    console.log(program);
+  };
+
   return (
     <Box>
       <Flex justifyContent={"space-between"} alignItems="center">
-        <Text>{act.name}</Text>
-        <Text>{act.type}</Text>
+        <Text>{act.actDB.name}</Text>
+        <Text>{act.actDB.type}</Text>
 
         {isEditing ? (
-          <Button onClick={() => setProgramPlanInfo({})}>
+          <Button onClick={() => deleteAct()}>
             <DeleteIcon />
           </Button>
         ) : (

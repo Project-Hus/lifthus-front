@@ -123,7 +123,7 @@ const DayProgramForm = ({
               act.dayNum === dayNum && (
                 <ExerciseInfo
                   key={idx}
-                  act={act.actDB}
+                  act={act}
                   isEditing={EditProps.isOpen}
                 />
               )
