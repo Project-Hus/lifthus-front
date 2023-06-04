@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { use } from "i18next";
 import { actDB, week } from "../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../store/program.zustand";
+import { useFormContext } from "react-hook-form";
 
 export const WeekProgramForm = ({
   week: weekId,
@@ -30,6 +31,8 @@ export const WeekProgramForm = ({
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
   const { setProgramPlanInfo, program } = useProgramPlanStore();
+
+  const { register } = useFormContext();
 
   const deleteWeek = () => {
     const changedweek = program.weeks.filter((week) => week.weeknum !== weekId);
@@ -114,32 +117,41 @@ const DayProgramForm = ({
           bg={ThemeColor.backgroundColor}
           color="white"
         >
-          {program.acts.map((act, idx) => (
-            <ExerciseInfo
-              key={idx}
-              act={act.actDB}
-              isEditing={EditProps.isOpen}
-            />
-          ))}
+          {program.acts.map(
+            (act, idx) =>
+              act.week === weekNum &&
+              act.dayNum === dayNum && (
+                <ExerciseInfo
+                  key={idx}
+                  act={act.actDB}
+                  isEditing={EditProps.isOpen}
+                />
+              )
+          )}
         </Card>
         <Box {...EditdisclosureProps}>
           <SearchExercise dayNum={dayNum} weekNum={weekNum} />
         </Box>
-        <Button {...EditdisclosureProps}>make new excercise</Button>
         {EditProps.isOpen ? (
-          <>
-            <Button {...EditbuttonProps}>
-              <CheckIcon />
-            </Button>
-            <Button onClick={goToCreateExcercise}>
-              <AddIcon />
-              새동작 생성하기
-            </Button>
-          </>
+          <Flex direction={"column"} alignItems="center">
+            <span>
+              <Button {...EditbuttonProps}>
+                <CheckIcon />
+              </Button>
+            </span>
+            <span>
+              <Button onClick={goToCreateExcercise}>
+                <AddIcon />
+                새동작 생성하기
+              </Button>
+            </span>
+          </Flex>
         ) : (
-          <Button {...EditbuttonProps}>
-            <EditIcon />
-          </Button>
+          <Flex justifyContent={"center"}>
+            <Button {...EditbuttonProps}>
+              <EditIcon />
+            </Button>
+          </Flex>
         )}
       </Flex>
     </Box>
