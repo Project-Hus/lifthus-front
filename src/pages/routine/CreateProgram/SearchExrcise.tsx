@@ -2,7 +2,7 @@
 import { AddIcon } from "@chakra-ui/icons";
 import { Button, Flex, Img, Input, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { exerciseList } from "../../../api/mocks/program.mock";
 import { actDB } from "../../../store/interfaces/program.interface";
@@ -25,11 +25,11 @@ const SearchExercise = ({
     searchTerm: string;
   };
 
-  const { register, handleSubmit } = useForm<SearchFormData>();
-
-  const onSubmit = () => {
-    setSearchResult(exerciseList);
+  const [serachstring, setSerachstring] = useState<string>("");
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSerachstring(e.target.value);
   };
+  const onsubmit = () => setSearchResult(exerciseList);
 
   const addExerciseHandler = (act: actDB) => {
     const newact = {
@@ -42,14 +42,16 @@ const SearchExercise = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Flex>
         <Input
-          {...register("searchTerm")}
           type="text"
           placeholder="검색어를 입력하세요"
+          onChange={handleSearch}
         />
-        <Button type="submit">검색</Button>
-      </form>
+        <Button type="button" onClick={onsubmit}>
+          검색
+        </Button>
+      </Flex>
       {SearchResult.length > 0 &&
         SearchResult.map((exercise) => {
           return (
