@@ -36,7 +36,7 @@ const RoutineShort = ({
           <Text
             style={{ whiteSpace: "pre-wrap" }}
             size="sm"
-            fontSize="sm"
+            fontSize="3vw"
             color="white"
           >
             {IsFold && result.description.length > routineFoldStandard.Length
@@ -79,9 +79,9 @@ const RoutineShort = ({
 
       {!isDetail && (
         <Box float="right">
-          <StarIcon />
+          👍
           {result.starnum}
-          <BellIcon />
+          📌
           {result.likenum}
         </Box>
       )}

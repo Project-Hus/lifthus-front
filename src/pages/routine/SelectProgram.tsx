@@ -127,9 +127,9 @@ const SelectProgram = () => {
                         </div>
                       </Flex>
                       <Box float="right">
-                        <StarIcon />
+                        👍
                         {searchResult[selectedResult].starnum}
-                        <BellIcon />
+                        📌
                         {searchResult[selectedResult].likenum}
                       </Box>
                     </div>

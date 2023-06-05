@@ -52,22 +52,26 @@ const DetailProgram = () => {
           width="100%"
         >
           <div>
-            <Flex direction={"row"} margin="0.3em">
+            <Flex direction={"row"} margin="0">
               <div>
-                <Flex>
-                  <Text fontSize="ms" fontWeight={"bold"}>
+                <Flex alignItems={"center"}>
+                  &nbsp;
+                  <Text fontSize="5vw" fontWeight={"bold"}>
                     {program.name}
                   </Text>
-                  <Text fontSize="ms" paddingLeft="0.5em">
-                    {"by" + program.author}
+                  &nbsp;
+                  <Text paddingRight="0.3em" fontSize={"2.5vw"}>{"by"}</Text>
+                  <Text fontSize={"2.5vw"} fontWeight="bold">
+                    {program.author}
                   </Text>
                 </Flex>
               </div>
             </Flex>
-            <Box float="right">
-              <StarIcon />
+            <Box float="right" fontSize="2vw" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
+              👍
               {program.starnum}
-              <BellIcon />
+              &nbsp;
+              📌
               {program.likenum}
             </Box>
           </div>
@@ -75,31 +79,32 @@ const DetailProgram = () => {
         {/* 프로그램 세부 설명창 */}
 
         <RoutineShort isDetail={true} result={program} />
-        <Box float="right">
-          <StarIcon marginRight="0.3em" />
-          <BellIcon marginLeft="0.3em" />
-        </Box>
-        <br></br>
+        <Flex justifyContent={"end"} alignItems="center">
+          <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">👍</Button>
+          &nbsp;
+          <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">📌</Button>
+        </Flex>
+
         {/* 프로그램 시작 버튼 */}
-        <Box>
-          <Flex alignSelf="center" justifyContent={"space-between"}>
-            <Button
-              onClick={goProgramStart}
-              bg={isStart ? "#9298E2" : ThemeColor.backgroundColor}
-              flexGrow={1}
-              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-            >
-              {"프로그램 시작"}
-            </Button>
-            <Button
-              bg={ThemeColor.backgroundColor}
-              flexGrow={1}
-              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-            >
-              변형하기
-            </Button>
-          </Flex>
-        </Box>
+
+        <Flex marginY="0.5em">
+          <Button
+            flex={1}
+            onClick={goProgramStart}
+            bg={isStart ? "#9298E2" : ThemeColor.backgroundColor}
+            _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+          >
+            {"프로그램 시작"}
+          </Button>
+          <Button
+            flex={1}
+            bg={ThemeColor.backgroundColor}
+            _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+
+          >
+            변형하기
+          </Button>
+        </Flex>
         {/* 주차별 루틴 */}
         <UnitRoutine
           isStart={false}
