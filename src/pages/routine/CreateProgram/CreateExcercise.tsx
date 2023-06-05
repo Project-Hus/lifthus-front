@@ -19,7 +19,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../../common/styles/theme.style";
-import WeekProgramForm from "../unitProgramForm";
+import WeekProgramForm from "./unitProgramForm";
 
 const CreateExcercise = () => {
   const navigate = useNavigate();

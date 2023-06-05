@@ -10,7 +10,7 @@ export const exerciseList: actDB[] = [
     tag: ["strength"],
     description: "This is a description",
     name: "testExercise",
-    order: 2,
+    order: 1,
     type: "repeat",
   },
   {
@@ -22,8 +22,8 @@ export const exerciseList: actDB[] = [
     tag: ["strength"],
     description: "This is a descriptiondddddddddd dddd",
     name: "testExercise222",
-    order: 3,
-    type: "simple",
+    order: 0,
+    type: "time",
   },
 ];
 
@@ -67,7 +67,7 @@ export const programList: programDB[] = [
     acts: [],
   },
 ];
-interface routineAct {
+export interface routineAct {
   act_id: number;
   day: number;
   lap: number;

@@ -23,9 +23,11 @@ import RoutineMenu from "../RoutineMenu";
 import { programDB } from "../../../store/interfaces/program.interface";
 import { set } from "react-hook-form";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
+import { routineAct, routineActList } from "../../../api/mocks/program.mock";
+import TodayActInfo from "./TodayActInfo";
 
 const TodaysRoutine = () => {
-  const todayList: programDB[] = [];
+  const todayList: routineAct[] = routineActList;
   const today = new Date().toDateString();
 
   const [IsRoutineMenu, setIsRoutineMenu] = useState(false);
@@ -59,6 +61,19 @@ const TodaysRoutine = () => {
     // menu 경로로 이동
     navigate("/routine/menu");
   };
+  //  reps add, minus function
+  const addReps = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    maxReps: number
+  ) => {
+    e.stopPropagation();
+    if (reps < maxReps) setReps(reps + 1);
+  };
+  const minusReps = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (reps > 0) setReps(reps - 1);
+  };
+
   return (
     <>
       <BasicPageLayout>
@@ -80,50 +95,9 @@ const TodaysRoutine = () => {
               </Button>
             </Flex>
             <Accordion defaultIndex={[0]} allowMultiple>
-              {todayList.map((routine, idx) => {
-                return (
-                  <AccordionItem key={idx}>
-                    <h2>
-                      <AccordionButton
-                        _expanded={{ bg: ThemeColor.basicColor }}
-                      >
-                        <Box as="span" flex="1" textAlign="left">
-                          <Flex
-                            direction={"row"}
-                            justifyContent={"space-between"}
-                          >
-                            {routine.images ? (
-                              <Img src={routine.images[0]} boxSize="2em" />
-                            ) : null}
-                            <Text>{"Act1.routineName"}</Text>
-
-                            <Text>{100 + "kg"}</Text>
-
-                            <>
-                              <Text>{"x" + 3}</Text>
-                              <Text>{3 + "/" + 3}</Text>
-                            </>
-
-                            <Flex direction={"column"}>
-                              <TriangleUpIcon onClick={() => setReps(reps++)} />
-                              <TriangleDownIcon
-                                onClick={() => setReps(reps > 0 ? reps-- : 0)}
-                              />
-                            </Flex>
-
-                            <Flex direction={"column"}>
-                              <Text>{"remaining"}</Text>
-                              <Text>{time + "초"}</Text>
-                            </Flex>
-                            <Box>성공여부</Box>
-                          </Flex>
-                        </Box>
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}></AccordionPanel>
-                  </AccordionItem>
-                );
-              })}
+              {todayList.map((act, index) => (
+                <TodayActInfo act={act} key={index} type="time" />
+              ))}
             </Accordion>
           </>
         )}

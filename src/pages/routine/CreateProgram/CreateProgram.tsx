@@ -21,7 +21,7 @@ import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout"
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { week } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
-import WeekProgramForm from "../unitProgramForm";
+import WeekProgramForm from "./unitProgramForm";
 import {
   useFieldArray,
   useForm,
