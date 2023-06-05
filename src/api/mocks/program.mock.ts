@@ -67,7 +67,7 @@ export const programList: programDB[] = [
     acts: [],
   },
 ];
-interface routineAct {
+export interface routineAct {
   act_id: number;
   day: number;
   lap: number;
