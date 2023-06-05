@@ -23,7 +23,7 @@ export const exerciseList: actDB[] = [
     description: "This is a descriptiondddddddddd dddd",
     name: "testExercise222",
     order: 0,
-    type: "simple",
+    type: "time",
   },
 ];
 

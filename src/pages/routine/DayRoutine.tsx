@@ -1,5 +1,5 @@
 import { TriangleDownIcon } from "@chakra-ui/icons";
-import { Flex, Img, Box, Text, useDisclosure } from "@chakra-ui/react";
+import { Flex, Img, Box, Text, useDisclosure, Input } from "@chakra-ui/react";
 import { exerciseList } from "../../api/mocks/program.mock";
 import { programDB } from "../../store/interfaces/program.interface";
 import { userRMInfo } from "./StartPrgram";
@@ -62,21 +62,21 @@ const DayRoutine = ({
                 justifyContent={"space-around"}
                 width="auto"
                 alignItems={"center"}
+                wrap="wrap"
               >
                 {act.images ? <Img src={act.images[0]} boxSize="2em" /> : null}
                 <Text>{act.name}</Text>
-                {isStart ? <Text>{20 * RMInfo.rm + "kg"}</Text> : "60%"}
-                {
+                {isStart && act.type == "repeat" && (
                   <>
-                    <Text>{"x" + 3}</Text>
-                    {isStart && (
-                      <Flex direction={"column"}>
-                        <Text>reps</Text>
-                        <Text>{3 + "/" + 3}</Text>
-                      </Flex>
-                    )}
+                    <Text>{20 * RMInfo.rm + "kg"}</Text>
+
+                    <Flex direction={"column"}>
+                      <Text>reps</Text>
+                      <Text>{3 + "/" + 3}</Text>
+                    </Flex>
                   </>
-                }
+                )}
+                {act.type == "time" && <Input defaultValue={200}></Input>}
               </Flex>
             </Box>
           );
