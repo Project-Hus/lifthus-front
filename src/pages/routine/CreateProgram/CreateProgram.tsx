@@ -1,96 +1,237 @@
-import { DeleteIcon, TriangleDownIcon } from "@chakra-ui/icons";
+import { DeleteIcon, PlusSquareIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Checkbox,
+  CheckboxGroup,
   Flex,
   FormLabel,
+  HStack,
+  Img,
   Input,
+  Radio,
+  RadioGroup,
+  Stack,
   Text,
   Textarea,
+  VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { ChangeEvent, useEffect, useState } from "react";
+import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
+import { ThemeColor } from "../../../common/styles/theme.style";
 import { week } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
-import WeekProgramForm from "../unitProgramForm";
+import WeekProgramForm from "./unitProgramForm";
+import {
+  useFieldArray,
+  useForm,
+  FormProvider,
+  useFormContext,
+} from "react-hook-form";
 
 const CreateProgram = () => {
-  const { programInfo, plan, setProgramPlanInfo, setWeekInfo } =
+  const { program, setProgramPlanInfo, resetProgramPlanInfo } =
     useProgramPlanStore();
 
-  const emptyWeek: week = {
-    idx: plan.weeks.length + 1,
-    days: [
-      {
-        dayname: "월",
-      },
-      {
-        dayname: "화",
-      },
-      {
-        dayname: "수",
-      },
-      {
-        dayname: "목",
-      },
-      {
-        dayname: "금",
-      },
-    ],
-  };
+  useEffect(() => {
+    console.log("weeks", program.weeks);
+  });
   //일정을 담는 리스트
 
-  const { register, handleSubmit, control } = useForm();
+  const methods = useForm();
 
   const onSubmit = (data: any) => {
     // 입력된 데이터 처리
     console.log(data);
   };
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "weeks",
-  });
+  //이미지 미리보기
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    } else {
+      setSelectedImage(null);
+    }
+  };
+
+  useEffect(() => {
+    console.log("weeks", program.weeks);
+  }, [program.weeks]);
+  useEffect(() => {
+    console.log("days", program.days);
+  }, [program.days]);
+
+  const addweeks = () => {
+    const temp =
+      program.weeks.length == 0
+        ? 0
+        : program.weeks[program.weeks.length - 1].weeknum + 1;
+    setProgramPlanInfo({
+      weeks: [...program.weeks, { weeknum: temp }],
+      days: [
+        ...program.days,
+
+        {
+          week: temp,
+          dayNum: 1,
+        },
+        {
+          week: temp,
+          dayNum: 2,
+        },
+        {
+          week: temp,
+          dayNum: 3,
+        },
+        {
+          week: temp,
+          dayNum: 4,
+        },
+        {
+          week: temp,
+          dayNum: 5,
+        },
+        {
+          week: temp,
+          dayNum: 6,
+        },
+        {
+          week: temp,
+          dayNum: 7,
+        },
+      ],
+    });
+  };
+  const [inputvalue, setInputValue] = useState<string>("");
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <FormLabel htmlFor="name">이름</FormLabel>
-          <Input id="name" type="text" {...register("name")} />
-        </div>
-        <div>
-          <FormLabel htmlFor="file">사진:</FormLabel>
-          <Input id="file" type="file" {...register("photo")} />
-        </div>
+    <BasicPageLayout>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <div>
+            <FormLabel textAlign="center" htmlFor="name">
+              프로그램 이름
+            </FormLabel>
 
-        <div>
-          <label>설명:</label>
-          <Textarea {...register("description")} required />
-          <span>설명을 입력하세요.</span>
-        </div>
-      </form>
-      <div>
-        <Button
-          type="button"
-          onClick={() => setWeekInfo([...plan.weeks, emptyWeek])}
-        >
-          Week+
-        </Button>
-        <Button>Day+</Button>
-      </div>
-      <div>
-        {plan.weeks?.map((week, idx) => {
-          return (
-            <>
-              <WeekProgramForm key={idx + "1"} week={week} idx={idx} />
-            </>
-          );
-        })}
-      </div>
+            <Input id="name" type="text" {...methods.register("name")} />
+          </div>
+          <div>
+            <FormLabel htmlFor="file">
+              <Box
+                _hover={{ background: ThemeColor.backgroundColorDarker }}
+                marginY="0.5em"
+                borderRadius="8%"
+              >
+                <Flex direction={"column"} alignItems="center">
+                  {selectedImage ? (
+                    <Img
+                      maxWidth="70%"
+                      maxHeight="70%"
+                      marginY="0.5em"
+                      borderRadius="8%"
+                      src={selectedImage}
+                      alt="Preview"
+                      objectFit="cover"
+                    />
+                  ) : (
+                    <PlusSquareIcon boxSize={"10"} />
+                  )}
 
-      {fields.length > 0 && <Button>Work Out!</Button>}
-    </>
+                  <Text>
+                    {selectedImage
+                      ? "이미지 변경하기"
+                      : "이미지를 첨부해주세요"}
+                  </Text>
+                </Flex>
+              </Box>
+            </FormLabel>
+
+            <Input
+              hidden
+              id="file"
+              type="file"
+              accept="image/*"
+              {...methods.register("photo")}
+              onChange={handleImageChange}
+            />
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <Text textAlign={"center"}>태그</Text>
+
+            <Input
+              width="30%"
+              name="tag"
+              textAlign={"center"}
+              placeholder="관련 태그를 입력해주세요"
+              onChange={(e) => {
+                setInputValue(e.target.value);
+              }}
+            />
+            <Button
+              onClick={() =>
+                setProgramPlanInfo({ tag: [...program.tag, inputvalue] })
+              }
+            >
+              태그 추가
+            </Button>
+            <Button onClick={() => setProgramPlanInfo({ tag: [] })}>
+              태그 리셋
+            </Button>
+            {program.tag.map((tag, index) => {
+              return (
+                <div>
+                  <Text key={index}>{tag}</Text>
+                </div>
+              );
+            })}
+          </div>
+
+          <div>
+            <Text textAlign={"center"}>설명</Text>
+            <Textarea
+              {...methods.register("description")}
+              required
+              placeholder="설명을 입력하세요"
+            />
+          </div>
+          <Flex>
+            <Button
+              border="2px"
+              bg={ThemeColor.backgroundColor}
+              color={ThemeColor.backgroundColorDarker}
+              flex={1}
+            >
+              <Text color="green">Day+</Text>
+            </Button>
+            <Button
+              border="2px"
+              bg={ThemeColor.backgroundColor}
+              color={ThemeColor.backgroundColorDarker}
+              flex={1}
+              type="button"
+              onClick={() => addweeks()}
+            >
+              <Text color={ThemeColor.basicColor}>Week+</Text>
+            </Button>
+          </Flex>
+          <div>
+            {program.weeks.map((week, index) => {
+              return (
+                <WeekProgramForm
+                  key={index}
+                  week={week.weeknum}
+                  idx={index + 1}
+                />
+              );
+            })}
+          </div>
+
+          {<Button type="submit">Work Out!</Button>}
+        </form>
+      </FormProvider>
+    </BasicPageLayout>
   );
 };
 
