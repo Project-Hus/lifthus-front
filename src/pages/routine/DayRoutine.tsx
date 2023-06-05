@@ -62,7 +62,6 @@ const DayRoutine = ({
                 justifyContent={"space-around"}
                 width="auto"
                 alignItems={"center"}
-                wrap="wrap"
               >
                 {act.images ? <Img src={act.images[0]} boxSize="2em" /> : null}
                 <Text>{act.name}</Text>
@@ -76,7 +75,12 @@ const DayRoutine = ({
                     </Flex>
                   </>
                 )}
-                {act.type == "time" && <Input defaultValue={200}></Input>}
+                {act.type == "time" && (
+                  <Flex alignItems={"center"}>
+                    <Input width="4em" defaultValue={200}></Input>
+                    <Text>초</Text>
+                  </Flex>
+                )}
               </Flex>
             </Box>
           );
