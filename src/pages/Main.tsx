@@ -9,6 +9,7 @@ import BottomNav from "./BottomNav";
 import ProfileRoute from "./profile/ProfileRoute";
 import Home from "./home/Home";
 import { Img } from "@chakra-ui/react";
+import Statistics from "./statistics/Statistics";
 
 const Main = () => {
   let username = useUserStore((state) => state.username);
@@ -29,15 +30,7 @@ const Main = () => {
           }
         />
         <Route path="routine/*" element={<Routine />} />
-        <Route
-          path="statistics"
-          element={
-            <Img
-              objectFit="cover"
-              src="https://media.tenor.com/t3buP-QoO9oAAAAM/jim-carrey-work.gif"
-            />
-          }
-        />
+        <Route path="statistics" element={<Statistics />} />
         <Route path="profile/*" element={<ProfileRoute />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
