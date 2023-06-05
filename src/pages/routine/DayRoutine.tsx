@@ -67,7 +67,10 @@ const DayRoutine = ({
                 <Text>{act.name}</Text>
                 {isStart && act.type == "repeat" && (
                   <>
-                    <Text>{20 * RMInfo.rm + "kg"}</Text>
+                    <Flex>
+                      <Text>{RMInfo.rm ? 20 * RMInfo.rm : 0}</Text>
+                      {"kg"}
+                    </Flex>
 
                     <Flex direction={"column"}>
                       <Text>reps</Text>

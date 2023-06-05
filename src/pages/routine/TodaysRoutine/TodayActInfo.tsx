@@ -102,10 +102,9 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
 
               {type == "time" && (
                 <>
-                  {" "}
-                  <Flex direction={"column"}>
+                  <Flex direction={"column"} fontSize="2vw">
                     <Text>{"remaining"}</Text>
-                    <Flex>
+                    <Flex justifyContent={"center"}>
                       <Text>{timerId}</Text>
                       <Text>{"초"}</Text>
                     </Flex>
