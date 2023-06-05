@@ -196,6 +196,18 @@ const CreateProgram = () => {
               placeholder="설명을 입력하세요"
             />
           </div>
+
+          <div>
+            {program.weeks.map((week, index) => {
+              return (
+                <WeekProgramForm
+                  key={index}
+                  week={week.weeknum}
+                  idx={index + 1}
+                />
+              );
+            })}
+          </div>
           <Flex>
             <Button
               border="2px"
@@ -216,18 +228,6 @@ const CreateProgram = () => {
               <Text color={ThemeColor.basicColor}>Week+</Text>
             </Button>
           </Flex>
-          <div>
-            {program.weeks.map((week, index) => {
-              return (
-                <WeekProgramForm
-                  key={index}
-                  week={week.weeknum}
-                  idx={index + 1}
-                />
-              );
-            })}
-          </div>
-
           {<Button type="submit">Work Out!</Button>}
         </form>
       </FormProvider>
