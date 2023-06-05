@@ -13,6 +13,7 @@ export interface programInfo {
 
 export interface programPlanInfo {
   program: programDB;
+  //Parial<programDB> : programDB의 일부 속성만 setProgramPlanInfo함수에 {속성: value} 넣어서 변경 시킬 수 있다.
   setProgramPlanInfo: (partialProgram: Partial<programDB>) => void;
   resetProgramPlanInfo: () => void;
 }
@@ -45,6 +46,7 @@ export const useProgramPlanStore = create<programPlanInfo>((set) => ({
       },
     }));
   },
+  //페이지 이동 시 현재 작성 중 정보 초기화 하기 위한 함수
   resetProgramPlanInfo: () => {
     set(() => ({
       program: {

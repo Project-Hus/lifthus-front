@@ -30,14 +30,14 @@ import useProgramStore, {
 import { programList } from "../../api/mocks/program.mock";
 const SelectProgram = () => {
   const searchResult: programDB[] = programList;
-  //현재 선택한 프로그램의 정보 저장
+  //현재 선택한 프로그램의 정보 저장하는 전역 state
   const { program, setProgramPlanInfo } = useProgramPlanStore();
   const CardStyle = css`
     color: white;
     border-radius : 5% 5% 0px 0px;
     box-shadow  : 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};}};
     `;
-  //make state for selected result
+  //make state for selected result 검색 결과 배열에서 선택한 프로그램의 인덱스를 저장
   const [selectedResult, setSelectedResult] = useState<number>(-1);
   const handleResultClick = (resultId: number) => {
     if (selectedResult === resultId) {
