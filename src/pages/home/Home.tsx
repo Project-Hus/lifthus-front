@@ -16,12 +16,11 @@ const Home = () => {
     queryKey: ["posts"],
     queryFn: async () => {
       const followingList = await relationApi.getUserFollowing({ uid });
+      followingList.push(uid);
       const posts = await postApi.getUsersPosts({
         users: followingList,
         skip: 0,
       });
-      console.log("FFF", followingList);
-      console.log("PPP", posts);
       return posts;
     },
   });
