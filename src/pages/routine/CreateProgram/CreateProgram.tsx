@@ -1,33 +1,20 @@
-import { DeleteIcon, PlusSquareIcon, TriangleDownIcon } from "@chakra-ui/icons";
+import { PlusSquareIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  Checkbox,
-  CheckboxGroup,
   Flex,
   FormLabel,
-  HStack,
   Img,
   Input,
-  Radio,
-  RadioGroup,
-  Stack,
   Text,
   Textarea,
-  VStack,
 } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../../common/styles/theme.style";
-import { week } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
 import WeekProgramForm from "./unitProgramForm";
-import {
-  useFieldArray,
-  useForm,
-  FormProvider,
-  useFormContext,
-} from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 const CreateProgram = () => {
   const { program, setProgramPlanInfo, resetProgramPlanInfo } =
@@ -202,6 +189,7 @@ const CreateProgram = () => {
               bg={ThemeColor.backgroundColor}
               color={ThemeColor.backgroundColorDarker}
               flex={1}
+              onClick={() => alert("🚧 Passionately building 🚧")}
             >
               <Text color="green">Day+</Text>
             </Button>
