@@ -96,7 +96,7 @@ const TodaysRoutine = () => {
             </Flex>
             <Accordion defaultIndex={[0]} allowMultiple>
               {todayList.map((act, index) => (
-                <TodayActInfo act={act} key={index} type="repeat" />
+                <TodayActInfo act={act} key={index} type="time" />
               ))}
             </Accordion>
           </>

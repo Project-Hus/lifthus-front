@@ -10,7 +10,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { set } from "react-hook-form";
 import { routineAct } from "../../../api/mocks/program.mock";
 import { ThemeColor } from "../../../common/styles/theme.style";
 
@@ -19,40 +20,34 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
   //time 관련 state
   const [time, setTime] = useState(0);
   const [start, setStart] = useState(false);
-  const [timerId, setTimerId] = useState<any>(null);
-
-  const handleTimer = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    seconds: number
-  ) => {
-    if (start) {
-      setTime(0);
-      setStart(false);
-
-      return;
-    }
-    setTime(seconds);
-    setStart(true);
-  };
+  const [timerId, setTimerId] = useState<number>(400);
 
   useEffect(() => {
-    if (timerId) {
+    if (start) {
       const intervalId = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
+        setTimerId((prevtime) => prevtime - 1);
       }, 1000); // 1초마다 실행
 
       return () => {
         clearInterval(intervalId);
       };
     }
-  }, [timerId]);
+  }, [start]);
 
-  const handleStartButtonClick = () => {
-    const intervalId = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
-    }, 1000); // 1초마다 실행
-
-    setTimerId(intervalId);
+  const handleButtonClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    if (start == false) {
+      setTimerId(400);
+      setStart((prevValue) => !prevValue);
+    } else {
+      setStart((prevValue) => !prevValue);
+    }
+  };
+  const handleReset = () => {
+    setTimerId(400);
+    setStart(false);
   };
 
   //  reps add, minus function
@@ -111,11 +106,30 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
                   <Flex direction={"column"}>
                     <Text>{"remaining"}</Text>
                     <Flex>
-                      <Text>{time}</Text>
+                      <Text>{timerId}</Text>
                       <Text>{"초"}</Text>
                     </Flex>
                   </Flex>
-                  <Button onClick={handleStartButtonClick}>⏱️</Button>
+                  <Flex>
+                    <Box
+                      padding="0.5em"
+                      bg={ThemeColor.basicColor}
+                      onClick={handleButtonClick}
+                      borderRadius="10px"
+                    >
+                      <Text>{start ? "stop" : `⏱️`}</Text>
+                    </Box>
+                    {/* {start && (
+                      <Box
+                        padding="0.5em"
+                        bg={ThemeColor.basicColor}
+                        onClick={handleReset}
+                        borderRadius="10px"
+                      >
+                        <Text>{"reset"}</Text>
+                      </Box>
+                    )} */}
+                  </Flex>
                 </>
               )}
               <Box fontSize="4vw">🏁</Box>
