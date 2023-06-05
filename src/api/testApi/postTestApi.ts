@@ -22,7 +22,18 @@ const postTestApi: PostApi = {
     );
     return res.data;
   },
-
+  getUsersPosts: async ({ users, skip = 0 }): Promise<QueryPostDto[]> => {
+    const lst = localStorage.getItem("lifthus_st");
+    const usersQ = users.join(",");
+    const res = await axios.get(LIFTHUS_API_URL + `/post/query/post`, {
+      params: { users: usersQ, skip },
+      withCredentials: true,
+      headers: {
+        Authorization: lst,
+      },
+    });
+    return res.data;
+  },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
     const lst = localStorage.getItem("lifthus_st");
     const res = await axios.post("https://api.lifthus.com/post/post", post, {

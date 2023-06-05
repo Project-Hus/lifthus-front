@@ -20,6 +20,17 @@ const postApi: PostApi = {
     );
     return res.data;
   },
+  getUsersPosts: async ({ users, skip = 0 }): Promise<QueryPostDto[]> => {
+    if (process.env.NODE_ENV === "development") {
+      return postTestApi.getUsersPosts({ users, skip });
+    }
+    const usersQ = users.join(",");
+    const res = await axios.get(LIFTHUS_API_URL + `/post/query/post`, {
+      params: { users: usersQ, skip },
+      withCredentials: true,
+    });
+    return res.data;
+  },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
     if (process.env.NODE_ENV === "development") {
       return postTestApi.createPost(post);

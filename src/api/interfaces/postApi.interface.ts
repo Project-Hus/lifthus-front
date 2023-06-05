@@ -8,6 +8,13 @@ import {
 
 export interface PostApi {
   getUserPosts: ({ uid, skip }: GetUserPostsParams) => Promise<QueryPostDto[]>;
+  getUsersPosts: ({
+    users,
+    skip,
+  }: {
+    users: number[];
+    skip: number;
+  }) => Promise<QueryPostDto[]>;
   createPost: ({
     userGroup,
     author,
