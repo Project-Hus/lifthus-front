@@ -61,6 +61,11 @@ const SelectProgram = () => {
     navigate("/routine/menu/detail");
   };
 
+  const goProgramStart = () => {
+    setProgramPlanInfo(searchResult[selectedResult]);
+    navigate("/routine/menu/start");
+  };
+
   return (
     <>
       <div>
@@ -147,6 +152,7 @@ const SelectProgram = () => {
                       _hover={{
                         backgroundColor: ThemeColor.backgroundColorDarker,
                       }}
+                      onClick={goProgramStart}
                     >
                       {" "}
                       프로그램 시작
