@@ -1,8 +1,5 @@
 import { create } from "zustand";
-import { programDB, week } from "./interfaces/program.interface";
-//make interface for useProgramStore
-
-import { produce } from "immer";
+import { programDB } from "./interfaces/program.interface";
 
 export interface programInfo {
   program: programDB;

@@ -98,11 +98,11 @@ const CreateProgram = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div>
-            <FormLabel textAlign="center" htmlFor="name">
+            <FormLabel textAlign="center" htmlFor="title">
               프로그램 이름
             </FormLabel>
 
-            <Input id="name" type="text" {...methods.register("name")} />
+            <Input id="title" type="text" {...methods.register("title")} />
           </div>
           <div>
             <FormLabel htmlFor="file">
