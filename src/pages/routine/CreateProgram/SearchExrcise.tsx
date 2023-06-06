@@ -3,38 +3,13 @@ import { AddIcon } from "@chakra-ui/icons";
 import { Button, Flex, Img, Input, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { exerciseList } from "../../../api/mocks/program.mock";
 import programApi from "../../../api/programApi";
-import { actDB } from "../../../store/interfaces/program.interface";
-import { useProgramPlanStore } from "../../../store/program.zustand";
-import { cl, s } from "@fullcalendar/core/internal-common";
+import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
 
-const SearchExercise = ({
-  weekNum,
-  dayNum,
-}: {
-  weekNum: number;
-  dayNum: number;
-}) => {
+const SearchExercise = ({ week, day }: { week: number; day: number }) => {
   const { register, getValues } = useForm();
 
-  const { setProgramPlanInfo, program } = useProgramPlanStore();
-  const [SearchResult, setSearchResult] = useState<actDB[]>([]);
-
-  const [serachstring, setSerachstring] = useState<string>("");
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSerachstring(e.target.value);
-  };
-  const onsubmit = () => setSearchResult(exerciseList);
-
-  const addExerciseHandler = (act: actDB) => {
-    const newact = {
-      week: weekNum,
-      dayNum: dayNum,
-      actDB: act,
-    };
-    setProgramPlanInfo({ acts: [...program.acts, newact] });
-  };
+  const { addRoutineAct } = useNewWeeklyProgramStore();
 
   // real time search logic
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -47,7 +22,7 @@ const SearchExercise = ({
       enabled: !!searchKeyword,
     }
   );
-  let TOK: NodeJS.Timeout = setTimeout(() => {}, 1000);
+  let TOK: NodeJS.Timeout = setTimeout(() => {});
   useEffect(() => () => clearTimeout(TOK), [TOK]);
   return (
     <>
@@ -64,9 +39,6 @@ const SearchExercise = ({
             },
           })}
         />
-        <Button type="button" onClick={onsubmit}>
-          검색
-        </Button>
       </Flex>
       {queriedActs &&
         queriedActs.map((act) => {
@@ -93,7 +65,15 @@ const SearchExercise = ({
                     ? "상체"
                     : "하체"}
                 </Text>
-                <Button onClick={() => {}}>
+                <Button
+                  onClick={() => {
+                    addRoutineAct({
+                      week: week,
+                      day: day,
+                      act_id: act.id,
+                    });
+                  }}
+                >
                   <AddIcon />
                 </Button>
               </Flex>

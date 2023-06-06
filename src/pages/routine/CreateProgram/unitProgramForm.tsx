@@ -106,7 +106,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
           ))}
         </Card>
         <Box {...EditdisclosureProps}>
-          <SearchExercise dayNum={day} weekNum={week} />
+          <SearchExercise week={week} day={day} />
         </Box>
         {EditProps.isOpen ? (
           <Flex direction={"column"} alignItems="center">
