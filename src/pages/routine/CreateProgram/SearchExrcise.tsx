@@ -51,7 +51,7 @@ const SearchExercise = ({
           placeholder="검색어를 입력하세요"
           onChange={handleSearch}
         />
-        <Button type="button" onClick={onsubmit} >
+        <Button type="button" onClick={onsubmit}>
           검색
         </Button>
       </Flex>
@@ -64,8 +64,8 @@ const SearchExercise = ({
                 <Text>{exercise.name}</Text>
                 <Text>{exercise.type}</Text>
                 <Text>{exercise.bodyPart ? exercise.bodyPart : "없음"}</Text>
-                <Button onClick={() => addExerciseHandler(exercise)}>
-                  <AddIcon />
+                <Button onClick={() => addExerciseHandler(exercise)} bg={ThemeColor.backgroundColor} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>
+                  +
                 </Button>
               </Flex>
             </div>
