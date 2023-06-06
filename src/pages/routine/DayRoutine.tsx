@@ -5,7 +5,11 @@ import { exerciseList } from "../../api/mocks/program.mock";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { programDB } from "../../store/interfaces/program.interface";
 import { userRMInfo } from "./StartPrgram";
-
+export const DayActStyle = styled.div`
+align-items: center;
+padding: 0.5em;
+border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
+`
 
 
 const DayRoutine = ({

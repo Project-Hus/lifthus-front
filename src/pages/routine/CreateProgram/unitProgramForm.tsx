@@ -18,6 +18,8 @@ import { actDB, week } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
 import { useFormContext } from "react-hook-form";
 import { css } from "@emotion/react";
+import { BottomBorder } from "../DetailProgram";
+import { DayActStyle } from "../DayRoutine";
 
 export const WeekProgramForm = ({
   week: weekId,
@@ -51,29 +53,33 @@ export const WeekProgramForm = ({
   }, []);
   return (
     <>
-      <Flex paddingX="1em" justifyContent={"space-between"}>
-        <Box flex="2" {...buttonProps}>
-          <Flex alignItems={"center"}>
-            <Text fontWeight={"bold"}>{idx + " 주차"}</Text>
-            &nbsp;
-            {isOpen && <TriangleDownIcon />}
-          </Flex>
-        </Box>
-        <Button onClick={() => deleteWeek()}>
-          <DeleteIcon />
-        </Button>
-      </Flex>
-      {program.days.map((day, index) => {
-        return (
-          <>
-            {day.week === weekId && (
-              <Box key={index} {...disclosureProps}>
-                <DayProgramForm weekNum={weekId} dayNum={day.dayNum} />
-              </Box>
-            )}
-          </>
-        );
-      })}
+      <BottomBorder>
+
+        <Flex paddingX="1em" justifyContent={"space-between"}>
+          <Box flex="2" {...buttonProps}>
+            <Flex alignItems={"center"}>
+              <Text fontWeight={"bold"} fontSize={"3vw"}>{idx + " 주차"}</Text>
+              &nbsp;
+              {isOpen && <TriangleDownIcon />}
+            </Flex>
+          </Box>
+          <Button onClick={() => deleteWeek()}>
+            <DeleteIcon />
+          </Button>
+        </Flex>
+        {program.days.map((day, index) => {
+          return (
+            <>
+              {day.week === weekId && (
+                <Box key={index} {...disclosureProps}>
+                  <DayProgramForm weekNum={weekId} dayNum={day.dayNum} />
+                </Box>
+              )}
+            </>
+          );
+        })}
+      </BottomBorder>
+
     </>
   );
 };
@@ -113,32 +119,38 @@ const DayProgramForm = ({
   const [isSmallerScreen] = useMediaQuery("(max-width: 700px)");
 
   const editButtonStyle = css`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: ${ThemeColor.backgroundColor};
-  border: 2px solid ${ThemeColor.backgroundColorDarker};
-  & :hover {
-    background-color: ${ThemeColor.backgroundColorDarker};
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: ${ThemeColor.backgroundColor};
+      border: 2px solid ${ThemeColor.backgroundColorDarker};
+      & :hover {
+        background - color: ${ThemeColor.backgroundColorDarker};
   }
-  
-  `
+
+      `
   return (
-    <Box marginLeft="1.5em">
-      <Flex direction="column"    >
-        <Flex {...buttonProps} alignItems="center">
-          {dayname[dayNum] + "요일"}
-          <TriangleDownIcon
-            transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
-          />
-        </Flex>
+    <Box marginLeft="1.5em" fontSize="3vw">
+
+      <Flex direction="column">
+        <DayActStyle>
+          <Flex {...buttonProps} alignItems="center">
+            {dayname[dayNum] + "요일"}
+            <TriangleDownIcon
+              transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
+            />
+          </Flex>
+        </DayActStyle>
+
         <Card
           {...disclosureProps}
           bg={ThemeColor.backgroundColor}
           color="white"
         >
           {sortedayAct.map((act, idx) => (
-            <ExerciseInfo key={idx} act={act} isEditing={EditProps.isOpen} />
+            <DayActStyle>
+              <ExerciseInfo key={idx} act={act} isEditing={EditProps.isOpen} />
+            </DayActStyle>
           ))}
         </Card>
         {EditProps.isOpen && isOpen && (<Box >
