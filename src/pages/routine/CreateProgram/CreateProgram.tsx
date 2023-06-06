@@ -99,11 +99,11 @@ const CreateProgram = () => {
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div>
             <Flex direction={"column"}>
-              <FormLabel textAlign="center" htmlFor="name">
+              <FormLabel textAlign="center" htmlFor="name" fontSize="5vw" fontWeight={"bold"}>
                 프로그램 이름
               </FormLabel>
 
-              <Input alignSelf={"center"} width="50vw" textAlign="end" bg={ThemeColor.backgroundColorDarker} id="name" type="text" {...methods.register("name")} />
+              <Input paddingY="1em" alignSelf={"center"} width="50vw" fontSize="4vw" textAlign="end" bg={ThemeColor.backgroundColorDarker} id="name" type="text" {...methods.register("name")} />
             </Flex>
           </div>
           <div>
@@ -212,7 +212,7 @@ const CreateProgram = () => {
               );
             })}
           </div>
-          <Flex>
+          <Flex marginTop="0.1em">
             <Button
               border="2px"
               bg={ThemeColor.backgroundColor}

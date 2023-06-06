@@ -52,8 +52,8 @@ const RoutineMenu = () => {
   `;
 
   const buttonstyle = css`
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     height: 8vh;
     width: 80vw;
     align-items: center;
