@@ -22,4 +22,4 @@ export type UpdateWeeklyRoutineAct = {
   warmup?: boolean;
 };
 
-export type NewProgramInfoStrings = "title" | "author";
+export type NewProgramInfoStrings = "title" | "image" | "tag" | "description";

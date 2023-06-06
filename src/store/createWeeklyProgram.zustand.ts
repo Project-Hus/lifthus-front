@@ -5,20 +5,25 @@ import {
   UpdateWeeklyRoutineAct,
 } from "./interfaces/createProgram.interface";
 
-const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
-  title: undefined,
-  author: undefined,
-  image: undefined,
-  description: undefined,
-  tags: [],
-  weekly_routines: [],
-  daily_routines: [],
-  routine_acts: [],
+const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
+  newProgram: {
+    title: undefined,
+    author: undefined,
+    image: undefined,
+    description: undefined,
+    tags: [],
+    weekly_routines: [],
+    daily_routines: [],
+    routine_acts: [],
+  },
 
-  updatePrgram: (newInfo) => {
+  updateProgram: (newInfo) => {
     set((state) => ({
       ...state,
-      ...newInfo,
+      newProgram: {
+        ...state.newProgram,
+        ...newInfo,
+      },
     }));
   },
 
@@ -26,13 +31,19 @@ const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
   addTag: (tag) => {
     set((state) => ({
       ...state,
-      tags: [...state.tags, tag],
+      newProgram: {
+        ...state.newProgram,
+        tags: [...state.newProgram.tags, tag],
+      },
     }));
   },
   removeTag: (tag) => {
     set((state) => ({
       ...state,
-      tags: state.tags.filter((t) => t !== tag),
+      newProgram: {
+        ...state.newProgram,
+        tags: state.newProgram.tags.filter((t) => t !== tag),
+      },
     }));
   },
 
@@ -40,18 +51,30 @@ const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
   addWeeklyRoutine: () => {
     set((state) => ({
       ...state,
-      weekly_routines: [
-        ...state.weekly_routines,
-        { week: state.weekly_routines.length + 1 },
-      ],
+      newProgram: {
+        ...state.newProgram,
+        weekly_routines: [
+          ...state.newProgram.weekly_routines,
+          { week: state.newProgram.weekly_routines.length + 1 },
+        ],
+      },
     }));
   },
   removeWeeklyRoutine: (week) => {
     set((state) => ({
       ...state,
-      weekly_routines: state.weekly_routines.filter((r) => r.week !== week),
-      daily_routines: state.daily_routines.filter((r) => r.week !== week),
-      routine_acts: state.routine_acts.filter((r) => r.week !== week),
+      newProgram: {
+        ...state.newProgram,
+        weekly_routines: state.newProgram.weekly_routines.filter(
+          (r) => r.week !== week
+        ),
+        daily_routines: state.newProgram.daily_routines.filter(
+          (r) => r.week !== week
+        ),
+        routine_acts: state.newProgram.routine_acts.filter(
+          (r) => r.week !== week
+        ),
+      },
     }));
   },
 
@@ -61,11 +84,16 @@ const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
       const newState = { ...state };
       const { week, day } = ra;
       // first, check if the week and day exist
-      if (!state.weekly_routines.find((r) => r.week === week)) return state;
-      if (!state.daily_routines.find((r) => r.week === week && r.day === day))
-        newState.daily_routines.push({ week, day });
+      if (!state.newProgram.weekly_routines.find((r) => r.week === week))
+        return state;
+      if (
+        !state.newProgram.daily_routines.find(
+          (r) => r.week === week && r.day === day
+        )
+      )
+        newState.newProgram.daily_routines.push({ week, day });
       // and get the acts set in the same day
-      const sameDayActs = state.routine_acts.filter(
+      const sameDayActs = state.newProgram.routine_acts.filter(
         (r) => r.week === week && r.day === day
       );
       // and get the max order of the acts to attach new act to the end
@@ -74,7 +102,7 @@ const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
         return acc;
       }, 0);
       // and push the new act
-      newState.routine_acts.push({
+      newState.newProgram.routine_acts.push({
         ...ra,
         order: maxOrder + 1,
         warmup: false,
@@ -86,30 +114,32 @@ const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
     set((state) => {
       const newState = { ...state };
       // get the act with the given identifiers
-      const targetActIdx = state.routine_acts.findIndex(
+      const targetActIdx = state.newProgram.routine_acts.findIndex(
         (r) => r.week === week && r.day === day && r.order === order
       );
       if (targetActIdx === -1) return state;
       // update routine acts' order
-      newState.routine_acts = state.routine_acts.map((ra) => {
-        if (ra.week === week && ra.day === day && ra.order > order) {
-          return { ...ra, order: ra.order - 1 };
+      newState.newProgram.routine_acts = state.newProgram.routine_acts.map(
+        (ra) => {
+          if (ra.week === week && ra.day === day && ra.order > order) {
+            return { ...ra, order: ra.order - 1 };
+          }
+          return ra;
         }
-        return ra;
-      });
+      );
       // remove the target act
-      newState.routine_acts.splice(targetActIdx, 1);
+      newState.newProgram.routine_acts.splice(targetActIdx, 1);
       return newState;
     });
   },
   updateRoutineAct: (week, day, order, ra) => {
     set((state) => {
-      const targetActIdx = state.routine_acts.findIndex(
+      const targetActIdx = state.newProgram.routine_acts.findIndex(
         (ra) => ra.week === week && ra.day === day && ra.order === order
       );
       if (targetActIdx === -1) return state;
-      state.routine_acts[targetActIdx] = {
-        ...state.routine_acts[targetActIdx],
+      state.newProgram.routine_acts[targetActIdx] = {
+        ...state.newProgram.routine_acts[targetActIdx],
         ...ra,
       };
       return state;
@@ -118,20 +148,22 @@ const useRegisterStore = create<NewWeeklyProgramStore>()((set) => ({
 }));
 
 export interface NewWeeklyProgramStore {
-  title?: string;
-  author?: number;
-  image?: string;
-  description?: string;
-  tags: string[];
-  weekly_routines: WeeklyRoutine[];
-  daily_routines: WeeklyDailyRoutine[];
-  routine_acts: WeeklyRoutineAct[];
+  newProgram: {
+    title?: string;
+    author?: number;
+    image?: string;
+    description?: string;
+    tags: string[];
+    weekly_routines: WeeklyRoutine[];
+    daily_routines: WeeklyDailyRoutine[];
+    routine_acts: WeeklyRoutineAct[];
+  };
 
-  updatePrgram(newInfo: UpdateWeeklyProgram): void;
+  updateProgram(newInfo: UpdateWeeklyProgram): void;
   addTag(tag: string): void;
   removeTag(tag: string): void;
 
-  addWeeklyRoutine(week: number): void;
+  addWeeklyRoutine(): void;
   removeWeeklyRoutine(week: number): void;
 
   addRoutineAct(ra: NewWeeklyRoutineAct): void;
@@ -166,4 +198,4 @@ export type WeeklyRoutineAct = {
   warmup: boolean;
 };
 
-export default useRegisterStore;
+export default useNewWeeklyProgramStore;

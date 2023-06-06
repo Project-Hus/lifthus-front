@@ -9,26 +9,20 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../../common/styles/theme.style";
-import { useProgramPlanStore } from "../../../store/program.zustand";
-import WeekProgramForm from "./unitProgramForm";
 import { useForm, FormProvider } from "react-hook-form";
+import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
+
+import WeekProgramForm from "./unitProgramForm";
 
 const CreateProgram = () => {
-  const { program, setProgramPlanInfo, resetProgramPlanInfo } =
-    useProgramPlanStore();
-
-  useEffect(() => {
-    console.log("weeks", program.weeks);
-  });
-  //일정을 담는 리스트
-
-  const methods = useForm();
+  const hookForm = useForm();
+  const { newProgram, updateProgram, addTag, removeTag, addWeeklyRoutine } =
+    useNewWeeklyProgramStore();
 
   const onSubmit = (data: any) => {
-    // 입력된 데이터 처리
     console.log(data);
   };
 
@@ -43,66 +37,24 @@ const CreateProgram = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("weeks", program.weeks);
-  }, [program.weeks]);
-  useEffect(() => {
-    console.log("days", program.days);
-  }, [program.days]);
-
-  const addweeks = () => {
-    const temp =
-      program.weeks.length == 0
-        ? 0
-        : program.weeks[program.weeks.length - 1].weeknum + 1;
-    setProgramPlanInfo({
-      weeks: [...program.weeks, { weeknum: temp }],
-      days: [
-        ...program.days,
-
-        {
-          week: temp,
-          dayNum: 1,
-        },
-        {
-          week: temp,
-          dayNum: 2,
-        },
-        {
-          week: temp,
-          dayNum: 3,
-        },
-        {
-          week: temp,
-          dayNum: 4,
-        },
-        {
-          week: temp,
-          dayNum: 5,
-        },
-        {
-          week: temp,
-          dayNum: 6,
-        },
-        {
-          week: temp,
-          dayNum: 7,
-        },
-      ],
-    });
-  };
-  const [inputvalue, setInputValue] = useState<string>("");
-
   return (
     <BasicPageLayout>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <FormProvider {...hookForm}>
+        <form onSubmit={hookForm.handleSubmit(onSubmit)}>
           <div>
             <FormLabel textAlign="center" htmlFor="title">
               프로그램 이름
             </FormLabel>
-
-            <Input id="title" type="text" {...methods.register("title")} />
+            <Input
+              id="title"
+              type="text"
+              defaultValue={newProgram.title}
+              {...hookForm.register("title", {
+                onChange: (e) => {
+                  updateProgram({ title: hookForm.getValues("title") });
+                },
+              })}
+            />
           </div>
           <div>
             <FormLabel htmlFor="file">
@@ -140,8 +92,9 @@ const CreateProgram = () => {
               id="file"
               type="file"
               accept="image/*"
-              {...methods.register("photo")}
-              onChange={handleImageChange}
+              {...hookForm.register("image", {
+                onChange: handleImageChange,
+              })}
             />
           </div>
           <div style={{ textAlign: "center" }}>
@@ -149,24 +102,31 @@ const CreateProgram = () => {
 
             <Input
               width="30%"
-              name="tag"
               textAlign={"center"}
               placeholder="관련 태그를 입력해주세요"
-              onChange={(e) => {
-                setInputValue(e.target.value);
-              }}
+              {...hookForm.register("tag", {
+                onChange: (e) => {
+                  // 태그 자동 인식 및 검색으로 나중에 전환
+                },
+              })}
             />
             <Button
-              onClick={() =>
-                setProgramPlanInfo({ tag: [...program.tag, inputvalue] })
-              }
+              onClick={() => {
+                addTag(hookForm.getValues("tag"));
+                hookForm.setValue("tag", "");
+              }}
             >
               태그 추가
             </Button>
-            <Button onClick={() => setProgramPlanInfo({ tag: [] })}>
-              태그 리셋
+            <Button
+              onClick={() => {
+                removeTag(hookForm.getValues("tag"));
+                hookForm.setValue("tag", "");
+              }}
+            >
+              태그 삭제
             </Button>
-            {program.tag.map((tag, index) => {
+            {newProgram.tags.map((tag, index) => {
               return (
                 <div>
                   <Text key={index}>{tag}</Text>
@@ -178,9 +138,16 @@ const CreateProgram = () => {
           <div>
             <Text textAlign={"center"}>설명</Text>
             <Textarea
-              {...methods.register("description")}
+              {...hookForm.register("description", {
+                onChange: () => {
+                  updateProgram({
+                    description: hookForm.getValues("description"),
+                  });
+                },
+              })}
               required
               placeholder="설명을 입력하세요"
+              defaultValue={newProgram.description}
             />
           </div>
           <Flex>
@@ -191,7 +158,7 @@ const CreateProgram = () => {
               flex={1}
               onClick={() => alert("🚧 Passionately building 🚧")}
             >
-              <Text color="green">Day+</Text>
+              <Text color="green">+Day</Text>
             </Button>
             <Button
               border="2px"
@@ -199,19 +166,15 @@ const CreateProgram = () => {
               color={ThemeColor.backgroundColorDarker}
               flex={1}
               type="button"
-              onClick={() => addweeks()}
+              onClick={() => addWeeklyRoutine()}
             >
-              <Text color={ThemeColor.basicColor}>Week+</Text>
+              <Text color={ThemeColor.basicColor}>+Week</Text>
             </Button>
           </Flex>
           <div>
-            {program.weeks.map((week, index) => {
+            {newProgram.weekly_routines.map((wr, index) => {
               return (
-                <WeekProgramForm
-                  key={index}
-                  week={week.weeknum}
-                  idx={index + 1}
-                />
+                <WeekProgramForm key={index} week={wr.week} idx={index + 1} />
               );
             })}
           </div>
