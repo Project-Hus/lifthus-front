@@ -53,15 +53,14 @@ const DayRoutine = ({
   return (
     <>
       <DayActStyle>
-        <Box {...daybuttonProps} fontSize="2.5vw" >
+        <Box {...daybuttonProps} fontSize="3vw" >
           <Flex alignItems={"center"}>
             <Flex wrap="nowrap" alignItems={"center"} marginRight="2.4em">
-              <TriangleDownIcon
-                transform={
-                  dayWindowHandle.isOpen ? "rotate(0deg)" : "rotate(270deg)"
-                }
-              />
               <Text >{dayname[idx] + "요일"}</Text>
+              {dayWindowHandle.isOpen && <TriangleDownIcon
+
+              />
+              }
             </Flex>
 
             {isStart && <Text>{newDate.toISOString().slice(0, 10)}</Text>}
@@ -73,7 +72,7 @@ const DayRoutine = ({
           return (
             <DayActStyle>
 
-              <Box fontSize={"3vw"} >
+              <Box fontSize={"3vw"} paddingLeft="0.5em">
                 <Flex
                   key={idx}
                   direction={"row"}
@@ -82,13 +81,18 @@ const DayRoutine = ({
                   alignItems={"center"}
                 >
                   {act.images ? <Img borderRadius="5%" marginRight="2vw" src={act.images[0]} boxSize="10vw" /> : null}
-                  <Text marginRight="2vw" fontWeight="normal">{act.name}</Text>
+                  <Text marginRight="2vw" fontWeight="bold">{act.name}</Text>
                   {isStart && act.type == "repeat" && (
                     <>
                       <Flex marginRight="2vw">
                         <Text>{RMInfo.rm ? 20 * RMInfo.rm : 0}</Text>
                         {"kg"}
                       </Flex>
+                      &nbsp;
+                      <Text>
+                        x3
+                      </Text>
+                      &nbsp;
                       &nbsp;
                       <Flex direction={"column"} marginRight="2vw" alignItems={"center"} justifyContent="center">
                         <Text>Reps</Text>
