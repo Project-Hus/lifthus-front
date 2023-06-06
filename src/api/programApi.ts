@@ -25,6 +25,17 @@ const programApi: ProgramApi = {
     });
     return res.data;
   },
+  queryActById: async (id) => {
+    if (process.env.NODE_ENV == "development") {
+      return programTestApi.queryActById(id);
+    }
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/act", {
+      params: {
+        id: id,
+      },
+    });
+    return res.data;
+  },
 };
 
 export default programApi;

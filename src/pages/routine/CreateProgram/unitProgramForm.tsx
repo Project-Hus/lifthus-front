@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -15,8 +14,6 @@ import SearchExercise from "./SearchExrcise";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import ExerciseInfo from "./ExcerciseInfo";
 
-import { actDB } from "../../../store/interfaces/program.interface";
-import { useProgramPlanStore } from "../../../store/program.zustand";
 import useNewWeeklyProgramStore, {
   WeeklyRoutine,
 } from "../../../store/createWeeklyProgram.zustand";
@@ -26,7 +23,7 @@ export const WeekProgramForm = ({
 }: {
   weeklyRoutine: WeeklyRoutine;
 }) => {
-  const { newProgram, removeWeeklyRoutine } = useNewWeeklyProgramStore();
+  const { removeWeeklyRoutine } = useNewWeeklyProgramStore();
 
   const { getDisclosureProps, getButtonProps, isOpen } = useDisclosure();
 
@@ -66,7 +63,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   const goToCreateExcercise = () => {
     navigate("/routine/menu/createexcercise");
   };
-  const { setProgramPlanInfo, program } = useProgramPlanStore();
+  const { newProgram } = useNewWeeklyProgramStore();
 
   //for expand and collapse of day program
   const { getDisclosureProps, getButtonProps, isOpen, onClose, onOpen } =
@@ -76,16 +73,14 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   //for expand searchWindow
   const EditProps = useDisclosure();
   const EditbuttonProps = EditProps.getButtonProps();
-  //state for day of exercise list
-  const [exerciseList, setExerciseList] = useState<actDB[]>([]);
   const EditdisclosureProps = EditProps.getDisclosureProps();
 
   const dayname: string[] = ["더미", "월", "화", "수", "목", "금", "토", "일"];
   //order 값이 작은 순 정렬
-  const dayAct = program.acts.filter(
-    (act) => act.week === week && act.dayNum === day
+  const routineActs = newProgram.routine_acts.filter(
+    (act) => act.week === week && act.day === day
   );
-  const sortedayAct = dayAct.sort((a, b) => a.actDB.order - b.actDB.order);
+  routineActs.sort((a, b) => a.order - b.order);
 
   return (
     <Box paddingLeft="3%">
@@ -101,7 +96,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
           bg={ThemeColor.backgroundColor}
           color="white"
         >
-          {sortedayAct.map((act, idx) => (
+          {routineActs.map((act, idx) => (
             <ExerciseInfo key={idx} act={act} isEditing={EditProps.isOpen} />
           ))}
         </Card>

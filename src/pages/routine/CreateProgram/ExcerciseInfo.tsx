@@ -1,22 +1,20 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Input, Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { act } from "../../../store/interfaces/program.interface";
+import { WeeklyRoutineAct } from "../../../store/createWeeklyProgram.zustand";
 import useProgramPlanStore from "../../../store/program.zustand";
 
-const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
-  let [reps, setReps] = useState<number>(3);
-  const { setProgramPlanInfo, program } = useProgramPlanStore();
+const ActInfo = ({ routineAct, isEditing }: { routineAct: WeeklyRoutineAct; isEditing: boolean }) => {
 
-  const deleteAct = () => {
-    const delAct = act;
-    const newacts = program.acts.filter((act) => delAct !== act);
-    setProgramPlanInfo({ acts: newacts });
-  };
+  const { data:ra, isLoading } = useQuery(["act", { id: routineAct.act_id }], () => {
+
+  });
+
   return (
     <Box>
       <Flex justifyContent={"space-between"} alignItems="center" fontSize="3vw">
-        <Text>{act.actDB.name}</Text>
+        <Text>{routineAct.}</Text>
 
         {isEditing && (
           <Button onClick={() => deleteAct()}>

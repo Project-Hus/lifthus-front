@@ -23,6 +23,14 @@ const programTestApi: ProgramApi = {
     });
     return res.data;
   },
+  queryActById: async (id) => {
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/act", {
+      params: {
+        id: id,
+      },
+    });
+    return res.data;
+  },
 };
 
 export default programTestApi;
