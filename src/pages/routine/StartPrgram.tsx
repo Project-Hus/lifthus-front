@@ -10,6 +10,7 @@ import UnitRoutine from "./UnitRoutine";
 import { useNavigate } from "react-router-dom";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { exerciseList } from "../../api/mocks/program.mock";
+import { BottomBorder } from "./DetailProgram";
 
 export interface userRMInfo {
   actname: string;
@@ -165,14 +166,15 @@ const StartProgram = () => {
       })}
 
       {/* 주차별 루틴 */}
-      <UnitRoutine
-        isStart={true}
-        unitDate={"week"}
-        startDate={startDate}
-        num={1}
-        RMInfo={RMInfo}
-      />
-
+      <BottomBorder>
+        <UnitRoutine
+          isStart={true}
+          unitDate={"week"}
+          startDate={startDate}
+          num={1}
+          RMInfo={RMInfo}
+        />
+      </BottomBorder>
       <Flex>
         <Button flex={1}>Work out!</Button>
       </Flex>

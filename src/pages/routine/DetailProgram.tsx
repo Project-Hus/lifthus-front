@@ -1,5 +1,5 @@
 import { StarIcon, BellIcon } from "@chakra-ui/icons";
-import { Box, Button, Card, Flex, Img, Input, Text } from "@chakra-ui/react";
+import { border, Box, Button, Card, Flex, Img, Input, Text } from "@chakra-ui/react";
 import RoutineShort from "./RoutineShort";
 import { programDB } from "../../store/interfaces/program.interface";
 import { ThemeColor } from "../../common/styles/theme.style";
@@ -10,6 +10,17 @@ import UnitRoutine from "./UnitRoutine";
 import { useNavigate } from "react-router-dom";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { userRMInfo } from "./StartPrgram";
+import styled from "@emotion/styled";
+
+
+export const borderStyle = css`
+border-top: 5px solid ${ThemeColor.backgroundColorDarker};
+border-bottom: 5px solid ${ThemeColor.backgroundColorDarker};
+`;
+//make styled component for bottom border
+export const BottomBorder = styled.div`
+  border-bottom: 3px solid ${ThemeColor.backgroundColorDarker};
+  `;
 
 const DetailProgram = () => {
   const CardStyle = css`
@@ -40,6 +51,7 @@ const DetailProgram = () => {
   const goProgramStart = () => {
     navigate("/routine/menu/start");
   };
+
 
   return (
     <BasicPageLayout>
@@ -87,22 +99,23 @@ const DetailProgram = () => {
 
         {/* 프로그램 시작 버튼 */}
 
-        <Flex marginY="0.5em">
+        <Flex css={borderStyle} >
           <Button
             flex={1}
             onClick={goProgramStart}
-            bg={isStart ? "#9298E2" : ThemeColor.backgroundColor}
+            padding="10%"
+            bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            {"프로그램 시작"}
+            <Text fontSize="2vw">프로그램 시작</Text>
           </Button>
           <Button
             flex={1}
+            padding="10%"
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-
           >
-            변형하기
+            <Text fontSize="2vw">변형하기</Text>
           </Button>
         </Flex>
         {/* 주차별 루틴 */}

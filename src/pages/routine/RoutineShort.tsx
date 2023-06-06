@@ -20,7 +20,7 @@ const RoutineShort = ({
       <Flex direction={"row"} margin="0.3em">
         {result.images &&
           result.images?.map((srcs: string, idx: number) => {
-            return <Img width="20%" height="20%" src={srcs} key={idx}></Img>;
+            return <Img boxSize={"15vw"} src={srcs} key={idx}></Img>;
           })}
         <div>
           {!isDetail && (
