@@ -49,18 +49,21 @@ const UnitRoutine = ({
     <Box >
       <BottomBorder>
 
-        <Flex {...buttonProps} justifyContent={"space-between"} fontSize="0.7em">
+        <Flex {...buttonProps} justifyContent={"space-between"} fontSize="5vw">
 
           <Flex alignItems="center" paddingY="3vw" paddingLeft="0.5em">
-            <Text fontWeight="bold">{num + "주차"}</Text>
+
+            <Text fontWeight="bold" >{num + "주차"}</Text>
             &nbsp;
             {isOpen && <TriangleDownIcon transform={"rotate(0deg)"} />}
           </Flex>
           {isStart && (
-            <Text>
-              {" "}
-              {getStartDate(startDate, num) + "~" + getEndDate(startDate, num)}
-            </Text>
+            <Flex marginRight="2em" textAlign={"end"} alignItems={"center"} >
+              <Text fontSize="3vw" alignItems={"end"} verticalAlign="center">
+                {" "}
+                {getStartDate(startDate, num) + "~" + getEndDate(startDate, num)}
+              </Text>
+            </Flex>
           )}
         </Flex>
       </BottomBorder>

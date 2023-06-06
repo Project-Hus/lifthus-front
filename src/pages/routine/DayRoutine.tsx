@@ -63,6 +63,7 @@ const DayRoutine = ({
               />
               <Text >{dayname[idx] + "요일"}</Text>
             </Flex>
+
             {isStart && <Text>{newDate.toISOString().slice(0, 10)}</Text>}
           </Flex>
         </Box>
@@ -88,16 +89,16 @@ const DayRoutine = ({
                         <Text>{RMInfo.rm ? 20 * RMInfo.rm : 0}</Text>
                         {"kg"}
                       </Flex>
-
-                      <Flex direction={"column"} marginRight="2vw">
-                        <Text>reps</Text>
-                        <Text>{3 + "/" + 3}</Text>
+                      &nbsp;
+                      <Flex direction={"column"} marginRight="2vw" alignItems={"center"} justifyContent="center">
+                        <Text>Reps</Text>
+                        <Text fontWeight={"bold"}>{3 + "/" + 3}</Text>
                       </Flex>
                     </>
                   )}
                   {act.type == "time" && (
                     <Flex alignItems={"center"} fontSize="3vw">
-                      <Input fontSize="3vw" minWidth="6vw" maxWidth={"50px"} padding="0" defaultValue={200}></Input>
+                      <Input textAlign={"center"} fontSize="3vw" minWidth="6vw" maxWidth={"50px"} padding="0" defaultValue={200}></Input>
                       <Text>초</Text>
                     </Flex>
                   )}

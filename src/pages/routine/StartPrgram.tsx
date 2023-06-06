@@ -10,7 +10,7 @@ import UnitRoutine from "./UnitRoutine";
 import { useNavigate } from "react-router-dom";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { exerciseList } from "../../api/mocks/program.mock";
-import { BottomBorder } from "./DetailProgram";
+import { borderStyle, BottomBorder } from "./DetailProgram";
 
 export interface userRMInfo {
   actname: string;
@@ -68,20 +68,24 @@ const StartProgram = () => {
         <div>
           <Flex direction={"row"} margin="0.3em">
             <div>
-              <Flex>
-                <Text fontSize="ms" fontWeight={"bold"}>
+              <Flex alignItems={"center"}>
+                &nbsp;
+                <Text fontSize="5vw" fontWeight={"bold"}>
                   {program.name}
                 </Text>
-                <Text fontSize="ms" paddingLeft="0.5em">
-                  {"by" + program.author}
+                &nbsp;
+                <Text paddingRight="0.3em" fontSize={"2.5vw"}>{"by"}</Text>
+                <Text fontSize={"2.5vw"} fontWeight="bold">
+                  {program.author}
                 </Text>
               </Flex>
             </div>
           </Flex>
-          <Box float="right">
-            <StarIcon />
+          <Box float="right" fontSize="2vw" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
+            👍
             {program.starnum}
-            <BellIcon />
+            &nbsp;
+            📌
             {program.likenum}
           </Box>
         </div>
@@ -89,24 +93,29 @@ const StartProgram = () => {
       {/* 프로그램 세부 설명창 */}
 
       <RoutineShort isDetail={true} result={program} />
-      <Box float="right">
-        <StarIcon marginRight="0.3em" />
-        <BellIcon marginLeft="0.3em" />
-      </Box>
-      <br></br>
+      <Flex justifyContent={"end"} alignItems="center">
+        <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">👍</Button>
+        &nbsp;
+        <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">📌</Button>
+      </Flex>
+
       <Box>
-        <Flex alignSelf="center" justifyContent={"space-between"}>
+        <Flex css={borderStyle} >
           <Button
             onClick={goDetailRoutine}
             bg={"#9298E2"}
+            padding="10%"
+            fontSize="5vw"
             flexGrow={1}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
             {"취소"}
           </Button>
           <Button
-            bg={ThemeColor.backgroundColor}
             flexGrow={1}
+            padding="10%"
+            fontSize="5vw"
+            bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
             변형하기
@@ -115,7 +124,8 @@ const StartProgram = () => {
       </Box>
       {/* 날짜 입력 창 */}
       <Flex>
-        <Text flex={2}>시작일</Text>
+        <Text fontWeight="bold" >시작일</Text>
+        &nbsp;
         <Input
           flex={4}
           defaultValue={todayDate}
@@ -139,11 +149,12 @@ const StartProgram = () => {
             <div>
               <Flex alignItems={"center"}>
                 <Img
+                  borderRadius="5%"
                   src={dummy[index].images[0]}
-                  width="30%"
+                  boxSize="10vw"
                   marginRight="0.5em"
                 />
-                <Text fontSize="3vw">{dummy[index].name}</Text>
+                <Text fontWeight="bold" fontSize="3vw">{dummy[index].name}</Text>
               </Flex>
             </div>
             <span>
