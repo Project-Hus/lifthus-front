@@ -157,7 +157,7 @@ const DayProgramForm = ({
           <SearchExercise dayNum={dayNum} weekNum={weekNum} />
         </Box>)}
         {EditProps.isOpen && isOpen && (
-          <Flex direction={"column"} alignItems="center">
+          <Flex direction={"column"} alignItems="center" borderBottom={`1px solid ${ThemeColor.backgroundColorDarker}`}>
             <span>
               <Button onClick={goToCreateExcercise} bg={ThemeColor.backgroundColor} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>
                 ✏️새동작 생성하기

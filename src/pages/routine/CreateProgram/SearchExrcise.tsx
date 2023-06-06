@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import React, { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { exerciseList } from "../../../api/mocks/program.mock";
+import { ThemeColor } from "../../../common/styles/theme.style";
 import { actDB } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
 
@@ -42,13 +43,15 @@ const SearchExercise = ({
 
   return (
     <>
-      <Flex>
+      <Flex borderY={`3px solid ${ThemeColor.backgroundColorDarker}`} paddingY="0.3em">
         <Input
+          bg={ThemeColor.backgroundColorDarker}
+          textAlign="right"
           type="text"
           placeholder="검색어를 입력하세요"
           onChange={handleSearch}
         />
-        <Button type="button" onClick={onsubmit}>
+        <Button type="button" onClick={onsubmit} >
           검색
         </Button>
       </Flex>
@@ -56,8 +59,8 @@ const SearchExercise = ({
         SearchResult.map((exercise) => {
           return (
             <div key={exercise.id}>
-              <Flex justifyContent={"space-between"}>
-                <Img src={exercise.images[0]} width="10%" alt="exercise" />
+              <Flex alignItems={"center"} justifyContent={"space-between"} borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}>
+                <Img src={exercise.images[0]} boxSize="10vw" alt="exercise" />
                 <Text>{exercise.name}</Text>
                 <Text>{exercise.type}</Text>
                 <Text>{exercise.bodyPart ? exercise.bodyPart : "없음"}</Text>
