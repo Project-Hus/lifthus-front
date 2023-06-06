@@ -1,30 +1,30 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   AddIcon,
   CheckIcon,
   DeleteIcon,
   EditIcon,
   TriangleDownIcon,
-  TriangleUpIcon,
 } from "@chakra-ui/icons";
-import { Box, Button, Card, Flex, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Card, Flex, Text } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+
 import SearchExercise from "./SearchExrcise";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import ExerciseInfo from "./ExcerciseInfo";
-import { useNavigate } from "react-router-dom";
-import { use } from "i18next";
-import { actDB, week } from "../../../store/interfaces/program.interface";
+
+import { actDB } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
-import { useFormContext } from "react-hook-form";
-import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
+import useNewWeeklyProgramStore, {
+  WeeklyRoutine,
+} from "../../../store/createWeeklyProgram.zustand";
 
 export const WeekProgramForm = ({
-  week: weekId,
-  idx,
+  weeklyRoutine,
 }: {
-  week: number;
-  idx: number;
+  weeklyRoutine: WeeklyRoutine;
 }) => {
   const { newProgram, removeWeeklyRoutine } = useNewWeeklyProgramStore();
 
@@ -38,7 +38,7 @@ export const WeekProgramForm = ({
       <Flex paddingX="1em" justifyContent={"space-between"}>
         <Box flex="2" {...buttonProps}>
           <Flex>
-            <Text>{idx + "주차"}</Text>
+            <Text>{weeklyRoutine.week + "주차"}</Text>
             {isOpen && <TriangleDownIcon />}
           </Flex>
         </Box>
@@ -46,14 +46,14 @@ export const WeekProgramForm = ({
           <DeleteIcon />
         </Button>
       </Flex>
-      {newProgram.daily_routines.map((dr, index) => {
+      {[1, 2, 3, 4, 5, 6, 7].map((day, index) => {
         return (
           <>
-            {dr.week === weekId && (
+            {
               <Box key={index} {...disclosureProps}>
-                <DayProgramForm weekNum={weekId} dayNum={dr.day} />
+                <DayProgramForm week={weeklyRoutine.week} day={day} />
               </Box>
-            )}
+            }
           </>
         );
       })}
@@ -61,13 +61,7 @@ export const WeekProgramForm = ({
   );
 };
 
-const DayProgramForm = ({
-  weekNum,
-  dayNum,
-}: {
-  weekNum: number;
-  dayNum: number;
-}) => {
+const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   const navigate = useNavigate();
   const goToCreateExcercise = () => {
     navigate("/routine/menu/createexcercise");
@@ -89,7 +83,7 @@ const DayProgramForm = ({
   const dayname: string[] = ["더미", "월", "화", "수", "목", "금", "토", "일"];
   //order 값이 작은 순 정렬
   const dayAct = program.acts.filter(
-    (act) => act.week === weekNum && act.dayNum === dayNum
+    (act) => act.week === week && act.dayNum === day
   );
   const sortedayAct = dayAct.sort((a, b) => a.actDB.order - b.actDB.order);
 
@@ -100,7 +94,7 @@ const DayProgramForm = ({
           <TriangleDownIcon
             transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
           />
-          {dayname[dayNum] + "요일"}
+          {dayname[day] + "요일"}
         </Box>
         <Card
           {...disclosureProps}
@@ -112,7 +106,7 @@ const DayProgramForm = ({
           ))}
         </Card>
         <Box {...EditdisclosureProps}>
-          <SearchExercise dayNum={dayNum} weekNum={weekNum} />
+          <SearchExercise dayNum={day} weekNum={week} />
         </Box>
         {EditProps.isOpen ? (
           <Flex direction={"column"} alignItems="center">

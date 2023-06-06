@@ -153,9 +153,7 @@ const CreateProgram = () => {
           <div>
             {/* Showing each week */}
             {newProgram.weekly_routines.map((wr, index) => {
-              return (
-                <WeekProgramForm key={index} week={wr.week} idx={index + 1} />
-              );
+              return <WeekProgramForm key={index} weeklyRoutine={wr} />;
             })}
           </div>
           <Flex>
