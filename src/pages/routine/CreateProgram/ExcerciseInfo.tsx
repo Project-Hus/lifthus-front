@@ -1,6 +1,8 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
-import { Box, Flex, Button, Input, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Input, Text, Img } from "@chakra-ui/react";
+import { css } from "@emotion/react";
 import { useState } from "react";
+import { ThemeColor } from "../../../common/styles/theme.style";
 import { act } from "../../../store/interfaces/program.interface";
 import useProgramPlanStore from "../../../store/program.zustand";
 
@@ -13,14 +15,24 @@ const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
     const newacts = program.acts.filter((act) => delAct !== act);
     setProgramPlanInfo({ acts: newacts });
   };
+
+  const InputButtonStyle = css`
+    background-color: ${ThemeColor.backgroundColorDarker};
+    border: 1px solid ${ThemeColor.backgroundColor};
+    border-radius: 5px;
+    font-size: 3vw;
+    width: 3em;
+    text-align: center;
+    padding: 0.5em 0;
+    `
   return (
     <Box>
       <Flex justifyContent={"space-between"} alignItems="center" fontSize="3vw">
+        <Img boxSize="10vw" borderRadius="5%" marginRight="2vw" src={"https://bit.ly/sage-adebayo"}></Img>
         <Text>{act.actDB.name}</Text>
-
         {isEditing && (
-          <Button onClick={() => deleteAct()}>
-            <DeleteIcon />
+          <Button bg={ThemeColor.backgroundColor} onClick={() => deleteAct()} _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}>
+            🗑️
           </Button>
         )}
 
@@ -28,11 +40,8 @@ const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
           <Flex alignItems={"center"}>
             <Flex alignItems={"center"}>
               <Input
-                type="number"
-                width="5em"
-                textAlign="center"
+                css={InputButtonStyle}
                 defaultValue={60}
-                fontSize="3vw"
               ></Input>{" "}
               {"%"}
             </Flex>
@@ -40,10 +49,9 @@ const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
             <Flex alignItems={"center"}>
               {"X"}
               <Input
-                width="5em"
+                css={InputButtonStyle}
                 type="number"
                 defaultValue={reps}
-                fontSize="3vw"
               ></Input>
             </Flex>
           </Flex>
@@ -53,21 +61,20 @@ const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
             <Flex alignItems={"center"}>
               <Input
                 type="number"
-                width="5em"
-                textAlign="center"
+                css={InputButtonStyle}
                 defaultValue={60}
-                fontSize="3vw"
               ></Input>{" "}
               {"분"}
             </Flex>
             &nbsp;
             <Flex alignItems={"center"}>
               <Input
-                width="5em"
+                css={InputButtonStyle}
+
                 type="number"
                 defaultValue={reps}
                 readOnly
-                fontSize="3vw"
+
               ></Input>
               {"초"}
             </Flex>
@@ -76,10 +83,10 @@ const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
         {!isEditing && act.actDB.type == "simple" && <></>}
         {!isEditing && (
           <Flex direction={"column"}>
-            <Button onClick={() => setReps(++reps)}>
+            <Button onClick={() => setReps(++reps)} boxSize={"5vw"}>
               <TriangleUpIcon />
             </Button>
-            <Button onClick={() => setReps(--reps)}>
+            <Button onClick={() => setReps(--reps)} boxSize={"5vw"}>
               <TriangleDownIcon />
             </Button>
           </Flex>
