@@ -150,36 +150,46 @@ const CreateProgram = () => {
               defaultValue={newProgram.description}
             />
           </div>
-          <Flex>
-            <Button
-              border="2px"
-              bg={ThemeColor.backgroundColor}
-              color={ThemeColor.backgroundColorDarker}
-              flex={1}
-              onClick={() => alert("🚧 Passionately building 🚧")}
-            >
-              <Text color="green">+Day</Text>
-            </Button>
-            <Button
-              border="2px"
-              bg={ThemeColor.backgroundColor}
-              color={ThemeColor.backgroundColorDarker}
-              flex={1}
-              type="button"
-              onClick={() => addWeeklyRoutine()}
-            >
-              <Text color={ThemeColor.basicColor}>+Week</Text>
-            </Button>
-          </Flex>
           <div>
+            {/* Showing each week */}
             {newProgram.weekly_routines.map((wr, index) => {
               return (
                 <WeekProgramForm key={index} week={wr.week} idx={index + 1} />
               );
             })}
           </div>
+          <Flex>
+            {!newProgram.weekly_routines.length && (
+              <Button
+                border="2px"
+                bg={ThemeColor.backgroundColor}
+                color={ThemeColor.backgroundColorDarker}
+                flex={1}
+                onClick={() => alert("🚧 Passionately building 🚧")}
+              >
+                <Text color="green">+Day</Text>
+              </Button>
+            )}
+            {!(
+              !newProgram.weekly_routines.length &&
+              newProgram.daily_routines.length
+            ) && (
+              <Button
+                border="2px"
+                bg={ThemeColor.backgroundColor}
+                color={ThemeColor.backgroundColorDarker}
+                flex={1}
+                type="button"
+                onClick={() => addWeeklyRoutine()}
+              >
+                <Text color={ThemeColor.basicColor}>+Week</Text>
+              </Button>
+            )}
+          </Flex>
 
-          {<Button type="submit">Work Out!</Button>}
+          {!!newProgram.weekly_routines.length && (
+            <Button type="submit">Work Out!</Button>
+          )}
         </form>
       </FormProvider>
     </BasicPageLayout>

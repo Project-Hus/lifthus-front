@@ -61,21 +61,25 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
     }));
   },
   removeWeeklyRoutine: (week) => {
-    set((state) => ({
-      ...state,
-      newProgram: {
-        ...state.newProgram,
-        weekly_routines: state.newProgram.weekly_routines.filter(
-          (r) => r.week !== week
-        ),
-        daily_routines: state.newProgram.daily_routines.filter(
-          (r) => r.week !== week
-        ),
-        routine_acts: state.newProgram.routine_acts.filter(
-          (r) => r.week !== week
-        ),
-      },
-    }));
+    set((state) => {
+      // currently just popping
+      week = state.newProgram.weekly_routines.length;
+      return {
+        ...state,
+        newProgram: {
+          ...state.newProgram,
+          weekly_routines: state.newProgram.weekly_routines.filter(
+            (r) => r.week !== week
+          ),
+          daily_routines: state.newProgram.daily_routines.filter(
+            (r) => r.week !== week
+          ),
+          routine_acts: state.newProgram.routine_acts.filter(
+            (r) => r.week !== week
+          ),
+        },
+      };
+    });
   },
 
   // HANDLING ROUTINE ACT

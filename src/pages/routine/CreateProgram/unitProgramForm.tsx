@@ -17,6 +17,7 @@ import { use } from "i18next";
 import { actDB, week } from "../../../store/interfaces/program.interface";
 import { useProgramPlanStore } from "../../../store/program.zustand";
 import { useFormContext } from "react-hook-form";
+import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
 
 export const WeekProgramForm = ({
   week: weekId,
@@ -25,29 +26,13 @@ export const WeekProgramForm = ({
   week: number;
   idx: number;
 }) => {
-  const { getDisclosureProps, getButtonProps, isOpen, onClose } =
-    useDisclosure();
+  const { newProgram, removeWeeklyRoutine } = useNewWeeklyProgramStore();
+
+  const { getDisclosureProps, getButtonProps, isOpen } = useDisclosure();
 
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
-  const { setProgramPlanInfo, program } = useProgramPlanStore();
 
-  const { register } = useFormContext();
-
-  const deleteWeek = () => {
-    const changedweek = program.weeks.filter((week) => week.weeknum !== weekId);
-    const changedday = program.days.filter((day) => day.week !== weekId);
-    const changedact = program.acts.filter((act) => act.week !== weekId);
-    setProgramPlanInfo({
-      weeks: changedweek,
-      days: changedday,
-      acts: changedact,
-    });
-  };
-
-  useEffect(() => {
-    console.log("daus", program.days);
-  }, []);
   return (
     <>
       <Flex paddingX="1em" justifyContent={"space-between"}>
@@ -57,16 +42,16 @@ export const WeekProgramForm = ({
             {isOpen && <TriangleDownIcon />}
           </Flex>
         </Box>
-        <Button onClick={() => deleteWeek()}>
+        <Button onClick={() => removeWeeklyRoutine(0)}>
           <DeleteIcon />
         </Button>
       </Flex>
-      {program.days.map((day, index) => {
+      {newProgram.daily_routines.map((dr, index) => {
         return (
           <>
-            {day.week === weekId && (
+            {dr.week === weekId && (
               <Box key={index} {...disclosureProps}>
-                <DayProgramForm weekNum={weekId} dayNum={day.dayNum} />
+                <DayProgramForm weekNum={weekId} dayNum={dr.day} />
               </Box>
             )}
           </>
