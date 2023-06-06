@@ -1,5 +1,5 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
-import { Box, Flex, Button, Input, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Input, Text, Img } from "@chakra-ui/react";
 import { useState } from "react";
 import { act } from "../../../store/interfaces/program.interface";
 import useProgramPlanStore from "../../../store/program.zustand";
@@ -16,6 +16,7 @@ const ActInfo = ({ act, isEditing }: { act: act; isEditing: boolean }) => {
   return (
     <Box>
       <Flex justifyContent={"space-between"} alignItems="center" fontSize="3vw">
+        <Img src={"https://bit.ly/sage-adebayo"}></Img>
         <Text>{act.actDB.name}</Text>
 
         {isEditing && (

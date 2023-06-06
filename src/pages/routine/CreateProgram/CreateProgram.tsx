@@ -98,20 +98,22 @@ const CreateProgram = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div>
-            <FormLabel textAlign="center" htmlFor="name">
-              프로그램 이름
-            </FormLabel>
+            <Flex direction={"column"}>
+              <FormLabel textAlign="center" htmlFor="name">
+                프로그램 이름
+              </FormLabel>
 
-            <Input id="name" type="text" {...methods.register("name")} />
+              <Input alignSelf={"center"} width="50vw" textAlign="end" bg={ThemeColor.backgroundColorDarker} id="name" type="text" {...methods.register("name")} />
+            </Flex>
           </div>
           <div>
-            <FormLabel htmlFor="file">
+            <FormLabel htmlFor="file" margin="0">
               <Box
                 _hover={{ background: ThemeColor.backgroundColorDarker }}
                 marginY="0.5em"
                 borderRadius="8%"
               >
-                <Flex direction={"column"} alignItems="center">
+                <Flex direction={"column"} alignItems="center" fontSize="4vw">
                   {selectedImage ? (
                     <Img
                       maxWidth="70%"
@@ -123,7 +125,7 @@ const CreateProgram = () => {
                       objectFit="cover"
                     />
                   ) : (
-                    <PlusSquareIcon boxSize={"10"} />
+                    <PlusSquareIcon boxSize={"7vw"} />
                   )}
 
                   <Text>
@@ -144,32 +146,45 @@ const CreateProgram = () => {
               onChange={handleImageChange}
             />
           </div>
-          <div style={{ textAlign: "center" }}>
-            <Text textAlign={"center"}>태그</Text>
+          <div style={{
+            textAlign: "center",
+            fontSize: "5vw"
+          }}>
+            <Text fontWeight="bold" fontSize="3vw" textAlign={"center"}>태그</Text>
 
             <Input
-              width="30%"
+              width="50%"
               name="tag"
+              fontSize="0.5em"
               textAlign={"center"}
-              placeholder="관련 태그를 입력해주세요"
+              placeholder="추가할 관련 태그를 입력"
               onChange={(e) => {
                 setInputValue(e.target.value);
               }}
             />
-            <Button
-              onClick={() =>
-                setProgramPlanInfo({ tag: [...program.tag, inputvalue] })
-              }
-            >
-              태그 추가
-            </Button>
-            <Button onClick={() => setProgramPlanInfo({ tag: [] })}>
-              태그 리셋
-            </Button>
+            <Flex justifyContent={"center"}>
+              <Button
+                paddingY="0.3em"
+                boxSize="object-fit"
+
+                onClick={() =>
+                  setProgramPlanInfo({ tag: [...program.tag, inputvalue] })
+                }
+              >
+                <Text fontSize="3vw">태그 추가</Text>
+              </Button>
+              <Button
+                boxSize="object-fit"
+                paddingY="0.3em"
+
+                onClick={() => setProgramPlanInfo({ tag: [] })}>
+                <Text fontSize="3vw">태그 리셋</Text>
+              </Button>
+            </Flex>
             {program.tag.map((tag, index) => {
               return (
                 <div>
-                  <Text key={index}>{tag}</Text>
+                  <Text key={index}>{"#" + tag}</Text>
                 </div>
               );
             })}
@@ -178,10 +193,24 @@ const CreateProgram = () => {
           <div>
             <Text textAlign={"center"}>설명</Text>
             <Textarea
+              bg={ThemeColor.backgroundColorDarker}
               {...methods.register("description")}
               required
+              fontWeight="bold"
               placeholder="설명을 입력하세요"
             />
+          </div>
+
+          <div>
+            {program.weeks.map((week, index) => {
+              return (
+                <WeekProgramForm
+                  key={index}
+                  week={week.weeknum}
+                  idx={index + 1}
+                />
+              );
+            })}
           </div>
           <Flex>
             <Button
@@ -204,22 +233,12 @@ const CreateProgram = () => {
               <Text color={ThemeColor.basicColor}>Week+</Text>
             </Button>
           </Flex>
-          <div>
-            {program.weeks.map((week, index) => {
-              return (
-                <WeekProgramForm
-                  key={index}
-                  week={week.weeknum}
-                  idx={index + 1}
-                />
-              );
-            })}
-          </div>
-
-          {<Button type="submit">Work Out!</Button>}
+          <Flex>
+            <Button flex={1} type="submit">Work Out!</Button>
+          </Flex>
         </form>
       </FormProvider>
-    </BasicPageLayout>
+    </BasicPageLayout >
   );
 };
 
