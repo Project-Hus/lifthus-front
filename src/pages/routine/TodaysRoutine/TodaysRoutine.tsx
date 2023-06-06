@@ -61,18 +61,6 @@ const TodaysRoutine = () => {
     // menu 경로로 이동
     navigate("/routine/menu");
   };
-  //  reps add, minus function
-  const addReps = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    maxReps: number
-  ) => {
-    e.stopPropagation();
-    if (reps < maxReps) setReps(reps + 1);
-  };
-  const minusReps = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    if (reps > 0) setReps(reps - 1);
-  };
 
   return (
     <>
@@ -96,7 +84,7 @@ const TodaysRoutine = () => {
             </Flex>
             <Accordion defaultIndex={[0]} allowMultiple>
               {todayList.map((act, index) => (
-                <TodayActInfo act={act} key={index} type="time" />
+                <TodayActInfo act={act} key={index} type="repeat" />
               ))}
             </Accordion>
           </>

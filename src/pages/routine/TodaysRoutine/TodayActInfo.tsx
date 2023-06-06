@@ -45,20 +45,18 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
       setStart((prevValue) => !prevValue);
     }
   };
-  const handleReset = () => {
-    setTimerId(400);
-    setStart(false);
-  };
 
   //  reps add, minus function
   const addReps = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     maxReps: number
   ) => {
+    //아코디언 버튼과 타이머 동시에 클릭 방지
     e.stopPropagation();
     if (reps < maxReps) setReps(reps + 1);
   };
   const minusReps = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    //아코디언 버튼과 타이머 동시에 클릭 방지
     e.stopPropagation();
     if (reps > 0) setReps(reps - 1);
   };
@@ -72,7 +70,9 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
   return (
     <AccordionItem>
       <h2>
-        <AccordionButton _expanded={{ bg: ThemeColor.basicColor }}>
+        <AccordionButton
+        // _expanded={{ bg: ThemeColor.basicColor }}
+        >
           <Box as="span" flex="1" textAlign="left">
             <Flex
               direction={"row"}
@@ -118,16 +118,6 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
                     >
                       <Text>{start ? "stop" : `⏱️`}</Text>
                     </Box>
-                    {/* {start && (
-                      <Box
-                        padding="0.5em"
-                        bg={ThemeColor.basicColor}
-                        onClick={handleReset}
-                        borderRadius="10px"
-                      >
-                        <Text>{"reset"}</Text>
-                      </Box>
-                    )} */}
                   </Flex>
                 </>
               )}
@@ -136,9 +126,6 @@ const TodayActInfo = ({ act, type }: { act: routineAct; type: string }) => {
           </Box>
         </AccordionButton>
       </h2>
-      <AccordionPanel pb={4}>
-        <Text>test</Text>
-      </AccordionPanel>
     </AccordionItem>
   );
 };
