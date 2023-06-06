@@ -63,9 +63,9 @@ export const WeekProgramForm = ({
               {isOpen && <TriangleDownIcon />}
             </Flex>
           </Box>
-          <Button onClick={() => deleteWeek()}>
+          {/* <Button onClick={() => deleteWeek()}>
             <DeleteIcon />
-          </Button>
+          </Button> */}
         </Flex>
         {program.days.map((day, index) => {
           return (

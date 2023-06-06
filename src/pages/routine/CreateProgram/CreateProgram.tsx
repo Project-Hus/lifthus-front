@@ -213,15 +213,27 @@ const CreateProgram = () => {
             })}
           </div>
           <Flex marginTop="0.1em">
-            <Button
-              border="2px"
-              bg={ThemeColor.backgroundColor}
-              color={ThemeColor.backgroundColorDarker}
-              flex={1}
-              onClick={() => alert("🚧 Passionately building 🚧")}
-            >
-              <Text color="green">Day+</Text>
-            </Button>
+            {program.weeks.length == 0 ?
+              <Button
+                border="2px"
+                bg={ThemeColor.backgroundColor}
+                color={ThemeColor.backgroundColorDarker}
+                flex={1}
+                onClick={() => alert("🚧 Passionately building 🚧")}
+              >
+                <Text color="green">Day+</Text>
+              </Button> :
+              //week이 없으면 day추가 불가능, 대신 week 삭제 버튼 추가
+              <Button
+                border="2px"
+                bg={ThemeColor.backgroundColor}
+                color={ThemeColor.backgroundColorDarker}
+                flex={1}
+                onClick={() => alert("🚧 Passionately building 🚧")}
+              >
+                <Text color="red">Week-</Text>
+              </Button>
+            }
             <Button
               border="2px"
               bg={ThemeColor.backgroundColor}
