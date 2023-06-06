@@ -13,7 +13,7 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
 
   // real time search logic
   const [searchKeyword, setSearchKeyword] = useState<string>("");
-  const { data: queriedActs, isLoading } = useQuery(
+  const { data: queriedActs } = useQuery(
     ["search", "act", searchKeyword],
     () => {
       return programApi.queryActsByName(searchKeyword);
