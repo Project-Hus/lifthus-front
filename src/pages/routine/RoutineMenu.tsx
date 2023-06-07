@@ -43,22 +43,25 @@ const RoutineMenu = () => {
     background-color: ${ThemeColor.backgroundColor};
     float: right;
     font-size: 4vw;
+    margin-bottom: 2rem;
     :hover {
       background-color: ${ThemeColor.backgroundColor};
     }
   `;
   const titlestyle = css`
+    text-align: start;
     flex-grow: 1;
-    font-size: 8vw;
+    font-size: 7vw;
   `;
 
   const buttonstyle = css`
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
     height: 3rem;
-    width: 80vw;
+    width: 100%;
     align-items: center;
     background-color: ${ThemeColor.backgroundColor};
+    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
     :hover {
       background-color: ${ThemeColor.backgroundColorDarker};
     }
@@ -67,22 +70,24 @@ const RoutineMenu = () => {
       display: none;
     }
   `;
+  const StackStyle = css`
+    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
+    border-top: 4px solid ${ThemeColor.backgroundColorDarker};
+  `;
 
   const { resetProgramPlanInfo } = useProgramPlanStore();
   return (
     <>
       <BasicPageLayout>
         <Box>
-          <Stack direction="column">
+          <Stack direction="column" css={StackStyle}>
             {(selectedButton == "none" || selectedButton == "button1") && (
               <Button
                 color={changeButtonColor("button1")}
                 css={buttonstyle}
                 onClick={() => handleButtonClick("button1")}
               >
-                <Box as="span" css={titlestyle}>
-                  프로그램 검색
-                </Box>
+                <Box css={titlestyle}>프로그램 검색</Box>
               </Button>
             )}
             {(selectedButton == "none" || selectedButton == "button2") && (
