@@ -85,7 +85,7 @@ const ActInfo = ({
           )}
 
           {!isEditing && act.type == "rep" && (
-            <Flex alignItems={"center"}>
+            <Flex alignItems={"center"} marginLeft="auto">
               <Flex alignItems={"center"}>
                 <Input
                   css={InputButtonStyle}
@@ -111,12 +111,12 @@ const ActInfo = ({
                       );
                     },
                   })}
-                />{" "}
-                {"%"}
+                />
+                <Text>%</Text>
               </Flex>
-              &nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <Flex alignItems={"center"}>
-                {"x"}
+                <Text>x</Text>
                 <Input
                   css={InputButtonStyle}
                   width="5em"
@@ -142,7 +142,7 @@ const ActInfo = ({
             </Flex>
           )}
           {!isEditing && act.type == "lap" && (
-            <Flex alignItems={"center"}>
+            <Flex alignItems={"center"} marginLeft="auto">
               <Flex alignItems={"center"}>
                 <Input
                   css={InputButtonStyle}
