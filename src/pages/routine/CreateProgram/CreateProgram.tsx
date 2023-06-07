@@ -155,11 +155,7 @@ const CreateProgram = () => {
               </Button>
             </Flex>
             {newProgram.tags.map((tag, index) => {
-              return (
-                <div>
-                  <Text key={index}>{"#" + tag}</Text>
-                </div>
-              );
+              return <Text key={index}>{"#" + tag}</Text>;
             })}
           </div>
 
@@ -209,14 +205,26 @@ const CreateProgram = () => {
                 flex={1}
                 type="button"
                 onClick={() => addWeeklyRoutine()}
+                height="5em"
+                _hover={{ background: ThemeColor.backgroundColorDarker }}
               >
-                <Text color={ThemeColor.basicColor}>+Week</Text>
+                <Text fontSize="2em" color={ThemeColor.basicColor}>
+                  +Week
+                </Text>
               </Button>
             )}
           </Flex>
 
-          {!!newProgram.weekly_routines.length && (
-            <Button type="submit">Work Out!</Button>
+          {!!newProgram.routine_acts.length && (
+            <div
+              style={{
+                paddingTop: "3em",
+              }}
+            >
+              <Button width="100%" height="5em" type="submit">
+                <Text fontSize="2em">Work Out!</Text>
+              </Button>
+            </div>
           )}
         </form>
       </FormProvider>
