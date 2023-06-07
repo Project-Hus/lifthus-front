@@ -96,8 +96,12 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
           bg={ThemeColor.backgroundColor}
           color="white"
         >
-          {routineActs.map((act, idx) => (
-            <ExerciseInfo key={idx} act={act} isEditing={EditProps.isOpen} />
+          {routineActs.map((ra, idx) => (
+            <ExerciseInfo
+              key={idx}
+              routineAct={ra}
+              isEditing={EditProps.isOpen}
+            />
           ))}
         </Card>
         <Box {...EditdisclosureProps}>

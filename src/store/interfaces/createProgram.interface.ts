@@ -1,3 +1,5 @@
+import { QueryActDto } from "../../api/dtos/program/act.dto";
+
 export type UpdateWeeklyProgram = {
   title?: string;
   author?: number;
@@ -9,16 +11,13 @@ export type NewWeeklyRoutineAct = {
   week: number;
   day: number;
 
-  act_id: number;
+  act: QueryActDto;
 };
 
 export type UpdateWeeklyRoutineAct = {
-  order?: number;
-
-  w_ratio?: number;
+  w_percentage?: number;
   reps?: number;
   lap?: number;
-
   warmup?: boolean;
 };
 

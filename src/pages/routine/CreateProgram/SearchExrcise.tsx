@@ -67,11 +67,7 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
                 </Text>
                 <Button
                   onClick={() => {
-                    addRoutineAct({
-                      week: week,
-                      day: day,
-                      act_id: act.id,
-                    });
+                    addRoutineAct(week, day, act);
                   }}
                 >
                   <AddIcon />

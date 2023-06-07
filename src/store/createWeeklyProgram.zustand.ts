@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { QueryActDto } from "../api/dtos/program/act.dto";
 import {
   NewWeeklyRoutineAct,
   UpdateWeeklyProgram,
@@ -83,10 +84,9 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
   },
 
   // HANDLING ROUTINE ACT
-  addRoutineAct: (ra: NewWeeklyRoutineAct) => {
+  addRoutineAct: (week, day, act) => {
     set((state) => {
       const newState = { ...state };
-      const { week, day } = ra;
       // first, check if the week and day exist
       if (!state.newProgram.weekly_routines.find((r) => r.week === week))
         return state;
@@ -107,7 +107,13 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
       }, 0);
       // and push the new act
       newState.newProgram.routine_acts.push({
-        ...ra,
+        week,
+        day,
+        act_id: act.id,
+        type: act.type,
+        reps: act.type === "rep" ? 0 : undefined,
+        lap: act.type === "lap" ? 0 : undefined,
+        w_ratio: act.type === "rep" ? 0.5 : undefined,
         order: maxOrder + 1,
         warmup: false,
       });
@@ -136,17 +142,20 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
       return newState;
     });
   },
-  updateRoutineAct: (week, day, order, ra) => {
+  updateRoutineAct: (week, day, order, ra: UpdateWeeklyRoutineAct) => {
     set((state) => {
-      const targetActIdx = state.newProgram.routine_acts.findIndex(
-        (ra) => ra.week === week && ra.day === day && ra.order === order
-      );
-      if (targetActIdx === -1) return state;
-      state.newProgram.routine_acts[targetActIdx] = {
-        ...state.newProgram.routine_acts[targetActIdx],
-        ...ra,
+      const prevRoutineActs = [...state.newProgram.routine_acts];
+      const newRoutineActs = prevRoutineActs.map((r) => {
+        if (r.week === week && r.day === day && r.order === order) {
+          return { ...r, ...ra };
+        }
+        return { ...r };
+      });
+
+      return {
+        ...state,
+        newProgram: { ...state.newProgram, routine_acts: [...newRoutineActs] },
       };
-      return state;
     });
   },
 }));
@@ -170,7 +179,7 @@ export interface NewWeeklyProgramStore {
   addWeeklyRoutine(): void;
   removeWeeklyRoutine(week: number): void;
 
-  addRoutineAct(ra: NewWeeklyRoutineAct): void;
+  addRoutineAct(week: number, day: number, act: QueryActDto): void;
   removeRoutineAct(week: number, day: number, order: number): void;
   updateRoutineAct(
     week: number,
@@ -194,6 +203,7 @@ export type WeeklyRoutineAct = {
   day: number;
 
   act_id: number;
+  type: string;
   order: number;
 
   w_ratio?: number;

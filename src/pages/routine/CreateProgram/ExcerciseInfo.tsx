@@ -1,6 +1,7 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
-import { Box, Flex, Button, Input, Text, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Button, Input, Text, Spinner, Img } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import programApi from "../../../api/programApi";
 import useNewWeeklyProgramStore, {
   WeeklyRoutineAct,
@@ -14,7 +15,6 @@ const ActInfo = ({
   isEditing: boolean;
 }) => {
   const { newProgram, updateRoutineAct } = useNewWeeklyProgramStore();
-
   const { data: act, isLoading } = useQuery(
     ["act", { id: routineAct.act_id }],
     async () => {
@@ -22,6 +22,15 @@ const ActInfo = ({
       return act;
     }
   );
+  routineAct =
+    newProgram.routine_acts.find(
+      (ra) =>
+        ra.week === routineAct.week &&
+        ra.day === routineAct.day &&
+        ra.order === routineAct.order
+    ) || routineAct;
+
+  const { register, getValues, setValue } = useForm();
 
   if (act)
     return (
@@ -31,6 +40,14 @@ const ActInfo = ({
           alignItems="center"
           fontSize="3vw"
         >
+          <Img
+            src={
+              act.image ||
+              "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+            }
+            width="10%"
+            alt="exercise"
+          />
           <Text>{act?.name}</Text>
 
           {isEditing && (
@@ -46,9 +63,12 @@ const ActInfo = ({
                   type="number"
                   width="5em"
                   textAlign="center"
-                  defaultValue={60}
+                  defaultValue={
+                    routineAct.w_ratio ? routineAct.w_ratio * 100 : "..."
+                  }
                   fontSize="3vw"
-                ></Input>{" "}
+                  {...register("w_ratio")}
+                />{" "}
                 {"%"}
               </Flex>
               &nbsp;
@@ -59,7 +79,8 @@ const ActInfo = ({
                   type="number"
                   defaultValue={routineAct.reps}
                   fontSize="3vw"
-                ></Input>
+                  {...register("reps")}
+                />
               </Flex>
             </Flex>
           )}
@@ -93,13 +114,15 @@ const ActInfo = ({
             <Flex direction={"column"}>
               <Button
                 onClick={() => {
-                  if (typeof routineAct.reps == "number")
+                  if (typeof routineAct.reps == "number") {
+                    setValue("reps", routineAct.reps + 1);
                     updateRoutineAct(
                       routineAct.week,
                       routineAct.day,
                       routineAct.order,
                       { reps: routineAct.reps + 1 }
                     );
+                  }
                 }}
               >
                 <TriangleUpIcon />
@@ -108,14 +131,16 @@ const ActInfo = ({
                 onClick={() => {
                   if (
                     typeof routineAct.reps == "number" &&
-                    routineAct.reps >= 0
-                  )
+                    routineAct.reps > 0
+                  ) {
+                    setValue("reps", routineAct.reps - 1);
                     updateRoutineAct(
                       routineAct.week,
                       routineAct.day,
                       routineAct.order,
-                      { reps: routineAct.reps - 11 }
+                      { reps: routineAct.reps - 1 }
                     );
+                  }
                 }}
               >
                 <TriangleDownIcon />
