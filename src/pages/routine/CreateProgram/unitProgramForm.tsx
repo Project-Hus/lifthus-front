@@ -1,5 +1,4 @@
 import {
-  AddIcon,
   CheckIcon,
   DeleteIcon,
   EditIcon,
@@ -169,32 +168,28 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
           >
             <Button
               width="100%"
+              height="5vw"
               onClick={goToCreateExcercise}
               bg={ThemeColor.backgroundColor}
               _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
               padding="1.2em"
+              borderBottom={`1px solid ${ThemeColor.backgroundColorDarker}`}
             >
               <Text fontSize={"1.5em"}>✏️새 동작 생성하기</Text>
             </Button>
-            <span>
-              <Box
-                width={isSmallerScreen ? "40px" : "30px"}
-                height={isSmallerScreen ? "40px" : "30px"}
+            <Button
+              {...EditbuttonProps}
+              css={editButtonStyle}
+              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+              margin="0.5em"
+            >
+              <Text
+                fontSize={isSmallerScreen ? "15px" : "15px"}
+                fontWeight="bold"
               >
-                <Button
-                  {...EditbuttonProps}
-                  css={editButtonStyle}
-                  _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-                >
-                  <Text
-                    fontSize={isSmallerScreen ? "15px" : "15px"}
-                    fontWeight="bold"
-                  >
-                    <CheckIcon fontSize={"2em"} />
-                  </Text>
-                </Button>
-              </Box>
-            </span>
+                <CheckIcon fontSize={"2em"} />
+              </Text>
+            </Button>
           </Flex>
         )}
 
