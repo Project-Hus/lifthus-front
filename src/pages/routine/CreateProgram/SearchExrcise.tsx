@@ -55,13 +55,17 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
                   alignItems={"center"}
                   justifyContent={"space-between"}
                   borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}
+                  _hover={{
+                    bgColor: ThemeColor.backgroundColorDarker,
+                    cursor: "pointer",
+                  }}
                 >
                   <Img
                     src={
                       act.image ||
                       "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
                     }
-                    width="8vw"
+                    width="5vw"
                     alt="act"
                   />
                   <Text>{act.name}</Text>
@@ -82,9 +86,10 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
                     }}
                     bg={ThemeColor.backgroundColor}
                     _hover={{
-                      backgroundColor: ThemeColor.backgroundColorDarker,
+                      backgroundColor: ThemeColor.basicColor,
                     }}
                     border={`1px solid ${ThemeColor.backgroundColorDarker}`}
+                    marginRight="0.5em"
                   >
                     <AddIcon fontSize="1.5em" />
                   </Button>

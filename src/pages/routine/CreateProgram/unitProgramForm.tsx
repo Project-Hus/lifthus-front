@@ -1,5 +1,4 @@
 import {
-  AddIcon,
   CheckIcon,
   DeleteIcon,
   EditIcon,
@@ -38,7 +37,7 @@ export const WeekProgramForm = ({
 }: {
   weeklyRoutine: WeeklyRoutine;
 }) => {
-  const { removeWeeklyRoutine } = useNewWeeklyProgramStore();
+  const { newProgram, removeWeeklyRoutine } = useNewWeeklyProgramStore();
 
   const { getDisclosureProps, getButtonProps, isOpen } = useDisclosure();
 
@@ -48,19 +47,37 @@ export const WeekProgramForm = ({
   return (
     <>
       <BottomBorder>
-        <Flex paddingX="1em" justifyContent={"space-between"}>
+        <Flex
+          paddingLeft="1em"
+          justifyContent={"space-between"}
+          _hover={{
+            bgColor: ThemeColor.backgroundColorDarker,
+            cursor: "pointer",
+          }}
+        >
           <Box flex="2" {...buttonProps}>
-            <Flex alignItems={"center"}>
-              <Text fontWeight={"bold"} fontSize={"3vw"}>
+            <Flex
+              alignItems={"center"}
+              borderBottom={isOpen ? `2px solid` : ``}
+            >
+              <Text fontWeight={"bold"} fontSize={"1em"} margin="0.2em">
                 {weeklyRoutine.week + "주차"}
               </Text>
               &nbsp;
               {isOpen && <TriangleDownIcon />}
             </Flex>
           </Box>
-          <Button onClick={() => removeWeeklyRoutine(0)}>
-            <DeleteIcon />
-          </Button>
+          {weeklyRoutine.week === newProgram.weekly_routines.length && (
+            <Button
+              size="1em"
+              width="2em"
+              variant="ghost"
+              _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
+              onClick={() => removeWeeklyRoutine(0)}
+            >
+              <DeleteIcon fontSize="0.9em" color={"white"} />
+            </Button>
+          )}
         </Flex>
         {[1, 2, 3, 4, 5, 6, 7].map((day, index) => {
           return (
@@ -116,7 +133,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   const [isSmallerScreen] = useMediaQuery("(max-width: 700px)");
 
   return (
-    <Box marginLeft="1.5em" fontSize="3vw">
+    <Box marginLeft="1.5em" fontSize="0.8em">
       <Flex direction="column">
         <DayActStyle>
           <Flex {...buttonProps} alignItems="center">
@@ -154,32 +171,28 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
           >
             <Button
               width="100%"
+              height="5vw"
               onClick={goToCreateExcercise}
               bg={ThemeColor.backgroundColor}
               _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
               padding="1.2em"
+              borderBottom={`1px solid ${ThemeColor.backgroundColorDarker}`}
             >
               <Text fontSize={"1.5em"}>✏️새 동작 생성하기</Text>
             </Button>
-            <span>
-              <Box
-                width={isSmallerScreen ? "40px" : "30px"}
-                height={isSmallerScreen ? "40px" : "30px"}
+            <Button
+              {...EditbuttonProps}
+              css={editButtonStyle}
+              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+              margin="0.5em"
+            >
+              <Text
+                fontSize={isSmallerScreen ? "15px" : "15px"}
+                fontWeight="bold"
               >
-                <Button
-                  {...EditbuttonProps}
-                  css={editButtonStyle}
-                  _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-                >
-                  <Text
-                    fontSize={isSmallerScreen ? "15px" : "15px"}
-                    fontWeight="bold"
-                  >
-                    ✓
-                  </Text>
-                </Button>
-              </Box>
-            </span>
+                <CheckIcon fontSize={"2em"} />
+              </Text>
+            </Button>
           </Flex>
         )}
 
@@ -187,7 +200,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
         {!EditProps.isOpen && isOpen && (
           <Flex justifyContent={"center"}>
             <Button
-              marginTop={"0.2em"}
+              margin={"0.2em"}
               {...EditbuttonProps}
               css={editButtonStyle}
               _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
