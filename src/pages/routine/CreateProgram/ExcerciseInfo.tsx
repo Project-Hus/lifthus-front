@@ -50,7 +50,7 @@ const ActInfo = ({
   const { register, getValues, setValue } = useForm({
     shouldUseNativeValidation: true,
   });
-
+  console.log(newProgram.routine_acts);
   if (act)
     return (
       <Box>

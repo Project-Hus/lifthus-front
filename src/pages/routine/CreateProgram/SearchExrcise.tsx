@@ -68,31 +68,34 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
                     width="5vw"
                     alt="act"
                   />
-                  <Text>{act.name}</Text>
-                  <Text>
-                    {(act.type == "rep" && "반복") ||
-                      (act.type == "lap" && "시간")}
-                  </Text>
-                  <Text>
-                    {act.upper && act.lower
-                      ? "전신"
-                      : act.upper
-                      ? "상체"
-                      : "하체"}
-                  </Text>
-                  <Button
-                    onClick={() => {
-                      addRoutineAct(week, day, act);
-                    }}
-                    bg={ThemeColor.backgroundColor}
-                    _hover={{
-                      backgroundColor: ThemeColor.basicColor,
-                    }}
-                    border={`1px solid ${ThemeColor.backgroundColorDarker}`}
-                    marginRight="0.5em"
-                  >
-                    <AddIcon fontSize="1.5em" />
-                  </Button>
+                  <Text marginRight="auto">&nbsp;{act.name}</Text>
+                  <Flex>
+                    <Text>
+                      {(act.type == "rep" && "반복") ||
+                        (act.type == "lap" && "시간")}
+                    </Text>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <Text marginRight="1em">
+                      {act.upper && act.lower
+                        ? "전신"
+                        : act.upper
+                        ? "상체"
+                        : "하체"}
+                    </Text>
+                    <Button
+                      onClick={() => {
+                        addRoutineAct(week, day, act);
+                      }}
+                      bg={ThemeColor.backgroundColor}
+                      _hover={{
+                        backgroundColor: ThemeColor.basicColor,
+                      }}
+                      border={`1px solid ${ThemeColor.backgroundColorDarker}`}
+                      marginRight="0.5em"
+                    >
+                      <AddIcon fontSize="1.5em" />
+                    </Button>
+                  </Flex>
                 </Flex>
               </div>
             );
