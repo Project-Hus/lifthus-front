@@ -17,27 +17,38 @@ const RoutineShort = ({
 
   return (
     <div>
-      <Flex direction={"row"} margin="0.3em">
+      <Flex margin="0.3em">
         {result.images &&
           result.images?.map((srcs: string, idx: number) => {
-            return <Img boxSize={"15vw"} src={srcs} key={idx}></Img>;
+            return (
+              <Img
+                borderRadius="5%"
+                boxSize={isDetail ? "6rem" : "4rem"}
+                src={srcs}
+                key={idx}
+              ></Img>
+            );
           })}
         <div>
           {!isDetail && (
-            <Flex>
-              <Text fontSize="ms" paddingLeft="0.5em" fontWeight={"bold"}>
+            <Flex alignItems={"center"}>
+              <Text fontSize="1.5rem" paddingLeft="0.5rem" fontWeight={"bold"}>
                 {result.name}
               </Text>
-              <Text fontSize="ms" paddingLeft="0.5em">
-                {"by" + result.author}
+              <Text fontSize="0.7rem" paddingLeft="0.5rem">
+                {"by"}
+              </Text>
+              <Text fontSize="0.7rem" paddingLeft="0.1rem" fontWeight="bold">
+                {result.author}
               </Text>
             </Flex>
           )}
           <Text
             style={{ whiteSpace: "pre-wrap" }}
             size="sm"
-            fontSize="3vw"
+            fontSize="0.5rem"
             color="white"
+            paddingLeft="0.5rem"
           >
             {IsFold && result.description.length > routineFoldStandard.Length
               ? result.description.slice(0, routineFoldStandard.Length) + "..."
@@ -51,7 +62,7 @@ const RoutineShort = ({
                 backgroundColor: ThemeColor.backgroundColor,
                 textDecoration: "underline",
               }}
-              visibility={isDetail ? "visible" : "hidden"}
+              display={isDetail ? "inline-block" : "none"}
               alignSelf="flex-start"
               onClick={() => setFold(false)}
               size="sm"
@@ -64,7 +75,7 @@ const RoutineShort = ({
                 backgroundColor: ThemeColor.backgroundColor,
                 textDecoration: "underline",
               }}
-              visibility={isDetail ? "visible" : "hidden"}
+              display={isDetail ? "inline-block" : "none"}
               bg={ThemeColor.backgroundColor}
               alignSelf="flex-start"
               onClick={() => setFold(true)}
@@ -78,7 +89,7 @@ const RoutineShort = ({
       </Flex>
 
       {!isDetail && (
-        <Box float="right">
+        <Box float="right" fontSize="1rem">
           👍
           {result.starnum}
           📌

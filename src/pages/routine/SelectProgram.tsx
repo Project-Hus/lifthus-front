@@ -71,10 +71,20 @@ const SelectProgram = () => {
       <div>
         <Tabs isFitted variant="unstyled">
           <TabList>
-            <Tab _selected={{ color: "white", bg: "#9298E2" }} fontSize="3vw">
+            <Tab
+              borderRadius="5%"
+              _selected={{ color: "white", bg: "#9298E2" }}
+              fontSize="0.7em"
+              fontWeight="bold"
+            >
               나의 프로그램
             </Tab>
-            <Tab _selected={{ color: "white", bg: "#9298E2" }} fontSize="3vw">
+            <Tab
+              borderRadius="5%"
+              _selected={{ color: "white", bg: "#9298E2" }}
+              fontSize="0.7em"
+              fontWeight="bold"
+            >
               프로그램 검색
             </Tab>
           </TabList>
@@ -119,19 +129,32 @@ const SelectProgram = () => {
                     css={CardStyle}
                   >
                     <div>
-                      <Flex direction={"row"} margin="0.3em">
-                        <div>
-                          <Flex>
-                            <Text fontSize="ms" fontWeight={"bold"}>
-                              {searchResult[selectedResult].name}
-                            </Text>
-                            <Text fontSize="ms" paddingLeft="0.5em">
-                              {"by" + searchResult[selectedResult].author}
-                            </Text>
-                          </Flex>
-                        </div>
+                      <Flex
+                        direction={"row"}
+                        margin="0.3em"
+                        alignItems={"center"}
+                      >
+                        <Flex alignItems={"center"}>
+                          <Text
+                            fontSize="2rem"
+                            fontWeight={"bold"}
+                            paddingLeft="0.5rem"
+                          >
+                            {searchResult[selectedResult].name}
+                          </Text>
+                          <Text fontSize="0.7rem" paddingLeft="0.7rem">
+                            {"by"}
+                          </Text>
+                          <Text
+                            fontSize="0.7rem"
+                            paddingLeft="0.1rem"
+                            fontWeight="bold"
+                          >
+                            {searchResult[selectedResult].author}
+                          </Text>
+                        </Flex>
                       </Flex>
-                      <Box float="right">
+                      <Box float="right" fontSize="1rem">
                         👍
                         {searchResult[selectedResult].starnum}
                         📌
