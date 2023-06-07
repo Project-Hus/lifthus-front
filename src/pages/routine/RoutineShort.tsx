@@ -89,7 +89,7 @@ const RoutineShort = ({
       </Flex>
 
       {!isDetail && (
-        <Box float="right" fontSize="1rem">
+        <Box float="right" fontSize="1rem" marginRight="1em" marginBottom={"1em"}>
           👍
           {result.starnum}
           📌
