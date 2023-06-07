@@ -48,10 +48,17 @@ export const WeekProgramForm = ({
   return (
     <>
       <BottomBorder>
-        <Flex paddingLeft="1em" justifyContent={"space-between"}>
+        <Flex
+          paddingLeft="1em"
+          justifyContent={"space-between"}
+          _hover={{
+            bgColor: ThemeColor.backgroundColorDarker,
+            cursor: "pointer",
+          }}
+        >
           <Box flex="2" {...buttonProps}>
             <Flex alignItems={"center"}>
-              <Text fontWeight={"bold"} fontSize={"1em"}>
+              <Text fontWeight={"bold"} fontSize={"1em"} margin="0.2em">
                 {weeklyRoutine.week + "주차"}
               </Text>
               &nbsp;
@@ -124,7 +131,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   const [isSmallerScreen] = useMediaQuery("(max-width: 700px)");
 
   return (
-    <Box marginLeft="1.5em" fontSize="3vw">
+    <Box marginLeft="1.5em" fontSize="0.8em">
       <Flex direction="column">
         <DayActStyle>
           <Flex {...buttonProps} alignItems="center">
