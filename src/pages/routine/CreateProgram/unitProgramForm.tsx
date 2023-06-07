@@ -56,7 +56,10 @@ export const WeekProgramForm = ({
           }}
         >
           <Box flex="2" {...buttonProps}>
-            <Flex alignItems={"center"}>
+            <Flex
+              alignItems={"center"}
+              borderBottom={isOpen ? `2px solid` : ``}
+            >
               <Text fontWeight={"bold"} fontSize={"1em"} margin="0.2em">
                 {weeklyRoutine.week + "주차"}
               </Text>
@@ -197,7 +200,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
         {!EditProps.isOpen && isOpen && (
           <Flex justifyContent={"center"}>
             <Button
-              marginTop={"0.2em"}
+              margin={"0.2em"}
               {...EditbuttonProps}
               css={editButtonStyle}
               _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}

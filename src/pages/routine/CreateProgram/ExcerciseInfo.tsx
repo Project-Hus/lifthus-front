@@ -63,10 +63,10 @@ const ActInfo = ({
               act.image ||
               "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
             }
-            width="10%"
+            width="5vw"
             alt="exercise"
           />
-          <Text>{act?.name}</Text>
+          <Text fontSize={"0.8em"}>{act?.name}</Text>
 
           {isEditing && (
             <Button
@@ -172,6 +172,8 @@ const ActInfo = ({
           {!isEditing && (
             <Flex direction={"column"}>
               <Button
+                variant="ghost"
+                _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
                 onClick={() => {
                   upRoutineAct(
                     routineAct.week,
@@ -183,11 +185,12 @@ const ActInfo = ({
                     setValue("reps", routineAct.reps);
                   }
                 }}
-                boxSize={"5vw"}
               >
-                <TriangleUpIcon />
+                <TriangleUpIcon fontSize="2em" />
               </Button>
               <Button
+                variant="ghost"
+                _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
                 onClick={() => {
                   downRoutineAct(
                     routineAct.week,
@@ -199,9 +202,8 @@ const ActInfo = ({
                     setValue("reps", routineAct.reps);
                   }
                 }}
-                boxSize={"5vw"}
               >
-                <TriangleDownIcon />
+                <TriangleDownIcon fontSize="2em" />
               </Button>
             </Flex>
           )}
