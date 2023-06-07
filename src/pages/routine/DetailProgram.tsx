@@ -16,10 +16,11 @@ import { css } from "@emotion/react";
 import useProgramStore from "../../store/program.zustand";
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import UnitRoutine from "./UnitRoutine";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { userRMInfo } from "./StartPrgram";
 import styled from "@emotion/styled";
+import { useQuery } from "@tanstack/react-query";
 
 export const borderStyle = css`
   border-top: 5px solid ${ThemeColor.backgroundColorDarker};
@@ -30,14 +31,18 @@ export const BottomBorder = styled.div`
   border-bottom: 3px solid ${ThemeColor.backgroundColorDarker};
 `;
 
+const CardStyle = css`
+  color: white;
+  border-radius: 5% 5% 0px 0px;
+  box-shadow: 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};
+  min-width: 60vw;
+`;
+
 const DetailProgram = () => {
-  const CardStyle = css`
-    color: white;
-    border-radius: 5% 5% 0px 0px;
-    box-shadow: 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};
-    min-width: 60vw;
-  `;
-  const ExerciseList = [];
+  // get slug from path params
+  const { slug } = useParams();
+
+  const { data: weeklyProgram } = useQuery(["program", { slug }], () => {});
 
   const { program } = useProgramStore();
 
