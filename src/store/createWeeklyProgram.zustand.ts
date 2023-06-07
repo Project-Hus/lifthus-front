@@ -158,6 +158,48 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
       };
     });
   },
+  upRoutineAct: (week, day, order) => {
+    set((state) => {
+      const newRoutineActs = [...state.newProgram.routine_acts];
+      const fromIdx = newRoutineActs.findIndex(
+        (r) => r.week === week && r.day === day && r.order === order
+      );
+      const toIdx = newRoutineActs.findIndex(
+        (r) => r.week === week && r.day === day && r.order === order - 1
+      );
+      if (fromIdx === -1 || toIdx === -1) return { ...state };
+      newRoutineActs[fromIdx].order = order - 1;
+      newRoutineActs[toIdx].order = order;
+      return {
+        ...state,
+        newProgram: {
+          ...state.newProgram,
+          routine_acts: [...newRoutineActs],
+        },
+      };
+    });
+  },
+  downRoutineAct: (week, day, order) => {
+    set((state) => {
+      const newRoutineActs = [...state.newProgram.routine_acts];
+      const fromIdx = newRoutineActs.findIndex(
+        (r) => r.week === week && r.day === day && r.order === order
+      );
+      const toIdx = newRoutineActs.findIndex(
+        (r) => r.week === week && r.day === day && r.order === order + 1
+      );
+      if (fromIdx === -1 || toIdx === -1) return { ...state };
+      newRoutineActs[fromIdx].order = order + 1;
+      newRoutineActs[toIdx].order = order;
+      return {
+        ...state,
+        newProgram: {
+          ...state.newProgram,
+          routine_acts: [...newRoutineActs],
+        },
+      };
+    });
+  },
 }));
 
 export interface NewWeeklyProgramStore {
@@ -187,6 +229,8 @@ export interface NewWeeklyProgramStore {
     order: number,
     ra: UpdateWeeklyRoutineAct
   ): void;
+  upRoutineAct(week: number, day: number, order: number): void;
+  downRoutineAct(week: number, day: number, order: number): void;
 }
 
 export type WeeklyRoutine = {

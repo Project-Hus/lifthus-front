@@ -14,7 +14,8 @@ const ActInfo = ({
   routineAct: WeeklyRoutineAct;
   isEditing: boolean;
 }) => {
-  const { newProgram, updateRoutineAct } = useNewWeeklyProgramStore();
+  const { newProgram, updateRoutineAct, upRoutineAct, downRoutineAct } =
+    useNewWeeklyProgramStore();
   const { data: act, isLoading } = useQuery(
     ["act", { id: routineAct.act_id }],
     async () => {
@@ -67,7 +68,21 @@ const ActInfo = ({
                     routineAct.w_ratio ? routineAct.w_ratio * 100 : "..."
                   }
                   fontSize="3vw"
-                  {...register("w_ratio")}
+                  {...register("w_percentage", {
+                    onChange: () => {
+                      const w_percentage = getValues("w_percentage");
+                      if (isNaN(w_percentage)) return;
+                      const w_ratio = w_percentage / 100;
+                      updateRoutineAct(
+                        routineAct.week,
+                        routineAct.day,
+                        routineAct.order,
+                        {
+                          w_ratio,
+                        }
+                      );
+                    },
+                  })}
                 />{" "}
                 {"%"}
               </Flex>
@@ -114,33 +129,22 @@ const ActInfo = ({
             <Flex direction={"column"}>
               <Button
                 onClick={() => {
-                  if (typeof routineAct.reps == "number") {
-                    setValue("reps", routineAct.reps + 1);
-                    updateRoutineAct(
-                      routineAct.week,
-                      routineAct.day,
-                      routineAct.order,
-                      { reps: routineAct.reps + 1 }
-                    );
-                  }
+                  upRoutineAct(
+                    routineAct.week,
+                    routineAct.day,
+                    routineAct.order
+                  );
                 }}
               >
                 <TriangleUpIcon />
               </Button>
               <Button
                 onClick={() => {
-                  if (
-                    typeof routineAct.reps == "number" &&
-                    routineAct.reps > 0
-                  ) {
-                    setValue("reps", routineAct.reps - 1);
-                    updateRoutineAct(
-                      routineAct.week,
-                      routineAct.day,
-                      routineAct.order,
-                      { reps: routineAct.reps - 1 }
-                    );
-                  }
+                  downRoutineAct(
+                    routineAct.week,
+                    routineAct.day,
+                    routineAct.order
+                  );
                 }}
               >
                 <TriangleDownIcon />

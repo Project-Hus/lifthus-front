@@ -15,7 +15,7 @@ export type NewWeeklyRoutineAct = {
 };
 
 export type UpdateWeeklyRoutineAct = {
-  w_percentage?: number;
+  w_ratio?: number;
   reps?: number;
   lap?: number;
   warmup?: boolean;
