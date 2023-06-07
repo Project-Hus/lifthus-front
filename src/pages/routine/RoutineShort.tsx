@@ -23,7 +23,7 @@ const RoutineShort = ({
             return (
               <Img
                 borderRadius="5%"
-                boxSize={isDetail ? "6rem" : "4rem"}
+                boxSize={isDetail ? "5em" : "4rem"}
                 src={srcs}
                 key={idx}
               ></Img>
@@ -46,7 +46,7 @@ const RoutineShort = ({
           <Text
             style={{ whiteSpace: "pre-wrap" }}
             size="sm"
-            fontSize="0.5rem"
+            fontSize="0.5em"
             color="white"
             paddingLeft="0.5rem"
           >

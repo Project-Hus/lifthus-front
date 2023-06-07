@@ -129,7 +129,7 @@ const DetailProgram = () => {
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            <Text fontSize="1em">프로그램 시작</Text>
+            <Text fontSize="3em">프로그램 시작</Text>
           </Button>
           <Button
             flex={1}
@@ -137,7 +137,7 @@ const DetailProgram = () => {
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            <Text fontSize="1em">변형하기</Text>
+            <Text fontSize="3em">변형하기</Text>
           </Button>
         </Flex>
         {/* 주차별 루틴 */}
