@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import programApi from "../../../api/programApi";
 import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
+import { ThemeColor } from "../../../common/styles/theme.style";
 
 const SearchExercise = ({ week, day }: { week: number; day: number }) => {
   const { register, getValues } = useForm();
@@ -26,8 +27,13 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
   useEffect(() => () => clearTimeout(TOK), [TOK]);
   return (
     <>
-      <Flex>
+      <Flex
+        borderY={`3px solid ${ThemeColor.backgroundColorDarker}`}
+        paddingY="0.3em"
+      >
         <Input
+          bg={ThemeColor.backgroundColorDarker}
+          textAlign="right"
           type="text"
           placeholder="검색어를 입력하세요"
           {...register("search", {
@@ -44,14 +50,18 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
         queriedActs.map((act) => {
           return (
             <div key={act.id}>
-              <Flex justifyContent={"space-between"}>
+              <Flex
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}
+              >
                 <Img
                   src={
                     act.image ||
                     "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
                   }
-                  width="10%"
-                  alt="exercise"
+                  width="10vw"
+                  alt="act"
                 />
                 <Text>{act.name}</Text>
                 <Text>
@@ -69,6 +79,8 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
                   onClick={() => {
                     addRoutineAct(week, day, act);
                   }}
+                  bg={ThemeColor.backgroundColor}
+                  _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
                 >
                   <AddIcon />
                 </Button>

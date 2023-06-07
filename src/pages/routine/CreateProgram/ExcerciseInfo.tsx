@@ -1,11 +1,23 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Input, Text, Spinner, Img } from "@chakra-ui/react";
+import { css } from "@emotion/react";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import programApi from "../../../api/programApi";
+import { ThemeColor } from "../../../common/styles/theme.style";
 import useNewWeeklyProgramStore, {
   WeeklyRoutineAct,
 } from "../../../store/createWeeklyProgram.zustand";
+
+const InputButtonStyle = css`
+  background-color: ${ThemeColor.backgroundColorDarker};
+  border: 1px solid ${ThemeColor.backgroundColor};
+  border-radius: 5px;
+  font-size: 3vw;
+  width: 3em;
+  text-align: center;
+  padding: 0.5em 0;
+`;
 
 const ActInfo = ({
   routineAct,
@@ -58,6 +70,8 @@ const ActInfo = ({
 
           {isEditing && (
             <Button
+              bg={ThemeColor.backgroundColor}
+              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
               onClick={() => {
                 removeRoutineAct(
                   routineAct.week,
@@ -74,6 +88,7 @@ const ActInfo = ({
             <Flex alignItems={"center"}>
               <Flex alignItems={"center"}>
                 <Input
+                  css={InputButtonStyle}
                   type="number"
                   width="5em"
                   textAlign="center"
@@ -103,6 +118,7 @@ const ActInfo = ({
               <Flex alignItems={"center"}>
                 {"X"}
                 <Input
+                  css={InputButtonStyle}
                   width="5em"
                   type="number"
                   defaultValue={routineAct.reps}
@@ -129,6 +145,7 @@ const ActInfo = ({
             <Flex alignItems={"center"}>
               <Flex alignItems={"center"}>
                 <Input
+                  css={InputButtonStyle}
                   type="number"
                   width="5em"
                   textAlign="center"
@@ -140,6 +157,7 @@ const ActInfo = ({
               &nbsp;
               <Flex alignItems={"center"}>
                 <Input
+                  css={InputButtonStyle}
                   width="5em"
                   type="number"
                   defaultValue={routineAct.lap}
@@ -161,6 +179,7 @@ const ActInfo = ({
                     routineAct.order
                   );
                 }}
+                boxSize={"5vw"}
               >
                 <TriangleUpIcon />
               </Button>
@@ -172,6 +191,7 @@ const ActInfo = ({
                     routineAct.order
                   );
                 }}
+                boxSize={"5vw"}
               >
                 <TriangleDownIcon />
               </Button>

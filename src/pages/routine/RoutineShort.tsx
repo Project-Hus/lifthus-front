@@ -20,7 +20,7 @@ const RoutineShort = ({
       <Flex direction={"row"} margin="0.3em">
         {result.images &&
           result.images?.map((srcs: string, idx: number) => {
-            return <Img width="20%" height="20%" src={srcs} key={idx}></Img>;
+            return <Img boxSize={"15vw"} src={srcs} key={idx}></Img>;
           })}
         <div>
           {!isDetail && (
@@ -36,7 +36,7 @@ const RoutineShort = ({
           <Text
             style={{ whiteSpace: "pre-wrap" }}
             size="sm"
-            fontSize="sm"
+            fontSize="3vw"
             color="white"
           >
             {IsFold && result.description.length > routineFoldStandard.Length
@@ -79,9 +79,9 @@ const RoutineShort = ({
 
       {!isDetail && (
         <Box float="right">
-          <StarIcon />
+          👍
           {result.starnum}
-          <BellIcon />
+          📌
           {result.likenum}
         </Box>
       )}

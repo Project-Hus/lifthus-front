@@ -42,28 +42,42 @@ const CreateProgram = () => {
       <FormProvider {...hookForm}>
         <form onSubmit={hookForm.handleSubmit(onSubmit)}>
           <div>
-            <FormLabel textAlign="center" htmlFor="title">
-              프로그램 이름
-            </FormLabel>
-            <Input
-              id="title"
-              type="text"
-              defaultValue={newProgram.title}
-              {...hookForm.register("title", {
-                onChange: (e) => {
-                  updateProgram({ title: hookForm.getValues("title") });
-                },
-              })}
-            />
+            <Flex direction={"column"}>
+              <FormLabel
+                textAlign="center"
+                htmlFor="name"
+                fontSize="5vw"
+                fontWeight={"bold"}
+              >
+                프로그램 이름
+              </FormLabel>
+
+              <Input
+                paddingY="1em"
+                alignSelf={"center"}
+                width="50vw"
+                fontSize="4vw"
+                textAlign="end"
+                bg={ThemeColor.backgroundColorDarker}
+                id="name"
+                type="text"
+                defaultValue={newProgram.title}
+                {...hookForm.register("title", {
+                  onChange: (e) => {
+                    updateProgram({ title: hookForm.getValues("title") });
+                  },
+                })}
+              />
+            </Flex>
           </div>
           <div>
-            <FormLabel htmlFor="file">
+            <FormLabel htmlFor="file" margin="0">
               <Box
                 _hover={{ background: ThemeColor.backgroundColorDarker }}
                 marginY="0.5em"
                 borderRadius="8%"
               >
-                <Flex direction={"column"} alignItems="center">
+                <Flex direction={"column"} alignItems="center" fontSize="4vw">
                   {selectedImage ? (
                     <Img
                       maxWidth="70%"
@@ -75,7 +89,7 @@ const CreateProgram = () => {
                       objectFit="cover"
                     />
                   ) : (
-                    <PlusSquareIcon boxSize={"10"} />
+                    <PlusSquareIcon boxSize={"7vw"} />
                   )}
 
                   <Text>
@@ -97,11 +111,19 @@ const CreateProgram = () => {
               })}
             />
           </div>
-          <div style={{ textAlign: "center" }}>
-            <Text textAlign={"center"}>태그</Text>
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: "5vw",
+            }}
+          >
+            <Text fontWeight="bold" fontSize="3vw" textAlign={"center"}>
+              태그
+            </Text>
 
             <Input
-              width="30%"
+              width="50%"
+              fontSize="0.5em"
               textAlign={"center"}
               placeholder="관련 태그를 입력해주세요"
               {...hookForm.register("tag", {
@@ -110,26 +132,32 @@ const CreateProgram = () => {
                 },
               })}
             />
-            <Button
-              onClick={() => {
-                addTag(hookForm.getValues("tag"));
-                hookForm.setValue("tag", "");
-              }}
-            >
-              태그 추가
-            </Button>
-            <Button
-              onClick={() => {
-                removeTag(hookForm.getValues("tag"));
-                hookForm.setValue("tag", "");
-              }}
-            >
-              태그 삭제
-            </Button>
+            <Flex justifyContent={"center"}>
+              <Button
+                paddingY="0.3em"
+                boxSize="object-fit"
+                onClick={() => {
+                  addTag(hookForm.getValues("tag"));
+                  hookForm.setValue("tag", "");
+                }}
+              >
+                <Text fontSize="3vw">태그 추가</Text>
+              </Button>
+              <Button
+                boxSize="object-fit"
+                paddingY="0.3em"
+                onClick={() => {
+                  removeTag(hookForm.getValues("tag"));
+                  hookForm.setValue("tag", "");
+                }}
+              >
+                <Text fontSize="3vw">태그 삭제</Text>
+              </Button>
+            </Flex>
             {newProgram.tags.map((tag, index) => {
               return (
                 <div>
-                  <Text key={index}>{tag}</Text>
+                  <Text key={index}>{"#" + tag}</Text>
                 </div>
               );
             })}
@@ -138,6 +166,7 @@ const CreateProgram = () => {
           <div>
             <Text textAlign={"center"}>설명</Text>
             <Textarea
+              bg={ThemeColor.backgroundColorDarker}
               {...hookForm.register("description", {
                 onChange: () => {
                   updateProgram({
@@ -146,6 +175,7 @@ const CreateProgram = () => {
                 },
               })}
               required
+              fontWeight="bold"
               placeholder="설명을 입력하세요"
               defaultValue={newProgram.description}
             />
@@ -156,7 +186,7 @@ const CreateProgram = () => {
               return <WeekProgramForm key={index} weeklyRoutine={wr} />;
             })}
           </div>
-          <Flex>
+          <Flex marginTop="0.1em">
             {!newProgram.weekly_routines.length && (
               <Button
                 border="2px"

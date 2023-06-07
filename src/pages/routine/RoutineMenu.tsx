@@ -36,7 +36,7 @@ const RoutineMenu = () => {
       return ThemeColor.basicColor; // 선택된 버튼의 글자 색상을 파란색으로 지정
     }
 
-    return "white"; // 선택되지 않은 버튼의 글자 색상을 회색으로 지정
+    return "white"; // 선택되지 않은 버튼의 글자 색상을 흰색으로 지정
   };
   const backbuttonstyle = css`
     background-color: ${ThemeColor.backgroundColor};
@@ -52,8 +52,8 @@ const RoutineMenu = () => {
   `;
 
   const buttonstyle = css`
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     height: 8vh;
     width: 80vw;
     align-items: center;
@@ -61,6 +61,7 @@ const RoutineMenu = () => {
     :hover {
       background-color: ${ThemeColor.backgroundColorDarker};
     }
+    //기본 아코디언 버튼 스타일 제거
     svg {
       display: none;
     }

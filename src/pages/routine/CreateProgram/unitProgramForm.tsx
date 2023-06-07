@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
 import {
   AddIcon,
   CheckIcon,
@@ -7,7 +5,15 @@ import {
   EditIcon,
   TriangleDownIcon,
 } from "@chakra-ui/icons";
-import { Box, Button, Card, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Input,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
 import SearchExercise from "./SearchExrcise";
@@ -18,6 +24,14 @@ import useNewWeeklyProgramStore, {
   WeeklyRoutine,
 } from "../../../store/createWeeklyProgram.zustand";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { use } from "i18next";
+import { actDB, week } from "../../../store/interfaces/program.interface";
+import { useProgramPlanStore } from "../../../store/program.zustand";
+import { useFormContext } from "react-hook-form";
+import { css } from "@emotion/react";
+import { BottomBorder } from "../DetailProgram";
+import { DayActStyle } from "../DayRoutine";
 
 export const WeekProgramForm = ({
   weeklyRoutine,
@@ -33,28 +47,33 @@ export const WeekProgramForm = ({
 
   return (
     <>
-      <Flex paddingX="1em" justifyContent={"space-between"}>
-        <Box flex="2" {...buttonProps}>
-          <Flex>
-            <Text>{weeklyRoutine.week + "주차"}</Text>
-            {isOpen && <TriangleDownIcon />}
-          </Flex>
-        </Box>
-        <Button onClick={() => removeWeeklyRoutine(0)}>
-          <DeleteIcon />
-        </Button>
-      </Flex>
-      {[1, 2, 3, 4, 5, 6, 7].map((day, index) => {
-        return (
-          <>
-            {
-              <Box key={index} {...disclosureProps}>
-                <DayProgramForm week={weeklyRoutine.week} day={day} />
-              </Box>
-            }
-          </>
-        );
-      })}
+      <BottomBorder>
+        <Flex paddingX="1em" justifyContent={"space-between"}>
+          <Box flex="2" {...buttonProps}>
+            <Flex alignItems={"center"}>
+              <Text fontWeight={"bold"} fontSize={"3vw"}>
+                {weeklyRoutine.week + "주차"}
+              </Text>
+              &nbsp;
+              {isOpen && <TriangleDownIcon />}
+            </Flex>
+          </Box>
+          <Button onClick={() => removeWeeklyRoutine(0)}>
+            <DeleteIcon />
+          </Button>
+        </Flex>
+        {[1, 2, 3, 4, 5, 6, 7].map((day, index) => {
+          return (
+            <>
+              {
+                <Box key={index} {...disclosureProps}>
+                  <DayProgramForm week={weeklyRoutine.week} day={day} />
+                </Box>
+              }
+            </>
+          );
+        })}
+      </BottomBorder>
     </>
   );
 };
@@ -83,52 +102,102 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   );
   routineActs.sort((a, b) => a.order - b.order);
 
-  const [_, fr] = useState(0);
-  const forceUpdate = () => fr((a) => a + 1);
+  const [isSmallerScreen] = useMediaQuery("(max-width: 700px)");
+
+  const editButtonStyle = css`
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: ${ThemeColor.backgroundColor};
+      border: 2px solid ${ThemeColor.backgroundColorDarker};
+      & :hover {
+        background - color: ${ThemeColor.backgroundColorDarker};
+  }
+
+      `;
   return (
-    <Box paddingLeft="3%">
+    <Box marginLeft="1.5em" fontSize="3vw">
       <Flex direction="column">
-        <Box {...buttonProps}>
-          <TriangleDownIcon
-            transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
-          />
-          {dayname[day] + "요일"}
-        </Box>
+        <DayActStyle>
+          <Flex {...buttonProps} alignItems="center">
+            {dayname[day] + "요일"}
+            <TriangleDownIcon
+              transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
+            />
+          </Flex>
+        </DayActStyle>
         <Card
           {...disclosureProps}
           bg={ThemeColor.backgroundColor}
           color="white"
         >
           {routineActs.map((ra, idx) => (
-            <ExerciseInfo
-              key={idx}
-              routineAct={ra}
-              isEditing={EditProps.isOpen}
-            />
+            <DayActStyle>
+              <ExerciseInfo
+                key={idx}
+                routineAct={ra}
+                isEditing={EditProps.isOpen}
+              />
+            </DayActStyle>
           ))}
         </Card>
-        <Box {...EditdisclosureProps}>
-          <SearchExercise week={week} day={day} />
-        </Box>
-        {EditProps.isOpen ? (
-          <Flex direction={"column"} alignItems="center">
+        {EditProps.isOpen && isOpen && (
+          <Box>
+            <SearchExercise week={week} day={day} />
+          </Box>
+        )}
+        {EditProps.isOpen && (
+          <Flex
+            direction={"column"}
+            alignItems="center"
+            borderBottom={`1px solid ${ThemeColor.backgroundColorDarker}`}
+          >
             <span>
-              <Button {...EditbuttonProps}>
-                <CheckIcon />
+              <Button
+                onClick={goToCreateExcercise}
+                bg={ThemeColor.backgroundColor}
+                _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+              >
+                ✏️새동작 생성하기
               </Button>
             </span>
             <span>
-              <Button onClick={goToCreateExcercise}>
-                <AddIcon />
-                새동작 생성하기
-              </Button>
+              <Box
+                width={isSmallerScreen ? "40px" : "30px"}
+                height={isSmallerScreen ? "40px" : "30px"}
+              >
+                <Button
+                  {...EditbuttonProps}
+                  css={editButtonStyle}
+                  _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+                >
+                  <Text
+                    fontSize={isSmallerScreen ? "15px" : "15px"}
+                    fontWeight="bold"
+                  >
+                    ✓
+                  </Text>
+                </Button>
+              </Box>
             </span>
           </Flex>
-        ) : (
+        )}
+
+        {/* 요일이 열리고 편집상태 아닐 때 나오는 편집버튼 */}
+        {!EditProps.isOpen && isOpen && (
           <Flex justifyContent={"center"}>
-            <Button {...EditbuttonProps}>
-              <EditIcon />
-            </Button>
+            <Box
+              width={isSmallerScreen ? "40px" : "30px"}
+              height={isSmallerScreen ? "40px" : "30px"}
+            >
+              <Button
+                {...EditbuttonProps}
+                css={editButtonStyle}
+                _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+              >
+                <Text fontSize={isSmallerScreen ? "15px" : "15px"}>🖋️</Text>
+              </Button>
+            </Box>
           </Flex>
         )}
       </Flex>
