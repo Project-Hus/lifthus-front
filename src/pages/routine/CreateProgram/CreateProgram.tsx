@@ -10,7 +10,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
-import BasicPageLayout from "../../../common/components/layouts/BasicPageLayout";
+import { BaisPageLayoutNoMargin } from "../../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { useForm, FormProvider } from "react-hook-form";
 import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
@@ -38,7 +38,7 @@ const CreateProgram = () => {
   };
 
   return (
-    <BasicPageLayout>
+    <BaisPageLayoutNoMargin>
       <FormProvider {...hookForm}>
         <form onSubmit={hookForm.handleSubmit(onSubmit)}>
           <div>
@@ -220,7 +220,7 @@ const CreateProgram = () => {
           )}
         </form>
       </FormProvider>
-    </BasicPageLayout>
+    </BaisPageLayoutNoMargin>
   );
 };
 

@@ -178,6 +178,10 @@ const ActInfo = ({
                     routineAct.day,
                     routineAct.order
                   );
+                  if (routineAct.w_ratio && routineAct.reps) {
+                    setValue("w_percentage", routineAct.w_ratio * 100);
+                    setValue("reps", routineAct.reps);
+                  }
                 }}
                 boxSize={"5vw"}
               >
@@ -190,6 +194,10 @@ const ActInfo = ({
                     routineAct.day,
                     routineAct.order
                   );
+                  if (routineAct.w_ratio && routineAct.reps) {
+                    setValue("w_percentage", routineAct.w_ratio * 100);
+                    setValue("reps", routineAct.reps);
+                  }
                 }}
                 boxSize={"5vw"}
               >

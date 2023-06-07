@@ -175,7 +175,7 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
                     fontSize={isSmallerScreen ? "15px" : "15px"}
                     fontWeight="bold"
                   >
-                    ✓
+                    <CheckIcon fontSize={"2em"} />
                   </Text>
                 </Button>
               </Box>
