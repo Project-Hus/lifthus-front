@@ -9,11 +9,7 @@ const programApi: ProgramApi = {
     if (process.env.NODE_ENV == "development") {
       return programTestApi.queryProgramBySlug(slug);
     }
-    const res = await axios.get(LIFTHUS_API_URL + "/routine/program", {
-      params: {
-        slug: slug,
-      },
-    });
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/program/" + slug);
     return res.data;
   },
   queryProgramsByTitle: async (title: string, skip?: number) => {
