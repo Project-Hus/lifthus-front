@@ -11,12 +11,11 @@ import useNewWeeklyProgramStore, {
 
 const InputButtonStyle = css`
   background-color: ${ThemeColor.backgroundColorDarker};
-  border: 1px solid ${ThemeColor.backgroundColor};
-  border-radius: 5px;
-  font-size: 3vw;
-  width: 3em;
+  border: none;
+  font-size: 1em;
+  width: 2.5em;
   text-align: center;
-  padding: 0.5em 0;
+  padding: 0 0;
 `;
 
 const ActInfo = ({
@@ -48,7 +47,9 @@ const ActInfo = ({
         ra.order === routineAct.order
     ) || routineAct;
 
-  const { register, getValues, setValue } = useForm();
+  const { register, getValues, setValue } = useForm({
+    shouldUseNativeValidation: true,
+  });
 
   if (act)
     return (
@@ -66,7 +67,7 @@ const ActInfo = ({
             width="5vw"
             alt="exercise"
           />
-          <Text fontSize={"0.8em"}>{act?.name}</Text>
+          <Text fontSize={"0.8em"}>&nbsp;{act?.name}</Text>
 
           {isEditing && (
             <Button
@@ -90,16 +91,18 @@ const ActInfo = ({
                 <Input
                   css={InputButtonStyle}
                   type="number"
-                  width="5em"
-                  textAlign="center"
-                  defaultValue={
-                    routineAct.w_ratio ? routineAct.w_ratio * 100 : "..."
-                  }
-                  fontSize="3vw"
+                  value={routineAct.w_ratio ? routineAct.w_ratio * 100 : "..."}
                   {...register("w_percentage", {
                     onChange: () => {
-                      const w_percentage = getValues("w_percentage");
+                      let w_percentage = getValues("w_percentage");
                       if (isNaN(w_percentage)) return;
+                      if (w_percentage > 100) {
+                        w_percentage = 100;
+                        setValue("w_percentage", 100);
+                      } else if (w_percentage < 0) {
+                        w_percentage = 0;
+                        setValue("w_percentage", 0);
+                      }
                       const w_ratio = w_percentage / 100;
                       updateRoutineAct(
                         routineAct.week,
@@ -119,14 +122,19 @@ const ActInfo = ({
                 <Text>x</Text>
                 <Input
                   css={InputButtonStyle}
-                  width="5em"
                   type="number"
-                  defaultValue={routineAct.reps}
-                  fontSize="3vw"
+                  value={routineAct.reps}
                   {...register("reps", {
                     onChange: () => {
-                      const reps = getValues("reps");
+                      let reps = getValues("reps");
                       if (isNaN(reps)) return;
+                      if (reps > 9999) {
+                        reps = 9999;
+                        setValue("reps", 9999);
+                      } else if (reps < 0) {
+                        reps = 0;
+                        setValue("reps", 0);
+                      }
                       updateRoutineAct(
                         routineAct.week,
                         routineAct.day,
