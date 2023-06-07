@@ -98,7 +98,7 @@ const DetailProgram = () => {
         </Card>
         {/* 프로그램 세부 설명창 */}
 
-        <RoutineShort isDetail={true} result={program} />
+        {/* <RoutineShort isDetail={true} result={program} /> */}
         <Flex justifyContent={"end"} alignItems="center">
           <Button
             bg={ThemeColor.backgroundColor}

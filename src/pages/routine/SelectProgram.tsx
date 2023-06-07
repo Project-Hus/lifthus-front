@@ -31,7 +31,8 @@ import { programList } from "../../api/mocks/program.mock";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { useForm } from "react-hook-form";
 import programApi from "../../api/programApi";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import userApi from "../../api/userApi";
 const SelectProgram = () => {
   const searchResult: programDB[] = programList;
   //현재 선택한 프로그램의 정보 저장하는 전역 state
@@ -41,9 +42,11 @@ const SelectProgram = () => {
     border-radius : 5% 5% 0px 0px;
     box-shadow  : 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};}};
     `;
+  const queryClient = useQueryClient();
   //make state for selected result 검색 결과 배열에서 선택한 프로그램의 인덱스를 저장
   const [selectedResult, setSelectedResult] = useState<number>(-1);
   const handleResultClick = (resultId: number) => {
+    queryClient.invalidateQueries(["authorInfo"]);
     if (selectedResult === resultId) {
       setSelectedResult(-1); // 같은 버튼을 클릭하면 선택 해제
     } else {
@@ -61,13 +64,13 @@ const SelectProgram = () => {
   //경로 이동을 위한 useNavigate
   const navigate = useNavigate();
   const goDetailRoutine = () => {
-    setProgramPlanInfo(searchResult[selectedResult]);
-    navigate("/routine/menu/detail");
+    if (queriedPrograms)
+      navigate("/routine/menu/detail/" + queriedPrograms[selectedResult].slug);
   };
 
   const goProgramStart = () => {
-    setProgramPlanInfo(searchResult[selectedResult]);
-    navigate("/routine/menu/start");
+    if (queriedPrograms)
+      navigate("/routine/menu/start/" + queriedPrograms[selectedResult].slug);
   };
 
   const { register, getValues } = useForm();
@@ -76,7 +79,7 @@ const SelectProgram = () => {
   const { data: queriedPrograms } = useQuery(
     ["search", "program", searchKeyword],
     () => {
-      // return programApi.(searchKeyword);
+      return programApi.queryProgramsByTitle(searchKeyword);
     },
     {
       enabled: !!searchKeyword,
@@ -84,6 +87,19 @@ const SelectProgram = () => {
   );
   let TOK: NodeJS.Timeout = setTimeout(() => {});
   useEffect(() => () => clearTimeout(TOK), [TOK]);
+
+  const { data: authorInfo } = useQuery(
+    ["authorInfo"],
+    () => {
+      if (!queriedPrograms) return Promise.reject("no queriedPrograms");
+      return userApi.getUserInfo({
+        uid: queriedPrograms[selectedResult].author,
+      });
+    },
+    {
+      enabled: !!queriedPrograms,
+    }
+  );
 
   return (
     <>
@@ -111,7 +127,7 @@ const SelectProgram = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <p>내 프로그램 결과 출력</p>
+              <p>...</p>
             </TabPanel>
             <TabPanel>
               <form>
@@ -132,8 +148,8 @@ const SelectProgram = () => {
                 </Flex>
               </form>
               <Box>
-                {searchResult.length > 0 &&
-                  searchResult.map((result, idx) => {
+                {queriedPrograms &&
+                  queriedPrograms.map((program, idx) => {
                     return (
                       <Card
                         bg={changeResultColor(idx)}
@@ -142,13 +158,13 @@ const SelectProgram = () => {
                         css={CardStyle}
                         key={idx}
                       >
-                        <RoutineShort isDetail={false} result={result} />
+                        <RoutineShort isDetail={false} result={program} />
                       </Card>
                     );
                   })}
               </Box>
               <Box height="10%"></Box>
-              {selectedResult !== -1 && (
+              {selectedResult !== -1 && queriedPrograms && (
                 <>
                   <Card
                     bg={changeResultColor(selectedResult)}
@@ -168,7 +184,7 @@ const SelectProgram = () => {
                             fontWeight={"bold"}
                             paddingLeft="0.5rem"
                           >
-                            {searchResult[selectedResult].name}
+                            {queriedPrograms[selectedResult].title}
                           </Text>
                           <Text fontSize="0.7rem" paddingLeft="0.7rem">
                             {"by"}
@@ -178,7 +194,7 @@ const SelectProgram = () => {
                             paddingLeft="0.1rem"
                             fontWeight="bold"
                           >
-                            {searchResult[selectedResult].author}
+                            {authorInfo?.username}
                           </Text>
                         </Flex>
                       </Flex>
@@ -188,17 +204,14 @@ const SelectProgram = () => {
                         marginRight="1em"
                         marginBottom={"1em"}
                       >
-                        👍
-                        {searchResult[selectedResult].starnum}
-                        📌
-                        {searchResult[selectedResult].likenum}
+                        👍... 📌...
                       </Box>
                     </div>
                   </Card>
                   {/* 세부사항 요약창 작성 */}
                   <RoutineShort
                     isDetail={true}
-                    result={searchResult[selectedResult]}
+                    result={queriedPrograms[selectedResult]}
                   />
 
                   <Flex

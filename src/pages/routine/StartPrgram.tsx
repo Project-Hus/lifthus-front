@@ -96,16 +96,13 @@ const StartProgram = () => {
             marginBottom={"0.5em"}
             marginRight="0.5em"
           >
-            👍
-            {program.starnum}
-            &nbsp; 📌
-            {program.likenum}
+            👍... &nbsp; 📌...
           </Box>
         </div>
       </Card>
       {/* 프로그램 세부 설명창 */}
 
-      <RoutineShort isDetail={true} result={program} />
+      {/* <RoutineShort isDetail={true} result={program} /> */}
       {/*  */}
       <Flex justifyContent={"end"} alignItems="center">
         <Button
