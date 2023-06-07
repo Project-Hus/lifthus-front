@@ -170,6 +170,9 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
       if (fromIdx === -1 || toIdx === -1) return { ...state };
       newRoutineActs[fromIdx].order = order - 1;
       newRoutineActs[toIdx].order = order;
+      const tmp = newRoutineActs[fromIdx];
+      newRoutineActs[fromIdx] = newRoutineActs[toIdx];
+      newRoutineActs[toIdx] = tmp;
       return {
         ...state,
         newProgram: {
@@ -191,6 +194,9 @@ const useNewWeeklyProgramStore = create<NewWeeklyProgramStore>()((set) => ({
       if (fromIdx === -1 || toIdx === -1) return { ...state };
       newRoutineActs[fromIdx].order = order + 1;
       newRoutineActs[toIdx].order = order;
+      const tmp = newRoutineActs[fromIdx];
+      newRoutineActs[fromIdx] = newRoutineActs[toIdx];
+      newRoutineActs[toIdx] = tmp;
       return {
         ...state,
         newProgram: {
