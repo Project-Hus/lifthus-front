@@ -5,6 +5,17 @@ import { ProgramApi } from "./interfaces/programApi.interface";
 import programTestApi from "./testApi/programTestApi";
 
 const programApi: ProgramApi = {
+  queryProgramBySlug: async (slug: string) => {
+    if (process.env.NODE_ENV == "development") {
+      return programTestApi.queryProgramBySlug(slug);
+    }
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/program", {
+      params: {
+        slug: slug,
+      },
+    });
+    return res.data;
+  },
   queryProgramsByTitle: async (title: string, skip?: number) => {
     if (process.env.NODE_ENV == "development") {
       return programTestApi.queryProgramsByTitle(title, skip);
