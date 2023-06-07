@@ -1,9 +1,23 @@
 import axios from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
+import { CreateWeeklyProgramDto } from "./dtos/program/program.dto";
 import { ProgramApi } from "./interfaces/programApi.interface";
 import programTestApi from "./testApi/programTestApi";
 
 const programApi: ProgramApi = {
+  createWeeklyProgram: async (newProgram: CreateWeeklyProgramDto) => {
+    if (process.env.NODE_ENV == "development") {
+      return programTestApi.createWeeklyProgram(newProgram);
+    }
+    const res = await axios.post(
+      LIFTHUS_API_URL + "/routine/program/weekly",
+      newProgram,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  },
   queryActsByName: async (name: string, skip?: number) => {
     if (process.env.NODE_ENV == "development") {
       return programTestApi.queryActsByName(name, skip);

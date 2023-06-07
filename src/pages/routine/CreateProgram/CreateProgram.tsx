@@ -16,9 +16,15 @@ import { useForm, FormProvider } from "react-hook-form";
 import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
 
 import WeekProgramForm from "./unitProgramForm";
+import programApi from "../../../api/programApi";
+import { CreateWeeklyProgramDto } from "../../../api/dtos/program/program.dto";
+import useUserStore from "../../../store/user.zustand";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const CreateProgram = () => {
   const hookForm = useForm();
+  const { uid } = useUserStore();
   const { newProgram, updateProgram, addTag, removeTag, addWeeklyRoutine } =
     useNewWeeklyProgramStore();
 
@@ -36,6 +42,32 @@ const CreateProgram = () => {
       setSelectedImage(null);
     }
   };
+
+  const navigate = useNavigate();
+  const { mutate: createProgram } = useMutation(
+    () => {
+      const newProgramDto: CreateWeeklyProgramDto = {
+        title: newProgram.title || "",
+        author: uid,
+        image: newProgram.image || "",
+        description: newProgram.description,
+        tags: newProgram.tags,
+        weekly_routines: newProgram.weekly_routines,
+        daily_routines: newProgram.daily_routines,
+        routine_acts: newProgram.routine_acts,
+      };
+      const pid = programApi.createWeeklyProgram(newProgramDto);
+      return pid;
+    },
+    {
+      onSuccess: (pid) => {
+        navigate(`/`);
+      },
+      onError: (error) => {
+        alert("프로그램 생성에 실패했습니다.");
+      },
+    }
+  );
 
   return (
     <BaisPageLayoutNoMargin>
@@ -190,8 +222,12 @@ const CreateProgram = () => {
                 color={ThemeColor.backgroundColorDarker}
                 flex={1}
                 onClick={() => alert("🚧 Passionately building 🚧")}
+                height="5em"
+                _hover={{ background: ThemeColor.backgroundColorDarker }}
               >
-                <Text color="green">+Day</Text>
+                <Text fontSize="2em" color="green">
+                  +Day
+                </Text>
               </Button>
             )}
             {!(
@@ -221,7 +257,14 @@ const CreateProgram = () => {
                 paddingTop: "3em",
               }}
             >
-              <Button width="100%" height="5em" type="submit">
+              <Button
+                width="100%"
+                height="5em"
+                type="submit"
+                onClick={() => {
+                  createProgram();
+                }}
+              >
                 <Text fontSize="2em">Work Out!</Text>
               </Button>
             </div>

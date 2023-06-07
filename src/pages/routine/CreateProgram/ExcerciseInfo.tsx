@@ -1,6 +1,7 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Input, Text, Spinner, Img } from "@chakra-ui/react";
 import { css } from "@emotion/react";
+import { co } from "@fullcalendar/core/internal-common";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import programApi from "../../../api/programApi";
@@ -90,10 +91,11 @@ const ActInfo = ({
                 <Input
                   css={InputButtonStyle}
                   type="number"
-                  value={routineAct.w_ratio ? routineAct.w_ratio * 100 : "..."}
+                  value={(routineAct.w_ratio || 0) * 100}
                   {...register("w_percentage", {
                     onChange: () => {
-                      let w_percentage = getValues("w_percentage");
+                      const w_percentageS = getValues("w_percentage");
+                      let w_percentage = Number(w_percentageS);
                       if (isNaN(w_percentage)) return;
                       if (w_percentage > 100) {
                         w_percentage = 100;
@@ -103,6 +105,7 @@ const ActInfo = ({
                         setValue("w_percentage", 0);
                       }
                       const w_ratio = w_percentage / 100;
+                      setValue("w_percentage", w_percentage);
                       updateRoutineAct(
                         routineAct.week,
                         routineAct.day,
@@ -125,7 +128,8 @@ const ActInfo = ({
                   value={routineAct.reps}
                   {...register("reps", {
                     onChange: () => {
-                      let reps = getValues("reps");
+                      const repsS = getValues("reps");
+                      let reps = Number(repsS);
                       if (isNaN(reps)) return;
                       if (reps > 9999) {
                         reps = 9999;
@@ -134,6 +138,7 @@ const ActInfo = ({
                         reps = 0;
                         setValue("reps", 0);
                       }
+                      setValue("reps", reps);
                       updateRoutineAct(
                         routineAct.week,
                         routineAct.day,
