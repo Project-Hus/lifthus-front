@@ -49,7 +49,7 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
       {queriedActs &&
         queriedActs.map((act) => {
           return (
-            <div key={act.id}>
+            <div key={act.id} style={{ width: "95%", margin: "auto" }}>
               <Flex
                 alignItems={"center"}
                 justifyContent={"space-between"}
@@ -60,7 +60,7 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
                     act.image ||
                     "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
                   }
-                  width="10vw"
+                  width="8vw"
                   alt="act"
                 />
                 <Text>{act.name}</Text>
