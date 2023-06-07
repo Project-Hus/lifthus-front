@@ -163,13 +163,15 @@ const DetailProgram = () => {
             </Button>
           </Flex>
           {/* 주차별 루틴 */}
-          <UnitRoutine
-            isStart={false}
-            unitDate={"week"}
-            startDate={startDate}
-            num={1}
-            RMInfo={{} as userRMInfo}
-          />
+          {weeklyProgram.edges.weekly_routines.map((wr, idx) => (
+            <UnitRoutine
+              isStart={false}
+              unitDate={"week"}
+              startDate={startDate}
+              week={idx + 1}
+              dailyRoutines={wr.edges.daily_routines}
+            />
+          ))}
         </BasicPageLayout>
       </>
     );

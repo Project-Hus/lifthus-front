@@ -2,6 +2,7 @@ import { TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Img, Text } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import { QueryDailyRoutineDto } from "../../api/dtos/program/program.dto";
 import { programList } from "../../api/mocks/program.mock";
 import { ThemeColor } from "../../common/styles/theme.style";
 import DayRoutine from "./DayRoutine";
@@ -13,19 +14,15 @@ const UnitRoutine = ({
   isStart,
   unitDate,
   startDate,
-  num,
-  RMInfo,
+  week,
+  dailyRoutines,
 }: {
   isStart: boolean;
   unitDate: string;
   startDate: string;
-  num: number;
-  RMInfo: userRMInfo;
+  week: number;
+  dailyRoutines: QueryDailyRoutineDto[];
 }) => {
-  const testmock = programList;
-  const routine = testmock[1];
-  const dayname: string[] = ["월", "화", "수", "목", "금", "토", "일"];
-
   const getStartDate = (startDate: string, num: number) => {
     const date = new Date(startDate);
     date.setDate(date.getDate() + 7 * (num - 1));
@@ -42,26 +39,25 @@ const UnitRoutine = ({
   const disclosureProps = getDisclosureProps();
 
   const DayBorder = styled.div`
-  border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
+    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
   `;
 
   return (
-    <Box >
+    <Box>
       <BottomBorder>
-
         <Flex {...buttonProps} justifyContent={"space-between"} fontSize="5vw">
-
           <Flex alignItems="center" paddingY="3vw" paddingLeft="0.5em">
-
-            <Text fontWeight="bold" >{num + "주차"}</Text>
+            <Text fontWeight="bold">{week + "주차"}</Text>
             &nbsp;
             {isOpen && <TriangleDownIcon transform={"rotate(0deg)"} />}
           </Flex>
           {isStart && (
-            <Flex marginRight="2em" textAlign={"end"} alignItems={"center"} >
+            <Flex marginRight="2em" textAlign={"end"} alignItems={"center"}>
               <Text fontSize="3vw" alignItems={"end"} verticalAlign="center">
                 {" "}
-                {getStartDate(startDate, num) + "~" + getEndDate(startDate, num)}
+                {getStartDate(startDate, week) +
+                  "~" +
+                  getEndDate(startDate, week)}
               </Text>
             </Flex>
           )}
@@ -69,16 +65,15 @@ const UnitRoutine = ({
       </BottomBorder>
 
       <div {...disclosureProps}>
-        {dayname.map((day, index) => {
+        {dailyRoutines.map((dr, index) => {
           return (
             <>
               <DayBorder>
                 <DayRoutine
                   key={index}
-                  routine={routine}
-                  startDate={new Date(getStartDate(startDate, num))}
+                  startDate={new Date(getStartDate(startDate, week))}
                   isStart={isStart}
-                  RMInfo={RMInfo}
+                  routineActs={dr.edges.routine_acts}
                   idx={index}
                 />
               </DayBorder>
@@ -87,7 +82,6 @@ const UnitRoutine = ({
         })}
       </div>
     </Box>
-
   );
 };
 export default UnitRoutine;
