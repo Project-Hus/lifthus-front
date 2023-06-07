@@ -14,8 +14,13 @@ const ActInfo = ({
   routineAct: WeeklyRoutineAct;
   isEditing: boolean;
 }) => {
-  const { newProgram, updateRoutineAct, upRoutineAct, downRoutineAct } =
-    useNewWeeklyProgramStore();
+  const {
+    newProgram,
+    updateRoutineAct,
+    removeRoutineAct,
+    upRoutineAct,
+    downRoutineAct,
+  } = useNewWeeklyProgramStore();
   const { data: act, isLoading } = useQuery(
     ["act", { id: routineAct.act_id }],
     async () => {
@@ -52,7 +57,15 @@ const ActInfo = ({
           <Text>{act?.name}</Text>
 
           {isEditing && (
-            <Button onClick={() => {}}>
+            <Button
+              onClick={() => {
+                removeRoutineAct(
+                  routineAct.week,
+                  routineAct.day,
+                  routineAct.order
+                );
+              }}
+            >
               <DeleteIcon />
             </Button>
           )}
@@ -94,7 +107,20 @@ const ActInfo = ({
                   type="number"
                   defaultValue={routineAct.reps}
                   fontSize="3vw"
-                  {...register("reps")}
+                  {...register("reps", {
+                    onChange: () => {
+                      const reps = getValues("reps");
+                      if (isNaN(reps)) return;
+                      updateRoutineAct(
+                        routineAct.week,
+                        routineAct.day,
+                        routineAct.order,
+                        {
+                          reps,
+                        }
+                      );
+                    },
+                  })}
                 />
               </Flex>
             </Flex>

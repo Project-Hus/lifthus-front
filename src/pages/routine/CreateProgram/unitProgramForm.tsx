@@ -17,6 +17,7 @@ import ExerciseInfo from "./ExcerciseInfo";
 import useNewWeeklyProgramStore, {
   WeeklyRoutine,
 } from "../../../store/createWeeklyProgram.zustand";
+import { useState } from "react";
 
 export const WeekProgramForm = ({
   weeklyRoutine,
@@ -82,6 +83,8 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   );
   routineActs.sort((a, b) => a.order - b.order);
 
+  const [_, fr] = useState(0);
+  const forceUpdate = () => fr((a) => a + 1);
   return (
     <Box paddingLeft="3%">
       <Flex direction="column">
