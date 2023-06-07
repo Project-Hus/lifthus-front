@@ -78,6 +78,17 @@ export const WeekProgramForm = ({
   );
 };
 
+const editButtonStyle = css`
+width: 3.5em;
+height: 3.5em;
+border-radius: 50%;
+background-color: ${ThemeColor.backgroundColor};
+border: 2px solid ${ThemeColor.backgroundColorDarker};
+& :hover {
+  background - color: ${ThemeColor.backgroundColorDarker};
+}
+`;
+
 const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
   const navigate = useNavigate();
   const goToCreateExcercise = () => {
@@ -104,17 +115,6 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
 
   const [isSmallerScreen] = useMediaQuery("(max-width: 700px)");
 
-  const editButtonStyle = css`
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: ${ThemeColor.backgroundColor};
-      border: 2px solid ${ThemeColor.backgroundColorDarker};
-      & :hover {
-        background - color: ${ThemeColor.backgroundColorDarker};
-  }
-
-      `;
   return (
     <Box marginLeft="1.5em" fontSize="3vw">
       <Flex direction="column">
@@ -186,18 +186,14 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
         {/* 요일이 열리고 편집상태 아닐 때 나오는 편집버튼 */}
         {!EditProps.isOpen && isOpen && (
           <Flex justifyContent={"center"}>
-            <Box
-              width={isSmallerScreen ? "40px" : "30px"}
-              height={isSmallerScreen ? "40px" : "30px"}
+            <Button
+              marginTop={"0.2em"}
+              {...EditbuttonProps}
+              css={editButtonStyle}
+              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
             >
-              <Button
-                {...EditbuttonProps}
-                css={editButtonStyle}
-                _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-              >
-                <Text fontSize={isSmallerScreen ? "15px" : "15px"}>🖋️</Text>
-              </Button>
-            </Box>
+              <EditIcon fontSize={"2em"} />
+            </Button>
           </Flex>
         )}
       </Flex>
