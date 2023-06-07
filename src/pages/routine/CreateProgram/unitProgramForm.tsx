@@ -152,15 +152,15 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
             alignItems="center"
             borderBottom={`1px solid ${ThemeColor.backgroundColorDarker}`}
           >
-            <span>
-              <Button
-                onClick={goToCreateExcercise}
-                bg={ThemeColor.backgroundColor}
-                _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
-              >
-                ✏️새동작 생성하기
-              </Button>
-            </span>
+            <Button
+              width="100%"
+              onClick={goToCreateExcercise}
+              bg={ThemeColor.backgroundColor}
+              _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+              padding="1.2em"
+            >
+              <Text fontSize={"1.5em"}>✏️새 동작 생성하기</Text>
+            </Button>
             <span>
               <Box
                 width={isSmallerScreen ? "40px" : "30px"}
