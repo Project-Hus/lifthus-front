@@ -48,13 +48,13 @@ const RoutineMenu = () => {
   `;
   const titlestyle = css`
     flex-grow: 1;
-    font-size: 6vw;
+    font-size: 4rem;
   `;
 
   const buttonstyle = css`
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    height: 8vh;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    height: 3rem;
     width: 80vw;
     align-items: center;
     background-color: ${ThemeColor.backgroundColor};
@@ -79,7 +79,7 @@ const RoutineMenu = () => {
               onClick={() => handleButtonClick("button1")}
             >
               <Box as="span" css={titlestyle}>
-                프로그램 선택
+                프로그램 검색
               </Box>
             </Button>
           )}

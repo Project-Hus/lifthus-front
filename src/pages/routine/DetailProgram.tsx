@@ -1,5 +1,14 @@
 import { StarIcon, BellIcon } from "@chakra-ui/icons";
-import { border, Box, Button, Card, Flex, Img, Input, Text } from "@chakra-ui/react";
+import {
+  border,
+  Box,
+  Button,
+  Card,
+  Flex,
+  Img,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import RoutineShort from "./RoutineShort";
 import { programDB } from "../../store/interfaces/program.interface";
 import { ThemeColor } from "../../common/styles/theme.style";
@@ -12,22 +21,22 @@ import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { userRMInfo } from "./StartPrgram";
 import styled from "@emotion/styled";
 
-
 export const borderStyle = css`
-border-top: 5px solid ${ThemeColor.backgroundColorDarker};
-border-bottom: 5px solid ${ThemeColor.backgroundColorDarker};
+  border-top: 5px solid ${ThemeColor.backgroundColorDarker};
+  border-bottom: 5px solid ${ThemeColor.backgroundColorDarker};
 `;
 //make styled component for bottom border
 export const BottomBorder = styled.div`
   border-bottom: 3px solid ${ThemeColor.backgroundColorDarker};
-  `;
+`;
 
 const DetailProgram = () => {
   const CardStyle = css`
     color: white;
-    border-radius : 5% 5% 0px 0px;
-    box-shadow  : 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};}};
-    `;
+    border-radius: 5% 5% 0px 0px;
+    box-shadow: 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};
+    min-width: 60vw;
+  `;
   const ExerciseList = [];
 
   const { program } = useProgramStore();
@@ -52,37 +61,36 @@ const DetailProgram = () => {
     navigate("/routine/menu/start");
   };
 
-
   return (
-    <BasicPageLayout>
-      <>
+    <>
+      <BasicPageLayout>
         {/* 프로그램 기몬 정보 창 */}
-        <Card
-          bg={ThemeColor.basicColor}
-          marginY="0.5em"
-          css={CardStyle}
-          width="100%"
-        >
+        <Card bg={ThemeColor.basicColor} marginY="0.5em" css={CardStyle}>
           <div>
             <Flex direction={"row"} margin="0">
-              <div>
-                <Flex alignItems={"center"}>
-                  &nbsp;
-                  <Text fontSize="5vw" fontWeight={"bold"}>
-                    {program.name}
-                  </Text>
-                  &nbsp;
-                  <Text paddingRight="0.3em" fontSize={"2.5vw"}>{"by"}</Text>
-                  <Text fontSize={"2.5vw"} fontWeight="bold">
-                    {program.author}
-                  </Text>
-                </Flex>
-              </div>
+              <Flex alignItems={"center"} flexGrow={1}>
+                <Text fontSize="3rem" paddingLeft="0.5rem" fontWeight={"bold"}>
+                  {program.name}
+                </Text>
+                &nbsp;
+                <Text paddingRight="0.3em" fontSize="0.7rem">
+                  {"by"}
+                </Text>
+                <Text fontSize="1rem" paddingLeft="0.1rem" fontWeight="bold">
+                  {program.author}
+                </Text>
+              </Flex>
             </Flex>
-            <Box float="right" fontSize="2vw" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
+
+            <Box
+              float="right"
+              fontSize="1rem"
+              marginTop="0em"
+              marginBottom={"0.5em"}
+              marginRight="0.5em"
+            >
               👍
               {program.starnum}
-              &nbsp;
               📌
               {program.likenum}
             </Box>
@@ -92,14 +100,28 @@ const DetailProgram = () => {
 
         <RoutineShort isDetail={true} result={program} />
         <Flex justifyContent={"end"} alignItems="center">
-          <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">👍</Button>
+          <Button
+            bg={ThemeColor.backgroundColor}
+            fontSize="5vw"
+            width="7vw"
+            height="7vw"
+          >
+            👍
+          </Button>
           &nbsp;
-          <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">📌</Button>
+          <Button
+            bg={ThemeColor.backgroundColor}
+            fontSize="5vw"
+            width="7vw"
+            height="7vw"
+          >
+            📌
+          </Button>
         </Flex>
 
         {/* 프로그램 시작 버튼 */}
 
-        <Flex css={borderStyle} >
+        <Flex css={borderStyle}>
           <Button
             flex={1}
             onClick={goProgramStart}
@@ -107,7 +129,7 @@ const DetailProgram = () => {
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            <Text fontSize="2vw">프로그램 시작</Text>
+            <Text fontSize="1em">프로그램 시작</Text>
           </Button>
           <Button
             flex={1}
@@ -115,7 +137,7 @@ const DetailProgram = () => {
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            <Text fontSize="2vw">변형하기</Text>
+            <Text fontSize="1em">변형하기</Text>
           </Button>
         </Flex>
         {/* 주차별 루틴 */}
@@ -126,8 +148,8 @@ const DetailProgram = () => {
           num={1}
           RMInfo={{} as userRMInfo}
         />
-      </>
-    </BasicPageLayout>
+      </BasicPageLayout>
+    </>
   );
 };
 export default DetailProgram;
