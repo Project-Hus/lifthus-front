@@ -48,10 +48,10 @@ export const WeekProgramForm = ({
   return (
     <>
       <BottomBorder>
-        <Flex paddingX="1em" justifyContent={"space-between"}>
+        <Flex paddingLeft="1em" justifyContent={"space-between"}>
           <Box flex="2" {...buttonProps}>
             <Flex alignItems={"center"}>
-              <Text fontWeight={"bold"} fontSize={"3vw"}>
+              <Text fontWeight={"bold"} fontSize={"1em"}>
                 {weeklyRoutine.week + "주차"}
               </Text>
               &nbsp;
@@ -59,8 +59,14 @@ export const WeekProgramForm = ({
             </Flex>
           </Box>
           {weeklyRoutine.week === newProgram.weekly_routines.length && (
-            <Button onClick={() => removeWeeklyRoutine(0)}>
-              <DeleteIcon />
+            <Button
+              size="1em"
+              width="2em"
+              variant="ghost"
+              _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
+              onClick={() => removeWeeklyRoutine(0)}
+            >
+              <DeleteIcon fontSize="1em" color={"white"} />
             </Button>
           )}
         </Flex>
