@@ -66,7 +66,7 @@ export const WeekProgramForm = ({
               _hover={{ bgColor: ThemeColor.backgroundColorDarker }}
               onClick={() => removeWeeklyRoutine(0)}
             >
-              <DeleteIcon fontSize="1em" color={"white"} />
+              <DeleteIcon fontSize="0.9em" color={"white"} />
             </Button>
           )}
         </Flex>
