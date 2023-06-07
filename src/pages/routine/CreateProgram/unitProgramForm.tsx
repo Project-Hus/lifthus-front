@@ -38,7 +38,7 @@ export const WeekProgramForm = ({
 }: {
   weeklyRoutine: WeeklyRoutine;
 }) => {
-  const { removeWeeklyRoutine } = useNewWeeklyProgramStore();
+  const { newProgram, removeWeeklyRoutine } = useNewWeeklyProgramStore();
 
   const { getDisclosureProps, getButtonProps, isOpen } = useDisclosure();
 
@@ -58,9 +58,11 @@ export const WeekProgramForm = ({
               {isOpen && <TriangleDownIcon />}
             </Flex>
           </Box>
-          <Button onClick={() => removeWeeklyRoutine(0)}>
-            <DeleteIcon />
-          </Button>
+          {weeklyRoutine.week === newProgram.weekly_routines.length && (
+            <Button onClick={() => removeWeeklyRoutine(0)}>
+              <DeleteIcon />
+            </Button>
+          )}
         </Flex>
         {[1, 2, 3, 4, 5, 6, 7].map((day, index) => {
           return (
