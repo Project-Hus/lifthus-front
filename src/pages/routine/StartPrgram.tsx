@@ -25,9 +25,9 @@ const StartProgram = () => {
   `;
 
   const ActStyle = styled.div`
-  border-bottom : 2px solid ${ThemeColor.backgroundColorDarker} ;
-  border-top : 4px solid ${ThemeColor.backgroundColorDarker} ;
-`
+    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
+    border-top: 4px solid ${ThemeColor.backgroundColorDarker};
+  `;
   const { program } = useProgramStore();
   const ExerciseList = program.acts;
 
@@ -89,11 +89,16 @@ const StartProgram = () => {
               </Flex>
             </div>
           </Flex>
-          <Box float="right" fontSize="1rem" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
+          <Box
+            float="right"
+            fontSize="1rem"
+            marginTop="0em"
+            marginBottom={"0.5em"}
+            marginRight="0.5em"
+          >
             👍
             {program.starnum}
-            &nbsp;
-            📌
+            &nbsp; 📌
             {program.likenum}
           </Box>
         </div>
@@ -103,13 +108,27 @@ const StartProgram = () => {
       <RoutineShort isDetail={true} result={program} />
       {/*  */}
       <Flex justifyContent={"end"} alignItems="center">
-        <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">👍</Button>
+        <Button
+          bg={ThemeColor.backgroundColor}
+          fontSize="5vw"
+          width="7vw"
+          height="7vw"
+        >
+          👍
+        </Button>
         &nbsp;
-        <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">📌</Button>
+        <Button
+          bg={ThemeColor.backgroundColor}
+          fontSize="5vw"
+          width="7vw"
+          height="7vw"
+        >
+          📌
+        </Button>
       </Flex>
 
       <Box>
-        <Flex css={borderStyle} >
+        <Flex css={borderStyle}>
           <Button
             onClick={goDetailRoutine}
             bg={"#9298E2"}
@@ -126,13 +145,12 @@ const StartProgram = () => {
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
             <Text fontSize="3em">변형하기</Text>
-
           </Button>
         </Flex>
       </Box>
       {/* 날짜 입력 창 */}
       <Flex>
-        <Text fontWeight="bold" >시작일</Text>
+        <Text fontWeight="bold">시작일</Text>
         &nbsp;
         <Input
           flex={4}
@@ -154,17 +172,20 @@ const StartProgram = () => {
               alignItems={"center"}
               justifyContent={"space-between"}
               borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}
-
             >
               <div>
                 <Flex alignItems={"center"}>
                   <Img
                     borderRadius="5%"
-                    src={dummy[index].images[0]}
+                    src={
+                      "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+                    }
                     boxSize="10vw"
                     marginRight="0.5em"
                   />
-                  <Text fontWeight="bold" fontSize="3vw">{dummy[index].name}</Text>
+                  <Text fontWeight="bold" fontSize="3vw">
+                    {dummy[index].name}
+                  </Text>
                 </Flex>
               </div>
               <span>
@@ -184,7 +205,8 @@ const StartProgram = () => {
               </span>
             </Flex>
           );
-        })}</ActStyle>
+        })}
+      </ActStyle>
 
       {/* 주차별 루틴 */}
       <BottomBorder>

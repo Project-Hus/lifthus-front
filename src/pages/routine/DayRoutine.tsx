@@ -82,7 +82,9 @@ const DayRoutine = ({
                     <Img
                       borderRadius="5%"
                       marginRight="2vw"
-                      src={act.images[0]}
+                      src={
+                        "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+                      }
                       boxSize="10vw"
                     />
                   ) : null}

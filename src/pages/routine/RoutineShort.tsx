@@ -24,7 +24,9 @@ const RoutineShort = ({
               <Img
                 borderRadius="5%"
                 boxSize={isDetail ? "5em" : "4rem"}
-                src={srcs}
+                src={
+                  "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+                }
                 key={idx}
               ></Img>
             );
@@ -89,7 +91,12 @@ const RoutineShort = ({
       </Flex>
 
       {!isDetail && (
-        <Box float="right" fontSize="1rem" marginRight="1em" marginBottom={"1em"}>
+        <Box
+          float="right"
+          fontSize="1rem"
+          marginRight="1em"
+          marginBottom={"1em"}
+        >
           👍
           {result.starnum}
           📌
