@@ -70,141 +70,139 @@ const SelectProgram = () => {
   return (
     <>
       <BasicPageLayout>
-        <div>
-          <Tabs isFitted variant="unstyled">
-            <TabList>
-              <Tab
-                borderRadius="5%"
-                _selected={{ color: "white", bg: "#9298E2" }}
-                fontSize="0.7em"
-                fontWeight="bold"
-              >
-                나의 프로그램
-              </Tab>
-              <Tab
-                borderRadius="5%"
-                _selected={{ color: "white", bg: "#9298E2" }}
-                fontSize="0.7em"
-                fontWeight="bold"
-              >
-                프로그램 검색
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <p>내 프로그램 결과 출력</p>
-              </TabPanel>
-              <TabPanel>
-                <form>
-                  <Flex>
-                    <Input
-                      bg={ThemeColor.backgroundColorDarker}
-                      type="text"
-                      placeholder="프로그램 검색"
-                    />
-                  </Flex>
-                </form>
-                <Box>
-                  {searchResult.length > 0 &&
-                    searchResult.map((result, idx) => {
-                      return (
-                        <Card
-                          bg={changeResultColor(idx)}
-                          onClick={() => handleResultClick(idx)}
-                          marginY="0.5em"
-                          css={CardStyle}
-                          key={idx}
-                        >
-                          <RoutineShort isDetail={false} result={result} />
-                        </Card>
-                      );
-                    })}
-                </Box>
-                <Box height="10%"></Box>
-                {selectedResult !== -1 && (
-                  <>
-                    <Card
-                      bg={changeResultColor(selectedResult)}
-                      onClick={() => handleResultClick(selectedResult)}
-                      marginY="0.5em"
-                      css={CardStyle}
-                    >
-                      <div>
-                        <Flex
-                          direction={"row"}
-                          margin="0.3em"
-                          alignItems={"center"}
-                        >
-                          <Flex alignItems={"center"}>
-                            <Text
-                              fontSize="2rem"
-                              fontWeight={"bold"}
-                              paddingLeft="0.5rem"
-                            >
-                              {searchResult[selectedResult].name}
-                            </Text>
-                            <Text fontSize="0.7rem" paddingLeft="0.7rem">
-                              {"by"}
-                            </Text>
-                            <Text
-                              fontSize="0.7rem"
-                              paddingLeft="0.1rem"
-                              fontWeight="bold"
-                            >
-                              {searchResult[selectedResult].author}
-                            </Text>
-                          </Flex>
+        <Tabs isFitted variant="unstyled" width="100%">
+          <TabList>
+            <Tab
+              borderRadius="5%"
+              _selected={{ color: "white", bg: "#9298E2" }}
+              fontSize="0.7em"
+              fontWeight="bold"
+            >
+              나의 프로그램
+            </Tab>
+            <Tab
+              borderRadius="5%"
+              _selected={{ color: "white", bg: "#9298E2" }}
+              fontSize="0.7em"
+              fontWeight="bold"
+            >
+              프로그램 검색
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <p>내 프로그램 결과 출력</p>
+            </TabPanel>
+            <TabPanel>
+              <form>
+                <Flex>
+                  <Input
+                    bg={ThemeColor.backgroundColorDarker}
+                    type="text"
+                    placeholder="프로그램 검색"
+                  />
+                </Flex>
+              </form>
+              <Box>
+                {searchResult.length > 0 &&
+                  searchResult.map((result, idx) => {
+                    return (
+                      <Card
+                        bg={changeResultColor(idx)}
+                        onClick={() => handleResultClick(idx)}
+                        marginY="0.5em"
+                        css={CardStyle}
+                        key={idx}
+                      >
+                        <RoutineShort isDetail={false} result={result} />
+                      </Card>
+                    );
+                  })}
+              </Box>
+              <Box height="10%"></Box>
+              {selectedResult !== -1 && (
+                <>
+                  <Card
+                    bg={changeResultColor(selectedResult)}
+                    onClick={() => handleResultClick(selectedResult)}
+                    marginY="0.5em"
+                    css={CardStyle}
+                  >
+                    <div>
+                      <Flex
+                        direction={"row"}
+                        margin="0.3em"
+                        alignItems={"center"}
+                      >
+                        <Flex alignItems={"center"}>
+                          <Text
+                            fontSize="2rem"
+                            fontWeight={"bold"}
+                            paddingLeft="0.5rem"
+                          >
+                            {searchResult[selectedResult].name}
+                          </Text>
+                          <Text fontSize="0.7rem" paddingLeft="0.7rem">
+                            {"by"}
+                          </Text>
+                          <Text
+                            fontSize="0.7rem"
+                            paddingLeft="0.1rem"
+                            fontWeight="bold"
+                          >
+                            {searchResult[selectedResult].author}
+                          </Text>
                         </Flex>
-                        <Box float="right" fontSize="1rem">
-                          👍
-                          {searchResult[selectedResult].starnum}
-                          📌
-                          {searchResult[selectedResult].likenum}
-                        </Box>
-                      </div>
-                    </Card>
-                    {/* 세부사항 요약창 작성 */}
-                    <RoutineShort
-                      isDetail={true}
-                      result={searchResult[selectedResult]}
-                    />
+                      </Flex>
+                      <Box float="right" fontSize="1rem">
+                        👍
+                        {searchResult[selectedResult].starnum}
+                        📌
+                        {searchResult[selectedResult].likenum}
+                      </Box>
+                    </div>
+                  </Card>
+                  {/* 세부사항 요약창 작성 */}
+                  <RoutineShort
+                    isDetail={true}
+                    result={searchResult[selectedResult]}
+                  />
 
-                    <Flex
-                      alignSelf="center"
-                      justifyContent={"space-between"}
-                      borderY={`2px solid ${ThemeColor.backgroundColorDarker}`}
+                  <Flex
+                    alignSelf="center"
+                    justifyContent={"space-between"}
+                    borderY={`2px solid ${ThemeColor.backgroundColorDarker}`}
+                  >
+                    <Button
+                      padding="10%"
+                      bg={ThemeColor.backgroundColor}
+                      flexGrow={1}
+                      _hover={{
+                        backgroundColor: ThemeColor.backgroundColorDarker,
+                      }}
+                      onClick={goProgramStart}
                     >
-                      <Button
-                        padding="10%"
-                        bg={ThemeColor.backgroundColor}
-                        flexGrow={1}
-                        _hover={{
-                          backgroundColor: ThemeColor.backgroundColorDarker,
-                        }}
-                        onClick={goProgramStart}
-                      >
-                        {" "}
-                        프로그램 시작
-                      </Button>
-                      <Button
-                        padding="10%"
-                        borderRadius={"0px"}
-                        onClick={goDetailRoutine}
-                        bg={ThemeColor.backgroundColor}
-                        flexGrow={1}
-                        _hover={{
-                          backgroundColor: ThemeColor.backgroundColorDarker,
-                        }}
-                      >
-                        자세히 보기
-                      </Button>
-                    </Flex>
-                  </>
-                )}
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </div>
+                      {" "}
+                      프로그램 시작
+                    </Button>
+                    <Button
+                      padding="10%"
+                      borderRadius={"0px"}
+                      onClick={goDetailRoutine}
+                      bg={ThemeColor.backgroundColor}
+                      flexGrow={1}
+                      _hover={{
+                        backgroundColor: ThemeColor.backgroundColorDarker,
+                      }}
+                    >
+                      자세히 보기
+                    </Button>
+                  </Flex>
+                </>
+              )}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </BasicPageLayout>
     </>
   );

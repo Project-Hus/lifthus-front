@@ -15,6 +15,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CreateProgram from "./CreateProgram/CreateProgram";
 import { useProgramPlanStore } from "../../store/program.zustand";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
 const RoutineMenu = () => {
   //버튼의 선택 상태를 관리하는 state 및 함수
@@ -42,22 +43,25 @@ const RoutineMenu = () => {
     background-color: ${ThemeColor.backgroundColor};
     float: right;
     font-size: 4vw;
+    margin-bottom: 2rem;
     :hover {
       background-color: ${ThemeColor.backgroundColor};
     }
   `;
   const titlestyle = css`
+    text-align: start;
     flex-grow: 1;
-    font-size: 4rem;
+    font-size: 7vw;
   `;
 
   const buttonstyle = css`
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
     height: 3rem;
-    width: 80vw;
+    width: 100%;
     align-items: center;
     background-color: ${ThemeColor.backgroundColor};
+    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
     :hover {
       background-color: ${ThemeColor.backgroundColorDarker};
     }
@@ -66,70 +70,74 @@ const RoutineMenu = () => {
       display: none;
     }
   `;
+  const StackStyle = css`
+    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
+    border-top: 4px solid ${ThemeColor.backgroundColorDarker};
+  `;
 
   const { resetProgramPlanInfo } = useProgramPlanStore();
   return (
     <>
-      <Box>
-        <Stack direction="column">
-          {(selectedButton == "none" || selectedButton == "button1") && (
-            <Button
-              color={changeButtonColor("button1")}
-              css={buttonstyle}
-              onClick={() => handleButtonClick("button1")}
-            >
-              <Box as="span" css={titlestyle}>
-                프로그램 검색
-              </Box>
-            </Button>
-          )}
-          {(selectedButton == "none" || selectedButton == "button2") && (
-            <Button
-              color={changeButtonColor("button2")}
-              css={buttonstyle}
-              onClick={() => handleButtonClick("button2")}
-            >
-              <Box as="span" css={titlestyle}>
-                임시 루틴
-              </Box>
-            </Button>
-          )}
-          {(selectedButton == "none" || selectedButton == "button3") && (
-            <Button
-              color={changeButtonColor("button2")}
-              css={buttonstyle}
-              onClick={() => handleButtonClick("button3")}
-            >
-              <Box as="span" css={titlestyle}>
-                기록 하기
-              </Box>
-            </Button>
-          )}
-          {(selectedButton == "none" || selectedButton == "button4") && (
-            <Button
-              color={changeButtonColor("button4")}
-              css={buttonstyle}
-              onClick={() => handleButtonClick("button4")}
-            >
-              <Box as="span" css={titlestyle}>
-                새 프로그램 생성
-              </Box>
-            </Button>
-          )}
-        </Stack>
-      </Box>
-      {selectedButton && (
-        <Box p={4}>
-          {selectedButton === "button1" && <SelectProgram />}
-          {selectedButton === "button4" && <CreateProgram />}
+      <BasicPageLayout>
+        <Box>
+          <Stack direction="column" css={StackStyle}>
+            {(selectedButton == "none" || selectedButton == "button1") && (
+              <Button
+                color={changeButtonColor("button1")}
+                css={buttonstyle}
+                onClick={() => handleButtonClick("button1")}
+              >
+                <Box css={titlestyle}>프로그램 검색</Box>
+              </Button>
+            )}
+            {(selectedButton == "none" || selectedButton == "button2") && (
+              <Button
+                color={changeButtonColor("button2")}
+                css={buttonstyle}
+                onClick={() => handleButtonClick("button2")}
+              >
+                <Box as="span" css={titlestyle}>
+                  임시 루틴
+                </Box>
+              </Button>
+            )}
+            {(selectedButton == "none" || selectedButton == "button3") && (
+              <Button
+                color={changeButtonColor("button2")}
+                css={buttonstyle}
+                onClick={() => handleButtonClick("button3")}
+              >
+                <Box as="span" css={titlestyle}>
+                  기록 하기
+                </Box>
+              </Button>
+            )}
+            {(selectedButton == "none" || selectedButton == "button4") && (
+              <Button
+                color={changeButtonColor("button4")}
+                css={buttonstyle}
+                onClick={() => handleButtonClick("button4")}
+              >
+                <Box as="span" css={titlestyle}>
+                  새 프로그램 생성
+                </Box>
+              </Button>
+            )}
+          </Stack>
         </Box>
-      )}
+        {selectedButton && (
+          <Box p={4}>
+            {selectedButton === "button1" && <SelectProgram />}
+            {selectedButton === "button4" && <CreateProgram />}
+          </Box>
+        )}
 
-      <NavLink to="/routine">
-        <Button onClick={resetProgramPlanInfo} css={backbuttonstyle}>
-          뒤로 가기
-        </Button>
-      </NavLink>
+        <NavLink to="/routine">
+          <Button onClick={resetProgramPlanInfo} css={backbuttonstyle}>
+            뒤로 가기
+          </Button>
+        </NavLink>
+      </BasicPageLayout>
     </>
   );
 };
