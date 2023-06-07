@@ -20,7 +20,7 @@ import {
 import { programDB } from "../../store/interfaces/program.interface";
 import { css } from "@emotion/react";
 import { ThemeColor } from "../../common/styles/theme.style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RoutineShort from "./RoutineShort";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DetailProgram from "./DetailProgram";
@@ -29,6 +29,9 @@ import useProgramStore, {
 } from "../../store/program.zustand";
 import { programList } from "../../api/mocks/program.mock";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import { useForm } from "react-hook-form";
+import programApi from "../../api/programApi";
+import { useQuery } from "@tanstack/react-query";
 const SelectProgram = () => {
   const searchResult: programDB[] = programList;
   //현재 선택한 프로그램의 정보 저장하는 전역 state
@@ -67,6 +70,21 @@ const SelectProgram = () => {
     navigate("/routine/menu/start");
   };
 
+  const { register, getValues } = useForm();
+  // realtime search logic
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const { data: queriedPrograms } = useQuery(
+    ["search", "program", searchKeyword],
+    () => {
+      // return programApi.(searchKeyword);
+    },
+    {
+      enabled: !!searchKeyword,
+    }
+  );
+  let TOK: NodeJS.Timeout = setTimeout(() => {});
+  useEffect(() => () => clearTimeout(TOK), [TOK]);
+
   return (
     <>
       <BasicPageLayout>
@@ -84,7 +102,6 @@ const SelectProgram = () => {
             <Tab
               borderRadius="5%"
               padding="5% 10%"
-
               _selected={{ color: "white", bg: "#9298E2" }}
               fontSize="0.7em"
               fontWeight="bold"
@@ -103,6 +120,14 @@ const SelectProgram = () => {
                     bg={ThemeColor.backgroundColorDarker}
                     type="text"
                     placeholder="프로그램 검색"
+                    {...register("search", {
+                      onChange: () => {
+                        clearTimeout(TOK);
+                        TOK = setTimeout(() => {
+                          setSearchKeyword(getValues("search"));
+                        }, 250);
+                      },
+                    })}
                   />
                 </Flex>
               </form>
@@ -157,7 +182,12 @@ const SelectProgram = () => {
                           </Text>
                         </Flex>
                       </Flex>
-                      <Box float="right" fontSize="1rem" marginRight="1em" marginBottom={"1em"}>
+                      <Box
+                        float="right"
+                        fontSize="1rem"
+                        marginRight="1em"
+                        marginBottom={"1em"}
+                      >
                         👍
                         {searchResult[selectedResult].starnum}
                         📌
