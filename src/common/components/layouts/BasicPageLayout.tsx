@@ -4,6 +4,7 @@ import { ThemeColor } from "../../styles/theme.style";
 const BasicPageLayout = styled.div`
   margin: auto;
   background-color: ${ThemeColor.backgroundColor};
+  width: 100vw;
   @media (min-width: 700px) {
     width: 60vw;
     min-width: 700px;
@@ -12,6 +13,7 @@ const BasicPageLayout = styled.div`
 
 export const BaisPageLayoutNoMargin = styled.div`
   background-color: ${ThemeColor.backgroundColor};
+  width: 100vw;
   @media (min-width: 700px) {
     width: 60vw;
     min-width: 700px;
