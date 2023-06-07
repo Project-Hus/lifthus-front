@@ -29,7 +29,7 @@ const programTestApi: ProgramApi = {
     return res.data;
   },
   createAct: async (newAct: CreateActDto) => {
-    const lst = localStorage.getItem("lifthus_store");
+    const lst = localStorage.getItem("lifthus_st");
     const res = await axios.post(LIFTHUS_API_URL + "/routine/act", newAct, {
       withCredentials: true,
       headers: {

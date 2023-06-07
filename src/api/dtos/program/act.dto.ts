@@ -33,4 +33,32 @@ type QueryTagDto = {
   name: string;
 };
 
-export type CreateActDto = {};
+export type CreateActDto = {
+  name: string;
+  type: string;
+
+  author: number;
+  image?: string;
+  description?: string;
+
+  tags: string[];
+
+  weight: boolean;
+  bodyweight: boolean;
+  cardio: boolean;
+
+  upper: boolean;
+  lower: boolean;
+  full: boolean;
+
+  arms: boolean;
+  shoulders: boolean;
+  chest: boolean;
+  core: boolean;
+  upper_back: boolean;
+  lower_back: boolean;
+  glute: boolean;
+  legs_front: boolean;
+  legs_back: boolean;
+  etc: boolean;
+};
