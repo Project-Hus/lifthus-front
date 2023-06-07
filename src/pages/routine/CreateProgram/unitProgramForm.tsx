@@ -136,7 +136,11 @@ const DayProgramForm = ({ week, day }: { week: number; day: number }) => {
     <Box marginLeft="1.5em" fontSize="0.8em">
       <Flex direction="column">
         <DayActStyle>
-          <Flex {...buttonProps} alignItems="center">
+          <Flex
+            {...buttonProps}
+            alignItems="center"
+            bg={routineActs.length > 0 ? ThemeColor.linkColor : ""}
+          >
             {dayname[day] + "요일"}
             <TriangleDownIcon
               transform={isOpen ? "rotate(0deg)" : "rotate(270deg)"}
