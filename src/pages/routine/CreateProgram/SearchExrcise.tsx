@@ -46,48 +46,53 @@ const SearchExercise = ({ week, day }: { week: number; day: number }) => {
           })}
         />
       </Flex>
-      {queriedActs &&
-        queriedActs.map((act) => {
-          return (
-            <div key={act.id} style={{ width: "95%", margin: "auto" }}>
-              <Flex
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}
-              >
-                <Img
-                  src={
-                    act.image ||
-                    "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
-                  }
-                  width="8vw"
-                  alt="act"
-                />
-                <Text>{act.name}</Text>
-                <Text>
-                  {(act.type == "rep" && "반복") ||
-                    (act.type == "lap" && "시간")}
-                </Text>
-                <Text>
-                  {act.upper && act.lower
-                    ? "전신"
-                    : act.upper
-                    ? "상체"
-                    : "하체"}
-                </Text>
-                <Button
-                  onClick={() => {
-                    addRoutineAct(week, day, act);
-                  }}
-                  bg={ThemeColor.backgroundColor}
-                  _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+      <div>
+        {queriedActs &&
+          queriedActs.map((act) => {
+            return (
+              <div key={act.id} style={{ width: "95%", margin: "auto" }}>
+                <Flex
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}
                 >
-                  <AddIcon />
-                </Button>
-              </Flex>
-            </div>
-          );
-        })}
+                  <Img
+                    src={
+                      act.image ||
+                      "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+                    }
+                    width="8vw"
+                    alt="act"
+                  />
+                  <Text>{act.name}</Text>
+                  <Text>
+                    {(act.type == "rep" && "반복") ||
+                      (act.type == "lap" && "시간")}
+                  </Text>
+                  <Text>
+                    {act.upper && act.lower
+                      ? "전신"
+                      : act.upper
+                      ? "상체"
+                      : "하체"}
+                  </Text>
+                  <Button
+                    onClick={() => {
+                      addRoutineAct(week, day, act);
+                    }}
+                    bg={ThemeColor.backgroundColor}
+                    _hover={{
+                      backgroundColor: ThemeColor.backgroundColorDarker,
+                    }}
+                    border={`1px solid ${ThemeColor.backgroundColorDarker}`}
+                  >
+                    <AddIcon fontSize="1.5em" />
+                  </Button>
+                </Flex>
+              </div>
+            );
+          })}
+      </div>
     </>
   );
 };
