@@ -1,4 +1,14 @@
-export type QueryProgramDto = {};
+export type QueryProgramDto = {
+  id: number;
+  title: string;
+  slug: string;
+  type: string;
+  author: number;
+  image?: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+};
 
 export type CreateWeeklyProgramDto = {
   title: string;
