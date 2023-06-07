@@ -116,7 +116,7 @@ const ActInfo = ({
               </Flex>
               &nbsp;
               <Flex alignItems={"center"}>
-                {"X"}
+                {"x"}
                 <Input
                   css={InputButtonStyle}
                   width="5em"
