@@ -25,12 +25,10 @@ const Home = () => {
     },
   });
   return (
-    <div>
-      <BasicPageLayout>
-        <CreatePost />
-        <Posts posts={posts || []} />
-      </BasicPageLayout>
-    </div>
+    <BasicPageLayout>
+      <CreatePost />
+      <Posts posts={posts || []} />
+    </BasicPageLayout>
   );
 };
 

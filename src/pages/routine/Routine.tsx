@@ -9,16 +9,14 @@ import CreateExcercise from "./CreateProgram/CreateExcercise";
 
 const Routine = () => {
   return (
-    <div style={{ margin: "5em" }}>
-      <Routes>
-        <Route path="/" element={<TodaysRoutine />} />
-        <Route path="menu" element={<RoutineMenu />} />
-        <Route path="menu/createprogram" element={<CreateProgram />} />
-        <Route path="menu/detail" element={<DetailProgram />} />
-        <Route path="menu/start" element={<StartProgram />} />
-        <Route path="menu/createexcercise" element={<CreateExcercise />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<TodaysRoutine />} />
+      <Route path="menu" element={<RoutineMenu />} />
+      <Route path="menu/createprogram" element={<CreateProgram />} />
+      <Route path="menu/detail" element={<DetailProgram />} />
+      <Route path="menu/start" element={<StartProgram />} />
+      <Route path="menu/createexcercise" element={<CreateExcercise />} />
+    </Routes>
   );
 };
 
