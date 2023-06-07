@@ -69,24 +69,27 @@ const StartProgram = () => {
         marginY="0.5em"
         css={CardStyle}
         width="100%"
+        min-width="60vw"
       >
         <div>
-          <Flex direction={"row"} margin="0.3em">
+          <Flex direction={"row"} margin="0">
             <div>
               <Flex alignItems={"center"}>
                 &nbsp;
-                <Text fontSize="5vw" fontWeight={"bold"}>
+                <Text fontSize="3rem" fontWeight={"bold"}>
                   {program.name}
                 </Text>
                 &nbsp;
-                <Text paddingRight="0.3em" fontSize={"2.5vw"}>{"by"}</Text>
-                <Text fontSize={"2.5vw"} fontWeight="bold">
+                <Text paddingRight="0.3em" fontSize={"0.7rem"}>
+                  {"by"}
+                </Text>
+                <Text fontSize={"1rem"} fontWeight="bold">
                   {program.author}
                 </Text>
               </Flex>
             </div>
           </Flex>
-          <Box float="right" fontSize="2vw" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
+          <Box float="right" fontSize="1rem" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
             👍
             {program.starnum}
             &nbsp;
@@ -98,6 +101,7 @@ const StartProgram = () => {
       {/* 프로그램 세부 설명창 */}
 
       <RoutineShort isDetail={true} result={program} />
+      {/*  */}
       <Flex justifyContent={"end"} alignItems="center">
         <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">👍</Button>
         &nbsp;
@@ -110,20 +114,19 @@ const StartProgram = () => {
             onClick={goDetailRoutine}
             bg={"#9298E2"}
             padding="10%"
-            fontSize="5vw"
             flexGrow={1}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            {"취소"}
+            <Text fontSize="3em">취소</Text>
           </Button>
           <Button
             flexGrow={1}
             padding="10%"
-            fontSize="5vw"
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
           >
-            변형하기
+            <Text fontSize="3em">변형하기</Text>
+
           </Button>
         </Flex>
       </Box>

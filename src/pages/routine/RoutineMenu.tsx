@@ -51,12 +51,12 @@ const RoutineMenu = () => {
   const titlestyle = css`
     text-align: start;
     flex-grow: 1;
-    font-size: 7vw;
+    font-size: 6vw;
   `;
 
   const buttonstyle = css`
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
     height: 3rem;
     width: 100%;
     align-items: center;

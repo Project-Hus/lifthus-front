@@ -74,6 +74,7 @@ const SelectProgram = () => {
           <TabList>
             <Tab
               borderRadius="5%"
+              padding="5% 10%"
               _selected={{ color: "white", bg: "#9298E2" }}
               fontSize="0.7em"
               fontWeight="bold"
@@ -82,6 +83,8 @@ const SelectProgram = () => {
             </Tab>
             <Tab
               borderRadius="5%"
+              padding="5% 10%"
+
               _selected={{ color: "white", bg: "#9298E2" }}
               fontSize="0.7em"
               fontWeight="bold"
@@ -125,7 +128,7 @@ const SelectProgram = () => {
                   <Card
                     bg={changeResultColor(selectedResult)}
                     onClick={() => handleResultClick(selectedResult)}
-                    marginY="0.5em"
+                    marginY="1em"
                     css={CardStyle}
                   >
                     <div>
@@ -154,7 +157,7 @@ const SelectProgram = () => {
                           </Text>
                         </Flex>
                       </Flex>
-                      <Box float="right" fontSize="1rem">
+                      <Box float="right" fontSize="1rem" marginRight="1em" marginBottom={"1em"}>
                         👍
                         {searchResult[selectedResult].starnum}
                         📌
