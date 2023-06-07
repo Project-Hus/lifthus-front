@@ -35,7 +35,7 @@ const RoutineShort = ({
               <Text fontSize="1.5rem" paddingLeft="0.5rem" fontWeight={"bold"}>
                 {result.name}
               </Text>
-              <Text fontSize="0.7rem" paddingLeft="0.5rem">
+              <Text fontSize="0.3rem" paddingLeft="0.5rem">
                 {"by"}
               </Text>
               <Text fontSize="0.7rem" paddingLeft="0.1rem" fontWeight="bold">
