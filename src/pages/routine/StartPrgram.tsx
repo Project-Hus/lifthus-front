@@ -7,27 +7,53 @@ import { css } from "@emotion/react";
 import useProgramStore from "../../store/program.zustand";
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import UnitRoutine from "./UnitRoutine";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { exerciseList } from "../../api/mocks/program.mock";
 import { borderStyle, BottomBorder } from "./DetailProgram";
 import styled from "@emotion/styled";
+import { useQuery } from "@tanstack/react-query";
+import programApi from "../../api/programApi";
+import userApi from "../../api/userApi";
 
+const CardStyle = css`
+  color: white;
+  border-radius: 5% 5% 0px 0px;
+  box-shadow: 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};
+`;
+
+const ActStyle = styled.div`
+  border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
+  border-top: 4px solid ${ThemeColor.backgroundColorDarker};
+`;
 export interface userRMInfo {
   actname: string;
   rm: number;
 }
 const StartProgram = () => {
-  const CardStyle = css`
-    color: white;
-    border-radius: 5% 5% 0px 0px;
-    box-shadow: 0px 5px 0px 0px ${ThemeColor.backgroundColorDarker};
-  `;
+  const { slug } = useParams();
 
-  const ActStyle = styled.div`
-  border-bottom : 2px solid ${ThemeColor.backgroundColorDarker} ;
-  border-top : 4px solid ${ThemeColor.backgroundColorDarker} ;
-`
+  const { data: weeklyProgram } = useQuery(
+    ["program", { slug }],
+    () => {
+      return slug
+        ? programApi.queryProgramBySlug(slug)
+        : Promise.reject("no slug");
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+
+  const { data: author } = useQuery(
+    ["user", { uid: weeklyProgram?.author }],
+    () => {
+      return weeklyProgram
+        ? userApi.getUserInfo({ uid: weeklyProgram.author })
+        : Promise.reject("no author");
+    }
+  );
+
   const { program } = useProgramStore();
   const ExerciseList = program.acts;
 
@@ -49,7 +75,7 @@ const StartProgram = () => {
   //경로 이동을 위한 useNavigate
   const navigate = useNavigate();
   const goDetailRoutine = () => {
-    navigate("/routine/menu/detail");
+    navigate("/routine/menu/detail/" + slug);
   };
 
   //1rm 정보 전달 객체
@@ -77,39 +103,55 @@ const StartProgram = () => {
               <Flex alignItems={"center"}>
                 &nbsp;
                 <Text fontSize="3rem" fontWeight={"bold"}>
-                  {program.name}
+                  {weeklyProgram?.title}
                 </Text>
                 &nbsp;
                 <Text paddingRight="0.3em" fontSize={"0.7rem"}>
                   {"by"}
                 </Text>
                 <Text fontSize={"1rem"} fontWeight="bold">
-                  {program.author}
+                  {author?.username}
                 </Text>
               </Flex>
             </div>
           </Flex>
-          <Box float="right" fontSize="1rem" marginTop="0em" marginBottom={"0.5em"} marginRight="0.5em">
-            👍
-            {program.starnum}
-            &nbsp;
-            📌
-            {program.likenum}
+          <Box
+            float="right"
+            fontSize="1rem"
+            marginTop="0em"
+            marginBottom={"0.5em"}
+            marginRight="0.5em"
+          >
+            👍... &nbsp; 📌...
           </Box>
         </div>
       </Card>
       {/* 프로그램 세부 설명창 */}
 
-      <RoutineShort isDetail={true} result={program} />
+      {weeklyProgram && <RoutineShort isDetail={true} result={weeklyProgram} />}
       {/*  */}
       <Flex justifyContent={"end"} alignItems="center">
-        <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">👍</Button>
+        <Button
+          bg={ThemeColor.backgroundColor}
+          fontSize="5vw"
+          width="7vw"
+          height="7vw"
+        >
+          👍
+        </Button>
         &nbsp;
-        <Button bg={ThemeColor.backgroundColor} fontSize="5vw" width="7vw" height="7vw">📌</Button>
+        <Button
+          bg={ThemeColor.backgroundColor}
+          fontSize="5vw"
+          width="7vw"
+          height="7vw"
+        >
+          📌
+        </Button>
       </Flex>
 
       <Box>
-        <Flex css={borderStyle} >
+        <Flex css={borderStyle}>
           <Button
             onClick={goDetailRoutine}
             bg={"#9298E2"}
@@ -124,15 +166,15 @@ const StartProgram = () => {
             padding="10%"
             bg={ThemeColor.backgroundColor}
             _hover={{ backgroundColor: ThemeColor.backgroundColorDarker }}
+            onClick={() => alert("🚧")}
           >
             <Text fontSize="3em">변형하기</Text>
-
           </Button>
         </Flex>
       </Box>
       {/* 날짜 입력 창 */}
       <Flex>
-        <Text fontWeight="bold" >시작일</Text>
+        <Text fontWeight="bold">시작일</Text>
         &nbsp;
         <Input
           flex={4}
@@ -154,17 +196,20 @@ const StartProgram = () => {
               alignItems={"center"}
               justifyContent={"space-between"}
               borderBottom={`2px solid ${ThemeColor.backgroundColorDarker}`}
-
             >
               <div>
                 <Flex alignItems={"center"}>
                   <Img
                     borderRadius="5%"
-                    src={dummy[index].images[0]}
+                    src={
+                      "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+                    }
                     boxSize="10vw"
                     marginRight="0.5em"
                   />
-                  <Text fontWeight="bold" fontSize="3vw">{dummy[index].name}</Text>
+                  <Text fontWeight="bold" fontSize="3vw">
+                    {dummy[index].name}
+                  </Text>
                 </Flex>
               </div>
               <span>
@@ -184,7 +229,8 @@ const StartProgram = () => {
               </span>
             </Flex>
           );
-        })}</ActStyle>
+        })}
+      </ActStyle>
 
       {/* 주차별 루틴 */}
       <BottomBorder>
@@ -192,8 +238,8 @@ const StartProgram = () => {
           isStart={true}
           unitDate={"week"}
           startDate={startDate}
-          num={1}
-          RMInfo={RMInfo}
+          week={1}
+          dailyRoutines={[]}
         />
       </BottomBorder>
       <Flex>

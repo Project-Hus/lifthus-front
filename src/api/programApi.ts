@@ -5,6 +5,25 @@ import { ProgramApi } from "./interfaces/programApi.interface";
 import programTestApi from "./testApi/programTestApi";
 
 const programApi: ProgramApi = {
+  queryProgramBySlug: async (slug: string) => {
+    if (process.env.NODE_ENV == "development") {
+      return programTestApi.queryProgramBySlug(slug);
+    }
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/program/" + slug);
+    return res.data;
+  },
+  queryProgramsByTitle: async (title: string, skip?: number) => {
+    if (process.env.NODE_ENV == "development") {
+      return programTestApi.queryProgramsByTitle(title, skip);
+    }
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/program", {
+      params: {
+        title: title,
+        skip: skip || 0,
+      },
+    });
+    return res.data;
+  },
   createWeeklyProgram: async (newProgram: CreateWeeklyProgramDto) => {
     if (process.env.NODE_ENV == "development") {
       return programTestApi.createWeeklyProgram(newProgram);

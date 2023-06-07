@@ -1,7 +1,10 @@
 import { TriangleDownIcon } from "@chakra-ui/icons";
 import { Flex, Img, Box, Text, useDisclosure, Input } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import { useQuery } from "@tanstack/react-query";
+import { QueryRoutineActDto } from "../../api/dtos/program/program.dto";
 import { exerciseList } from "../../api/mocks/program.mock";
+import programApi from "../../api/programApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { programDB } from "../../store/interfaces/program.interface";
 import { userRMInfo } from "./StartPrgram";
@@ -12,26 +15,16 @@ export const DayActStyle = styled.div`
 `;
 
 const DayRoutine = ({
-  routine,
   startDate,
   isStart,
-  RMInfo,
+  routineActs,
   idx,
 }: {
-  routine: programDB;
   startDate: Date;
   isStart: boolean;
-  RMInfo: userRMInfo;
+  routineActs: QueryRoutineActDto[];
   idx: number;
 }) => {
-  //emotion style component for ActInfo
-
-  const DayActStyle = styled.div`
-    align-items: center;
-    padding: 0.5em;
-    border-bottom: 2px solid ${ThemeColor.backgroundColorDarker};
-  `;
-
   //Day Routine을 위한 useDisclosure
   const dayWindowHandle = useDisclosure();
   const getdayButtonProps = dayWindowHandle.getButtonProps;
@@ -51,7 +44,6 @@ const DayRoutine = ({
     return newDate;
   };
   const newDate = addDaysToDate({ date: startDate, days: idx });
-  console.log(RMInfo);
   return (
     <>
       <DayActStyle>
@@ -67,68 +59,82 @@ const DayRoutine = ({
         </Box>
       </DayActStyle>
       <Box {...daydisclosureProps} as="span" flex="1" textAlign="left">
-        {exerciseList.map((act, idx) => {
-          return (
-            <DayActStyle>
-              <Box fontSize={"3vw"} paddingLeft="0.5em">
-                <Flex
-                  key={idx}
-                  direction={"row"}
-                  width="auto"
-                  textAlign={"left"}
-                  alignItems={"center"}
-                >
-                  {act.images ? (
-                    <Img
-                      borderRadius="5%"
-                      marginRight="2vw"
-                      src={act.images[0]}
-                      boxSize="10vw"
-                    />
-                  ) : null}
-                  <Text marginRight="2vw" fontWeight="bold">
-                    {act.name}
-                  </Text>
-                  {isStart && act.type == "repeat" && (
-                    <>
-                      <Flex marginRight="2vw">
-                        <Text>{RMInfo.rm ? 20 * RMInfo.rm : 0}</Text>
-                        {"kg"}
-                      </Flex>
-                      &nbsp;
-                      <Text>x3</Text>
-                      &nbsp; &nbsp;
-                      <Flex
-                        direction={"column"}
-                        marginRight="2vw"
-                        alignItems={"center"}
-                        justifyContent="center"
-                      >
-                        <Text>Reps</Text>
-                        <Text fontWeight={"bold"}>{3 + "/" + 3}</Text>
-                      </Flex>
-                    </>
-                  )}
-                  {act.type == "time" && (
-                    <Flex alignItems={"center"} fontSize="3vw">
-                      <Input
-                        textAlign={"center"}
-                        fontSize="3vw"
-                        minWidth="6vw"
-                        maxWidth={"50px"}
-                        padding="0"
-                        defaultValue={200}
-                      ></Input>
-                      <Text>초</Text>
-                    </Flex>
-                  )}
-                </Flex>
-              </Box>
-            </DayActStyle>
-          );
+        {routineActs.map((ra, idx) => {
+          return <RoutineAct key={idx} isStart={isStart} ra={ra} />;
         })}
       </Box>
     </>
   );
+};
+
+const RoutineAct = ({
+  isStart,
+  ra,
+}: {
+  isStart: boolean;
+  ra: QueryRoutineActDto;
+}) => {
+  const { data: act } = useQuery(["act", ra.act_id], () =>
+    programApi.queryActById(ra.act_id)
+  );
+  if (act)
+    return (
+      <DayActStyle>
+        <Box fontSize={"3vw"} paddingLeft="0.5em">
+          <Flex
+            direction={"row"}
+            width="auto"
+            textAlign={"left"}
+            alignItems={"center"}
+          >
+            <Img
+              borderRadius="5%"
+              marginRight="2vw"
+              src={
+                "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+              }
+              boxSize="10vw"
+            />
+            <Text marginRight="2vw" fontWeight="bold">
+              {act.name}
+            </Text>
+            {isStart && act.type === "rep" && (
+              <>
+                <Flex marginRight="2vw">
+                  <Text>{ra.w_ratio ? 20 * ra.w_ratio : 0}</Text>
+                  {"kg"}
+                </Flex>
+                &nbsp;
+                <Text>x3</Text>
+                &nbsp; &nbsp;
+                <Flex
+                  direction={"column"}
+                  marginRight="2vw"
+                  alignItems={"center"}
+                  justifyContent="center"
+                >
+                  <Text>Reps</Text>
+                  <Text fontWeight={"bold"}>{3 + "/" + 3}</Text>
+                </Flex>
+              </>
+            )}
+            {act.type === "lap" && (
+              <Flex alignItems={"center"} fontSize="3vw">
+                <Input
+                  textAlign={"center"}
+                  fontSize="3vw"
+                  minWidth="6vw"
+                  maxWidth={"50px"}
+                  padding="0"
+                  defaultValue={200}
+                ></Input>
+                <Text>초</Text>
+              </Flex>
+            )}
+          </Flex>
+        </Box>
+      </DayActStyle>
+    );
+  else return <></>;
 };
 export default DayRoutine;

@@ -4,42 +4,45 @@ import { routineFoldStandard } from "../../common/constraints";
 import { programDB } from "../../store/interfaces/program.interface";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { Key, useState } from "react";
+import { QueryProgramDto } from "../../api/dtos/program/program.dto";
+import { useQuery } from "@tanstack/react-query";
+import userApi from "../../api/userApi";
 //make component for routine short
 const RoutineShort = ({
   result,
   isDetail,
 }: {
-  result: programDB;
+  result: QueryProgramDto;
   isDetail: boolean;
 }) => {
   //설명 접기 기능을 위한 state
   const [IsFold, setFold] = useState(true);
 
+  const { data: author } = useQuery(["user", { uid: result.author }], () => {
+    return userApi.getUserInfo({ uid: result.author });
+  });
+
   return (
     <div>
       <Flex margin="0.3em">
-        {result.images &&
-          result.images?.map((srcs: string, idx: number) => {
-            return (
-              <Img
-                borderRadius="5%"
-                boxSize={isDetail ? "5em" : "4rem"}
-                src={srcs}
-                key={idx}
-              ></Img>
-            );
-          })}
+        <Img
+          borderRadius="5%"
+          boxSize={isDetail ? "5em" : "4rem"}
+          src={
+            "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
+          }
+        ></Img>
         <div>
           {!isDetail && (
             <Flex alignItems={"center"}>
-              <Text fontSize="1.5rem" paddingLeft="0.5rem" fontWeight={"bold"}>
-                {result.name}
+              <Text fontSize="1em" paddingLeft="0.5rem" fontWeight={"bold"}>
+                {result.title}
               </Text>
-              <Text fontSize="0.3rem" paddingLeft="0.5rem">
+              <Text fontSize="0.5em" paddingLeft="0.5rem">
                 {"by"}
               </Text>
-              <Text fontSize="0.7rem" paddingLeft="0.1rem" fontWeight="bold">
-                {result.author}
+              <Text fontSize="0.6em" paddingLeft="0.1rem" fontWeight="bold">
+                {author?.username}
               </Text>
             </Flex>
           )}
@@ -50,7 +53,9 @@ const RoutineShort = ({
             color="white"
             paddingLeft="0.5rem"
           >
-            {IsFold && result.description.length > routineFoldStandard.Length
+            {IsFold &&
+            result.description &&
+            result.description.length > routineFoldStandard.Length
               ? result.description.slice(0, routineFoldStandard.Length) + "..."
               : result.description}
           </Text>
@@ -89,11 +94,8 @@ const RoutineShort = ({
       </Flex>
 
       {!isDetail && (
-        <Box float="right" fontSize="1rem" marginRight="1em" marginBottom={"1em"}>
-          👍
-          {result.starnum}
-          📌
-          {result.likenum}
+        <Box float="right" fontSize="1rem" marginRight="1em">
+          👍... 📌...
         </Box>
       )}
     </div>
