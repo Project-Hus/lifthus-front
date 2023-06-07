@@ -1,3 +1,5 @@
+export type QueryProgramDto = {};
+
 export type CreateWeeklyProgramDto = {
   title: string;
   author: number;

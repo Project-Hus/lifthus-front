@@ -5,6 +5,15 @@ import { CreateWeeklyProgramDto } from "../dtos/program/program.dto";
 import { ProgramApi } from "../interfaces/programApi.interface";
 
 const programTestApi: ProgramApi = {
+  queryProgramsByTitle: async (title: string, skip?: number) => {
+    const res = await axios.get(LIFTHUS_API_URL + "/routine/program", {
+      params: {
+        title: title,
+        skip: skip || 0,
+      },
+    });
+    return res.data;
+  },
   createWeeklyProgram: async (newProgram: CreateWeeklyProgramDto) => {
     const lst = localStorage.getItem("lifthus_st");
     const res = await axios.post(
