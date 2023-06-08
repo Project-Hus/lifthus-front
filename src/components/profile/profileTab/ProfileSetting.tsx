@@ -14,6 +14,7 @@ const ProfileSetting = () => {
     onSuccess: () => {
       authApi.signOut();
       clientSignOut();
+      navigate("/");
     },
   });
   return (
