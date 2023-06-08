@@ -45,6 +45,13 @@ const StartProgram = () => {
     }
   );
 
+  // const actList = weeklyProgram?.edges.weekly_routines.map((wr)=>{
+  //   const actList = wr.edges.daily_routines.map((dr)=>{
+  //     const actList = dr.edges.routine_acts.map((ra)=> ra.act_id)
+
+  //   })
+  // })
+
   const { data: author } = useQuery(
     ["user", { uid: weeklyProgram?.author }],
     () => {

@@ -20,7 +20,13 @@ const authApi: AuthApi = {
     const res = await axios.delete(HUS_AUTH_URL + "/auth/session/revoke", {
       withCredentials: true,
     });
-    return res.status === statusInfo.succ.Ok.code ? true : Promise.reject();
+    const res2 = await axios.delete(LIFTHUS_AUTH_URL + "/auth/session/revoke", {
+      withCredentials: true,
+    });
+    return res.status === statusInfo.succ.Ok.code &&
+      res2.status === statusInfo.succ.Ok.code
+      ? true
+      : Promise.reject();
   },
 };
 
