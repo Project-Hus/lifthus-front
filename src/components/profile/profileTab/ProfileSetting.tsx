@@ -24,7 +24,9 @@ const ProfileSetting = () => {
         onClick={() => {
           window.location.href = "https://auth.cloudhus.com/auth/test/cookie";
         }}
-      ></Button>
+      >
+        COOKIE TEST
+      </Button>
     </div>
   );
 };
