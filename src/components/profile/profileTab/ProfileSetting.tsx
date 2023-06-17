@@ -20,6 +20,11 @@ const ProfileSetting = () => {
   return (
     <div>
       <Button onClick={() => signOut()}>Sign out</Button>
+      <Button
+        onClick={() => {
+          window.location.href = "https://auth.cloudhus.com/auth/test/cookie";
+        }}
+      ></Button>
     </div>
   );
 };
