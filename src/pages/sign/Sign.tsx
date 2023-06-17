@@ -15,6 +15,7 @@ import {
   HUS_GOOGLE_LOGIN_ENDPOINT,
   HUS_SESSION_REVOKE_ENDPOINT,
 } from "../../common/routes";
+import { useNavigate } from "react-router-dom";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
@@ -55,6 +56,13 @@ const Sign = () => {
 
       <BlueLink to="/sign/in">{t("sign.SignIn")}</BlueLink>
       <BlueLink to="/sign/up">{t("sign.SignUp")}</BlueLink>
+      <BlueLink
+        onClick={() => {
+          window.location.href = "https://auth.cloudhus.com/auth/test/cookie";
+        }}
+      >
+        COOKIE TEST
+      </BlueLink>
       {/* Google One Tab Login */}
     </GoogleOAuthProvider>
   );
