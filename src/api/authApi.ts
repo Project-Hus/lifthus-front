@@ -30,6 +30,10 @@ const authApi: AuthApi = {
   },
 };
 
+const updateSessionV2 = async (): Promise<Boolean> => {
+  return Promise.resolve(true);
+};
+
 /**
  * updateSession does conduct many steps to establish and maintain the session.
  * @returns SessionResponse
