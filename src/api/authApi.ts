@@ -1,4 +1,8 @@
-import { AuthApi, SessionResponse } from "./interfaces/authApi.interface";
+import {
+  AuthApi,
+  SessionResponse,
+  SessionUserInfo,
+} from "./interfaces/authApi.interface";
 
 import axios from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
@@ -30,8 +34,36 @@ const authApi: AuthApi = {
   },
 };
 
-const updateSessionV2 = async (): Promise<Boolean> => {
-  return Promise.resolve(true);
+const updateSessionV2 = async (): Promise<SessionUserInfo | null | 123> => {
+  try {
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session");
+    switch (res.status) {
+      // Ok, just handle the user info
+      case statusInfo.succ.Ok.code:
+        const user = res.data;
+        if (user) {
+          return user;
+        }
+        return null;
+
+      // Created, redirect to Cloudhus to connect both sessions.
+      case statusInfo.succ.Created.code:
+        const sid = res.data;
+        const currentURL = window.location.href;
+        window.location.href = `${HUS_AUTH_URL}/auth/session/?service=lifthus&sid=${sid}&redirect=${currentURL}`;
+        return null;
+
+      // InternalServerError, try once more.
+      // implement it with do while loop and retry flag.
+      case statusInfo.fail.InternalServerError.code:
+        return null;
+      default:
+        // retry once more
+        throw new Error("Unexpected status code");
+    }
+  } catch (err) {
+    return null;
+  }
 };
 
 /**
