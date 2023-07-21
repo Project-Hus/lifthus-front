@@ -19,7 +19,7 @@ export type SessionResponse = {
   username?: string;
 };
 
-export type SessionUserInfo = {
+export type SessionResponseV2 = {
   uid: number;
   registered: boolean;
   username?: string;
