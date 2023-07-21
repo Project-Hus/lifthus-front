@@ -10,6 +10,13 @@
     }
   },
   "fail": {
+    "Unexpected": {
+      "message": "Unexpected Status Code"
+    },
+    "BadRequest": {
+      "code": 400,
+      "message": "Bad Request"
+    },
     "Unauthorized": {
       "code": 401,
       "message": "Unauthorized"

@@ -16,7 +16,6 @@ import {
   HUS_SESSION_REVOKE_ENDPOINT,
   LIFTHUS_FRONT_URL,
 } from "../../common/routes";
-import { useNavigate } from "react-router-dom";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();

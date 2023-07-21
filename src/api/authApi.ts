@@ -9,6 +9,7 @@ import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";
 import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
+import { None } from "framer-motion";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
@@ -31,6 +32,23 @@ const authApi: AuthApi = {
       res2.status === statusInfo.succ.Ok.code
       ? true
       : Promise.reject();
+  },
+  signOutHus: async (): Promise<void> => {
+    try {
+      const res = await axios.patch(LIFTHUS_AUTH_URL + "/auth/session/signout");
+      switch (res.status) {
+        case statusInfo.succ.Ok.code:
+          return;
+        case statusInfo.fail.BadRequest.code:
+          throw new Error(statusInfo.fail.BadRequest.message);
+        case statusInfo.fail.Unauthorized.code:
+          throw new Error(statusInfo.fail.Unauthorized.message);
+        case statusInfo.fail.InternalServerError.code:
+          throw new Error(statusInfo.fail.BadRequest.message);
+      }
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 };
 
@@ -59,9 +77,9 @@ const updateSessionV2 = async (): Promise<SessionResponseV2 | null> => {
         return null; // unreachable
       // InternalServerError, try once more.
       case statusInfo.fail.InternalServerError.code:
-        throw new Error("internal server error");
+        throw new Error(statusInfo.fail.InternalServerError.message);
       default:
-        throw new Error("unexpected status code");
+        throw new Error(statusInfo.fail.Unexpected.message);
     }
   } catch (err) {
     return Promise.reject(err);

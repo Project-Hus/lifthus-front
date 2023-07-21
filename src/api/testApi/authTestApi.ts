@@ -83,5 +83,9 @@ const authTestApi: AuthApi = {
       ? true
       : Promise.reject();
   },
+
+  signOutHus: async (): Promise<void> => {
+    return;
+  },
 };
 export default authTestApi;
