@@ -14,6 +14,7 @@ import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import {
   HUS_GOOGLE_LOGIN_ENDPOINT,
   HUS_SESSION_REVOKE_ENDPOINT,
+  LIFTHUS_FRONT_URL,
 } from "../../common/routes";
 import { useNavigate } from "react-router-dom";
 
@@ -47,7 +48,9 @@ const Sign = () => {
         <GoogleLogin
           text="continue_with"
           ux_mode="redirect"
-          login_uri={HUS_GOOGLE_LOGIN_ENDPOINT}
+          login_uri={
+            HUS_GOOGLE_LOGIN_ENDPOINT + `?redirect=${LIFTHUS_FRONT_URL}`
+          }
           onSuccess={() => {}}
           auto_select={true}
         />

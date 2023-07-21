@@ -34,10 +34,7 @@ export const HUS_API_URL =
 /* API ENDPOINTS */
 
 export const HUS_GOOGLE_LOGIN_ENDPOINT: string =
-  HUS_AUTH_URL +
-  `/auth/social/google/${
-    process.env.NODE_ENV === "development" ? "localhost" : "lifthus"
-  }`;
+  HUS_AUTH_URL + `/auth/hus/sign/social/google`;
 
 export const HUS_SESSION_REVOKE_ENDPOINT: string =
   HUS_AUTH_URL + "/auth/session/revoke";
