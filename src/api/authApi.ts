@@ -2,7 +2,6 @@ import {
   AuthApi,
   SessionResponse,
   SessionResponseV2,
-  SessionUserInfo,
 } from "./interfaces/authApi.interface";
 
 import axios from "axios";
