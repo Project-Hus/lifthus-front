@@ -39,7 +39,9 @@ const App = () => {
     if (!!created) {
       // if new session is created, redirect to Cloudhus and connect to the hussession.
       const currentURL = window.location.href;
-      window.location.href = `${HUS_AUTH_URL}/auth/session/?service=lifthus&sid=${created.sid}&redirect=${currentURL}`;
+      window.location.href = `${HUS_AUTH_URL}/auth/session/?service=lifthus&sid=${
+        created.sid
+      }&redirect=${encodeURIComponent(currentURL)}`;
     } else if (!!user) {
       const userInfo = await userApi.getUserInfo({ uid: user.uid });
       setUserInfo(userInfo);
