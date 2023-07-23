@@ -14,6 +14,11 @@ import Register from "./pages/register/Register";
 import authApi from "./api/authApi";
 import Pending from "./pages/pending/Pending";
 import userApi from "./api/userApi";
+import { HUS_AUTH_URL } from "./common/routes";
+import {
+  SessionCreated,
+  SessionUserInfo,
+} from "./api/interfaces/authApi.interface";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -27,13 +32,19 @@ const AppStyled = styled.div`
 
 const App = () => {
   const setUserInfo = useUserStore((state) => state.setUserInfo);
-  /* ===== checking session to get signed or unsigned session ===== */
+  /* ===== automatic SSO ===== */
   authApi.updateSession().then(async (res) => {
-    if (res.uid) {
-      const userInfo = await userApi.getUserInfo({ uid: res.uid });
+    const created: SessionCreated | undefined = res.created;
+    const user: SessionUserInfo | undefined = res.user;
+    if (!!created) {
+      // if new session is created, redirect to Cloudhus and connect to the hussession.
+      const currentURL = window.location.href;
+      window.location.href = `${HUS_AUTH_URL}/auth/session/?service=lifthus&sid=${created.sid}&redirect=${currentURL}`;
+    } else if (!!user) {
+      const userInfo = await userApi.getUserInfo({ uid: user.uid });
       setUserInfo(userInfo);
-      console.log(userInfo, "YOs");
-    } else console.log("not signed in");
+      console.log(userInfo, "user signed");
+    } else console.log("not signed");
   });
 
   const uid = useUserStore((state) => state.uid);

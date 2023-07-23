@@ -1,7 +1,6 @@
 import { DeleteIcon, TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Button, Input, Text, Spinner, Img } from "@chakra-ui/react";
 import { css } from "@emotion/react";
-import { co } from "@fullcalendar/core/internal-common";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import programApi from "../../../api/programApi";
