@@ -4,7 +4,7 @@ export interface AuthApi {
   updateSession: () => Promise<SessionResponse>;
   signOut: () => Promise<boolean>;
 
-  signOutHus: () => Promise<boolean>;
+  signOutHus: () => Promise<void>;
 }
 export type SignParams = {
   username: string;
@@ -16,14 +16,23 @@ export type SignResponse = {
   username?: string;
 };
 
+// export type SessionResponse = {
+//   uid?: number;
+//   username?: string;
+// };
+
 export type SessionResponse = {
-  uid?: number;
-  username?: string;
+  created?: SessionCreated;
+  user?: SessionUserInfo;
 };
 
-export type SessionResponseV2 = {
+export type SessionUserInfo = {
   uid: number;
   registered: boolean;
   username?: string;
   usercode: string;
+};
+
+export type SessionCreated = {
+  sid: string;
 };
