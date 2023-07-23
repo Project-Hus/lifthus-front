@@ -60,7 +60,9 @@ const authApi: AuthApi = {
 const updateSession = async (): Promise<SessionResponse> => {
   try {
     // update session
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session");
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session", {
+      withCredentials: true,
+    });
     // depending on the status code, handle the response
     switch (res.status) {
       /* Ok, just handle the user info */
