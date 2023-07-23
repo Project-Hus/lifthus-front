@@ -43,7 +43,7 @@ const App = () => {
         created.sid
       }&redirect=${encodeURIComponent(currentURL)}`;
     } else if (!!user) {
-      const userInfo = await userApi.getUserInfo({ uid: user.uid });
+      const userInfo = await userApi.getUserInfo({ uid: Number(user.uid) });
       setUserInfo(userInfo);
       console.log(userInfo, "user signed");
     } else console.log("not signed");

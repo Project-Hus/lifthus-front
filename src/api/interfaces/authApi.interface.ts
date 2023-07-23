@@ -27,7 +27,7 @@ export type SessionResponse = {
 };
 
 export type SessionUserInfo = {
-  uid: number;
+  uid: string;
   registered: boolean;
   username?: string;
   usercode: string;
