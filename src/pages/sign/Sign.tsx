@@ -48,7 +48,8 @@ const Sign = () => {
           text="continue_with"
           ux_mode="redirect"
           login_uri={
-            HUS_GOOGLE_LOGIN_ENDPOINT + `?redirect=${LIFTHUS_FRONT_URL}`
+            HUS_GOOGLE_LOGIN_ENDPOINT +
+            `?redirect=${encodeURIComponent(LIFTHUS_FRONT_URL)}`
           }
           onSuccess={() => {}}
           auto_select={true}
