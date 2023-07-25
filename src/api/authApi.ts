@@ -36,7 +36,13 @@ const authApi: AuthApi = {
       return await authTestApi.signOut();
     }
     try {
-      const res = await axios.patch(LIFTHUS_AUTH_URL + "/auth/session/signout");
+      const res = await axios.patch(
+        LIFTHUS_AUTH_URL + "/auth/session/signout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       switch (res.status) {
         case statusInfo.succ.Ok.code:
           return;
