@@ -81,22 +81,7 @@ const authTestApi: AuthApi = {
   getSID: async (): Promise<string> => {
     return "";
   },
-  signOut: async (): Promise<boolean> => {
-    localStorage.setItem("lifthus_st", "");
-    const res = await axios.delete(HUS_AUTH_URL + "/auth/session/revoke", {
-      withCredentials: true,
-    });
-    // local version not implemented yet
-    const res2 = await axios.delete(LIFTHUS_AUTH_URL + "/auth/session/revoke", {
-      withCredentials: true,
-    });
-    return res.status === statusInfo.succ.Ok.code &&
-      res2.status === statusInfo.succ.Ok.code
-      ? true
-      : Promise.reject();
-  },
-
-  signOutHus: async (): Promise<void> => {
+  signOut: async (): Promise<void> => {
     return;
   },
 };

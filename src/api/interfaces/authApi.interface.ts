@@ -3,9 +3,7 @@ import { Uid } from "./userApi.interface";
 export interface AuthApi {
   updateSession: () => Promise<SessionResponse>;
   getSID: () => Promise<string>;
-  signOut: () => Promise<boolean>;
-
-  signOutHus: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 export type SignParams = {
   username: string;

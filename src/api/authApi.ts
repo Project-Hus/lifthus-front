@@ -31,22 +31,10 @@ const authApi: AuthApi = {
       return Promise.reject(err);
     }
   },
-  signOut: async (): Promise<boolean> => {
+  signOut: async (): Promise<void> => {
     if (process.env.NODE_ENV === "development") {
       return await authTestApi.signOut();
     }
-    const res = await axios.delete(HUS_AUTH_URL + "/auth/session/revoke", {
-      withCredentials: true,
-    });
-    const res2 = await axios.delete(LIFTHUS_AUTH_URL + "/auth/session/revoke", {
-      withCredentials: true,
-    });
-    return res.status === statusInfo.succ.Ok.code &&
-      res2.status === statusInfo.succ.Ok.code
-      ? true
-      : Promise.reject();
-  },
-  signOutHus: async (): Promise<void> => {
     try {
       const res = await axios.patch(LIFTHUS_AUTH_URL + "/auth/session/signout");
       switch (res.status) {
