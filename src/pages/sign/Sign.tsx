@@ -13,6 +13,8 @@ import {
   HUS_GOOGLE_LOGIN_ENDPOINT,
   LIFTHUS_FRONT_URL,
 } from "../../common/routes";
+import { useQuery } from "@tanstack/react-query";
+import authApi from "../../api/authApi";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +31,11 @@ const Sign = () => {
   //   mutate();
   // }, []);
 
-  //tmp
+  const { data: sid, isLoading } = useQuery({
+    queryKey: ["sid"],
+    queryFn: () => authApi.getSID(),
+  });
+
   return (
     <GoogleOAuthProvider clientId="1028507845637-07t65vf8fs49o4dpaelvefgbj8ov56pn.apps.googleusercontent.com">
       <Logo mov={true} absolute={true} />
@@ -38,7 +44,7 @@ const Sign = () => {
       <br />
       <br />
       <br />
-      {false ? (
+      {isLoading ? (
         <BlueSpinner />
       ) : (
         <GoogleLogin
@@ -46,7 +52,7 @@ const Sign = () => {
           ux_mode="redirect"
           login_uri={
             HUS_GOOGLE_LOGIN_ENDPOINT +
-            `?redirect=${encodeURIComponent(LIFTHUS_FRONT_URL)}`
+            `?redirect=${encodeURIComponent(LIFTHUS_FRONT_URL)}&sid=${sid}`
           }
           onSuccess={() => {}}
           auto_select={true}
