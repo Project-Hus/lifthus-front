@@ -12,9 +12,11 @@ const ProfileSetting = () => {
   const { mutate: signOut } = useMutation({
     mutationFn: () => authApi.signOut(),
     onSuccess: () => {
-      authApi.signOut();
       clientSignOut();
       navigate("/");
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
   return (
