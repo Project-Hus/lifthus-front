@@ -17,6 +17,20 @@ const authApi: AuthApi = {
     }
     return updateSession();
   },
+  getSID: async (): Promise<string> => {
+    if (process.env.NODE_ENV === "development") {
+      return await authTestApi.getSID();
+    }
+    try {
+      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/sid", {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject(err);
+    }
+  },
   signOut: async (): Promise<boolean> => {
     if (process.env.NODE_ENV === "development") {
       return await authTestApi.signOut();

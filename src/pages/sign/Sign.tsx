@@ -8,8 +8,6 @@ import BlueLink from "../../common/components/links/BlueLink";
 
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import {
   HUS_GOOGLE_LOGIN_ENDPOINT,
@@ -19,7 +17,6 @@ import {
 const Sign = () => {
   const { t, i18n } = useTranslation();
 
-  //if the user access Sign page, all the sessions and tokens will be revoked.
   // const { isLoading, mutate } = useMutation(async () => {
   //   const res = await axios.delete(HUS_SESSION_REVOKE_ENDPOINT, {
   //     withCredentials: true,
