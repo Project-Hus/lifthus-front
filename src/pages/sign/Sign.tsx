@@ -31,7 +31,7 @@ const Sign = () => {
   //   mutate();
   // }, []);
 
-  const { data: sid, isLoading } = useQuery({
+  const { data: csid, isLoading } = useQuery({
     queryKey: ["sid"],
     queryFn: () => authApi.getSID(),
   });
@@ -52,7 +52,7 @@ const Sign = () => {
           ux_mode="redirect"
           login_uri={
             HUS_GOOGLE_LOGIN_ENDPOINT +
-            `?redirect=${encodeURIComponent(LIFTHUS_FRONT_URL)}&sid=${sid}`
+            `?redirect=${encodeURIComponent(LIFTHUS_FRONT_URL)}&csid=${csid}`
           }
           onSuccess={() => {}}
           auto_select={true}
