@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
 import { t } from "i18next";
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 
-import Logo from "../common/components/Logo";
+import Logo from "../../common/components/Logo";
 
 const ErrorPage = () => {
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const message = searchParams.get("message");
   return (
     <ErrorDiv>
       <Logo />

@@ -19,6 +19,12 @@ export const LIFTHUS_API_URL =
       "https://api.lifthus.com"
     : "https://api.lifthus.com";
 
+export const LIFTHUS_ERR_URL =
+  process.env.NODE_ENV === "development"
+    ? //? "http://localhost:9091"
+      "https://lifthus.com/error"
+    : "https://lifthus.com/error";
+
 export const HUS_AUTH_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9090"

@@ -14,11 +14,12 @@ import Register from "./pages/register/Register";
 import authApi from "./api/authApi";
 import Pending from "./pages/pending/Pending";
 import userApi from "./api/userApi";
-import { HUS_AUTH_URL } from "./common/routes";
+import { HUS_AUTH_URL, LIFTHUS_ERR_URL } from "./common/routes";
 import {
   SessionCreated,
   SessionUserInfo,
 } from "./api/interfaces/authApi.interface";
+import ErrorPage from "./pages/error/ErrorPage";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -33,21 +34,25 @@ const AppStyled = styled.div`
 const App = () => {
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== automatic SSO ===== */
-  authApi.updateSession().then(async (res) => {
-    const created: SessionCreated | undefined = res.created;
-    const user: SessionUserInfo | undefined = res.user;
-    if (!!created) {
-      // if new session is created, redirect to Cloudhus and connect to the hussession.
-      const currentURL = window.location.href;
-      window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${
-        created.sid
-      }&redirect=${encodeURIComponent(currentURL)}`;
-    } else if (!!user) {
-      const userInfo = await userApi.getUserInfo({ uid: Number(user.uid) });
-      setUserInfo(userInfo);
-      console.log(userInfo, "user signed");
-    } else console.log("not signed");
-  });
+  const currentURL = window.location.href;
+  if (!currentURL.startsWith(LIFTHUS_ERR_URL)) {
+    authApi.updateSession().then(async (res) => {
+      const created: SessionCreated | undefined = res.created;
+      const user: SessionUserInfo | undefined = res.user;
+      if (!!created) {
+        // if new session is created, redirect to Cloudhus and connect to the hussession.
+        window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${
+          created.sid
+        }&redirect=${encodeURIComponent(
+          currentURL
+        )}&fallback=${LIFTHUS_ERR_URL}`;
+      } else if (!!user) {
+        const userInfo = await userApi.getUserInfo({ uid: Number(user.uid) });
+        setUserInfo(userInfo);
+        console.log(userInfo, "user signed");
+      } else console.log("not signed");
+    });
+  }
 
   const uid = useUserStore((state) => state.uid);
   const registered = useUserStore((state) => state.registered);
@@ -71,6 +76,8 @@ const App = () => {
             <Route index path="/*" element={<FirstPage />} />
           </Route>
         )}
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="*" element={<Pending />} />
       </Routes>
     </AppStyled>
   );

@@ -5,7 +5,7 @@ import repsApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorPage from "../ErrorPage";
+import ErrorPage from "../error/ErrorPage";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Posts from "../../components/Posts";
 import FollowList from "./FollowList";

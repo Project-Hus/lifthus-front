@@ -1,16 +1,23 @@
+import { Spinner } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import React from "react";
+import Logo from "../../common/components/Logo";
 
 const Pending = () => {
-  // get target path from url
-  const target_path = window.location.pathname.slice(8);
-
   return (
-    <div>
-      {target_path}
-      <div></div>
-      <a href="http://localhost:9091/auth/session/new">aa</a>
-    </div>
+    <PendingDiv>
+      <Logo />
+      <Spinner />
+    </PendingDiv>
   );
 };
+
+const PendingDiv = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+`;
 
 export default Pending;
