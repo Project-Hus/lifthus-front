@@ -1,16 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
-import ErrorPage from "./error/ErrorPage";
-
 import useUserStore from "../store/user.zustand";
 import Routine from "./routine/Routine";
-import BottomNav from "./BottomNav";
+import BottomNav from "../components/BottomNav";
 import ProfileRoute from "./profile/ProfileRoute";
 import Home from "./home/Home";
 import { Img } from "@chakra-ui/react";
 import Statistics from "./statistics/Statistics";
-import Pending from "./pending/Pending";
 
 const Main = () => {
   let username = useUserStore((state) => state.username);
