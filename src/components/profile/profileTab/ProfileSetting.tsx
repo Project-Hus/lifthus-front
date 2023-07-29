@@ -21,7 +21,9 @@ const ProfileSetting = () => {
   });
   return (
     <div>
-      <Button onClick={() => signOut()}>Sign out</Button>
+      <Button onClick={() => signOut()} variant="outline">
+        Sign out
+      </Button>
     </div>
   );
 };

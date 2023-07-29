@@ -26,12 +26,14 @@ const FirstPage = () => {
               <Logo mov={true} absolute={true} />
               <br />
               <BigThemeBtn content={t("sign.first_button")} to="sign" />
+              {/*
               <Text
                 style={{ position: "fixed", bottom: "30vh" }}
                 fontSize="1em"
               >
                 🚧 인증 프로세스 초대형 공사중 🚧
               </Text>
+              */}
             </>
           }
         />

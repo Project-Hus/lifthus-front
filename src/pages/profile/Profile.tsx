@@ -13,6 +13,7 @@ import useUserStore from "../../store/user.zustand";
 import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
+import Pending from "../pending/Pending";
 
 const Profile = () => {
   const username = useParams().username;
@@ -80,7 +81,7 @@ const Profile = () => {
         </QueryErrorResetBoundary>
       </BasicPageLayoutNoMargin>
     );
-  return <ErrorPage />;
+  return <Pending />;
 };
 
 export default Profile;
