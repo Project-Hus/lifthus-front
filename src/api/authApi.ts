@@ -15,7 +15,7 @@ const authApi: AuthApi = {
     if (process.env.NODE_ENV === "development") {
       return await authTestApi.updateSession();
     }
-    return updateSession();
+    return await updateSession();
   },
   getSID: async (): Promise<string> => {
     if (process.env.NODE_ENV === "development") {
