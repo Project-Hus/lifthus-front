@@ -2,7 +2,7 @@ import React from "react";
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 
-import { Box, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
+import { Text } from "@chakra-ui/layout";
 import {
   Stat,
   StatArrow,
@@ -14,7 +14,6 @@ import {
 
 import "./calendar.css";
 
-import { Card, CardBody } from "@chakra-ui/card";
 import {
   CalendarIcon,
   DragHandleIcon,
