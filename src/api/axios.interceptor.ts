@@ -23,7 +23,6 @@ axios.interceptors.response.use(
       config,
       response: { status, data: msg },
     } = err;
-    console.log("TEST TEST");
     if (
       config.url === LIFTHUS_SESSION_URL || // previous request was to refresh.
       status != 401 ||
