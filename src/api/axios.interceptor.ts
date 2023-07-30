@@ -27,7 +27,8 @@ axios.interceptors.response.use(
 
     if (
       config.url === LIFTHUS_SESSION_URL || // previous request was to refresh.
-      !(status == 401 && msg == "expired_token") || // response is not expiration error.
+      status != 401 ||
+      msg != "expired_token" || // response is not expiration error.
       config.sent // already sent.
     ) {
       return Promise.reject(err); // just pass the error through.
