@@ -34,13 +34,12 @@ export const axiosInterceptorSetter = () => {
       }
       config.sent = true; // mark the request as sent.
 
-      console.log(config);
       const lst = await refreshLst();
 
-      if (lst) {
-        config.headers.Authorization = lst;
-        return axios(config);
-      }
+      //if (lst) {
+      config.headers.Authorization = lst;
+      return axios(config);
+      //}
       return Promise.reject(err);
     }
   );
