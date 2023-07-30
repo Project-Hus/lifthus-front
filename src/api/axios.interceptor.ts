@@ -24,7 +24,6 @@ export const axiosInterceptorSetter = () => {
         config,
         response: { status, data },
       } = err;
-      console.log(status, data);
       if (
         config.url === LIFTHUS_SESSION_URL || // previous request was to refresh.
         status != 401 ||
@@ -35,6 +34,7 @@ export const axiosInterceptorSetter = () => {
       }
       config.sent = true; // mark the request as sent.
 
+      console.log(config);
       const lst = await refreshLst();
 
       if (lst) {
