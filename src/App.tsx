@@ -35,7 +35,6 @@ const App = () => {
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== automatic SSO ===== */
   const currentURL = window.location.href;
-  console.log(currentURL, "!!");
   if (!currentURL.startsWith(LIFTHUS_ERR_URL)) {
     authApi.updateSession().then(async (res) => {
       const user: SessionUserInfo | undefined = res.user;
