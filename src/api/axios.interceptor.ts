@@ -19,6 +19,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (res) => res,
   async (err) => {
+    console.log("WHY!!!!!!!!!!!!!!!!");
     const {
       config,
       response: { status, data: msg },
