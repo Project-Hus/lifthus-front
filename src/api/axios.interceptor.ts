@@ -3,9 +3,52 @@ import { LIFTHUS_SESSION_URL } from "../common/routes";
 
 import statusInfo from "./interfaces/statusInfo.json";
 
+export const axiosInterceptorSetter = () => {
+  // request interceptor adding lst to Authorization header
+  axios.interceptors.request.use((config) => {
+    if (!config.headers) return config;
+
+    let lst = localStorage.getItem("lifthus_st");
+
+    if (lst !== null) {
+      config.headers.Authorization = lst;
+    }
+    return config;
+  });
+
+  // response interceptor handling lst expiration
+  axios.interceptors.response.use(
+    (res) => res,
+    async (err) => {
+      const {
+        config,
+        response: { status, data },
+      } = err;
+      console.log(status, data);
+      if (
+        config.url === LIFTHUS_SESSION_URL || // previous request was to refresh.
+        status != 401 ||
+        data != "expired_token" || // response is not expiration error.
+        config.sent // already sent.
+      ) {
+        return Promise.reject(err); // just pass the error through.
+      }
+      config.sent = true; // mark the request as sent.
+
+      const lst = await refreshLst();
+
+      if (lst) {
+        config.headers.Authorization = lst;
+        return axios(config);
+      }
+      return Promise.reject(err);
+    }
+  );
+};
+
 let latestToken: string | undefined;
 let refreshLock: boolean = false;
-export const refreshLst = async (): Promise<string | undefined> => {
+const refreshLst = async (): Promise<string | undefined> => {
   try {
     if (refreshLock) {
       return latestToken;
