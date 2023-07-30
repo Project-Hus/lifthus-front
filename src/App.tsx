@@ -17,6 +17,7 @@ import userApi from "./api/userApi";
 import { LIFTHUS_ERR_URL } from "./common/routes";
 import { SessionUserInfo } from "./api/interfaces/authApi.interface";
 import ErrorPage from "./pages/error/ErrorPage";
+import { axiosInterceptorSetter } from "./api/axios.interceptor";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -29,6 +30,8 @@ const AppStyled = styled.div`
 `;
 
 const App = () => {
+  axiosInterceptorSetter();
+
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== automatic SSO ===== */
   const currentURL = window.location.href;
