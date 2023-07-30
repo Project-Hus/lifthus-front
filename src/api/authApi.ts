@@ -8,7 +8,11 @@ import axios from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";
-import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
+import {
+  HUS_AUTH_URL,
+  LIFTHUS_AUTH_URL,
+  LIFTHUS_SESSION_URL,
+} from "../common/routes";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
@@ -68,7 +72,7 @@ const authApi: AuthApi = {
 const updateSession = async (): Promise<SessionResponse> => {
   try {
     // update session
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session", {
+    const res = await axios.get(LIFTHUS_SESSION_URL, {
       withCredentials: true,
     });
     // depending on the status code, handle the response

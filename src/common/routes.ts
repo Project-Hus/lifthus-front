@@ -25,6 +25,12 @@ export const LIFTHUS_ERR_URL =
       "https://www.lifthus.com/error"
     : "https://www.lifthus.com/error";
 
+export const LIFTHUS_SESSION_URL =
+  process.env.NODE_ENV === "development"
+    ? //? "http://localhost:9091"
+      "https://auth.lifthus.com/auth/session"
+    : "https://auth.lifthus.com/auth/session";
+
 export const HUS_AUTH_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9090"
