@@ -1,5 +1,6 @@
 import {
   AuthApi,
+  SessionCreated,
   SessionResponse,
   SessionUserInfo,
 } from "./interfaces/authApi.interface";
@@ -8,7 +9,12 @@ import axios from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
 import authTestApi from "./testApi/authTestApi";
-import { HUS_AUTH_URL, LIFTHUS_AUTH_URL } from "../common/routes";
+import {
+  HUS_AUTH_URL,
+  LIFTHUS_AUTH_URL,
+  LIFTHUS_ERR_URL,
+  LIFTHUS_SESSION_URL,
+} from "../common/routes";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
@@ -68,7 +74,7 @@ const authApi: AuthApi = {
 const updateSession = async (): Promise<SessionResponse> => {
   try {
     // update session
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session", {
+    const res = await axios.get(LIFTHUS_SESSION_URL, {
       withCredentials: true,
     });
     // depending on the status code, handle the response
@@ -82,6 +88,18 @@ const updateSession = async (): Promise<SessionResponse> => {
         return {};
       /* Created, redirect to Cloudhus to connect both sessions. */
       case statusInfo.succ.Created.code:
+        // redirect to Cloudhus to connect both sessions.
+        const currentURL = window.location.href;
+        const created: SessionCreated | undefined = res.data.created;
+        if (!!created) {
+          // if new session is created, redirect to Cloudhus and connect to the hussession.
+          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${
+            created.sid
+          }&redirect=${encodeURIComponent(
+            currentURL
+          )}&fallback=${LIFTHUS_ERR_URL}`;
+        }
+        // not reachable below
         const sid = res.data; // new session id sent from Lifthus
         return { created: { sid } };
       /* InternalServerError, try once more. */
@@ -94,58 +112,5 @@ const updateSession = async (): Promise<SessionResponse> => {
     return Promise.reject(err);
   }
 };
-
-// /**
-//  * updateSession does conduct many steps to establish and maintain the session.
-//  * @returns SessionResponse
-//  */
-// const updateSession = async (): Promise<SessionResponse> => {
-//   try {
-//     // getting new session
-//     let res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session/new", {
-//       withCredentials: true,
-//     });
-//     console.log(res, res.data);
-//     // if ok, server returns uid and maintaining session
-//     if (res.status == statusInfo.succ.Ok.code)
-//       return { uid: res.data.uid, username: res.data.usename };
-//     // if it is not ok or created, return empty string
-//     if (res.status != statusInfo.succ.Created.code)
-//       return { uid: undefined, username: "" };
-//     console.log("new session created");
-
-//     // if it is created, server returns sid
-//     const sid = res.data;
-//     // checking hus session
-//     res = await axios.post(
-//       HUS_AUTH_URL + `/auth/session/check/lifthus/` + sid,
-//       {},
-//       { withCredentials: true }
-//     );
-//     if (res.status != statusInfo.succ.Ok.code)
-//       return { uid: undefined, username: "" };
-//     console.log("hus session checked");
-
-//     // if hus says ok, request signed token from lifthus
-//     res = await axios.get(LIFTHUS_AUTH_URL + "/auth/session/sign", {
-//       withCredentials: true,
-//     });
-//     console.log("got signed token");
-//     // if it's ok, server returns uid
-//     return { uid: res.data.uid, username: res.data.username };
-//   } catch (err) {
-//     if (axios.isAxiosError(err)) {
-//       const rstatus = err.response?.status;
-//       const rdata = err.response?.data;
-//       if (rstatus === statusInfo.fail.Unauthorized.code && rdata === "retry") {
-//         // for the case that Hus session checked but expired.
-//         console.log("retrying");
-//         return authApi.updateSession();
-//       }
-//     }
-//     console.log(err);
-//     return { uid: undefined, username: "" };
-//   }
-// };
 
 export default authApi;

@@ -109,36 +109,6 @@ const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
                 },
               }}
             />
-
-            <Avatar
-              margin={"0.2em"}
-              name={"Powerlifter"}
-              bgColor={ThemeColor.basicColor}
-              src={
-                "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
-              }
-              sx={{
-                "@media screen and (max-width: 350px)": {
-                  w: "2em",
-                  h: "2em",
-                },
-              }}
-            />
-
-            <Avatar
-              margin={"0.2em"}
-              name={"Powerlifter"}
-              bgColor={ThemeColor.basicColor}
-              src={
-                "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
-              }
-              sx={{
-                "@media screen and (max-width: 350px)": {
-                  w: "2em",
-                  h: "2em",
-                },
-              }}
-            />
           </div>
         </TabPanel>
         <TabPanel>

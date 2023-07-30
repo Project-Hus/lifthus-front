@@ -38,16 +38,8 @@ const App = () => {
   console.log(currentURL, "!!");
   if (!currentURL.startsWith(LIFTHUS_ERR_URL)) {
     authApi.updateSession().then(async (res) => {
-      const created: SessionCreated | undefined = res.created;
       const user: SessionUserInfo | undefined = res.user;
-      if (!!created) {
-        // if new session is created, redirect to Cloudhus and connect to the hussession.
-        window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${
-          created.sid
-        }&redirect=${encodeURIComponent(
-          currentURL
-        )}&fallback=${LIFTHUS_ERR_URL}`;
-      } else if (!!user) {
+      if (!!user) {
         const userInfo = await userApi.getUserInfo({ uid: Number(user.uid) });
         setUserInfo(userInfo);
         console.log(userInfo, "user signed");
