@@ -1,6 +1,5 @@
 import axios from "axios";
 import { LIFTHUS_SESSION_URL } from "../common/routes";
-import { SessionUserInfo } from "./interfaces/authApi.interface";
 
 import statusInfo from "./interfaces/statusInfo.json";
 
@@ -24,7 +23,7 @@ axios.interceptors.response.use(
       config,
       response: { status, data: msg },
     } = err;
-
+    console.log("TEST TEST");
     if (
       config.url === LIFTHUS_SESSION_URL || // previous request was to refresh.
       status != 401 ||
