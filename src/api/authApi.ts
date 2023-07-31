@@ -91,19 +91,14 @@ const updateSession = async (): Promise<SessionResponse> => {
       case statusInfo.succ.Created.code:
         // redirect to Cloudhus to connect both sessions.
         const currentURL = window.location.href;
-        console.log("tmp", currentURL);
-        const created: SessionCreated | undefined = res.data.created;
-        console.log("tmp", created);
-        if (!!created) {
+        const sid = res.data;
+        if (sid) {
           // if new session is created, redirect to Cloudhus and connect to the hussession.
-          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${
-            created.sid
-          }&redirect=${encodeURIComponent(
+          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${sid}&redirect=${encodeURIComponent(
             currentURL
           )}&fallback=${LIFTHUS_ERR_URL}`;
         }
         // not reachable below
-        const sid = res.data; // new session id sent from Lifthus
         return { created: { sid } };
       /* InternalServerError, try once more. */
       case statusInfo.fail.InternalServerError.code:
