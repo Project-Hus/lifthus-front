@@ -15,6 +15,7 @@ import {
   LIFTHUS_ERR_URL,
   LIFTHUS_SESSION_URL,
 } from "../common/routes";
+import { create } from "lodash";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
@@ -90,7 +91,9 @@ const updateSession = async (): Promise<SessionResponse> => {
       case statusInfo.succ.Created.code:
         // redirect to Cloudhus to connect both sessions.
         const currentURL = window.location.href;
+        console.log("tmp", currentURL);
         const created: SessionCreated | undefined = res.data.created;
+        console.log("tmp", created);
         if (!!created) {
           // if new session is created, redirect to Cloudhus and connect to the hussession.
           window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${
