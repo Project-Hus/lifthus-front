@@ -49,29 +49,32 @@ const App = () => {
   const uid = useUserStore((state) => state.uid);
   const registered = useUserStore((state) => state.registered);
 
-  if (isLoading) return <Pending />;
   return (
     <AppStyled>
-      <Routes>
-        <Route path="/pending/*" element={<Pending />} />
-        {/* If the user has signed in and registered Let the Main component take control. */}
-        {uid && registered && <Route path="/*" element={<Main />} />}
-        {/* If the user has signed but not registered, the user have to register him or herself */}
-        {uid && !registered && (
-          <Route>
-            <Route path="/" element={<Navigate to="/register/" />} />
-            <Route path="/register/*" element={<Register />} />
-          </Route>
-        )}
-        {/* If the user hasn't signed in, the user needs to be authenticated */}
-        {!uid && (
-          <Route>
-            <Route index path="/*" element={<FirstPage />} />
-          </Route>
-        )}
-        <Route path="/error" element={<ErrorPage />} />
-        <Route path="*" element={<Pending />} />
-      </Routes>
+      {isLoading ? (
+        <Pending />
+      ) : (
+        <Routes>
+          <Route path="/pending/*" element={<Pending />} />
+          {/* If the user has signed in and registered Let the Main component take control. */}
+          {uid && registered && <Route path="/*" element={<Main />} />}
+          {/* If the user has signed but not registered, the user have to register him or herself */}
+          {uid && !registered && (
+            <Route>
+              <Route path="/" element={<Navigate to="/register/" />} />
+              <Route path="/register/*" element={<Register />} />
+            </Route>
+          )}
+          {/* If the user hasn't signed in, the user needs to be authenticated */}
+          {!uid && (
+            <Route>
+              <Route index path="/*" element={<FirstPage />} />
+            </Route>
+          )}
+          <Route path="/error" element={<ErrorPage />} />
+          <Route path="*" element={<Pending />} />
+        </Routes>
+      )}
     </AppStyled>
   );
 };
