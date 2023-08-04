@@ -1,23 +1,20 @@
-import React from "react";
-
 import styled from "@emotion/styled";
 import { ThemeColor } from "./common/styles/theme.style";
 
-import { Navigate, Route, Routes } from "react-router-dom";
-
-import Main from "./pages/Main";
-
 import useUserStore from "./store/user.zustand";
-import FirstPage from "./pages/sign/FirstPage";
-import Register from "./pages/register/Register";
 
 import authApi from "./api/authApi";
-import Pending from "./pages/pending/Pending";
 import userApi from "./api/userApi";
 import { LIFTHUS_ERR_URL } from "./common/routes";
 import { SessionUserInfo } from "./api/interfaces/authApi.interface";
-import ErrorPage from "./pages/error/ErrorPage";
 import { axiosInterceptorSetter } from "./api/axios.interceptor";
+import { useQuery } from "@tanstack/react-query";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Pending from "./pages/pending/Pending";
+import Main from "./pages/Main";
+import Register from "./pages/register/Register";
+import FirstPage from "./pages/sign/FirstPage";
+import ErrorPage from "./pages/error/ErrorPage";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -34,21 +31,25 @@ const App = () => {
 
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== automatic SSO ===== */
-  const currentURL = window.location.href;
-  if (!currentURL.startsWith(LIFTHUS_ERR_URL)) {
-    authApi.updateSession().then(async (res) => {
+  const isErrorPage = window.location.href.startsWith(LIFTHUS_ERR_URL);
+  const { isLoading } = useQuery({
+    queryKey: ["session"],
+    queryFn: async () => {
+      const res = await authApi.updateSession();
       const user: SessionUserInfo | undefined = res.user;
       if (!!user) {
         const userInfo = await userApi.getUserInfo({ uid: Number(user.uid) });
         setUserInfo(userInfo);
         console.log(userInfo, "user signed");
-      } else console.log("not signed");
-    });
-  }
+      }
+    },
+    enabled: !isErrorPage,
+  });
 
   const uid = useUserStore((state) => state.uid);
   const registered = useUserStore((state) => state.registered);
 
+  if (isLoading) return <Pending />;
   return (
     <AppStyled>
       <Routes>
