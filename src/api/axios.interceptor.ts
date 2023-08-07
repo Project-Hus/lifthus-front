@@ -9,7 +9,7 @@ export const axiosInterceptorSetter = () => {
     if (!config.headers) return config;
 
     let lst = sessionStorage.getItem("lifthus_st");
-    console.log("lst", lst);
+    console.log("req with lst", lst);
     if (lst !== null) {
       config.headers.Authorization = lst;
     }
@@ -26,20 +26,13 @@ export const axiosInterceptorSetter = () => {
         data: message,
       } = res;
       // fully print out of confifg and data
-      console.log(
-        "succ",
-        targetURL,
-        status,
-        message,
-        res.headers.authorization
-      );
       if (
         targetURL?.startsWith(LIFTHUS_SESSION_URL + "/signout") &&
         status === statusInfo.succ.Ok.code &&
         message === "signed_out"
       ) {
         const newToken = res.headers.authorization;
-        if (latestToken) sessionStorage.setItem("lifthus_st", newToken);
+        if (newToken) sessionStorage.setItem("lifthus_st", newToken);
       } else if (
         targetURL === LIFTHUS_SESSION_URL &&
         status === statusInfo.succ.Created.code
@@ -47,7 +40,7 @@ export const axiosInterceptorSetter = () => {
         const newToken = res.headers.authorization;
         // "temporarily" store it in local storage when created.
         // to be kept during redirection.
-        if (latestToken) localStorage.setItem("lifthus_st", newToken);
+        if (newToken) localStorage.setItem("lifthus_st", newToken);
       }
       return res;
     },
