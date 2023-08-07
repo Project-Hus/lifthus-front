@@ -71,11 +71,6 @@ const ProfileCard = ({ uid }: Uid) => {
         direction={{ base: "column", sm: "row" }}
         borderTopRadius={"1em"}
         borderBottomRadius={"0"}
-        sx={{
-          "@media screen and (max-width: 350px)": {
-            w: "100%",
-          },
-        }}
       >
         <CardHeader
           w="100%"
