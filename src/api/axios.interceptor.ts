@@ -8,7 +8,7 @@ export const axiosInterceptorSetter = () => {
   axios.interceptors.request.use((config) => {
     if (!config.headers) return config;
 
-    let lst = localStorage.getItem("lifthus_st");
+    let lst = sessionStorage.getItem("lifthus_st");
 
     if (lst !== null) {
       config.headers.Authorization = lst;
@@ -18,29 +18,52 @@ export const axiosInterceptorSetter = () => {
 
   // response interceptor handling lst expiration
   axios.interceptors.response.use(
-    (res) => res,
-    async (err) => {
+    // resp success
+    (res) => {
       const {
-        config,
-        response: { status, data },
-      } = err;
+        config: { url: targetURL },
+        status,
+        data: message,
+      } = res;
       if (
-        config.url === LIFTHUS_SESSION_URL || // previous request was to refresh.
-        status != 401 ||
-        data != "expired_token" || // response is not expiration error.
-        config.sent // already sent.
+        targetURL?.startsWith(LIFTHUS_SESSION_URL + "/signout") &&
+        status === statusInfo.succ.Ok.code &&
+        message === "signed_out"
       ) {
-        return Promise.reject(err); // just pass the error through.
+        const newToken = res.headers.authorization;
+        if (latestToken) sessionStorage.setItem("lifthus_st", newToken);
       }
-      config.sent = true; // mark the request as sent.
+      return res;
+    },
+    // resp failure
+    async (err) => {
+      try {
+        const {
+          config,
+          response: { status, data },
+        } = err;
 
-      const lst = await refreshLst();
+        const targetURL = String(config.url);
 
-      //if (lst) {
-      config.headers.Authorization = lst;
-      return axios(config);
-      //}
-      return Promise.reject(err);
+        if (
+          config.sent || // already sent or
+          !targetURL.startsWith(LIFTHUS_SESSION_URL) || // not a session handling url or
+          !(status === 401 && data === "expired_token") // not an expired token error
+        ) {
+          return Promise.reject(err); // just pass the error through.
+        }
+        config.sent = true; // mark the request as sent.
+
+        const lst = await refreshLst();
+
+        if (lst) {
+          config.headers.Authorization = lst;
+          return axios(config);
+        }
+        return Promise.reject(err);
+      } catch (err) {
+        return Promise.reject(err);
+      }
     }
   );
 };
@@ -65,8 +88,9 @@ const refreshLst = async (): Promise<string | undefined> => {
       default:
         return undefined;
     }
-    // latestToken = LATER WHEN INTRODUCING TOKEN IN HEADER.
-    // localStorage.setItem("lifthus_st", latestToken);
+    // from Authorization header, get the token.
+    latestToken = res.headers.authorization;
+    if (latestToken) sessionStorage.setItem("lifthus_st", latestToken);
     refreshLock = true;
     setTimeout(() => {
       refreshLock = false;
