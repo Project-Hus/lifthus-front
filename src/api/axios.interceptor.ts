@@ -32,6 +32,14 @@ export const axiosInterceptorSetter = () => {
       ) {
         const newToken = res.headers.authorization;
         if (latestToken) sessionStorage.setItem("lifthus_st", newToken);
+      } else if (
+        targetURL === LIFTHUS_SESSION_URL &&
+        status === statusInfo.succ.Created.code
+      ) {
+        const newToken = res.headers.authorization;
+        // "temporarily" store it in local storage when created.
+        // to be kept during redirection.
+        if (latestToken) localStorage.setItem("lifthus_st", newToken);
       }
       return res;
     },

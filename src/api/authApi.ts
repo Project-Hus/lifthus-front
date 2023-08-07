@@ -73,6 +73,11 @@ const authApi: AuthApi = {
  * @throws {Error} Unexpected status code
  */
 const updateSession = async (): Promise<SessionResponse> => {
+  const lst = localStorage.getItem("lifthus_st");
+  if (lst) {
+    sessionStorage.setItem("lifthus_st", lst);
+    localStorage.removeItem("lifthus_st");
+  }
   try {
     // update session
     const res = await axios.get(LIFTHUS_SESSION_URL, {
