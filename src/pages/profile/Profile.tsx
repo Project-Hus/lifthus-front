@@ -79,7 +79,7 @@ const Profile = () => {
             </ErrorBoundary>
           )}
         </QueryErrorResetBoundary>
-      </BaisPageLayOut>
+      </BasicPageLayout>
     );
   return <Pending />;
 };
