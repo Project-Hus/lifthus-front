@@ -9,7 +9,7 @@ export const axiosInterceptorSetter = () => {
     if (!config.headers) return config;
 
     let lst = sessionStorage.getItem("lifthus_st");
-
+    console.log("lst", lst);
     if (lst !== null) {
       config.headers.Authorization = lst;
     }
@@ -25,6 +25,14 @@ export const axiosInterceptorSetter = () => {
         status,
         data: message,
       } = res;
+      // fully print out of confifg and data
+      console.log(
+        "succ",
+        targetURL,
+        status,
+        message,
+        res.headers.authorization
+      );
       if (
         targetURL?.startsWith(LIFTHUS_SESSION_URL + "/signout") &&
         status === statusInfo.succ.Ok.code &&

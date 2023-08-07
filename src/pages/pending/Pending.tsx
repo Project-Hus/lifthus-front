@@ -1,13 +1,13 @@
-import { Spinner } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import React from "react";
 import Logo from "../../common/components/Logo";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 const Pending = () => {
   return (
     <PendingDiv>
       <Logo />
-      <Spinner />
+      <BlueSpinner />
     </PendingDiv>
   );
 };
