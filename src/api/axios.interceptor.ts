@@ -9,7 +9,6 @@ export const axiosInterceptorSetter = () => {
     if (!config.headers) return config;
 
     let lst = sessionStorage.getItem("lifthus_st");
-    console.log("req with lst", lst);
     if (lst !== null) {
       config.headers.Authorization = lst;
     }
