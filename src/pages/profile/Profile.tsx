@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import { Route, Routes, useParams } from "react-router";
-import BasicPageLayoutNoMargin from "../../common/components/layouts/BasicPageLayout";
 import repsApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
@@ -14,6 +13,7 @@ import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import Pending from "../pending/Pending";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 
 const Profile = () => {
   const username = useParams().username;
@@ -41,7 +41,7 @@ const Profile = () => {
 
   if (!!uid)
     return (
-      <BasicPageLayoutNoMargin>
+      <BasicPageLayout>
         <QueryErrorResetBoundary>
           {({ reset }) => (
             <ErrorBoundary
@@ -79,7 +79,7 @@ const Profile = () => {
             </ErrorBoundary>
           )}
         </QueryErrorResetBoundary>
-      </BasicPageLayoutNoMargin>
+      </BaisPageLayOut>
     );
   return <Pending />;
 };
