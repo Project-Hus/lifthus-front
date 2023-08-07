@@ -75,6 +75,9 @@ const App = () => {
           <Route path="*" element={<Pending />} />
         </Routes>
       )}
+      <Routes>
+        <Route path="/error" element={<ErrorPage />} />
+      </Routes>
     </AppStyled>
   );
 };
