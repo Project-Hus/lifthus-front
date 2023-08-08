@@ -14,6 +14,7 @@ import {
   LIFTHUS_ERR_URL,
   LIFTHUS_SESSION_URL,
 } from "../common/routes";
+import { LIFTHUS_SERVICE_NAME } from "../common/llifthus";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
@@ -97,7 +98,7 @@ const updateSession = async (): Promise<SessionResponse> => {
         const sid = res.data;
         if (sid) {
           // if new session is created, redirect to Cloudhus and connect to the hussession.
-          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${sid}&redirect=${encodeURIComponent(
+          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=${LIFTHUS_SERVICE_NAME}&sid=${sid}&redirect=${encodeURIComponent(
             currentURL
           )}&fallback=${LIFTHUS_ERR_URL}`;
         }

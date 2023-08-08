@@ -42,6 +42,7 @@ const App = () => {
         setUserInfo(userInfo);
         console.log(userInfo, "user signed");
       }
+      return res;
     },
     refetchOnWindowFocus: false,
     enabled: !isErrorPage,
