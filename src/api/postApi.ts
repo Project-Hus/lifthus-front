@@ -35,7 +35,7 @@ const postApi: PostApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.createPost(post);
     // }
-    const res = await axios.post("https://api.lifthus.com/post/post", post, {
+    const res = await axios.post(LIFTHUS_API_URL + "/post/post", post, {
       withCredentials: true,
     });
     return res.data;
@@ -44,7 +44,7 @@ const postApi: PostApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.updatePost(post);
     // }
-    const res = await axios.put("https://api.lifthus.com/post/post", post, {
+    const res = await axios.put(LIFTHUS_API_URL + "/post/post", post, {
       withCredentials: true,
     });
     return res.data;
@@ -53,7 +53,7 @@ const postApi: PostApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.deletePost(pid);
     // }
-    const res = await axios.delete("https://api.lifthus.com/post/post/" + pid, {
+    const res = await axios.delete(LIFTHUS_API_URL + "/post/post/" + pid, {
       data: { pid },
       withCredentials: true,
     });
