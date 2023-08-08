@@ -1,6 +1,5 @@
 import {
   AuthApi,
-  SessionCreated,
   SessionResponse,
   SessionUserInfo,
 } from "./interfaces/authApi.interface";
@@ -15,19 +14,19 @@ import {
   LIFTHUS_ERR_URL,
   LIFTHUS_SESSION_URL,
 } from "../common/routes";
-import { create } from "lodash";
+import { LIFTHUS_SERVICE_NAME } from "../common/llifthus";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
-    if (process.env.NODE_ENV === "development") {
-      return await authTestApi.updateSession();
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return await authTestApi.updateSession();
+    // }
     return await updateSession();
   },
   getSID: async (): Promise<string> => {
-    if (process.env.NODE_ENV === "development") {
-      return await authTestApi.getSID();
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return await authTestApi.getSID();
+    // }
     try {
       const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/sid", {
         withCredentials: true,
@@ -39,9 +38,9 @@ const authApi: AuthApi = {
     }
   },
   signOut: async (): Promise<void> => {
-    if (process.env.NODE_ENV === "development") {
-      return await authTestApi.signOut();
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return await authTestApi.signOut();
+    // }
     try {
       const res = await axios.patch(
         LIFTHUS_AUTH_URL + "/auth/session/signout",
@@ -99,7 +98,7 @@ const updateSession = async (): Promise<SessionResponse> => {
         const sid = res.data;
         if (sid) {
           // if new session is created, redirect to Cloudhus and connect to the hussession.
-          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=lifthus&sid=${sid}&redirect=${encodeURIComponent(
+          window.location.href = `${HUS_AUTH_URL}/auth/hus?service=${LIFTHUS_SERVICE_NAME}&sid=${sid}&redirect=${encodeURIComponent(
             currentURL
           )}&fallback=${LIFTHUS_ERR_URL}`;
         }

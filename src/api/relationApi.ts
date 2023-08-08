@@ -5,9 +5,9 @@ import relationTestApi from "./testApi/relationTestApi";
 
 const relationApi: RelationApi = {
   getUserFollowing: async ({ uid }: { uid: number }): Promise<number[]> => {
-    if (process.env.NODE_ENV === "development") {
-      return relationTestApi.getUserFollowing({ uid });
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return relationTestApi.getUserFollowing({ uid });
+    // }
     const res = await axios.get(
       LIFTHUS_AUTH_URL + "/auth/relation/following/" + uid,
       {
@@ -17,9 +17,9 @@ const relationApi: RelationApi = {
     return res.data;
   },
   getUserFollowers: async ({ uid }: { uid: number }): Promise<number[]> => {
-    if (process.env.NODE_ENV === "development") {
-      return relationTestApi.getUserFollowers({ uid });
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return relationTestApi.getUserFollowers({ uid });
+    // }
     const res = await axios.get(
       LIFTHUS_AUTH_URL + "/auth/relation/followers/" + uid,
       {
@@ -29,9 +29,9 @@ const relationApi: RelationApi = {
     return res.data;
   },
   followUser: async ({ uid }: { uid: number }) => {
-    if (process.env.NODE_ENV === "development") {
-      return relationTestApi.followUser({ uid });
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return relationTestApi.followUser({ uid });
+    // }
     const res = await axios.post(
       LIFTHUS_AUTH_URL + "/auth/relation/follow/" + uid,
       {},
@@ -40,9 +40,9 @@ const relationApi: RelationApi = {
     return res.data;
   },
   unfollowUser: async ({ uid }: { uid: number }) => {
-    if (process.env.NODE_ENV === "development") {
-      return relationTestApi.unfollowUser({ uid });
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return relationTestApi.unfollowUser({ uid });
+    // }
     const res = await axios.delete(
       LIFTHUS_AUTH_URL + "/auth/relation/unfollow/" + uid,
       {

@@ -19,9 +19,9 @@ const commentApi: CommentApi = {
   createComment: async (
     comment: CreateCommentDto
   ): Promise<QueryCommentDto> => {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.createComment(comment);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return commentTestApi.createComment(comment);
+    // }
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, comment, {
       withCredentials: true,
     });
@@ -29,9 +29,9 @@ const commentApi: CommentApi = {
   },
 
   createReply: async (reply: CreateReplyDto): Promise<QueryReplyDto> => {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.createReply(reply);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return commentTestApi.createReply(reply);
+    // }
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, reply, {
       withCredentials: true,
     });
@@ -41,27 +41,27 @@ const commentApi: CommentApi = {
   updateComment: async (
     comment: UpdateCommentDto
   ): Promise<UpdateCommentResponse> => {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.updateComment(comment);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return commentTestApi.updateComment(comment);
+    // }
     const res = await axios.put(LIFTHUS_API_URL + `/post/comment`, comment, {
       withCredentials: true,
     });
     return res.data;
   },
   deleteComment: async (cid: number): Promise<DeleteCommentResponse> => {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.deleteComment(cid);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return commentTestApi.deleteComment(cid);
+    // }
     const res = await axios.delete(LIFTHUS_API_URL + `/post/comment/${cid}`, {
       withCredentials: true,
     });
     return res.data;
   },
   likeComment: async (cid: number): Promise<number> => {
-    if (process.env.NODE_ENV === "development") {
-      return commentTestApi.likeComment(cid);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return commentTestApi.likeComment(cid);
+    // }
     const res = await axios.post(
       LIFTHUS_API_URL + `/post/comment/like/${cid}`,
       {},

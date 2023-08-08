@@ -14,9 +14,9 @@ const registerApi: RegisterApi = {
     regiName: RegisterUsernameParams
   ): Promise<GetUserInfoDto> => {
     try {
-      if (process.env.NODE_ENV == "development") {
-        return registerTestApi.registerUsername(regiName);
-      }
+      // if (process.env.NODE_ENV == "development") {
+      //   return registerTestApi.registerUsername(regiName);
+      // }
       const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", regiName, {
         withCredentials: true,
       });
@@ -28,9 +28,9 @@ const registerApi: RegisterApi = {
   },
   register: async (regiInfo: RegisterParams): Promise<RegisterParams> => {
     try {
-      if (process.env.NODE_ENV == "development") {
-        return registerTestApi.register(regiInfo);
-      }
+      // if (process.env.NODE_ENV == "development") {
+      //   return registerTestApi.register(regiInfo);
+      // }
       const res = await axios.post(LIFTHUS_AUTH_URL + "/auth/user", regiInfo, {
         withCredentials: true,
       });
