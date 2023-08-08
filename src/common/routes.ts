@@ -10,25 +10,25 @@ export const LIFTHUS_FRONT_URL =
 export const LIFTHUS_AUTH_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9091"
-      "https://auth.lifthus.com"
+      "https://auth.dev.lifthus.com"
     : "https://auth.lifthus.com";
 
 export const LIFTHUS_API_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9091"
-      "https://api.lifthus.com"
+      "https://api.dev.lifthus.com"
     : "https://api.lifthus.com";
 
 export const LIFTHUS_ERR_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9091"
-      "https://www.lifthus.com/error"
+      "https://www.localhost:3000/error"
     : "https://www.lifthus.com/error";
 
 export const LIFTHUS_SESSION_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9091"
-      "https://auth.lifthus.com/auth/session"
+      "https://auth.dev.lifthus.com/auth/session"
     : "https://auth.lifthus.com/auth/session";
 
 export const HUS_AUTH_URL =

@@ -1,6 +1,5 @@
 import {
   AuthApi,
-  SessionCreated,
   SessionResponse,
   SessionUserInfo,
 } from "./interfaces/authApi.interface";
@@ -15,19 +14,18 @@ import {
   LIFTHUS_ERR_URL,
   LIFTHUS_SESSION_URL,
 } from "../common/routes";
-import { create } from "lodash";
 
 const authApi: AuthApi = {
   updateSession: async (): Promise<SessionResponse> => {
-    if (process.env.NODE_ENV === "development") {
-      return await authTestApi.updateSession();
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return await authTestApi.updateSession();
+    // }
     return await updateSession();
   },
   getSID: async (): Promise<string> => {
-    if (process.env.NODE_ENV === "development") {
-      return await authTestApi.getSID();
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return await authTestApi.getSID();
+    // }
     try {
       const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/sid", {
         withCredentials: true,
@@ -39,9 +37,9 @@ const authApi: AuthApi = {
     }
   },
   signOut: async (): Promise<void> => {
-    if (process.env.NODE_ENV === "development") {
-      return await authTestApi.signOut();
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   return await authTestApi.signOut();
+    // }
     try {
       const res = await axios.patch(
         LIFTHUS_AUTH_URL + "/auth/session/signout",
