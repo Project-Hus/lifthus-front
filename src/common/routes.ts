@@ -22,7 +22,7 @@ export const LIFTHUS_API_URL =
 export const LIFTHUS_ERR_URL =
   process.env.NODE_ENV === "development"
     ? //? "http://localhost:9091"
-      "https://www.localhost:3000/error"
+      "http://localhost:3000/error"
     : "https://www.lifthus.com/error";
 
 export const LIFTHUS_SESSION_URL =
