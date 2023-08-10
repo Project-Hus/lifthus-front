@@ -61,7 +61,6 @@ export const axiosInterceptorSetter = () => {
 
         if (
           config.sent || // already sent or
-          !targetURL.startsWith(LIFTHUS_SESSION_URL) || // not a session handling url or
           !(status === 401 && data === "expired_token") // not an expired token error
         ) {
           return Promise.reject(err); // just pass the error through.
