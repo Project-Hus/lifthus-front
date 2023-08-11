@@ -17,7 +17,7 @@ const registerApi: RegisterApi = {
       // if (process.env.NODE_ENV == "development") {
       //   return registerTestApi.registerUsername(regiName);
       // }
-      const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", regiName, {
+      const res = await axios.patch(LIFTHUS_AUTH_URL + "/auth/user", regiName, {
         withCredentials: true,
       });
       return res.data;
