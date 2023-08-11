@@ -36,6 +36,7 @@ const Sign = () => {
     queryFn: () => authApi.getSID(),
   });
 
+  // canceling last commit : git reset --soft HEAD~1
   return (
     <GoogleOAuthProvider clientId="1028507845637-07t65vf8fs49o4dpaelvefgbj8ov56pn.apps.googleusercontent.com">
       <Logo mov={true} absolute={true} />

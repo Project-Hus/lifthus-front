@@ -34,10 +34,10 @@ const Register = () => {
               <br />
               <br />
               <br />
-              <p>
-                {t("register.Hi")} {t("name_var", { name: givenName })},
+              <p style={{ zIndex: 1 }}>
+                {t("register.Hi")} {t("name_var", { name: givenName })},<br />
+                {t("register.workOut_message")}
               </p>
-              {t("register.workOut_message")}
               <BlueButton to="username">{t("register.WORK_OUT")}</BlueButton>
             </>
           }
