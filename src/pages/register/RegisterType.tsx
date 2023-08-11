@@ -122,9 +122,9 @@ const TypeBoard = styled.div`
 const RegisterType = () => {
   const { t, i18n } = useTranslation();
 
-  const set_register_type = useRegisterStore((state) => state.setRegisterInfo);
+  const registerType = useRegisterStore((state) => state.registerType);
 
-  const register_type = useRegisterStore((state) => state.registerType);
+  const regiType = useRegisterStore((state) => state.type);
 
   const navigate = useNavigate();
 
@@ -134,84 +134,80 @@ const RegisterType = () => {
       <TypeBoard>
         <button
           className={`powerlifting ${
-            register_type == "powerlifting" ? "chosen" : ""
+            regiType === "powerlifting" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ registerType: "powerlifting" });
+            registerType("powerlifting");
           }}
         >
           {t("trainingType.Strength")}
         </button>
         <button
           className={`bodybuilding ${
-            register_type == "bodybuilding" ? "chosen" : ""
+            regiType === "bodybuilding" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ registerType: "bodybuilding" });
+            registerType("bodybuilding");
           }}
         >
           {t("trainingType.Bodybuilding")}
         </button>
         <button
-          className={`crossfit ${register_type == "crossfit" ? "chosen" : ""}`}
+          className={`crossfit ${regiType == "crossfit" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ registerType: "crossfit" });
+            registerType("crossfit");
           }}
         >
           {t("trainingType.Crossfit")}
         </button>
         <button
           className={`weightlifting ${
-            register_type == "weightlifting" ? "chosen" : ""
+            regiType == "weightlifting" ? "chosen" : ""
           }`}
           onClick={(e) => {
-            set_register_type({ registerType: "weightlifting" });
+            registerType("weightlifting");
           }}
         >
           {t("trainingType.Weightlifting")}
         </button>
         <button
-          className={`bodyweight ${
-            register_type == "bodyweight" ? "chosen" : ""
-          }`}
+          className={`bodyweight ${regiType == "bodyweight" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ registerType: "bodyweight" });
+            registerType("bodyweight");
           }}
         >
           {t("trainingType.Bodyweight")}
         </button>
         <button
-          className={`cardio ${register_type == "cardio" ? "chosen" : ""}`}
+          className={`cardio ${regiType == "cardio" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ registerType: "cardio" });
+            registerType("cardio");
           }}
         >
           {t("trainingType.Cardio")}
         </button>
         <button
-          className={`etc ${register_type == "etc" ? "chosen" : ""}`}
+          className={`etc ${regiType == "etc" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ registerType: "etc" });
+            registerType("etc");
           }}
         >
           {t("trainingType.Etc")}
         </button>
         <button
-          className={`undefined ${
-            register_type == "undefined" ? "chosen" : ""
-          }`}
+          className={`undefined ${regiType == "undefined" ? "chosen" : ""}`}
           onClick={(e) => {
-            set_register_type({ registerType: "undefined" });
+            registerType("undefined");
           }}
         >
           ?
         </button>
       </TypeBoard>
-      {register_type && (
+      {regiType && (
         <div>
           <p>
             {(() => {
-              switch (register_type) {
+              switch (regiType) {
                 case "powerlifting":
                   return '"' + t("register.strength_message") + '"';
                   break;

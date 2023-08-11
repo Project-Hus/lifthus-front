@@ -30,15 +30,16 @@ const RegisterUsername = () => {
   /* store */
   const uid = useUserStore((state) => state.uid);
   const given_name = useUserStore((state) => state.given_name);
+  const tmpUsername = useRegisterStore((state) => state.username);
+
+  const setUsername = useUserStore((state) => state.setUsername);
   const registerUsername = useRegisterStore((state) => state.registerUsername);
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
-  const setRegisterInfo = useRegisterStore((state) => state.setRegisterInfo);
 
   /* hook-form */
   const { register, watch, getValues, handleSubmit } =
     useForm<IFormInputValues>({
       shouldUseNativeValidation: true,
-      defaultValues: { username: registerUsername },
+      defaultValues: { username: tmpUsername },
     });
 
   /* state */
@@ -52,8 +53,8 @@ const RegisterUsername = () => {
     {
       onSuccess: () => {
         const username = getValues("username");
-        setRegisterInfo({ registerUsername: username });
-        setUserInfo({ username });
+        registerUsername(username);
+        setUsername(username);
         navigate("/register/type");
       },
       onError: (err: StatusInfo) => {

@@ -1,17 +1,18 @@
 import { create } from "zustand";
-import { RegisterInfo } from "./interfaces/register.interface";
+import { RegisterNumberType } from "./interfaces/register.interface";
 
 interface RegisterState {
-  registerUsername: string;
-  registerType: string;
+  username: string;
+  type: string;
   registerBodyWeight: number;
   registerHeight: number;
   registerSquat: number;
   registerBenchpress: number;
   registerDeadlift: number;
   // setRegisterInfo: (info: RegisterInfo) => void;
-  setUsername: (username: string) => void;
-  setType: (type: string) => void;
+  registerUsername: (username: string) => void;
+  registerNumber: (regiNum: RegisterNumberType) => void;
+  registerType: (type: string) => void;
   setBodyWeight: (bodyWeight: number) => void;
   setHeight: (height: number) => void;
   setSquat: (squat: number) => void;
@@ -20,8 +21,8 @@ interface RegisterState {
 }
 
 const useRegisterStore = create<RegisterState>()((set) => ({
-  registerUsername: "",
-  registerType: "",
+  username: "",
+  type: "",
   registerBodyWeight: NaN,
   registerHeight: NaN,
   registerSquat: NaN,
@@ -32,9 +33,11 @@ const useRegisterStore = create<RegisterState>()((set) => ({
   //     ...state,
   //     ...info,
   //   })),
-  setUsername: (username: string) =>
-    set((state) => ({ ...state, registerUsername: username })),
-  setType: (type: string) => set((state) => ({ ...state, registerType: type })),
+  registerUsername: (username: string) =>
+    set((state) => ({ ...state, username })),
+  registerNumber: (regiNum: RegisterNumberType) =>
+    set((state) => ({ ...state, ...regiNum })),
+  registerType: (type: string) => set((state) => ({ ...state, type })),
   setBodyWeight: (bodyWeight: number) =>
     set((state) => ({ ...state, registerBodyWeight: bodyWeight })),
   setHeight: (height: number) =>

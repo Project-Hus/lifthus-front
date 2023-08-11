@@ -1,5 +1,5 @@
 export interface RegisterInfo {
-  registerUsername?: string;
+  username?: string;
   registerType?: string;
   registerBodyWeight?: number;
   registerHeight?: number;
@@ -8,8 +8,19 @@ export interface RegisterInfo {
   registerDeadlift?: number;
 }
 
+export type RegisterNumberTypes =
+  | "registerBodyWeight"
+  | "registerHeight"
+  | "registerSquat"
+  | "registerBenchpress"
+  | "registerDeadlift";
+
+export type RegisterNumberType = {
+  [key in RegisterNumberTypes]: number;
+};
+
 export type RegisterInfoStrings =
-  | "registerUsername"
+  | "username"
   | "registerType"
   | "registerBodyWeight"
   | "registerHeight"

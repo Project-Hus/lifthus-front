@@ -1,6 +1,6 @@
 import React from "react";
 import { Trans } from "react-i18next";
-import RegisterNumber from "./components/RegisterNumber";
+import RegisterNumber from "../../components/register/RegisterNumber";
 
 const RegisterBodyWeight = () => {
   return (

@@ -16,7 +16,7 @@ interface UserState {
   created_at?: Date;
   updated_at?: Date;
   setUserInfo: (info: UserInfo) => void;
-  registerUsername: (username: string) => void;
+  setUsername: (username: string) => void;
   signOut: () => void;
 }
 
@@ -40,8 +40,7 @@ const useUserStore = create<UserState>()((set) => ({
       ...state,
       ...info,
     })),
-  registerUsername: (username: string) =>
-    set((state) => ({ ...state, username })),
+  setUsername: (username: string) => set((state) => ({ ...state, username })),
   signOut: () =>
     set(() => ({
       uid: NaN,
