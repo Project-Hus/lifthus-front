@@ -51,7 +51,7 @@ const RegisterUsername = () => {
   const [failed, setFailed] = useState(false); // failed by other reasons
 
   /* api */
-  const { mutate, isLoading } = useMutation(
+  const { mutate, isLoading: regiNameLoading } = useMutation(
     (regiUsername: RegisterUsernameParams) =>
       registerApi.registerUsername(regiUsername),
     {
@@ -100,9 +100,12 @@ const RegisterUsername = () => {
             },
           })}
         />
-        <p />
         {(watch("username") || "").length >= username_limit.min &&
-          (isLoading ? <BlueSpinner /> : <SubmitLink>{t("Next")}</SubmitLink>)}
+          (regiNameLoading ? (
+            <BlueSpinner />
+          ) : (
+            <SubmitLink>{t("Next")}</SubmitLink>
+          ))}
         {failed && !fname && (
           <div style={{ fontSize: "0.7em" }}>
             {t("register.username_error")}
