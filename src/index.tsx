@@ -4,7 +4,7 @@ import App from "./App";
 
 import reportWebVitals from "./reportWebVitals";
 
-import "./i18n";
+import "./i18n/i18n";
 
 import { BrowserRouter } from "react-router-dom";
 
