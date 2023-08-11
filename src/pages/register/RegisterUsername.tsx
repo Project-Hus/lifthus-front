@@ -62,11 +62,12 @@ const RegisterUsername = () => {
         setUsername(username);
         navigate("/register/type");
       },
-      onError: (err: StatusInfo) => {
+      onError: (err) => {
         // if username already exists, set fname to true
         // else set failed to true
-        console.log(err, "?");
-        if (err === statusInfo.fail.Conflict) setFname(true);
+        const errInfo = err as any;
+        if (errInfo.response.status === statusInfo.fail.Conflict.code)
+          setFname(true);
         else setFailed(true);
       },
     }
