@@ -18,6 +18,7 @@ export interface IFormInputValues {
 
 /* Props */
 type InputProps = {
+  autoFocus?: boolean;
   label?: any;
   type?: string;
   placeholder?: any;
@@ -33,6 +34,7 @@ const FormInput = React.forwardRef<
 >(
   (
     {
+      autoFocus = false,
       label,
       type = "text",
       placeholder = "",
@@ -65,6 +67,7 @@ const FormInput = React.forwardRef<
           {pref}
         </div>
         <input
+          autoFocus={autoFocus}
           name={name}
           type={type}
           placeholder={placeholder}

@@ -4,7 +4,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import registerApi from "../../api/registerApi";
-import userApi from "../../api/userApi";
 
 import FormInput, {
   IFormInputValues,
@@ -28,41 +27,53 @@ const RegisterUsername = () => {
   const navigate = useNavigate();
 
   /* store */
+  // current user's UID
   const uid = useUserStore((state) => state.uid);
+  // current user's given name
   const given_name = useUserStore((state) => state.given_name);
-  const registerUsername = useRegisterStore((state) => state.registerUsername);
-  const setUserInfo = useUserStore((state) => state.setUserInfo);
-  const setRegisterInfo = useRegisterStore((state) => state.setRegisterInfo);
+  // current username registration field
+  const tmpUsername = useRegisterStore((state) => state.username);
 
-  /* hook-form */
+  // to set current user's username after username registration api call succeeds
+  const setUsername = useUserStore((state) => state.setUsername);
+  // to reflect current username registration field
+  const registerUsername = useRegisterStore((state) => state.registerUsername);
+
+  /* hook-form(for username field) */
   const { register, watch, getValues, handleSubmit } =
     useForm<IFormInputValues>({
       shouldUseNativeValidation: true,
-      defaultValues: { username: registerUsername },
+      defaultValues: { username: tmpUsername },
     });
 
   /* state */
-  const [fname, setFname] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [fname, setFname] = useState(false); // failed by existing username
+  const [failed, setFailed] = useState(false); // failed by other reasons
 
   /* api */
-  const { mutate, isLoading } = useMutation(
+  const { mutate, isLoading: regiNameLoading } = useMutation(
     (regiUsername: RegisterUsernameParams) =>
       registerApi.registerUsername(regiUsername),
     {
       onSuccess: () => {
+        // set current user's username on success and navigate to next page
         const username = getValues("username");
-        setRegisterInfo({ registerUsername: username });
-        setUserInfo({ username });
+        registerUsername(username);
+        setUsername(username);
         navigate("/register/type");
       },
-      onError: (err: StatusInfo) => {
-        if (err === statusInfo.fail.Conflict) setFname(true);
+      onError: (err) => {
+        // if username already exists, set fname to true
+        // else set failed to true
+        const errInfo = err as any;
+        if (errInfo.response.status === statusInfo.fail.Conflict.code)
+          setFname(true);
         else setFailed(true);
       },
     }
   );
 
+  // on submit(for Enter key), mutate.
   const onSubmit: SubmitHandler<IFormInputValues> = () => {
     mutate({ uid: uid, username: getValues("username") });
   };
@@ -88,10 +99,13 @@ const RegisterUsername = () => {
               setFailed(false);
             },
           })}
-        ></FormInput>
-        <p></p>
+        />
         {(watch("username") || "").length >= username_limit.min &&
-          (isLoading ? <BlueSpinner /> : <SubmitLink>{t("Next")}</SubmitLink>)}
+          (regiNameLoading ? (
+            <BlueSpinner />
+          ) : (
+            <SubmitLink>{t("Next")}</SubmitLink>
+          ))}
         {failed && !fname && (
           <div style={{ fontSize: "0.7em" }}>
             {t("register.username_error")}
