@@ -13,6 +13,8 @@ const RegisterSquat = () => {
       min={0}
       max={500}
       next="/register/benchpress"
+      img="https://freepngimg.com/thumb/gymnastics/172605-squat-silhouette-free-download-png-hq.png"
+      alt="squat"
     />
   );
 };

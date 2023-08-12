@@ -12,6 +12,8 @@ const RegisterHeight = () => {
       min={0}
       max={300}
       next="/register/squat"
+      img="https://cdn.pixabay.com/photo/2016/07/29/21/41/school-1555906_1280.png"
+      alt="ruller"
     />
   );
 };

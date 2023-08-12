@@ -1,3 +1,4 @@
+import { Image } from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -15,6 +16,8 @@ const RegisterNumber = ({
   next,
   min,
   max,
+  img,
+  alt,
 }: {
   take: RegisterInfoStrings;
   content: any;
@@ -23,6 +26,8 @@ const RegisterNumber = ({
   next: string;
   min?: number;
   max?: number;
+  img?: string;
+  alt?: string;
 }) => {
   const { t, i18n } = useTranslation();
   /* store */
@@ -36,6 +41,9 @@ const RegisterNumber = ({
   return (
     <>
       <Logo></Logo>
+      <div style={{ margin: "10%" }}>
+        {img && <Image src={img} alt={alt} sx={{ width: "20vw" }} />}
+      </div>
       <p>{content}</p>
       <div style={{ display: "flex" }}>
         <FormInput
