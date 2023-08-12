@@ -4,30 +4,30 @@ import { RegisterNumberType } from "./interfaces/register.interface";
 interface RegisterState {
   username: string;
   type: string;
-  registerBodyWeight: number;
-  registerHeight: number;
-  registerSquat: number;
-  registerBenchpress: number;
-  registerDeadlift: number;
+  bodyWeight: number;
+  height: number;
+  squat: number;
+  benchpress: number;
+  deadlift: number;
   // setRegisterInfo: (info: RegisterInfo) => void;
   registerUsername: (username: string) => void;
   registerNumber: (regiNum: RegisterNumberType) => void;
   registerType: (type: string) => void;
-  setBodyWeight: (bodyWeight: number) => void;
-  setHeight: (height: number) => void;
-  setSquat: (squat: number) => void;
-  setBenchpress: (benchpress: number) => void;
-  setDeadlift: (deadlift: number) => void;
+  registerBodyWeight: (bodyWeight: number) => void;
+  registerHeight: (height: number) => void;
+  registerSquat: (squat: number) => void;
+  registerBenchpress: (benchpress: number) => void;
+  registerDeadlift: (deadlift: number) => void;
 }
 
 const useRegisterStore = create<RegisterState>()((set) => ({
   username: "",
   type: "",
-  registerBodyWeight: NaN,
-  registerHeight: NaN,
-  registerSquat: NaN,
-  registerBenchpress: NaN,
-  registerDeadlift: NaN,
+  bodyWeight: NaN,
+  height: NaN,
+  squat: NaN,
+  benchpress: NaN,
+  deadlift: NaN,
   // setRegisterInfo: (info: RegisterInfo) =>
   //   set((state) => ({
   //     ...state,
@@ -38,16 +38,16 @@ const useRegisterStore = create<RegisterState>()((set) => ({
   registerNumber: (regiNum: RegisterNumberType) =>
     set((state) => ({ ...state, ...regiNum })),
   registerType: (type: string) => set((state) => ({ ...state, type })),
-  setBodyWeight: (bodyWeight: number) =>
-    set((state) => ({ ...state, registerBodyWeight: bodyWeight })),
-  setHeight: (height: number) =>
-    set((state) => ({ ...state, registerHeight: height })),
-  setSquat: (squat: number) =>
-    set((state) => ({ ...state, registerSquat: squat })),
-  setBenchpress: (benchpress: number) =>
-    set((state) => ({ ...state, registerBenchpress: benchpress })),
-  setDeadlift: (deadlift: number) =>
-    set((state) => ({ ...state, registerDeadlift: deadlift })),
+  registerBodyWeight: (bodyWeight: number) =>
+    set((state) => ({ ...state, bodyweight: bodyWeight })),
+  registerHeight: (height: number) =>
+    set((state) => ({ ...state, height: height })),
+  registerSquat: (squat: number) =>
+    set((state) => ({ ...state, squat: squat })),
+  registerBenchpress: (benchpress: number) =>
+    set((state) => ({ ...state, benchpress: benchpress })),
+  registerDeadlift: (deadlift: number) =>
+    set((state) => ({ ...state, deadlift: deadlift })),
 }));
 
 export default useRegisterStore;

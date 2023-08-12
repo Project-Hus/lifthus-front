@@ -21,11 +21,11 @@ const RegisterConfirm = () => {
     uid: NaN,
     username: state.username,
     trainingType: state.type,
-    bodyWeight: state.registerBodyWeight,
-    height: state.registerHeight,
-    squat: state.registerSquat,
-    benchpress: state.registerBenchpress,
-    deadlift: state.registerDeadlift,
+    bodyWeight: state.bodyWeight,
+    height: state.height,
+    squat: state.squat,
+    benchpress: state.benchpress,
+    deadlift: state.deadlift,
   }));
 
   if (uid) registerInfo["uid"] = uid;

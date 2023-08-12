@@ -6,7 +6,7 @@ const RegisterDeadlift = () => {
   const { t, i18n } = useTranslation();
   return (
     <RegisterNumber
-      take={"registerDeadlift"}
+      take={"deadlift"}
       content={<Trans i18nKey={"register.deadliftAsking_message"} />}
       pref={t("Max")}
       unit={"kg"}

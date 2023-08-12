@@ -6,7 +6,7 @@ const RegisterBenchpress = () => {
   const { t, i18n } = useTranslation();
   return (
     <RegisterNumber
-      take={"registerBenchpress"}
+      take={"benchpress"}
       content={<Trans i18nKey={"register.benchpressAsking_message"} />}
       pref={t("Max")}
       unit={"kg"}

@@ -6,7 +6,7 @@ import RegisterNumber from "../../components/register/RegisterNumber";
 const RegisterSquat = () => {
   return (
     <RegisterNumber
-      take={"registerSquat"}
+      take={"squat"}
       content={<Trans i18nKey={"register.squatAsking_message"} />}
       pref={t("Max")}
       unit={"kg"}
