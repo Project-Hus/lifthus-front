@@ -143,7 +143,8 @@ const ProfileCard = ({ uid }: Uid) => {
                     marginLeft: "auto",
                   }}
                 >
-                  {clientUid !== uid &&
+                  {!!clientUid &&
+                    clientUid !== uid &&
                     (userFollowers?.includes(clientUid) ? (
                       <Button variant="solid" onClick={() => unfollowUser()}>
                         {followersLoading ? <Spinner /> : "Unfollow"}
