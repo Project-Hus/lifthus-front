@@ -30,7 +30,7 @@ const Main = () => {
         <Route path="statistics" element={<Statistics />} />
         <Route path="profile/*" element={<ProfileRoute />} />
       </Routes>
-      <BottomNav username={username} />
+      <BottomNav />
     </React.Fragment>
   );
 };
