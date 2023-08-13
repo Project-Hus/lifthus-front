@@ -343,10 +343,10 @@ const Comment = ({ comment }: CommentProps) => {
         {/* relpy comment window*/}
         <Box {...disclosureProps}>
           <Card>
-            {"postId" in comment && (
+            {"postId" in comment && !!uid && (
               <CommentCreate parentId={comment.id} onClose={onClose} />
             )}
-            {"parentId" in comment && (
+            {"parentId" in comment && !!uid && (
               <CommentCreate parentId={comment.parentId} onClose={onClose} />
             )}
           </Card>
