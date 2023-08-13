@@ -242,24 +242,28 @@ const Post = ({ post }: PostProp) => {
                       <CopyIcon />
                       &nbsp;Copy URL
                     </MenuItem>
-                    <MenuItem
-                      bgColor={ThemeColor.backgroundColorDarker}
-                      color="yellow.400"
-                      _hover={{ bgColor: "yellow.500", color: "white" }}
-                      onClick={() => setEdited(true)}
-                    >
-                      <EditIcon />
-                      &nbsp;Edit
-                    </MenuItem>
-                    <MenuItem
-                      bgColor={ThemeColor.backgroundColorDarker}
-                      color="red.400"
-                      onClick={() => deleteMutate()}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                    >
-                      <DeleteIcon />
-                      &nbsp;Delete
-                    </MenuItem>
+                    {post.author == uid && (
+                      <>
+                        <MenuItem
+                          bgColor={ThemeColor.backgroundColorDarker}
+                          color="yellow.400"
+                          _hover={{ bgColor: "yellow.500", color: "white" }}
+                          onClick={() => setEdited(true)}
+                        >
+                          <EditIcon />
+                          &nbsp;Edit
+                        </MenuItem>
+                        <MenuItem
+                          bgColor={ThemeColor.backgroundColorDarker}
+                          color="red.400"
+                          onClick={() => deleteMutate()}
+                          _hover={{ bgColor: "red.500", color: "white" }}
+                        >
+                          <DeleteIcon />
+                          &nbsp;Delete
+                        </MenuItem>
+                      </>
+                    )}
                   </MenuList>
                 </>
               )}
