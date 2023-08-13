@@ -1,5 +1,5 @@
 export const sign = {
-  first_button: "Work out!",
+  welcome_button: "Work out!",
   GoogleLogin: "Google 로그인",
   SignIn: "로그인",
   SignUp: "회원가입",

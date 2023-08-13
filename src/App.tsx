@@ -13,8 +13,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Pending from "./pages/pending/Pending";
 import Main from "./pages/Main";
 import Register from "./pages/register/Register";
-import FirstPage from "./pages/sign/FirstPage";
+import WelcomePage from "./pages/sign/WelcomePage";
 import ErrorPage from "./pages/error/ErrorPage";
+import Sign from "./pages/sign/Sign";
 
 const AppStyled = styled.div`
   background-color: ${ThemeColor.backgroundColor};
@@ -28,7 +29,6 @@ const AppStyled = styled.div`
 
 const App = () => {
   axiosInterceptorSetter();
-
   const setUserInfo = useUserStore((state) => state.setUserInfo);
   /* ===== automatic SSO ===== */
   const isErrorPage = window.location.href.startsWith(LIFTHUS_ERR_URL);
@@ -62,21 +62,24 @@ const App = () => {
     <AppStyled>
       <Routes>
         <Route path="/pending/*" element={<Pending />} />
-        {/* If the user has signed in and registered Let the Main component take control. */}
-        {uid && registered && <Route path="/*" element={<Main />} />}
-        {/* If the user has signed but not registered, the user have to register him or herself */}
+        {/* user not signed or user signed and registered */}
+        {(!uid || (uid && registered)) && (
+          <Route path="/*" element={<Main />} />
+        )}
+        {/* If the user has signed but not registered, the user have to register themselves */}
         {uid && !registered && (
           <Route>
             <Route path="/" element={<Navigate to="/register/" />} />
             <Route path="/register/*" element={<Register />} />
           </Route>
         )}
-        {/* If the user hasn't signed in, the user needs to be authenticated */}
         {!uid && (
           <Route>
-            <Route index path="/*" element={<FirstPage />} />
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/sign/*" element={<Sign />} />
           </Route>
         )}
+
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<Pending />} />
       </Routes>

@@ -36,6 +36,7 @@ import userApi from "../../api/userApi";
 
 import { GetUserInfoDto } from "../../api/dtos/user.dto";
 import { Link } from "react-router-dom";
+import useUserStore from "../../store/user.zustand";
 
 //resizing textarea
 function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -66,6 +67,7 @@ const Post = ({ post }: PostProp) => {
   } = useQuery<GetUserInfoDto>(["user", post.author], () => {
     return userApi.getUserInfo({ uid: post.author });
   });
+  const uid = useUserStore((state) => state.uid);
   const username = data?.username;
   const profileImage = data?.profile_image_url;
 
@@ -405,7 +407,7 @@ const Post = ({ post }: PostProp) => {
         )}
         {!isEdited && (
           <Card {...disclosureProps}>
-            <CommentCreate postId={post.id} onClose={onClose} />
+            {!!uid && <CommentCreate postId={post.id} onClose={onClose} />}
             {post.comments && <CommentList comments={post.comments} />}
           </Card>
         )}

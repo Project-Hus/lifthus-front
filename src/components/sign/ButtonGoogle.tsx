@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+/* CURRENTLY NOT USED */
+
 const ButtonGoogle = styled.button`
   position: relative;
   height: 10vh;

@@ -12,6 +12,7 @@ import {
   HUS_AUTH_URL,
   LIFTHUS_AUTH_URL,
   LIFTHUS_ERR_URL,
+  LIFTHUS_FRONT_URL,
   LIFTHUS_SESSION_URL,
 } from "../common/routes";
 import { LIFTHUS_SERVICE_NAME } from "../common/llifthus";
@@ -95,11 +96,15 @@ const updateSession = async (): Promise<SessionResponse> => {
       case statusInfo.succ.Created.code:
         // redirect to Cloudhus to connect both sessions.
         const currentURL = window.location.href;
+        const currentPath = window.location.pathname;
+        let redirectURL =
+          currentPath === "/" ? LIFTHUS_FRONT_URL + "/welcome" : currentURL;
+        redirectURL += `?workout=${currentURL}`;
         const sid = res.data;
         if (sid) {
           // if new session is created, redirect to Cloudhus and connect to the hussession.
           window.location.href = `${HUS_AUTH_URL}/auth/hus?service=${LIFTHUS_SERVICE_NAME}&sid=${sid}&redirect=${encodeURIComponent(
-            currentURL
+            redirectURL
           )}&fallback=${LIFTHUS_ERR_URL}`;
         }
         // not reachable below

@@ -10,6 +10,13 @@ import axios from "axios";
 import { LIFTHUS_API_URL } from "../../common/routes";
 
 const postTestApi: PostApi = {
+  getAllPosts: async (skip?: number): Promise<QueryPostDto[]> => {
+    if (!skip) skip = 0;
+    const res = await axios.get(
+      LIFTHUS_API_URL + `/post/query/post/all/${skip}`
+    );
+    return res.data;
+  },
   getUserPosts: async ({
     uid,
     skip = 0,
