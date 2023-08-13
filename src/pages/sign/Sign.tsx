@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 import { useTranslation } from "react-i18next";
 
 import Logo from "../../common/components/Logo";
-
-import BlueLink from "../../common/components/links/BlueLink";
 
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
