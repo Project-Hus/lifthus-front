@@ -8,7 +8,7 @@ import {
   Heading,
   Box,
 } from "@chakra-ui/layout";
-import { Button, Spinner } from "@chakra-ui/react";
+import { Button, Spinner, Th } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
@@ -88,6 +88,7 @@ const ProfileCard = ({ uid }: Uid) => {
               sx={{
                 w: "5em",
                 h: "5em",
+                boxShadow: `0 0 0.2em 0 ${ThemeColor.basicColor} `,
                 borderRadius: "1em",
                 "@media screen and (max-width: 350px)": {
                   maxW: "5em;",
