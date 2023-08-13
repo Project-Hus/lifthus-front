@@ -238,6 +238,11 @@ const Post = ({ post }: PostProp) => {
                         bgColor: ThemeColor.backgroundColor,
                         color: "white",
                       }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `${window.location.origin}/post/${post.slug}`
+                        );
+                      }}
                     >
                       <CopyIcon />
                       &nbsp;Copy URL
