@@ -15,12 +15,17 @@ const Home = () => {
   const { data: posts } = useQuery<QueryPostDto[]>({
     queryKey: ["posts"],
     queryFn: async () => {
-      const followingList = await relationApi.getUserFollowing({ uid });
-      followingList.push(uid);
-      const posts = await postApi.getUsersPosts({
-        users: followingList,
-        skip: 0,
-      });
+      let posts: QueryPostDto[] = [];
+      if (uid) {
+        const followingList = await relationApi.getUserFollowing({ uid });
+        followingList.push(uid);
+        posts = await postApi.getUsersPosts({
+          users: followingList,
+          skip: 0,
+        });
+      } else {
+        posts = await postApi.getAllPosts(0);
+      }
       return posts;
     },
   });
