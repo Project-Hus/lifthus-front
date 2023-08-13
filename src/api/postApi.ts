@@ -5,6 +5,13 @@ import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 import postTestApi from "./testApi/postTestApi";
 
 const postApi: PostApi = {
+  getAllPosts: async (skip?: number): Promise<QueryPostDto[]> => {
+    if (!skip) skip = 0;
+    const res = await axios.get(
+      LIFTHUS_API_URL + `/post/query/post/all/${skip}`
+    );
+    return res.data;
+  },
   getUserPosts: async ({
     uid,
     skip = 0,
