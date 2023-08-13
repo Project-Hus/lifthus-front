@@ -73,8 +73,13 @@ const App = () => {
             <Route path="/register/*" element={<Register />} />
           </Route>
         )}
-        {!uid && <Route path="/sign/*" element={<Sign />} />}
-        <Route path="/welcome" element={<WelcomePage />} />
+        {!uid && (
+          <Route>
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/sign/*" element={<Sign />} />
+          </Route>
+        )}
+
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<Pending />} />
       </Routes>
