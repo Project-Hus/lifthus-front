@@ -14,7 +14,7 @@ const relationApi: RelationApi = {
         withCredentials: true,
       }
     );
-    return res.data;
+    return res.data || [];
   },
   getUserFollowers: async ({ uid }: { uid: number }): Promise<number[]> => {
     // if (process.env.NODE_ENV === "development") {
@@ -26,7 +26,7 @@ const relationApi: RelationApi = {
         withCredentials: true,
       }
     );
-    return res.data;
+    return res.data || [];
   },
   followUser: async ({ uid }: { uid: number }) => {
     // if (process.env.NODE_ENV === "development") {

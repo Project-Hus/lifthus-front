@@ -1,22 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React from "react";
+import {
+  Flex,
+  Tab,
+  TabIndicator,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import relationApi from "../../api/relationApi";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
-import { LIFTHUS_API_URL } from "../../common/routes";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+
 import Posts from "../../components/Posts";
 import CreatePost from "../../components/posts/CreatePost";
 import useUserStore from "../../store/user.zustand";
 
 const Home = () => {
   const { uid } = useUserStore();
-  const { data: posts } = useQuery<QueryPostDto[]>({
-    queryKey: ["posts"],
+  const pathname = window.location.pathname;
+  const folOrNot = pathname.startsWith("/followings");
+
+  const { data: posts, isLoading } = useQuery<QueryPostDto[]>({
+    queryKey: ["posts", folOrNot ? "followings" : "all"],
     queryFn: async () => {
       let posts: QueryPostDto[] = [];
-      if (uid) {
+      if (uid && folOrNot) {
         const followingList = await relationApi.getUserFollowing({ uid });
         followingList.push(uid);
         posts = await postApi.getUsersPosts({
@@ -29,10 +42,44 @@ const Home = () => {
       return posts;
     },
   });
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return (
     <BasicPageLayout>
-      {!!uid && <CreatePost />}
-      <Posts posts={posts || []} />
+      {isLoading ? (
+        <>
+          <Flex justifyContent="center" alignItems="center">
+            <BlueSpinner />
+          </Flex>
+        </>
+      ) : (
+        <>
+          &nbsp;
+          <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0}>
+            <TabList mb="1em">
+              <Tab
+                onClick={async () => {
+                  queryClient.invalidateQueries(["posts", "all"]);
+                  navigate("/");
+                }}
+              >
+                All posts
+              </Tab>
+              <Tab
+                onClick={async () => {
+                  queryClient.invalidateQueries(["posts", "followings"]);
+                  navigate("/followings");
+                }}
+              >
+                Followings' posts
+              </Tab>
+            </TabList>
+          </Tabs>
+          {!!uid && <CreatePost />}
+          <Posts posts={posts || []} />
+        </>
+      )}
     </BasicPageLayout>
   );
 };
