@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import relationApi from "../../api/relationApi";
-import { BasicPageLayoutNoMargin } from "../../common/components/layouts/BasicPageLayout";
+import BasicPageLayout, {
+  BasicPageLayoutNoMargin,
+} from "../../common/components/layouts/BasicPageLayout";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 import Posts from "../../components/Posts";
@@ -37,47 +39,45 @@ const Home = () => {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  if (isLoading)
+    return (
+      <BasicPageLayout>
+        <Flex justifyContent="center" alignItems="center">
+          <BlueSpinner />
+        </Flex>
+      </BasicPageLayout>
+    );
   return (
     <BasicPageLayoutNoMargin>
-      {isLoading ? (
-        <>
-          <Flex justifyContent="center" alignItems="center">
-            <BlueSpinner />
-          </Flex>
-        </>
-      ) : (
-        <>
-          &nbsp;
-          <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0}>
-            <TabList borderBlockEnd={"none"}>
-              <Tab
-                borderBlockEnd={!folOrNot ? "none" : "solid 1px"}
-                onClick={async () => {
-                  queryClient.invalidateQueries(["posts", "all"]);
-                  navigate("/");
-                }}
-              >
-                All posts
-              </Tab>
-              <Tab
-                borderBlockEnd={!folOrNot ? "solid 1px" : "none"}
-                onClick={async () => {
-                  if (!uid) {
-                    navigate("/sign");
-                    return;
-                  }
-                  queryClient.invalidateQueries(["posts", "followings"]);
-                  navigate("/followings");
-                }}
-              >
-                Followings' posts
-              </Tab>
-            </TabList>
-          </Tabs>
-          {!!uid && <CreatePost />}
-          <Posts posts={posts || []} />
-        </>
-      )}
+      &nbsp;
+      <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0}>
+        <TabList borderBlockEnd={"none"}>
+          <Tab
+            borderBlockEnd={!folOrNot ? "none" : "solid 1px"}
+            onClick={async () => {
+              queryClient.invalidateQueries(["posts", "all"]);
+              navigate("/");
+            }}
+          >
+            All posts
+          </Tab>
+          <Tab
+            borderBlockEnd={!folOrNot ? "solid 1px" : "none"}
+            onClick={async () => {
+              if (!uid) {
+                navigate("/sign");
+                return;
+              }
+              queryClient.invalidateQueries(["posts", "followings"]);
+              navigate("/followings");
+            }}
+          >
+            Followings' posts
+          </Tab>
+        </TabList>
+      </Tabs>
+      {!!uid && <CreatePost />}
+      <Posts posts={posts || []} />
     </BasicPageLayoutNoMargin>
   );
 };
