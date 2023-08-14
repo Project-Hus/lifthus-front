@@ -63,7 +63,7 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
   });
 
   // follow mutation
-  const { mutate: followUser } = useMutation({
+  const { mutate: followUser, isLoading: followingLoading } = useMutation({
     mutationFn: () => relationApi.followUser({ uid: user.uid }),
     onSuccess: () => {
       queryClient.invalidateQueries(["followers", { uid: user.uid }]);
@@ -71,7 +71,7 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
   });
 
   // unfollow mutation
-  const { mutate: unfollowUser } = useMutation({
+  const { mutate: unfollowUser, isLoading: unfollowingLoading } = useMutation({
     mutationFn: () => relationApi.unfollowUser({ uid: user.uid }),
     onSuccess: () => {
       queryClient.invalidateQueries(["followers", { uid: user.uid }]);
@@ -81,62 +81,52 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
   const { uid: clientUid } = useUserStore();
 
   return (
-    <Card
-      borderRadius={"1em"}
-      bgColor={ThemeColor.backgroundColor}
-      color={"white"}
-    >
-      <CardBody>
-        <Stack divider={<StackDivider />} spacing="4">
-          <Contact title="#ID" content={user.usercode} />
-          <Contact
-            {...register("company")}
-            title="🏢 Company"
-            content={contactInfo.company || ""}
-            change={uid === user.uid}
-            onSubmit={onSubmit}
-          />
-          <Contact
-            {...register("location")}
-            title="🗺️ Location"
-            content={contactInfo.location || ""}
-            change={uid === user.uid}
-            onSubmit={onSubmit}
-          />
-          <Contact
-            {...register("contact")}
-            title="☏ Contact"
-            content={contactInfo.contact || ""}
-            change={uid === user.uid}
-            onSubmit={onSubmit}
-          />
-          {!!clientUid &&
-            clientUid !== uid &&
-            (userFollowers?.includes(clientUid) ? (
-              <Button variant="solid" onClick={() => unfollowUser()}>
-                {followersLoading ? <Spinner /> : "Unfollow"}
-              </Button>
-            ) : (
-              <Button variant="outline" onClick={() => followUser()}>
-                {followersLoading ? <Spinner /> : "Follow"}
-              </Button>
-            ))}
-        </Stack>
-
-        {!!clientUid &&
-          clientUid !== user.uid &&
-          (userFollowers?.includes(clientUid) ? (
-            <Button variant="solid" onClick={() => unfollowUser()}>
-              {followersLoading ? <Spinner /> : "Unfollow"}
-            </Button>
-          ) : (
-            <Button variant="outline" onClick={() => followUser()}>
-              {followersLoading ? <Spinner /> : "Follow"}
-            </Button>
-          ))}
-        {isLoading && <Spinner />}
-      </CardBody>
-    </Card>
+    <>
+      <Card
+        borderRadius={"1em"}
+        bgColor={ThemeColor.backgroundColor}
+        color={"white"}
+      >
+        <CardBody>
+          <Stack divider={<StackDivider />} spacing="4">
+            <Contact title="#ID" content={user.usercode} />
+            <Contact
+              {...register("company")}
+              title="🏢 Company"
+              content={contactInfo.company || ""}
+              change={uid === user.uid}
+              onSubmit={onSubmit}
+            />
+            <Contact
+              {...register("location")}
+              title="🗺️ Location"
+              content={contactInfo.location || ""}
+              change={uid === user.uid}
+              onSubmit={onSubmit}
+            />
+            <Contact
+              {...register("contact")}
+              title="☏ Contact"
+              content={contactInfo.contact || ""}
+              change={uid === user.uid}
+              onSubmit={onSubmit}
+            />
+          </Stack>
+        </CardBody>
+      </Card>
+      {!!clientUid &&
+        clientUid !== user.uid &&
+        (userFollowers?.includes(clientUid) ? (
+          <Button variant="solid" onClick={() => unfollowUser()}>
+            {unfollowingLoading ? <Spinner /> : "Unfollow"}
+          </Button>
+        ) : (
+          <Button variant="outline" onClick={() => followUser()}>
+            {followingLoading ? <Spinner /> : "Follow"}
+          </Button>
+        ))}
+      {isLoading && <Spinner />}
+    </>
   );
 };
 
