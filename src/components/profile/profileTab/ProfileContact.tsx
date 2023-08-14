@@ -11,11 +11,11 @@ import {
   StackDivider,
   Text,
 } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { get } from "http";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { GetUserInfoDto, UpdateUserInfoDto } from "../../../api/dtos/user.dto";
+import relationApi from "../../../api/relationApi";
 import userApi from "../../../api/userApi";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import useUserStore from "../../../store/user.zustand";
@@ -50,6 +50,36 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
     updateContact(getValues());
   };
 
+  // profile user's following list
+  const { data: userFollowing } = useQuery({
+    queryKey: ["following", { uid: user.uid }],
+    queryFn: () => relationApi.getUserFollowing({ uid: user.uid }),
+  });
+
+  // profile user's follower list
+  const { data: userFollowers, isLoading: followersLoading } = useQuery({
+    queryKey: ["followers", { uid: user.uid }],
+    queryFn: () => relationApi.getUserFollowers({ uid: user.uid }),
+  });
+
+  // follow mutation
+  const { mutate: followUser } = useMutation({
+    mutationFn: () => relationApi.followUser({ uid: user.uid }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["followers", { uid: user.uid }]);
+    },
+  });
+
+  // unfollow mutation
+  const { mutate: unfollowUser } = useMutation({
+    mutationFn: () => relationApi.unfollowUser({ uid: user.uid }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["followers", { uid: user.uid }]);
+    },
+  });
+
+  const { uid: clientUid } = useUserStore();
+
   return (
     <Card
       borderRadius={"1em"}
@@ -80,7 +110,30 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
             change={uid === user.uid}
             onSubmit={onSubmit}
           />
+          {!!clientUid &&
+            clientUid !== uid &&
+            (userFollowers?.includes(clientUid) ? (
+              <Button variant="solid" onClick={() => unfollowUser()}>
+                {followersLoading ? <Spinner /> : "Unfollow"}
+              </Button>
+            ) : (
+              <Button variant="outline" onClick={() => followUser()}>
+                {followersLoading ? <Spinner /> : "Follow"}
+              </Button>
+            ))}
         </Stack>
+
+        {!!clientUid &&
+          clientUid !== user.uid &&
+          (userFollowers?.includes(clientUid) ? (
+            <Button variant="solid" onClick={() => unfollowUser()}>
+              {followersLoading ? <Spinner /> : "Unfollow"}
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={() => followUser()}>
+              {followersLoading ? <Spinner /> : "Follow"}
+            </Button>
+          ))}
         {isLoading && <Spinner />}
       </CardBody>
     </Card>

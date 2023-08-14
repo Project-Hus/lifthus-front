@@ -31,6 +31,7 @@ import ProfileContact from "./profileTab/ProfileContact";
 const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
   // later query last rec
   const sbd_total = 460; // s + b + d
+
   return (
     <Tabs
       size="lg"

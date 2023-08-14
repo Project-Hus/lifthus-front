@@ -139,23 +139,6 @@ const ProfileCard = ({ uid }: Uid) => {
                     }}
                   />
                 </div>
-                <div
-                  style={{
-                    marginLeft: "auto",
-                  }}
-                >
-                  {!!clientUid &&
-                    clientUid !== uid &&
-                    (userFollowers?.includes(clientUid) ? (
-                      <Button variant="solid" onClick={() => unfollowUser()}>
-                        {followersLoading ? <Spinner /> : "Unfollow"}
-                      </Button>
-                    ) : (
-                      <Button variant="outline" onClick={() => followUser()}>
-                        {followersLoading ? <Spinner /> : "Follow"}
-                      </Button>
-                    ))}
-                </div>
               </div>
             </Stack>
           </div>
