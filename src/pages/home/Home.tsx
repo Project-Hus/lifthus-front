@@ -1,14 +1,6 @@
-import {
-  Flex,
-  Tab,
-  TabIndicator,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
@@ -57,8 +49,9 @@ const Home = () => {
         <>
           &nbsp;
           <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0}>
-            <TabList mb="1em">
+            <TabList borderBlockEnd={"none"}>
               <Tab
+                borderBlockEnd={!folOrNot ? "none" : "solid 1px"}
                 onClick={async () => {
                   queryClient.invalidateQueries(["posts", "all"]);
                   navigate("/");
@@ -67,6 +60,7 @@ const Home = () => {
                 All posts
               </Tab>
               <Tab
+                borderBlockEnd={!folOrNot ? "solid 1px" : "none"}
                 onClick={async () => {
                   if (!uid) {
                     navigate("/sign");
