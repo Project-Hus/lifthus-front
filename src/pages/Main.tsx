@@ -17,6 +17,7 @@ const Main = () => {
       {/*registered === false && <Navigate to="/register" />*/}
       <Routes>
         <Route index element={<Home />} />
+        <Route path="followings" element={<Home />} />
         <Route
           path="group"
           element={
