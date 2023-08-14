@@ -68,6 +68,10 @@ const Home = () => {
               </Tab>
               <Tab
                 onClick={async () => {
+                  if (!uid) {
+                    navigate("/sign");
+                    return;
+                  }
                   queryClient.invalidateQueries(["posts", "followings"]);
                   navigate("/followings");
                 }}
