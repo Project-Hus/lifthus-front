@@ -10,7 +10,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
-import { BaisPageLayoutNoMargin } from "../../../common/components/layouts/BasicPageLayout";
+
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { useForm, FormProvider } from "react-hook-form";
 import useNewWeeklyProgramStore from "../../../store/createWeeklyProgram.zustand";
@@ -21,6 +21,7 @@ import { CreateWeeklyProgramDto } from "../../../api/dtos/program/program.dto";
 import useUserStore from "../../../store/user.zustand";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { BasicPageLayoutNoMargin } from "../../../common/components/layouts/BasicPageLayout";
 
 const CreateProgram = () => {
   const hookForm = useForm();
@@ -70,7 +71,7 @@ const CreateProgram = () => {
   );
 
   return (
-    <BaisPageLayoutNoMargin>
+    <BasicPageLayoutNoMargin>
       <FormProvider {...hookForm}>
         <form onSubmit={hookForm.handleSubmit(onSubmit)}>
           <div>
@@ -271,7 +272,7 @@ const CreateProgram = () => {
           )}
         </form>
       </FormProvider>
-    </BaisPageLayoutNoMargin>
+    </BasicPageLayoutNoMargin>
   );
 };
 

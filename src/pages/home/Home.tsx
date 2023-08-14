@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import relationApi from "../../api/relationApi";
-import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import { BasicPageLayoutNoMargin } from "../../common/components/layouts/BasicPageLayout";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 
 import Posts from "../../components/Posts";
@@ -38,7 +38,7 @@ const Home = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return (
-    <BasicPageLayout>
+    <BasicPageLayoutNoMargin>
       {isLoading ? (
         <>
           <Flex justifyContent="center" alignItems="center">
@@ -78,7 +78,7 @@ const Home = () => {
           <Posts posts={posts || []} />
         </>
       )}
-    </BasicPageLayout>
+    </BasicPageLayoutNoMargin>
   );
 };
 

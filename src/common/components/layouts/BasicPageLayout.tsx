@@ -11,7 +11,7 @@ const BasicPageLayout = styled.div`
   }
 `;
 
-export const BaisPageLayoutNoMargin = styled.div`
+export const BasicPageLayoutNoMargin = styled.div`
   background-color: ${ThemeColor.backgroundColor};
   width: 100%;
   @media (min-width: 700px) {
