@@ -8,7 +8,7 @@ import useUserStore from "../../../store/user.zustand";
 const ProfileSetting = () => {
   const navigate = useNavigate();
   const { signOut: clientSignOut } = useUserStore();
-
+  const { uid } = useUserStore();
   const { mutate: signOut } = useMutation({
     mutationFn: () => authApi.signOut(),
     onSuccess: () => {
@@ -21,9 +21,11 @@ const ProfileSetting = () => {
   });
   return (
     <div>
-      <Button onClick={() => signOut()} variant="outline">
-        Sign out
-      </Button>
+      {!!uid && (
+        <Button onClick={() => signOut()} variant="outline">
+          Sign out
+        </Button>
+      )}
     </div>
   );
 };
