@@ -8,58 +8,45 @@ import {
   Heading,
   Box,
 } from "@chakra-ui/layout";
-import { Button, Spinner, Th } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Uid } from "../../api/interfaces/userApi.interface";
+import { GetUserInfoDto } from "../../api/dtos/user.dto";
 import relationApi from "../../api/relationApi";
-import userApi from "../../api/userApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useUserStore from "../../store/user.zustand";
 
-const ProfileCard = ({ uid }: Uid) => {
+const ProfileCard = ({
+  userInfo,
+}: {
+  userInfo: GetUserInfoDto | undefined;
+}) => {
+  const profileUid = userInfo?.uid;
+  const profileUsername = userInfo?.username;
+  const profileImage = userInfo?.profile_image_url;
+
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // client's uid
-  const { uid: clientUid } = useUserStore();
-
-  // profile user's info
-  const { data: userinfo } = useQuery({
-    queryKey: ["user", { uid: uid }],
-    queryFn: () => userApi.getUserInfo({ uid }),
-  });
-  const username = userinfo?.username;
-  const profileImage = userinfo?.profile_image_url;
-
   // profile user's following list
   const { data: userFollowing } = useQuery({
-    queryKey: ["following", { uid: uid }],
-    queryFn: () => relationApi.getUserFollowing({ uid }),
+    queryKey: ["following", { uid: profileUid }],
+    queryFn: () =>
+      !profileUid
+        ? Promise.reject(new Error("undefined"))
+        : relationApi.getUserFollowing({ uid: profileUid }),
+    enabled: !!profileUid,
   });
 
   // profile user's follower list
   const { data: userFollowers, isLoading: followersLoading } = useQuery({
-    queryKey: ["followers", { uid: uid }],
-    queryFn: () => relationApi.getUserFollowers({ uid }),
-  });
-
-  // follow mutation
-  const { mutate: followUser } = useMutation({
-    mutationFn: () => relationApi.followUser({ uid }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["followers", { uid: uid }]);
-    },
-  });
-
-  // unfollow mutation
-  const { mutate: unfollowUser } = useMutation({
-    mutationFn: () => relationApi.unfollowUser({ uid }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["followers", { uid: uid }]);
-    },
+    queryKey: ["followers", { uid: profileUid }],
+    queryFn: () =>
+      !profileUid
+        ? Promise.reject(new Error("undefined"))
+        : relationApi.getUserFollowers({ uid: profileUid }),
+    enabled: !!profileUid,
   });
 
   return (
@@ -83,7 +70,7 @@ const ProfileCard = ({ uid }: Uid) => {
           <div style={{ display: "flex" }}>
             <Img
               src={profileImage}
-              alt={`${username}'s profile image`}
+              alt={`${profileUsername}'s profile image`}
               objectFit={"cover"}
               sx={{
                 w: "5em",
@@ -100,19 +87,23 @@ const ProfileCard = ({ uid }: Uid) => {
             <Stack paddingRight={"0"}>
               <Box>
                 <LinkChakra
-                  onClick={() => navigate(`/profile/${userinfo?.username}`)}
+                  onClick={() => navigate(`/profile/${userInfo?.username}`)}
                 >
-                  <Heading paddingLeft={"0.2em"}>{username}</Heading>
+                  <Heading paddingLeft={"0.2em"}>{profileUsername}</Heading>
                 </LinkChakra>
                 <Text fontSize={"0.6em"} paddingLeft="0.7em">
                   <LinkChakra
-                    onClick={() => navigate(`/profile/${username}/following`)}
+                    onClick={() =>
+                      navigate(`/profile/${profileUsername}/following`)
+                    }
                   >
                     {userFollowing ? userFollowing.length : 0} following
                   </LinkChakra>
                   {" · "}
                   <LinkChakra
-                    onClick={() => navigate(`/profile/${username}/followers`)}
+                    onClick={() =>
+                      navigate(`/profile/${profileUsername}/followers`)
+                    }
                   >
                     {userFollowers ? userFollowers.length : 0} followers
                   </LinkChakra>
