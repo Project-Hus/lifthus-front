@@ -28,7 +28,7 @@ import { ThemeColor } from "../../common/styles/theme.style";
 import { GetUserInfoDto } from "../../api/dtos/user.dto";
 import ProfileContact from "./profileTab/ProfileContact";
 
-const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
+const ProfileTab = ({ userInfo }: { userInfo: GetUserInfoDto | undefined }) => {
   // later query last rec
   const sbd_total = 460; // s + b + d
 
@@ -113,7 +113,7 @@ const ProfileTab = ({ user }: { user: GetUserInfoDto }) => {
           </div>
         </TabPanel>
         <TabPanel>
-          <ProfileContact user={user} />
+          <ProfileContact userInfo={userInfo} />
         </TabPanel>
         <TabPanel>
           <FormLabel textAlign={"center"} fontSize="1em" fontWeight={"bold"}>

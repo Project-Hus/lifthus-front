@@ -20,27 +20,38 @@ import userApi from "../../../api/userApi";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import useUserStore from "../../../store/user.zustand";
 
-const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
+const ProfileContact = ({
+  userInfo,
+}: {
+  userInfo: GetUserInfoDto | undefined;
+}) => {
   const queryClient = useQueryClient();
+
+  const profileUid = userInfo?.uid;
 
   const { setUserInfo, uid } = useUserStore();
 
-  const [contactInfo, setContactInfo] = useState<UpdateUserInfoDto>({
-    uid: user.uid,
-    company: user.company,
-    location: user.location,
-    contact: user.contact,
-  });
+  const [contactInfo, setContactInfo] = useState<UpdateUserInfoDto | undefined>(
+    !profileUid
+      ? undefined
+      : {
+          uid: profileUid,
+          company: userInfo?.company,
+          location: userInfo?.location,
+          contact: userInfo?.contact,
+        }
+  );
 
   const { register, getValues } = useForm<UpdateUserInfoDto>();
 
   const { mutate: updateContact, isLoading } = useMutation({
     mutationFn: (data: UpdateUserInfoDto) => {
-      data.uid = user.uid;
+      if (!profileUid) return Promise.reject(new Error("undefined"));
+      data.uid = profileUid;
       return userApi.setUserInfo(data);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["user", { uid: user.uid }]);
+      queryClient.invalidateQueries(["user", { uid: profileUid }]);
       setUserInfo(data);
       setContactInfo(data);
     },
@@ -52,29 +63,43 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
 
   // profile user's following list
   const { data: userFollowing } = useQuery({
-    queryKey: ["following", { uid: user.uid }],
-    queryFn: () => relationApi.getUserFollowing({ uid: user.uid }),
+    queryKey: ["following", { uid: profileUid }],
+    queryFn: () =>
+      !profileUid
+        ? Promise.reject(new Error("undefined"))
+        : relationApi.getUserFollowing({ uid: profileUid }),
+    enabled: !!userInfo?.uid,
   });
 
   // profile user's follower list
   const { data: userFollowers, isLoading: followersLoading } = useQuery({
-    queryKey: ["followers", { uid: user.uid }],
-    queryFn: () => relationApi.getUserFollowers({ uid: user.uid }),
+    queryKey: ["followers", { uid: userInfo?.uid }],
+    queryFn: () =>
+      !profileUid
+        ? Promise.reject(new Error("undefined"))
+        : relationApi.getUserFollowers({ uid: profileUid }),
+    enabled: !!userInfo?.uid,
   });
 
   // follow mutation
   const { mutate: followUser, isLoading: followingLoading } = useMutation({
-    mutationFn: () => relationApi.followUser({ uid: user.uid }),
+    mutationFn: () =>
+      !profileUid
+        ? Promise.reject(new Error("undefined"))
+        : relationApi.followUser({ uid: profileUid }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["followers", { uid: user.uid }]);
+      queryClient.invalidateQueries(["followers", { uid: profileUid }]);
     },
   });
 
   // unfollow mutation
   const { mutate: unfollowUser, isLoading: unfollowingLoading } = useMutation({
-    mutationFn: () => relationApi.unfollowUser({ uid: user.uid }),
+    mutationFn: () =>
+      !profileUid
+        ? Promise.reject(new Error("undefined"))
+        : relationApi.unfollowUser({ uid: profileUid }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["followers", { uid: user.uid }]);
+      queryClient.invalidateQueries(["followers", { uid: profileUid }]);
     },
   });
 
@@ -89,33 +114,33 @@ const ProfileContact = ({ user }: { user: GetUserInfoDto }) => {
       >
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
-            <Contact title="#ID" content={user.usercode} />
+            <Contact title="#ID" content={userInfo?.usercode} />
             <Contact
               {...register("company")}
               title="🏢 Company"
-              content={contactInfo.company || ""}
-              change={uid === user.uid}
+              content={contactInfo?.company}
+              change={clientUid === profileUid}
               onSubmit={onSubmit}
             />
             <Contact
               {...register("location")}
               title="🗺️ Location"
-              content={contactInfo.location || ""}
-              change={uid === user.uid}
+              content={contactInfo?.location}
+              change={clientUid === profileUid}
               onSubmit={onSubmit}
             />
             <Contact
               {...register("contact")}
               title="☏ Contact"
-              content={contactInfo.contact || ""}
-              change={uid === user.uid}
+              content={contactInfo?.contact}
+              change={clientUid === profileUid}
               onSubmit={onSubmit}
             />
           </Stack>
         </CardBody>
       </Card>
       {!!clientUid &&
-        clientUid !== user.uid &&
+        clientUid !== profileUid &&
         (userFollowers?.includes(clientUid) ? (
           <Button variant="solid" onClick={() => unfollowUser()}>
             {unfollowingLoading ? <Spinner /> : "Unfollow"}
@@ -134,7 +159,7 @@ export default ProfileContact;
 
 type ContactProps = {
   title: string;
-  content: string;
+  content: string | undefined;
   change?: boolean;
   onSubmit?: () => void;
 };
@@ -194,7 +219,7 @@ const Contact = React.forwardRef<
           </>
         ) : (
           <Text pt="2" fontSize="sm">
-            {content}
+            {content || <Spinner />}
           </Text>
         )}
       </Box>
