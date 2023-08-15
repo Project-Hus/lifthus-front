@@ -49,34 +49,21 @@ const Profile = () => {
           fallbackRender={({ error, resetErrorBoundary }) => <ErrorPage />}
           onReset={reset}
         >
-          <Suspense fallback={<BlueSpinner />}>
-            <ProfileCard userInfo={profileUser} />
-          </Suspense>
-          <Suspense fallback={<BlueSpinner />}>
-            <Routes>
-              <Route index element={<ProfileTab userInfo={profileUser} />} />
-              <Route index element={<Posts posts={posts ? posts : []} />} />
-              <Route
-                path="following"
-                element={<FollowList type="following" />}
-              />
-              <Route
-                path="followers"
-                element={<FollowList type="followers" />}
-              />
-            </Routes>
-            <Routes>
-              <Route
-                index
-                element={
-                  <>
-                    {clientUid === profileUid ? <CreatePost /> : null}
-                    <Posts posts={posts ? posts : []} />
-                  </>
-                }
-              />
-            </Routes>
-          </Suspense>
+          <ProfileCard userInfo={profileUser} />
+          <Routes>
+            <Route
+              index
+              element={
+                <>
+                  <ProfileTab userInfo={profileUser} />
+                  {clientUid === profileUid && <CreatePost />}
+                  <Posts posts={posts || []} />
+                </>
+              }
+            />
+            <Route path="following" element={<FollowList type="following" />} />
+            <Route path="followers" element={<FollowList type="followers" />} />
+          </Routes>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>
