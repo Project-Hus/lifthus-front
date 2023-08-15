@@ -12,6 +12,7 @@ const BasicPageLayout = styled.div`
 `;
 
 export const BasicPageLayoutNoMargin = styled.div`
+  padding-top: 0.5em;
   background-color: ${ThemeColor.backgroundColor};
   width: 100%;
   @media (min-width: 700px) {

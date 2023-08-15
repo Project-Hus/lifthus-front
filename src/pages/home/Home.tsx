@@ -49,13 +49,7 @@ const Home = () => {
     );
   return (
     <BasicPageLayoutNoMargin>
-      <Tabs
-        isFitted
-        variant="enclosed"
-        index={folOrNot ? 1 : 0}
-        size="lg"
-        marginTop={"0.5em"}
-      >
+      <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0} size="lg">
         <TabList borderBlockEnd={"none"}>
           <Tab
             transition="0.3s"
