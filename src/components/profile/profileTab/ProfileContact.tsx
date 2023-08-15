@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { GetUserInfoDto, UpdateUserInfoDto } from "../../../api/dtos/user.dto";
 import relationApi from "../../../api/relationApi";
@@ -42,6 +42,19 @@ const ProfileContact = ({
         }
   );
 
+  useEffect(() => {
+    setContactInfo(
+      !profileUid
+        ? undefined
+        : {
+            uid: profileUid,
+            company: userInfo?.company,
+            location: userInfo?.location,
+            contact: userInfo?.contact,
+          }
+    );
+  }, [profileUid]);
+
   const { register, getValues } = useForm<UpdateUserInfoDto>();
 
   const { mutate: updateContact, isLoading } = useMutation({
@@ -61,18 +74,8 @@ const ProfileContact = ({
     updateContact(getValues());
   };
 
-  // profile user's following list
-  const { data: userFollowing } = useQuery({
-    queryKey: ["following", { uid: profileUid }],
-    queryFn: () =>
-      !profileUid
-        ? Promise.reject(new Error("undefined"))
-        : relationApi.getUserFollowing({ uid: profileUid }),
-    enabled: !!userInfo?.uid,
-  });
-
   // profile user's follower list
-  const { data: userFollowers, isLoading: followersLoading } = useQuery({
+  const { data: userFollowers } = useQuery({
     queryKey: ["followers", { uid: userInfo?.uid }],
     queryFn: () =>
       !profileUid
@@ -159,7 +162,7 @@ export default ProfileContact;
 
 type ContactProps = {
   title: string;
-  content: string | undefined;
+  content?: string;
   change?: boolean;
   onSubmit?: () => void;
 };
@@ -173,7 +176,6 @@ const Contact = React.forwardRef<
     ref
   ) => {
     const [isEditing, setIsEditing] = useState(false);
-
     return (
       <Box
         _hover={

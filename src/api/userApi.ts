@@ -14,9 +14,13 @@ const userApi: UserApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return userTestApi.setUserInfo(newUserinfo);
     // }
-    const res = await axios.put(LIFTHUS_AUTH_URL + "/auth/user", newUserinfo, {
-      withCredentials: true,
-    });
+    const res = await axios.patch(
+      LIFTHUS_AUTH_URL + "/auth/user",
+      newUserinfo,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   },
   getUserInfo: async ({ uid }: Uid) => {
