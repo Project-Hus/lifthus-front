@@ -7,6 +7,7 @@ import userApi from "../../api/userApi";
 import ErrorPage from "../error/ErrorPage";
 import { ThemeColor } from "../../common/styles/theme.style";
 import UserList from "../../components/profile/FollowList/UserList";
+import { BasicPageLayoutNoMargin } from "../../common/components/layouts/BasicPageLayout";
 
 const FollowList = ({ type }: { type: "following" | "followers" }) => {
   const username = useParams().username;

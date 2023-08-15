@@ -49,10 +49,16 @@ const Home = () => {
     );
   return (
     <BasicPageLayoutNoMargin>
-      &nbsp;
-      <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0}>
+      <Tabs
+        isFitted
+        variant="enclosed"
+        index={folOrNot ? 1 : 0}
+        size="lg"
+        marginTop={"0.5em"}
+      >
         <TabList borderBlockEnd={"none"}>
           <Tab
+            transition="0.3s"
             borderBlockEnd={!folOrNot ? "none" : "solid 1px"}
             onClick={async () => {
               queryClient.invalidateQueries(["posts", "all"]);
@@ -62,6 +68,7 @@ const Home = () => {
             All posts
           </Tab>
           <Tab
+            transition="0.3s"
             borderBlockEnd={!folOrNot ? "solid 1px" : "none"}
             onClick={async () => {
               if (!uid) {

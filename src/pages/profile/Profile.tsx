@@ -13,6 +13,7 @@ import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import Pending from "../pending/Pending";
+import { BasicPageLayoutNoMargin } from "../../common/components/layouts/BasicPageLayout";
 
 const Profile = () => {
   const username = useParams().username;
