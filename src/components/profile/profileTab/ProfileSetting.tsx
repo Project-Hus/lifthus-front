@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../../../api/authApi";
+import { ThemeColor } from "../../../common/styles/theme.style";
 import useUserStore from "../../../store/user.zustand";
 
 const ProfileSetting = () => {
@@ -44,6 +45,7 @@ const SettingButton = ({ onClick, color, children }: SettingButtonProps) => {
       width="50%"
       fontSize="0.8em"
       color={color}
+      _hover={{ bg: ThemeColor.backgroundColor }}
     >
       {children}
     </Button>
