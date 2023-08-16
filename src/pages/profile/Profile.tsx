@@ -32,7 +32,7 @@ const Profile = () => {
 
   // query current profile's posts
   const { data: posts } = useQuery({
-    queryKey: ["posts", { profileUid }],
+    queryKey: ["posts", { uid: profileUid }],
     queryFn: () =>
       typeof username === "undefined" || typeof profileUid === "undefined"
         ? Promise.reject(new Error("undefined"))
