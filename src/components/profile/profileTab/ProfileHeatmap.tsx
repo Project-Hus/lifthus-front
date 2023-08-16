@@ -1,4 +1,4 @@
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, Stack, StackItem, Text } from "@chakra-ui/react";
 import ReactCalendarHeatmap from "react-calendar-heatmap";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import "./calendar.css";
@@ -28,18 +28,29 @@ const ProfileHeatmap = () => {
         }}
       />
       <div>
-        <Avatar
-          margin={"0.2em"}
-          name={"Powerlifter"}
-          bgColor={ThemeColor.basicColor}
-          src={"https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"}
-          sx={{
-            "@media screen and (max-width: 350px)": {
-              w: "2em",
-              h: "2em",
-            },
-          }}
-        />
+        <Stack>
+          <StackItem>
+            <Avatar
+              margin={"0.2em"}
+              name={"Powerlifter"}
+              bgColor={ThemeColor.basicColor}
+              src={
+                "https://pngimg.com/uploads/powerlifting/powerlifting_PNG44.png"
+              }
+              sx={{
+                "@media screen and (max-width: 350px)": {
+                  w: "2em",
+                  h: "2em",
+                },
+              }}
+            />
+          </StackItem>
+          <StackItem>
+            <Text fontSize={"sm"}>
+              This feature will come with routine service!
+            </Text>
+          </StackItem>
+        </Stack>
       </div>
     </>
   );
