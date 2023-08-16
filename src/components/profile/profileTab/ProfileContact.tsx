@@ -42,6 +42,7 @@ const ProfileContact = ({
         }
   );
 
+  // to update contact info when profileUid changes
   useEffect(() => {
     setContactInfo(
       !profileUid

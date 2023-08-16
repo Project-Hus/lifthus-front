@@ -1,18 +1,16 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Route, Routes, useParams } from "react-router";
 import repsApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 
 import ErrorPage from "../error/ErrorPage";
-import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Posts from "../../components/Posts";
 import FollowList from "./FollowList";
 import useUserStore from "../../store/user.zustand";
 import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
-import Pending from "../pending/Pending";
 import { ErrorBoundary } from "react-error-boundary";
 
 const Profile = () => {
