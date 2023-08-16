@@ -7,25 +7,19 @@ import postApi from "../api/postApi";
 import BlueSpinner from "../common/components/spinners/BlueSpinner";
 import Post from "./posts/Post";
 
-interface UsersPostsProps {
-  uids: number[];
-}
-const UsersPosts = ({ uids }: UsersPostsProps) => {
+const AllPosts = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [skip, setSkip] = useState(0);
 
   const { data: posts, isLoading } = useQuery<QueryPostDto[]>({
-    queryKey: ["posts", { uids }],
+    queryKey: ["posts", "all"],
     queryFn: async () => {
-      return await postApi.getUsersPosts({
-        users: uids,
-        skip,
-      });
+      return await postApi.getAllPosts(skip);
     },
   });
-  const usersPosts = posts || [];
-  const postList = usersPosts.map((post) => <Post key={post.id} post={post} />);
+  const allPosts = posts || [];
+  const postList = allPosts.map((post) => <Post key={post.id} post={post} />);
   return (
     <>
       <PostBoard>
@@ -35,7 +29,7 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
           postList
         ) : (
           <Text align="center" fontSize="4xl">
-            N😲NE
+            😲
           </Text>
         )}
       </PostBoard>
@@ -49,4 +43,4 @@ const PostBoard = styled.div`
   justify-content: center;
 `;
 
-export default UsersPosts;
+export default AllPosts;

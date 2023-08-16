@@ -5,7 +5,7 @@ import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 
 import ErrorPage from "../error/ErrorPage";
-import Posts from "../../components/Posts";
+import Posts from "../../components/AllPosts";
 import FollowList from "./FollowList";
 import useUserStore from "../../store/user.zustand";
 import CreatePost from "../../components/posts/CreatePost";

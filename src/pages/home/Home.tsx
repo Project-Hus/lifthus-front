@@ -9,9 +9,11 @@ import BasicPageLayout, {
   BasicPageLayoutNoMargin,
 } from "../../common/components/layouts/BasicPageLayout";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import AllPosts from "../../components/AllPosts";
 
-import Posts from "../../components/Posts";
+import Posts from "../../components/AllPosts";
 import CreatePost from "../../components/posts/CreatePost";
+import UsersPosts from "../../components/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
 const Home = () => {
@@ -19,23 +21,14 @@ const Home = () => {
   const pathname = window.location.pathname;
   const folOrNot = pathname.startsWith("/followings");
 
-  const { data: posts, isLoading } = useQuery<QueryPostDto[]>({
-    queryKey: ["posts", folOrNot ? "followings" : "all"],
+  const { data: followings, isLoading } = useQuery<number[]>({
+    queryKey: ["followings", { uid }],
     queryFn: async () => {
-      let posts: QueryPostDto[] = [];
-      if (uid && folOrNot) {
-        const followingList = await relationApi.getUserFollowing({ uid });
-        followingList.push(uid);
-        posts = await postApi.getUsersPosts({
-          users: followingList,
-          skip: 0,
-        });
-      } else {
-        posts = await postApi.getAllPosts(0);
-      }
-      return posts;
+      if (uid) return await relationApi.getUserFollowing({ uid });
+      return [];
     },
   });
+  followings !== undefined && followings.push(uid);
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -78,7 +71,8 @@ const Home = () => {
         </TabList>
       </Tabs>
       {!!uid && <CreatePost />}
-      <Posts posts={posts || []} />
+      {!folOrNot && <AllPosts />}
+      {folOrNot && <UsersPosts uids={followings || []} />}
     </BasicPageLayoutNoMargin>
   );
 };
