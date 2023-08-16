@@ -12,6 +12,7 @@ import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
+import UsersPosts from "../../components/UsersPosts";
 
 const Profile = () => {
   // Client's UID
@@ -30,16 +31,6 @@ const Profile = () => {
 
   const profileUid = profileUser?.uid;
 
-  // query current profile's posts
-  const { data: posts } = useQuery({
-    queryKey: ["posts", { uid: profileUid }],
-    queryFn: () =>
-      typeof username === "undefined" || typeof profileUid === "undefined"
-        ? Promise.reject(new Error("undefined"))
-        : repsApi.getUserPosts({ uid: profileUid }),
-    enabled: !!profileUid,
-  });
-
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -55,7 +46,7 @@ const Profile = () => {
                 <>
                   <ProfileTab userInfo={profileUser} />
                   {clientUid === profileUid && <CreatePost />}
-                  <Posts posts={posts || []} />
+                  <UsersPosts uids={!profileUid ? [] : [profileUid]} />
                 </>
               }
             />
