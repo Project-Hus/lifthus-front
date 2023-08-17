@@ -2,8 +2,6 @@ import { Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { QueryPostDto } from "../../api/dtos/post.dto";
-import postApi from "../../api/postApi";
 import relationApi from "../../api/relationApi";
 import BasicPageLayout, {
   BasicPageLayoutNoMargin,
@@ -11,7 +9,6 @@ import BasicPageLayout, {
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import AllPosts from "../../components/AllPosts";
 
-import Posts from "../../components/AllPosts";
 import CreatePost from "../../components/posts/CreatePost";
 import UsersPosts from "../../components/UsersPosts";
 import useUserStore from "../../store/user.zustand";
@@ -41,7 +38,7 @@ const Home = () => {
       </BasicPageLayout>
     );
   return (
-    <BasicPageLayoutNoMargin>
+    <>
       <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0} size="lg">
         <TabList borderBlockEnd={"none"}>
           <Tab
@@ -73,7 +70,7 @@ const Home = () => {
       {!!uid && <CreatePost />}
       {!folOrNot && <AllPosts />}
       {folOrNot && <UsersPosts uids={followings || []} />}
-    </BasicPageLayoutNoMargin>
+    </>
   );
 };
 
