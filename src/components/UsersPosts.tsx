@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useRef, useState } from "react";
 import { QueryPostDto } from "../api/dtos/post.dto";
 import postApi from "../api/postApi";
 import BlueSpinner from "../common/components/spinners/BlueSpinner";
@@ -11,42 +11,65 @@ interface UsersPostsProps {
   uids: number[];
 }
 const UsersPosts = ({ uids }: UsersPostsProps) => {
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState<QueryPostDto[]>([]);
   const [skip, setSkip] = useState(0);
+  const [seen, setSeen] = useState(true);
 
-  const { data: posts, isLoading } = useQuery<QueryPostDto[]>({
+  const { isLoading } = useQuery({
     queryKey: ["posts", { uids }],
     queryFn: async () => {
-      return await postApi.getUsersPosts({
+      const posts = await postApi.getUsersPosts({
         users: uids,
         skip,
       });
+      setPosts((prev) => [...prev, ...posts]);
+      setSkip((prev) => prev + posts.length);
+      setSeen(false);
+      return posts;
     },
+    enabled: seen,
   });
-  const usersPosts = posts || [];
-  const postList = usersPosts.map((post) => <Post key={post.id} post={post} />);
+  const queryClient = useQueryClient();
+
+  const postList = posts.map((post) => <Post key={post.id} post={post} />);
+
+  /* Infinite scroll */
+  const observerTarget = useRef(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setSeen(true);
+          queryClient.invalidateQueries(["posts", "all"]);
+        }
+      },
+      { threshold: 1 }
+    );
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [observerTarget]);
+
   return (
     <>
-      <PostBoard>
-        {isLoading ? (
+      {postList}
+      {isLoading ? (
+        <div style={{ textAlign: "center", padding: "1em" }}>
           <BlueSpinner />
-        ) : postList ? (
-          postList
-        ) : (
-          <Text align="center" fontSize="4xl">
-            N😲NE
-          </Text>
-        )}
-      </PostBoard>
+        </div>
+      ) : (
+        <Text align="center" fontSize="4xl">
+          😲
+        </Text>
+      )}
+      <div ref={observerTarget} />
     </>
   );
 };
-
-const PostBoard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 export default UsersPosts;

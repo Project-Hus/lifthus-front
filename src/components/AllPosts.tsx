@@ -1,8 +1,6 @@
 import { Text } from "@chakra-ui/react";
-import styled from "@emotion/styled";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { set } from "react-hook-form";
 import { QueryPostDto } from "../api/dtos/post.dto";
 import postApi from "../api/postApi";
 import BlueSpinner from "../common/components/spinners/BlueSpinner";
@@ -13,12 +11,12 @@ const AllPosts = () => {
   const [skip, setSkip] = useState(0);
   const [seen, setSeen] = useState(true);
 
-  const { isLoading } = useQuery<QueryPostDto[]>({
+  const { isLoading } = useQuery({
     queryKey: ["posts", "all"],
     queryFn: async () => {
       const posts = await postApi.getAllPosts(skip);
-      setSkip((prev) => prev + posts.length);
       setPosts((prev) => [...prev, ...posts]);
+      setSkip((prev) => prev + posts.length);
       setSeen(false);
       return posts;
     },
@@ -53,12 +51,11 @@ const AllPosts = () => {
   return (
     <>
       {postList}
-      {isLoading && (
+      {isLoading ? (
         <div style={{ textAlign: "center", padding: "1em" }}>
           <BlueSpinner />
         </div>
-      )}
-      {!isLoading && (
+      ) : (
         <Text align="center" fontSize="4xl">
           😲
         </Text>
