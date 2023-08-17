@@ -7,10 +7,10 @@ import BasicPageLayout, {
   BasicPageLayoutNoMargin,
 } from "../../common/components/layouts/BasicPageLayout";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
-import AllPosts from "../../components/AllPosts";
+import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
-import UsersPosts from "../../components/UsersPosts";
+import UsersPosts from "../../components/posts/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
 const Home = () => {

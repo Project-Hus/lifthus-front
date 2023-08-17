@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes, useParams } from "react-router";
 import userApi from "../../api/userApi";
-import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
+import {
+  QueryErrorResetBoundary,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import ErrorPage from "../error/ErrorPage";
 import FollowList from "./FollowList";
@@ -10,7 +14,10 @@ import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
-import UsersPosts from "../../components/UsersPosts";
+import UsersPosts from "../../components/posts/UsersPosts";
+import { QueryPostDto } from "../../api/dtos/post.dto";
+import postApi from "../../api/postApi";
+import Posts from "../../components/posts/Posts";
 
 const Profile = () => {
   // Client's UID
@@ -28,6 +35,27 @@ const Profile = () => {
   });
 
   const profileUid = profileUser?.uid;
+  const users = !profileUid ? [] : [profileUid];
+
+  const [posts, setPosts] = useState<QueryPostDto[]>([]);
+  const [skip, setSkip] = useState(0);
+  const [seen, setSeen] = useState(true);
+
+  const { isLoading } = useQuery({
+    queryKey: ["posts", { uid: profileUid }],
+    queryFn: async () => {
+      const posts = await postApi.getUsersPosts({
+        users,
+        skip,
+      });
+      setPosts((prev) => [...prev, ...posts]);
+      setSkip((prev) => prev + posts.length);
+      setSeen(false);
+      return posts;
+    },
+    enabled: seen,
+  });
+  const queryClient = useQueryClient();
 
   return (
     <QueryErrorResetBoundary>
@@ -44,7 +72,16 @@ const Profile = () => {
                 <>
                   <ProfileTab userInfo={profileUser} />
                   {clientUid === profileUid && <CreatePost />}
-                  <UsersPosts uids={!profileUid ? [] : [profileUid]} />
+                  <Posts
+                    posts={posts}
+                    onScrollEnd={() => {
+                      setSeen(true);
+                      queryClient.invalidateQueries([
+                        "posts",
+                        { uid: profileUid },
+                      ]);
+                    }}
+                  />
                 </>
               }
             />

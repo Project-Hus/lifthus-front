@@ -1,10 +1,10 @@
 import { Text } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { QueryPostDto } from "../api/dtos/post.dto";
-import postApi from "../api/postApi";
-import BlueSpinner from "../common/components/spinners/BlueSpinner";
-import Post from "./posts/Post";
+import { QueryPostDto } from "../../api/dtos/post.dto";
+import postApi from "../../api/postApi";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import Post from "./Post";
 
 const AllPosts = () => {
   const [posts, setPosts] = useState<QueryPostDto[]>([]);

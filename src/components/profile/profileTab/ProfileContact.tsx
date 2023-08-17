@@ -222,7 +222,7 @@ const Contact = React.forwardRef<
           </>
         ) : (
           <Text pt="2" fontSize="sm">
-            {content || <Spinner />}
+            {content}
           </Text>
         )}
       </Box>
