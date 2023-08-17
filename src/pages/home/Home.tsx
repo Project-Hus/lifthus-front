@@ -2,16 +2,15 @@ import { Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { QueryPostDto } from "../../api/dtos/post.dto";
-import postApi from "../../api/postApi";
 import relationApi from "../../api/relationApi";
 import BasicPageLayout, {
   BasicPageLayoutNoMargin,
 } from "../../common/components/layouts/BasicPageLayout";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import AllPosts from "../../components/AllPosts";
 
-import Posts from "../../components/Posts";
 import CreatePost from "../../components/posts/CreatePost";
+import UsersPosts from "../../components/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
 const Home = () => {
@@ -19,23 +18,14 @@ const Home = () => {
   const pathname = window.location.pathname;
   const folOrNot = pathname.startsWith("/followings");
 
-  const { data: posts, isLoading } = useQuery<QueryPostDto[]>({
-    queryKey: ["posts", folOrNot ? "followings" : "all"],
+  const { data: followings, isLoading } = useQuery<number[]>({
+    queryKey: ["followings", { uid }],
     queryFn: async () => {
-      let posts: QueryPostDto[] = [];
-      if (uid && folOrNot) {
-        const followingList = await relationApi.getUserFollowing({ uid });
-        followingList.push(uid);
-        posts = await postApi.getUsersPosts({
-          users: followingList,
-          skip: 0,
-        });
-      } else {
-        posts = await postApi.getAllPosts(0);
-      }
-      return posts;
+      if (uid) return await relationApi.getUserFollowing({ uid });
+      return [];
     },
   });
+  followings !== undefined && followings.push(uid);
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -48,7 +38,7 @@ const Home = () => {
       </BasicPageLayout>
     );
   return (
-    <BasicPageLayoutNoMargin>
+    <>
       <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0} size="lg">
         <TabList borderBlockEnd={"none"}>
           <Tab
@@ -78,8 +68,9 @@ const Home = () => {
         </TabList>
       </Tabs>
       {!!uid && <CreatePost />}
-      <Posts posts={posts || []} />
-    </BasicPageLayoutNoMargin>
+      {!folOrNot && <AllPosts />}
+      {folOrNot && <UsersPosts uids={followings || []} />}
+    </>
   );
 };
 

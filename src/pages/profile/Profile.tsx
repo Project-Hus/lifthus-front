@@ -1,17 +1,16 @@
 import React from "react";
 import { Route, Routes, useParams } from "react-router";
-import repsApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 
 import ErrorPage from "../error/ErrorPage";
-import Posts from "../../components/Posts";
 import FollowList from "./FollowList";
 import useUserStore from "../../store/user.zustand";
 import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
+import UsersPosts from "../../components/UsersPosts";
 
 const Profile = () => {
   // Client's UID
@@ -30,16 +29,6 @@ const Profile = () => {
 
   const profileUid = profileUser?.uid;
 
-  // query current profile's posts
-  const { data: posts } = useQuery({
-    queryKey: ["posts", { profileUid }],
-    queryFn: () =>
-      typeof username === "undefined" || typeof profileUid === "undefined"
-        ? Promise.reject(new Error("undefined"))
-        : repsApi.getUserPosts({ uid: profileUid }),
-    enabled: !!profileUid,
-  });
-
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -55,7 +44,7 @@ const Profile = () => {
                 <>
                   <ProfileTab userInfo={profileUser} />
                   {clientUid === profileUid && <CreatePost />}
-                  <Posts posts={posts || []} />
+                  <UsersPosts uids={!profileUid ? [] : [profileUid]} />
                 </>
               }
             />
