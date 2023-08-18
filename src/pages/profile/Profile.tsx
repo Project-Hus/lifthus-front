@@ -10,7 +10,7 @@ import CreatePost from "../../components/posts/CreatePost";
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
-import UsersPosts from "../../components/UsersPosts";
+import UsersPosts from "../../components/posts/UsersPosts";
 
 const Profile = () => {
   // Client's UID
@@ -19,7 +19,7 @@ const Profile = () => {
   // profile username
   const username = useParams().username;
   // query current profile's user information
-  const { data: profileUser } = useQuery({
+  const { data: profileUser, isLoading } = useQuery({
     queryKey: ["user", { username }],
     queryFn: () =>
       typeof username === "undefined"
@@ -28,6 +28,7 @@ const Profile = () => {
   });
 
   const profileUid = profileUser?.uid;
+  const users = !profileUid ? [] : [profileUid];
 
   return (
     <QueryErrorResetBoundary>
@@ -44,7 +45,7 @@ const Profile = () => {
                 <>
                   <ProfileTab userInfo={profileUser} />
                   {clientUid === profileUid && <CreatePost />}
-                  <UsersPosts uids={!profileUid ? [] : [profileUid]} />
+                  {!isLoading && <UsersPosts uids={users} />}
                 </>
               }
             />

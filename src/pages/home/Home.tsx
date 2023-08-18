@@ -1,22 +1,17 @@
-import { Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import relationApi from "../../api/relationApi";
-import BasicPageLayout, {
-  BasicPageLayoutNoMargin,
-} from "../../common/components/layouts/BasicPageLayout";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
-import AllPosts from "../../components/AllPosts";
+import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
-import UsersPosts from "../../components/UsersPosts";
+import UsersPosts from "../../components/posts/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
 const Home = () => {
   const { uid } = useUserStore();
-  const pathname = window.location.pathname;
-  const folOrNot = pathname.startsWith("/followings");
 
   const { data: followings, isLoading } = useQuery<number[]>({
     queryKey: ["followings", { uid }],
@@ -29,47 +24,47 @@ const Home = () => {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  if (isLoading)
-    return (
-      <BasicPageLayout>
-        <Flex justifyContent="center" alignItems="center">
-          <BlueSpinner />
-        </Flex>
-      </BasicPageLayout>
-    );
   return (
     <>
-      <Tabs isFitted variant="enclosed" index={folOrNot ? 1 : 0} size="lg">
-        <TabList borderBlockEnd={"none"}>
+      <Tabs isFitted variant="enclosed" defaultIndex={!!uid ? 1 : 0} size="lg">
+        <TabList>
           <Tab
             transition="0.3s"
-            borderBlockEnd={!folOrNot ? "none" : "solid 1px"}
             onClick={async () => {
               queryClient.invalidateQueries(["posts", "all"]);
-              navigate("/");
             }}
           >
             All posts
           </Tab>
           <Tab
             transition="0.3s"
-            borderBlockEnd={!folOrNot ? "solid 1px" : "none"}
             onClick={async () => {
               if (!uid) {
                 navigate("/sign");
                 return;
               }
               queryClient.invalidateQueries(["posts", "followings"]);
-              navigate("/followings");
             }}
           >
             Followings' posts
           </Tab>
         </TabList>
+        {!!uid && <CreatePost />}
+        <TabPanels>
+          <TabPanel>
+            <AllPosts />
+          </TabPanel>
+          <TabPanel>
+            {isLoading ? (
+              <div style={{ textAlign: "center", padding: "1em" }}>
+                <BlueSpinner />
+              </div>
+            ) : (
+              !!uid && <UsersPosts uids={followings || []} />
+            )}
+          </TabPanel>
+        </TabPanels>
       </Tabs>
-      {!!uid && <CreatePost />}
-      {!folOrNot && <AllPosts />}
-      {folOrNot && <UsersPosts uids={followings || []} />}
     </>
   );
 };

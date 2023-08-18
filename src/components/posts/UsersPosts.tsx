@@ -1,20 +1,28 @@
 import { Text } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import { QueryPostDto } from "../api/dtos/post.dto";
-import postApi from "../api/postApi";
-import BlueSpinner from "../common/components/spinners/BlueSpinner";
-import Post from "./posts/Post";
+import { QueryPostDto } from "../../api/dtos/post.dto";
+import postApi from "../../api/postApi";
+import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import Post from "./Post";
 
-const AllPosts = () => {
+interface UsersPostsProps {
+  uids: number[];
+}
+const UsersPosts = ({ uids }: UsersPostsProps) => {
   const [posts, setPosts] = useState<QueryPostDto[]>([]);
   const [skip, setSkip] = useState(0);
   const [seen, setSeen] = useState(true);
 
   const { isLoading } = useQuery({
-    queryKey: ["posts", "all"],
+    queryKey: ["posts", { uids }],
     queryFn: async () => {
-      const posts = await postApi.getAllPosts(skip);
+      const posts = await postApi.getUsersPosts({
+        users: uids,
+        skip,
+      });
+      console.log(posts, "PP");
       setPosts((prev) => [...prev, ...posts]);
       setSkip((prev) => prev + posts.length);
       setSeen(false);
@@ -65,4 +73,4 @@ const AllPosts = () => {
   );
 };
 
-export default AllPosts;
+export default UsersPosts;

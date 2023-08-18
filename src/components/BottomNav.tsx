@@ -34,7 +34,7 @@ const BottomNav = () => {
             <StatGraph />
           </NavItem>
         </NavLink>
-        <NavLink to={!uid ? "/" : "followings"} onClick={() => setActiveNav(2)}>
+        <NavLink to={"/"} onClick={() => setActiveNav(2)}>
           <NavItem active={true ? activeNav == 2 : false}>
             <Home />
           </NavItem>
