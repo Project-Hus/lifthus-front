@@ -64,6 +64,19 @@ const authApi: AuthApi = {
       return Promise.reject(err);
     }
   },
+  deleteAccount: async (): Promise<void> => {
+    try {
+      const res = await axios.delete(LIFTHUS_AUTH_URL + "/auth/account", {
+        withCredentials: true,
+      });
+      if (res.status !== statusInfo.succ.Ok.code) {
+        throw new Error(statusInfo.fail.Unexpected.message);
+      }
+      return;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  },
 };
 
 /**

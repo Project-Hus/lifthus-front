@@ -4,6 +4,7 @@ export interface AuthApi {
   updateSession: () => Promise<SessionResponse>;
   getSID: () => Promise<string>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 export type SignParams = {
   username: string;
