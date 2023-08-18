@@ -18,5 +18,8 @@ const authTestApi: AuthApi = {
   signOut: async (): Promise<void> => {
     return;
   },
+  deleteAccount: async (): Promise<void> => {
+    return;
+  },
 };
 export default authTestApi;
