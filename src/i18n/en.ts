@@ -1,6 +1,7 @@
 import sign from "./sign/en";
 import register from "./register/en";
 import trainingType from "./trainingType/en";
+import auth from "./auth/en";
 
 export const en = {
   translation: {
@@ -12,6 +13,7 @@ export const en = {
     sign,
     register,
     trainingType,
+    auth,
   },
 };
 

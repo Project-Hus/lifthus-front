@@ -1,6 +1,7 @@
 import sign from "./sign/kr";
 import register from "./register/kr";
 import trainingType from "./trainingType/kr";
+import auth from "./auth/kr";
 
 export const kr = {
   translation: {
@@ -12,6 +13,7 @@ export const kr = {
     sign,
     register,
     trainingType,
+    auth,
   },
 };
 
