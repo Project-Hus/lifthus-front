@@ -60,7 +60,7 @@ const Home = () => {
                 <BlueSpinner />
               </div>
             ) : (
-              <UsersPosts uids={followings || []} />
+              !!uid && <UsersPosts uids={followings || []} />
             )}
           </TabPanel>
         </TabPanels>
