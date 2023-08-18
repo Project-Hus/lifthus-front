@@ -22,6 +22,7 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
         users: uids,
         skip,
       });
+      console.log(posts, "PP");
       setPosts((prev) => [...prev, ...posts]);
       setSkip((prev) => prev + posts.length);
       setSeen(false);
