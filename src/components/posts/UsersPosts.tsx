@@ -16,13 +16,12 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
   const [seen, setSeen] = useState(true);
 
   const { isLoading } = useQuery({
-    queryKey: ["posts", { uids }],
+    queryKey: ["posts", "followings"],
     queryFn: async () => {
       const posts = await postApi.getUsersPosts({
         users: uids,
         skip,
       });
-      console.log(posts, "PP");
       setPosts((prev) => [...prev, ...posts]);
       setSkip((prev) => prev + posts.length);
       setSeen(false);
@@ -41,7 +40,7 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
       (entries) => {
         if (entries[0].isIntersecting) {
           setSeen(true);
-          queryClient.invalidateQueries(["posts", "all"]);
+          queryClient.invalidateQueries(["posts"]);
         }
       },
       { threshold: 1 }

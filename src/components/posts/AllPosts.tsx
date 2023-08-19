@@ -1,30 +1,37 @@
 import { Text } from "@chakra-ui/react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Post from "./Post";
 
+// 쿼리 로딩 => 온석세스 셋포스트 인밸리드 => 또 쿼리
+
 const AllPosts = () => {
-  const [posts, setPosts] = useState<QueryPostDto[]>([]);
-  const [skip, setSkip] = useState(0);
-  const [seen, setSeen] = useState(true);
-
-  const { isLoading } = useQuery({
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
     queryKey: ["posts", "all"],
-    queryFn: async () => {
-      const posts = await postApi.getAllPosts(skip);
-      setPosts((prev) => [...prev, ...posts]);
-      setSkip((prev) => prev + posts.length);
-      setSeen(false);
-      return posts;
+    queryFn: async ({ pageParam = 0 }) => {
+      console.log(pageParam);
+      return await postApi.getAllPosts(pageParam);
     },
-    enabled: seen,
+    getNextPageParam: (lastPage, pages) =>
+      pages.reduce((acc, curr) => acc + curr.length, 0),
   });
-  const queryClient = useQueryClient();
 
-  const postList = posts.map((post) => <Post key={post.id} post={post} />);
+  const queryClient = useQueryClient();
 
   /* Infinite scroll */
   const observerTarget = useRef(null);
@@ -32,8 +39,8 @@ const AllPosts = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setSeen(true);
-          queryClient.invalidateQueries(["posts", "all"]);
+          console.log("intersecting");
+          fetchNextPage();
         }
       },
       { threshold: 1 }
@@ -50,17 +57,25 @@ const AllPosts = () => {
 
   return (
     <>
-      {postList}
-      {isLoading ? (
+      {data?.pages.map((page, i) => (
+        <React.Fragment key={i}>
+          {page.map((post) => (
+            <Post key={post.id} post={post} />
+          ))}
+        </React.Fragment>
+      ))}
+      {isFetching ? (
         <div style={{ textAlign: "center", padding: "1em" }}>
           <BlueSpinner />
         </div>
       ) : (
-        <Text align="center" fontSize="4xl">
-          😲
-        </Text>
+        <>
+          <Text align="center" fontSize="4xl">
+            😲
+          </Text>
+        </>
       )}
-      <div ref={observerTarget} />
+      {<div ref={observerTarget} />}
     </>
   );
 };
