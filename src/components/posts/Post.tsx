@@ -214,7 +214,7 @@ const Post = ({ post }: PostProp) => {
                   <Heading fontSize="1.1em">{username}</Heading>
                 </LinkChakra>
                 <Text fontSize={"0.9em"} color="gray.400">
-                  {`${post.createdAt}`.slice(0, 21)}
+                  {`${new Date(post.createdAt)}`.slice(0, 21)}
                 </Text>
               </Box>
             </Flex>
