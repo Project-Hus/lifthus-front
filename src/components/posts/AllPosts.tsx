@@ -24,14 +24,11 @@ const AllPosts = () => {
   } = useInfiniteQuery({
     queryKey: ["posts", "all"],
     queryFn: async ({ pageParam = 0 }) => {
-      console.log(pageParam);
       return await postApi.getAllPosts(pageParam);
     },
     getNextPageParam: (lastPage, pages) =>
       pages.reduce((acc, curr) => acc + curr.length, 0),
   });
-
-  const queryClient = useQueryClient();
 
   /* Infinite scroll */
   const observerTarget = useRef(null);
@@ -39,7 +36,6 @@ const AllPosts = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          console.log("intersecting");
           fetchNextPage();
         }
       },
