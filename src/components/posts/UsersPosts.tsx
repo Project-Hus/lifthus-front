@@ -1,6 +1,10 @@
 import { Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
@@ -11,27 +15,26 @@ interface UsersPostsProps {
   uids: number[];
 }
 const UsersPosts = ({ uids }: UsersPostsProps) => {
-  const [posts, setPosts] = useState<QueryPostDto[]>([]);
-  const [skip, setSkip] = useState(0);
-  const [seen, setSeen] = useState(true);
-
-  const { isLoading } = useQuery({
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
     queryKey: ["posts", "followings"],
-    queryFn: async () => {
+    queryFn: async ({ pageParam = 0 }) => {
       const posts = await postApi.getUsersPosts({
         users: uids,
-        skip,
+        skip: pageParam,
       });
-      setPosts((prev) => [...prev, ...posts]);
-      setSkip((prev) => prev + posts.length);
-      setSeen(false);
       return posts;
     },
-    enabled: seen,
+    getNextPageParam: (lastPage, pages) =>
+      pages.reduce((acc, curr) => acc + curr.length, 0),
   });
-  const queryClient = useQueryClient();
-
-  const postList = posts.map((post) => <Post key={post.id} post={post} />);
 
   /* Infinite scroll */
   const observerTarget = useRef(null);
@@ -39,8 +42,7 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setSeen(true);
-          queryClient.invalidateQueries(["posts"]);
+          fetchNextPage();
         }
       },
       { threshold: 1 }
@@ -57,8 +59,14 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
 
   return (
     <>
-      {postList}
-      {isLoading ? (
+      {data?.pages.map((page, i) => (
+        <React.Fragment key={i}>
+          {page.map((post) => (
+            <Post key={post.id} post={post} />
+          ))}
+        </React.Fragment>
+      ))}
+      {isFetching ? (
         <div style={{ textAlign: "center", padding: "1em" }}>
           <BlueSpinner />
         </div>
