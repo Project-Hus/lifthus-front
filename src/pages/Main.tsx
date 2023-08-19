@@ -8,6 +8,7 @@ import Statistics from "./statistics/Statistics";
 import { BasicPageLayoutNoMargin } from "../common/components/layouts/BasicPageLayout";
 import Group from "./group/group";
 import Home from "./home/Home";
+import PostRoute from "./post/PostRoute";
 
 const Main = () => {
   let username = useUserStore((state) => state.username);
@@ -18,9 +19,10 @@ const Main = () => {
       {/*registered === false && <Navigate to="/register" />*/}
       <Routes>
         <Route index element={<Home />} />
-        <Route path="group" element={<Group />} />
+        <Route path="post/*" element={<PostRoute />} />
+        <Route path="group/*" element={<Group />} />
         <Route path="routine/*" element={<Routine />} />
-        <Route path="statistics" element={<Statistics />} />
+        <Route path="statistics/*" element={<Statistics />} />
         <Route path="profile/*" element={<ProfileRoute />} />
       </Routes>
       <BottomNav />

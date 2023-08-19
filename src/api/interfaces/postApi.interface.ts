@@ -7,6 +7,13 @@ import {
 } from "../dtos/post.dto";
 
 export interface PostApi {
+  getPost: ({
+    pid,
+    slug,
+  }: {
+    pid?: number;
+    slug?: string;
+  }) => Promise<QueryPostDto>;
   getAllPosts: (skip?: number) => Promise<QueryPostDto[]>;
   getUserPosts: ({ uid, skip }: GetUserPostsParams) => Promise<QueryPostDto[]>;
   getUsersPosts: ({

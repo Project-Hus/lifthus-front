@@ -5,6 +5,21 @@ import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 import postTestApi from "./testApi/postTestApi";
 
 const postApi: PostApi = {
+  getPost: async ({ pid, slug }: { pid?: number; slug?: string }) => {
+    if (pid) {
+      const res = await axios.get(
+        LIFTHUS_API_URL + `/post/query/post/id/${pid}`
+      );
+      return res.data;
+    } else if (slug) {
+      const res = await axios.get(
+        LIFTHUS_API_URL + `/post/query/post/slug/${slug}`
+      );
+      return res.data;
+    } else {
+      return Promise.reject("Invalid parameters");
+    }
+  },
   getAllPosts: async (skip?: number): Promise<QueryPostDto[]> => {
     if (!skip) skip = 0;
     const res = await axios.get(
