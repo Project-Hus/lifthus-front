@@ -215,8 +215,8 @@ const Comment = ({ comment }: CommentProps) => {
         </Flex>
         <Text color="gray.400" fontSize="sm">
           {updatedAt == null
-            ? createdAt.toString().slice(0, 21)
-            : updatedAt.toString().slice(0, 21)}
+            ? new Date(createdAt).toString().slice(0, 21)
+            : new Date(updatedAt).toString().slice(0, 21)}
         </Text>
         {/* comment content */}
         {IsCommentEdit == false && (
