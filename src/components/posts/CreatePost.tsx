@@ -166,7 +166,13 @@ const CreatePost = () => {
                     onChange={onLoadFile}
                   />
                 </Button>
-                <Button>share routine</Button>
+                <Button
+                  onClick={() =>
+                    alert("This feature will come with routine service..!")
+                  }
+                >
+                  share routine
+                </Button>
               </IconbuttonStyle>
               <Button
                 variant="ghost"
