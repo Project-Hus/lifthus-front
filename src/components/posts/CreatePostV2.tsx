@@ -73,8 +73,8 @@ const CreatePostV2 = () => {
     try {
       const post: CreatePostDto = {
         author: uid,
-        // images: imagePreview,
         content: data.text,
+        images: imageFileList,
       };
       await mutate(post);
       reset();

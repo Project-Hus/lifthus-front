@@ -17,6 +17,7 @@ export type QueryPostDto = {
 export type CreatePostDto = {
   userGroup?: number;
   author: number;
+  images?: File[];
   content: string;
 };
 
