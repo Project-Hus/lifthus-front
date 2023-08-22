@@ -64,7 +64,6 @@ const CreatePostV2 = () => {
 
   //이미지 미리보기
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const image = watch("images");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target?.files;
     console.log("FILE", files);
