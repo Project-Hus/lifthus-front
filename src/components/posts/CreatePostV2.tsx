@@ -22,6 +22,7 @@ import useUserStore from "../../store/user.zustand";
 import { CreatePostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
+import useClickEvent from "../../hooks/clickEvent";
 
 /**
  * CreatePost buttons' style
@@ -58,10 +59,9 @@ const CreatePostV2 = () => {
 
   const { register, handleSubmit, reset, watch } = useForm<CreatePostData>();
 
-  const imageInput = useRef<HTMLInputElement>(null);
-  const onClickImageUpload = useCallback(() => {
-    imageInput.current?.click();
-  }, []);
+  const { clickRef: imageInput, onClickRef: onClickImageUpload } =
+    useClickEvent();
+
   //이미지 미리보기
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const image = watch("images");
