@@ -203,6 +203,8 @@ const Post = ({ post }: PostProp) => {
         color="white"
         fontSize="0.7em"
         margin="0.5em"
+        marginLeft={"0em"}
+        marginRight={"0em"}
         marginBottom={"0em"}
       >
         <CardHeader paddingBottom={"0"}>
