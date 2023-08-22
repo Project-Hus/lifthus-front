@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -15,14 +15,15 @@ import {
   useDisclosure,
   Textarea,
 } from "@chakra-ui/react";
-import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { Image } from "@chakra-ui/image";
+import { PlusSquareIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 import useUserStore from "../../store/user.zustand";
 import { CreatePostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useClickEvent from "../../hooks/clickEvent";
+import useImageFileListWithPreview from "../../hooks/imagePreview";
+import ImageBoard from "../../common/components/images/ImageBoard";
 
 /**
  * CreatePost buttons' style
@@ -63,20 +64,8 @@ const CreatePostV2 = () => {
     useClickEvent();
 
   //이미지 미리보기
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target?.files;
-    console.log("FILE", files);
-
-    let urlList = [];
-    if (files) {
-      const fileList = Array.from(files);
-      for (const url of fileList) {
-        urlList.push(URL.createObjectURL(url));
-      }
-      setImagePreview(urlList);
-    }
-  };
+  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
+    useImageFileListWithPreview();
 
   const onSubmit = async (data: CreatePostData) => {
     if (data.text.length == 0) return alert("내용을 입력해주세요");
@@ -88,7 +77,6 @@ const CreatePostV2 = () => {
         content: data.text,
       };
       await mutate(post);
-      setImagePreview([]);
       reset();
       onClose();
     } catch (error) {
@@ -117,32 +105,9 @@ const CreatePostV2 = () => {
             </Flex>
           </Flex>
         </CardHeader>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: ThemeColor.backgroundColor,
-            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
-            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
-          }}
-        >
-          {imagePreview.length != 0 &&
-            imagePreview.map((src, i) => (
-              <Image
-                key={i}
-                src={src}
-                objectFit="contain"
-                maxH={"50vh"}
-                alt="rep's imagefile"
-              />
-            ))}
-          {imagePreview.length > 0 && (
-            <Button onClick={() => setImagePreview([])}>
-              <CloseIcon />
-            </Button>
-          )}
-        </div>
-
+        {!!imagePreviewSources.length && !!imagePreviewSources.length && (
+          <ImageBoard srcs={imagePreviewSources} removeImages={removeImages} />
+        )}
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Textarea
