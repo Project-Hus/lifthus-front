@@ -13,6 +13,14 @@ const ImageBoardDiv = styled.div`
   border-left: solid 0.5em ${ThemeColor.backgroundColorDarker};
   border-right: solid 0.5em ${ThemeColor.backgroundColorDarker};
   overflow-x: scroll;
+  img {
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+    @media (min-width: 700px) {
+      width: 80%;
+    }
+  }
 `;
 
 const ImageBoard = ({
@@ -35,15 +43,17 @@ const ImageBoard = ({
               w="80%"
               alt="rep's imagefile"
             />
-            <Button
-              rounded={"0"}
-              variant={"ghost"}
-              bg={ThemeColor.backgroundColorDarker}
-              _hover={{ bg: ThemeColor.backgroundColorDarker }}
-              onClick={() => removeImages([i])}
-            >
-              <CloseIcon fontSize={"2xl"} />
-            </Button>
+            {!!removeImages && (
+              <Button
+                rounded={"0"}
+                variant={"ghost"}
+                bg={ThemeColor.backgroundColorDarker}
+                _hover={{ bg: ThemeColor.backgroundColorDarker }}
+                onClick={() => removeImages([i])}
+              >
+                <CloseIcon fontSize={"2xl"} />
+              </Button>
+            )}
           </>
         ))}
     </ImageBoardDiv>
