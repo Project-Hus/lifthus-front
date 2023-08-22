@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -23,17 +23,29 @@ import { CreatePostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 
-const CreatePostV2 = () => {
-  //call user_id from zustand
-  const { uid, username, profile_image_url } = useUserStore();
-  // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
-  const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, watch } = useForm<FormData>();
+/**
+ * CreatePost buttons' style
+ */
+const IconbuttonStyle = styled.div`
+  & > Button {
+    background-color: ${ThemeColor.backgroundColorDarker};
+    :hover {
+      background-color: ${ThemeColor.backgroundColor};
+    }
+  }
+`;
 
-  const { getButtonProps, getDisclosureProps, onOpen, onClose } =
-    useDisclosure();
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
+type CreatePostData = {
+  text: string;
+  images: FileList;
+};
+
+const CreatePostV2 = () => {
+  const { uid, username, profile_image_url } = useUserStore();
+
+  const { onClose } = useDisclosure();
+
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
     async (post: CreatePostDto) => postApi.createPost(post),
@@ -44,32 +56,18 @@ const CreatePostV2 = () => {
     }
   );
 
-  const IconbuttonStyle = styled.div`
-    & > Button {
-      background-color: ${ThemeColor.backgroundColorDarker};
-      :hover {
-        background-color: ${ThemeColor.backgroundColor};
-      }
-    }
-  `;
+  const { register, handleSubmit, reset, watch } = useForm<CreatePostData>();
 
-  type FormData = {
-    text: string;
-    image: FileList;
-  };
-
-  // useRef를 이용해 input태그에 접근한다.
   const imageInput = useRef<HTMLInputElement>(null);
-  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
-  const onCickImageUpload = () => {
+  const onClickImageUpload = useCallback(() => {
     imageInput.current?.click();
-  };
+  }, []);
   //이미지 미리보기
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const image = watch("image");
+  const image = watch("images");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target?.files;
-    console.log(files);
+    console.log("FILE", files);
 
     let urlList = [];
     if (files) {
@@ -81,7 +79,7 @@ const CreatePostV2 = () => {
     }
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: CreatePostData) => {
     if (data.text.length == 0) return alert("내용을 입력해주세요");
 
     try {
@@ -130,8 +128,9 @@ const CreatePostV2 = () => {
           }}
         >
           {imagePreview.length != 0 &&
-            imagePreview.map((src) => (
+            imagePreview.map((src, i) => (
               <Image
+                key={i}
                 src={src}
                 objectFit="contain"
                 maxH={"50vh"}
@@ -155,12 +154,13 @@ const CreatePostV2 = () => {
 
             <Flex justifyContent={"space-between"}>
               <IconbuttonStyle>
-                <Button onClick={onCickImageUpload}>
+                <Button onClick={onClickImageUpload}>
                   <PlusSquareIcon />
                   <Input
+                    multiple
                     type="file"
                     accept="image/*"
-                    {...register("image")}
+                    {...register("images")}
                     ref={imageInput}
                     display="none"
                     onChange={onLoadFile}

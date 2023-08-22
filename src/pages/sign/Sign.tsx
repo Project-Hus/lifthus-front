@@ -18,7 +18,6 @@ import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
 
 const Sign = () => {
   const { t, i18n } = useTranslation();
-
   // const { isLoading, mutate } = useMutation(async () => {
   //   const res = await axios.delete(HUS_SESSION_REVOKE_ENDPOINT, {
   //     withCredentials: true,
