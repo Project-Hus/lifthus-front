@@ -120,7 +120,7 @@ const Post = ({ post }: PostProp) => {
 
   //이미지 미리보기
   const [imagePreview, setImagePreview] = useState<string[]>(
-    post.images ? post.images : []
+    [] //post.images ? post.images : []
   );
 
   const image = watch("images");
@@ -297,7 +297,7 @@ const Post = ({ post }: PostProp) => {
             <></>
           )}
           {isEdited != true && (
-            <Image src={post.images ? post.images[0] : ""}></Image>
+            <></> /*<Image src={post.images ? post.images[0] : ""}></Image>*/
           )}
         </div>
 
@@ -350,7 +350,7 @@ const Post = ({ post }: PostProp) => {
                       color="white"
                       onClick={() => {
                         setEdited(false);
-                        setImagePreview(post.images ? post.images : []);
+                        //setImagePreview(post.images ? post.images : []);
                       }}
                       _hover={{ bg: ThemeColor.backgroundColor }}
                       variant="ghost"

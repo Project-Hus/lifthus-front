@@ -28,7 +28,7 @@ const ImageBoard = ({
   removeImages,
 }: {
   srcs: string[];
-  removeImages: any;
+  removeImages?: any;
 }) => {
   return (
     <ImageBoardDiv>

@@ -37,6 +37,7 @@ import userApi from "../../api/userApi";
 import { GetUserInfoDto } from "../../api/dtos/user.dto";
 import { Link } from "react-router-dom";
 import useUserStore from "../../store/user.zustand";
+import ImageBoard from "../../common/components/images/ImageBoard";
 
 //resizing textarea
 function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -72,6 +73,9 @@ const PostV2 = ({ pid, slug }: PostProp) => {
       return await postApi.getPost(secondKey);
     },
   });
+
+  console.log(post);
+  const imgSrcs = !!post && post.images ? post.images : [];
 
   const {
     data: author,
@@ -140,9 +144,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
   };
 
   //이미지 미리보기
-  const [imagePreview, setImagePreview] = useState<string[]>(
-    post && post.images ? post.images : []
-  );
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
 
   const image = watch("images");
   const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -307,6 +309,9 @@ const PostV2 = ({ pid, slug }: PostProp) => {
             borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
           }}
         >
+          <ImageBoard
+            srcs={(post && post.images?.map((img) => img.src)) || []}
+          />
           {isEdited && imagePreview.length > 0 ? (
             <>
               <Button onClick={() => setImagePreview([])}>
@@ -317,9 +322,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
           ) : (
             <></>
           )}
-          {isEdited != true && (
-            <Image src={post && post.images ? post.images[0] : ""}></Image>
-          )}
+          {isEdited != true && <></>}
         </div>
 
         <CardBody paddingTop="0.5em">
@@ -372,7 +375,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
                       onClick={() => {
                         if (!post) return;
                         setEdited(false);
-                        setImagePreview(post.images ? post.images : []);
+                        setImagePreview([]);
                       }}
                       _hover={{ bg: ThemeColor.backgroundColor }}
                       variant="ghost"

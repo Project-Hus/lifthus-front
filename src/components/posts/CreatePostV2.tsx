@@ -22,7 +22,7 @@ import { CreatePostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useClickEvent from "../../hooks/clickEvent";
-import useImageFileListWithPreview from "../../hooks/imageFileListWithPreview";
+import { useImageFileListWithPreview } from "../../hooks/images";
 import ImageBoard from "../../common/components/images/ImageBoard";
 
 /**

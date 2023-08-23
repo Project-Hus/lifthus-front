@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useImageFileListWithPreview = () => {
+export const useImageFileListWithPreview = () => {
   const [imagePreviewSources, setImagePreviewSources] = useState<string[]>([]);
   const [imageFileList, setImageFileList] = useState<File[]>([]);
 
@@ -30,5 +30,3 @@ const useImageFileListWithPreview = () => {
 
   return { onLoadFile, imagePreviewSources, imageFileList, removeImages };
 };
-
-export default useImageFileListWithPreview;
