@@ -54,7 +54,10 @@ const CreatePostV2 = () => {
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        removeImages(imagePreviewSources.map((_, idx) => idx));
+        console.log("post created", data);
       },
+      onError(error, variables, context) {},
     }
   );
 
@@ -109,7 +112,7 @@ const CreatePostV2 = () => {
           <ImageBoard srcs={imagePreviewSources} removeImages={removeImages} />
         )}
         <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <Textarea
               color="black"
               {...register("text")}
