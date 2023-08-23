@@ -38,6 +38,9 @@ import { GetUserInfoDto } from "../../api/dtos/user.dto";
 import { Link } from "react-router-dom";
 import useUserStore from "../../store/user.zustand";
 import ImageBoard from "../../common/components/images/ImageBoard";
+import { useImageFileListWithPreview } from "../../hooks/images";
+import { LIFTHUS_API_URL } from "../../common/routes";
+import axios from "axios";
 
 //resizing textarea
 function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -61,22 +64,40 @@ type FormData = {
 
 // Post component
 const PostV2 = ({ pid, slug }: PostProp) => {
-  const secondKey = { pid, slug };
+  const clientUid = useUserStore((state) => state.uid);
 
+  // query the post by pid or slug
+  const secondQueryKey = { pid, slug };
   const {
     data: post,
     isLoading: postLoading,
     isError: postError,
   } = useQuery<QueryPostDto>({
-    queryKey: ["post", secondKey],
+    queryKey: ["post", secondQueryKey],
     queryFn: async () => {
-      return await postApi.getPost(secondKey);
+      return await postApi.getPost(secondQueryKey);
     },
   });
 
-  console.log(post);
-  const imgSrcs = !!post && post.images ? post.images : [];
+  // query the comments of the post
+  const { data: comments, isLoading: commentsLoading } = useQuery({
+    queryKey: ["comments", { pid: post?.id }],
+    queryFn: async () => {
+      if (!post) return Promise.reject("undefined");
+      const res = await axios.get(
+        LIFTHUS_API_URL + `/post/query/comment?pid=${post.id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("res", res);
+      return res.data;
+    },
+  });
 
+  console.log("comm", comments);
+
+  // query the author info
   const {
     data: author,
     isLoading: userLoading,
@@ -90,22 +111,21 @@ const PostV2 = ({ pid, slug }: PostProp) => {
     enabled: !!post,
   });
 
-  const clientUid = useUserStore((state) => state.uid);
-
-  const username = author?.username;
-  const profileImage = author?.profile_image_url;
-
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();
+
   const { ref, ...rest } = register("content");
-  //open/close comment window functions
+
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
-  // post의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
 
+  // whether the client is editing the post
+  const [isEditing, setEditing] = useState(false);
+
+  // delete post
   const { mutate: deleteMutate } = useMutation(
     async () =>
       !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
@@ -128,13 +148,10 @@ const PostV2 = ({ pid, slug }: PostProp) => {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         console.log("query reload");
-        setEdited(false);
+        setEditing(false);
       },
     }
   );
-
-  // which the post is edited
-  const [isEdited, setEdited] = useState(false);
 
   // useRef를 이용해 input태그에 접근한다.
   const imageInput = useRef<HTMLInputElement | null>(null);
@@ -146,19 +163,8 @@ const PostV2 = ({ pid, slug }: PostProp) => {
   //이미지 미리보기
   const [imagePreview, setImagePreview] = useState<string[]>([]);
 
-  const image = watch("images");
-  const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target?.files;
-    console.log("file", files);
-    if (files) {
-      let urlList: string[] = [];
-      const fileList = Array.from(files);
-      for (const url of fileList) {
-        urlList.push(URL.createObjectURL(url));
-      }
-      setImagePreview(urlList);
-    }
-  };
+  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
+    useImageFileListWithPreview();
 
   const editPost = async (data: FormData) => {
     if (data.content.length == 0) return alert("내용을 입력해주세요");
@@ -203,7 +209,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
   });
 
   // get the number of comments
-  let numComments = post && post.comments ? post.comments.length : 0;
+  let numComments = post && comments && comments.length;
   if (post && post.comments) {
     for (const c of post.comments) {
       numComments += c.replies ? c.replies.length : 0;
@@ -219,6 +225,9 @@ const PostV2 = ({ pid, slug }: PostProp) => {
       },
     }
   );
+
+  const username = author?.username;
+  const profileImage = author?.profile_image_url;
 
   return (
     <>
@@ -278,7 +287,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
                           bgColor={ThemeColor.backgroundColorDarker}
                           color="yellow.400"
                           _hover={{ bgColor: "yellow.500", color: "white" }}
-                          onClick={() => setEdited(true)}
+                          onClick={() => setEditing(true)}
                         >
                           <EditIcon />
                           &nbsp;Edit
@@ -300,33 +309,25 @@ const PostV2 = ({ pid, slug }: PostProp) => {
             </Menu>
           </Flex>
         </CardHeader>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: ThemeColor.backgroundColor,
-            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
-            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
-          }}
-        >
+        <div>
           <ImageBoard
             srcs={(post && post.images?.map((img) => img.src)) || []}
           />
-          {isEdited && imagePreview.length > 0 ? (
+          {isEditing && imagePreviewSources.length > 0 ? (
             <>
               <Button onClick={() => setImagePreview([])}>
                 <CloseIcon />
               </Button>
-              <Image src={imagePreview[0]}></Image>
+              <Image src={imagePreviewSources[0]}></Image>
             </>
           ) : (
             <></>
           )}
-          {isEdited != true && <></>}
+          {isEditing != true && <></>}
         </div>
 
         <CardBody paddingTop="0.5em">
-          {isEdited ? (
+          {isEditing ? (
             <>
               <form onSubmit={handleSubmit(editPost)}>
                 <Textarea
@@ -374,7 +375,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
                       color="white"
                       onClick={() => {
                         if (!post) return;
-                        setEdited(false);
+                        setEditing(false);
                         setImagePreview([]);
                       }}
                       _hover={{ bg: ThemeColor.backgroundColor }}
@@ -424,7 +425,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
             </>
           )}
         </CardBody>
-        {!isEdited && (
+        {!isEditing && (
           <CardFooter justify="space-between">
             <Button
               flex="1"
@@ -433,7 +434,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
               _hover={{ bg: ThemeColor.backgroundColor }}
               onClick={() => likeMutate()}
             >
-              <Text color="white">{!!post ? post.likenum : 0} Likes</Text>
+              <Text color="white">{!!post && post.likenum} Likes</Text>
             </Button>
             <Button
               {...buttonProps}
@@ -446,14 +447,12 @@ const PostV2 = ({ pid, slug }: PostProp) => {
             </Button>
           </CardFooter>
         )}
-        {!isEdited && (
+        {!isEditing && (
           <Card {...disclosureProps}>
             {!!clientUid && !!post && (
               <CommentCreate postId={post.id} onClose={onClose} />
             )}
-            {!!post && post.comments && (
-              <CommentList comments={post.comments} />
-            )}
+            {!!post && comments && <CommentList comments={comments} />}
           </Card>
         )}
       </Card>

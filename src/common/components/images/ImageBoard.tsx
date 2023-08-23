@@ -34,7 +34,7 @@ const ImageBoard = ({
     <ImageBoardDiv>
       {!!srcs.length &&
         srcs.map((src, i) => (
-          <>
+          <div key={i}>
             <Image
               margin={"auto"}
               key={i}
@@ -54,7 +54,7 @@ const ImageBoard = ({
                 <CloseIcon fontSize={"2xl"} />
               </Button>
             )}
-          </>
+          </div>
         ))}
     </ImageBoardDiv>
   );
