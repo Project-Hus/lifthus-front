@@ -1,8 +1,9 @@
 import { Text } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import { useVisibleEffect } from "../../hooks/visibleEffect";
 
 import Post from "./Post";
 
@@ -24,32 +25,14 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
   });
 
   /* Infinite scroll */
-  const observerTarget = useRef(null);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 }
-    );
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [observerTarget]);
+  const { observerTarget } = useVisibleEffect(fetchNextPage);
 
   return (
     <>
       {data?.pages.map((page, i) => (
         <React.Fragment key={i}>
           {page.map((post) => (
-            <Post pid={post.id} />
+            <Post key={post.id} pid={post.id} />
           ))}
         </React.Fragment>
       ))}

@@ -1,5 +1,13 @@
 import { useCallback, useState } from "react";
 
+/**
+ * Provides onLoadFile callback to handle the image file input,
+ * and imagePreviewSources for showing the uploaded images' preview.
+ * imageFileList is the list of the uploaded image files which the types are File.
+ * removeImages is a callback to remove the images with given indexes.
+ *
+ * @returns { onLoadFile: (e: React.ChangeEvent<HTMLInputElement>) => void, imagePreviewSources: string[], imageFileList: File[], removeImages: (idxs: number[]) => void}
+ */
 export const useImageFileListWithPreview = () => {
   const [imagePreviewSources, setImagePreviewSources] = useState<string[]>([]);
   const [imageFileList, setImageFileList] = useState<File[]>([]);

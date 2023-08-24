@@ -41,17 +41,7 @@ import ImageBoard from "../../common/components/images/ImageBoard";
 import { useImageFileListWithPreview } from "../../hooks/images";
 import { LIFTHUS_API_URL } from "../../common/routes";
 import axios from "axios";
-
-//resizing textarea
-function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
-  let textarea = e.target;
-
-  textarea!.style.height = "0px";
-
-  let scrollHeight = textarea.scrollHeight;
-
-  textarea.style.height = scrollHeight + "px";
-}
+import commentApi from "../../api/commentApi";
 
 interface PostProp {
   pid?: number;
@@ -62,20 +52,28 @@ type FormData = {
   images: FileList;
 };
 
-// Post component
+/**
+ * Takes pid or slug as a prop and renders the post after fetching the data of corresponding post.
+ * It also queries the comments of the post and renders them with Comment-related components.
+ *
+ * @param param0
+ * @returns JSX.Element
+ */
 const Post = ({ pid, slug }: PostProp) => {
+  // get the client's uid
   const clientUid = useUserStore((state) => state.uid);
 
   // query the post by pid or slug
-  const secondQueryKey = { pid, slug };
+  const postQueryKey = pid ? { pid } : { slug };
+
   const {
     data: post,
     isLoading: postLoading,
     isError: postError,
   } = useQuery<QueryPostDto>({
-    queryKey: ["post", secondQueryKey],
+    queryKey: ["post", postQueryKey],
     queryFn: async () => {
-      return await postApi.getPost(secondQueryKey);
+      return await postApi.getPost(postQueryKey);
     },
   });
 
@@ -84,14 +82,7 @@ const Post = ({ pid, slug }: PostProp) => {
     queryKey: ["comments", { pid: post?.id }],
     queryFn: async () => {
       if (!post) return Promise.reject("undefined");
-      const res = await axios.get(
-        LIFTHUS_API_URL + `/post/query/comment?pid=${post.id}`,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("res", res);
-      return res.data;
+      return await commentApi.getComments(post.id);
     },
   });
 
@@ -111,8 +102,6 @@ const Post = ({ pid, slug }: PostProp) => {
 
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();
-
-  const { ref, ...rest } = register("content");
 
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
@@ -144,8 +133,7 @@ const Post = ({ pid, slug }: PostProp) => {
       }),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["posts"] });
-        console.log("query reload");
+        queryClient.invalidateQueries({ queryKey: ["post", postQueryKey] });
         setEditing(false);
       },
     }
@@ -207,7 +195,7 @@ const Post = ({ pid, slug }: PostProp) => {
   });
 
   // get the number of comments
-  let numComments = post && comments && comments.length;
+  let numComments = (post && comments && comments.length) || 0;
   if (post && post.comments) {
     for (const c of post.comments) {
       numComments += c.replies ? c.replies.length : 0;
@@ -220,7 +208,7 @@ const Post = ({ pid, slug }: PostProp) => {
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
-        queryClient.invalidateQueries({ queryKey: ["post", secondQueryKey] });
+        queryClient.invalidateQueries({ queryKey: ["post", postQueryKey] });
       },
     }
   );
@@ -329,20 +317,8 @@ const Post = ({ pid, slug }: PostProp) => {
             <>
               <form onSubmit={handleSubmit(editPost)}>
                 <Textarea
-                  border="0px"
-                  color="black"
-                  backgroundColor="white"
                   defaultValue={!!post ? post.content : ""}
-                  overflowWrap="anywhere"
-                  overflow="hidden"
-                  resize="none"
-                  {...rest}
-                  ref={(e) => {
-                    ref(e);
-                    textareaRef.current = e;
-                  }}
-                  onChange={resize}
-                  box-sizing="border-box"
+                  {...register("content")}
                 />
                 <Flex justifyContent={"space-between"}>
                   <IconbuttonStyle>
