@@ -1,15 +1,9 @@
 import { Text } from "@chakra-ui/react";
-import {
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { QueryPostDto } from "../../api/dtos/post.dto";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useEffect, useRef } from "react";
 import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Post from "./Post";
-import PostV2 from "./PostV2";
 
 // 쿼리 로딩 => 온석세스 셋포스트 인밸리드 => 또 쿼리
 
@@ -57,7 +51,7 @@ const AllPosts = () => {
       {data?.pages.map((page, i) => (
         <React.Fragment key={i}>
           {page.map((post) => (
-            <PostV2 pid={post.id} />
+            <Post pid={post.id} />
           ))}
         </React.Fragment>
       ))}

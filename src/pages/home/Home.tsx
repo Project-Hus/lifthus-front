@@ -3,11 +3,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import relationApi from "../../api/relationApi";
-import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+
+import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCentered";
 import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
-import CreatePostV2 from "../../components/posts/CreatePostV2";
+import Post from "../../components/posts/Post";
 import UsersPosts from "../../components/posts/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
@@ -50,16 +51,14 @@ const Home = () => {
             Followings' posts
           </Tab>
         </TabList>
-        {!!uid && <CreatePostV2 />}
-        <TabPanels>
-          <TabPanel>
+        {!!uid && <CreatePost />}
+        <TabPanels padding={0}>
+          <TabPanel padding={0}>
             <AllPosts />
           </TabPanel>
-          <TabPanel>
+          <TabPanel padding={0}>
             {isLoading ? (
-              <div style={{ textAlign: "center", padding: "1em" }}>
-                <BlueSpinner />
-              </div>
+              <BlueSpinnerCentered />
             ) : (
               !!uid && <UsersPosts uids={followings || []} />
             )}
