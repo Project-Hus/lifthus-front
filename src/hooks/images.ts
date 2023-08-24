@@ -14,7 +14,12 @@ export const useImageFileListWithPreview = () => {
 
   const onLoadFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target?.files || new FileList();
-
+    console.log(
+      fileList.length,
+      imageFileList.length,
+      imagePreviewSources.length,
+      fileList
+    );
     if (!fileList.length || fileList.length + imageFileList.length > 5) return;
 
     const fileListArray = Array.from(fileList);
