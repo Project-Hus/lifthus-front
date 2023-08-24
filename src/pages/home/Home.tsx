@@ -8,6 +8,7 @@ import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCen
 import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
+import Post from "../../components/posts/Post";
 import UsersPosts from "../../components/posts/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
@@ -52,10 +53,10 @@ const Home = () => {
         </TabList>
         {!!uid && <CreatePost />}
         <TabPanels>
-          <TabPanel>
+          <TabPanel padding={0}>
             <AllPosts />
           </TabPanel>
-          <TabPanel>
+          <TabPanel padding={0}>
             {isLoading ? (
               <BlueSpinnerCentered />
             ) : (
