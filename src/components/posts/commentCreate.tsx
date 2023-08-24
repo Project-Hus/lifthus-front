@@ -46,6 +46,9 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({
+          queryKey: ["comments", { pid: postId }],
+        });
         reset();
       },
       onError: (error) => {
