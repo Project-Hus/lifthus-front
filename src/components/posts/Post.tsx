@@ -43,17 +43,6 @@ import { LIFTHUS_API_URL } from "../../common/routes";
 import axios from "axios";
 import commentApi from "../../api/commentApi";
 
-//resizing textarea
-function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
-  let textarea = e.target;
-
-  textarea!.style.height = "0px";
-
-  let scrollHeight = textarea.scrollHeight;
-
-  textarea.style.height = scrollHeight + "px";
-}
-
 interface PostProp {
   pid?: number;
   slug?: string;
@@ -114,8 +103,6 @@ const Post = ({ pid, slug }: PostProp) => {
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();
 
-  const { ref, ...rest } = register("content");
-
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
@@ -146,8 +133,7 @@ const Post = ({ pid, slug }: PostProp) => {
       }),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["posts"] });
-        console.log("query reload");
+        queryClient.invalidateQueries({ queryKey: ["post", postQueryKey] });
         setEditing(false);
       },
     }
@@ -331,20 +317,8 @@ const Post = ({ pid, slug }: PostProp) => {
             <>
               <form onSubmit={handleSubmit(editPost)}>
                 <Textarea
-                  border="0px"
-                  color="black"
-                  backgroundColor="white"
                   defaultValue={!!post ? post.content : ""}
-                  overflowWrap="anywhere"
-                  overflow="auto"
-                  resize="vertical"
-                  {...rest}
-                  ref={(e) => {
-                    ref(e);
-                    textareaRef.current = e;
-                  }}
-                  onChange={resize}
-                  box-sizing="border-box"
+                  {...register("content")}
                 />
                 <Flex justifyContent={"space-between"}>
                   <IconbuttonStyle>

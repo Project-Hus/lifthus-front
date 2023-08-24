@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -24,6 +24,7 @@ import { ThemeColor } from "../../common/styles/theme.style";
 import useClickEvent from "../../hooks/clickEvent";
 import { useImageFileListWithPreview } from "../../hooks/images";
 import ImageBoard from "../../common/components/images/ImageBoard";
+import { text } from "stream/consumers";
 
 /**
  * CreatePost buttons' style
@@ -113,7 +114,7 @@ const CreatePost = () => {
         )}
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-            <Textarea {...register("text")} resize={"vertical"} />
+            <Textarea {...register("text")} resize="none" />
             <Flex justifyContent={"space-between"}>
               <IconbuttonStyle>
                 <Button onClick={onClickImageUpload}>
