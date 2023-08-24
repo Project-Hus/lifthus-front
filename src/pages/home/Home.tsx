@@ -3,7 +3,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import relationApi from "../../api/relationApi";
-import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+
+import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCentered";
 import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
@@ -56,9 +57,7 @@ const Home = () => {
           </TabPanel>
           <TabPanel>
             {isLoading ? (
-              <div style={{ textAlign: "center", padding: "1em" }}>
-                <BlueSpinner />
-              </div>
+              <BlueSpinnerCentered />
             ) : (
               !!uid && <UsersPosts uids={followings || []} />
             )}
