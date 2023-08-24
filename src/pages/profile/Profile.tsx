@@ -11,6 +11,7 @@ import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
 import UsersPosts from "../../components/posts/UsersPosts";
+import CreatePostV2 from "../../components/posts/CreatePostV2";
 
 const Profile = () => {
   // Client's UID
@@ -44,7 +45,7 @@ const Profile = () => {
               element={
                 <>
                   <ProfileTab userInfo={profileUser} />
-                  {clientUid === profileUid && <CreatePost />}
+                  {clientUid === profileUid && <CreatePostV2 />}
                   {!isLoading && <UsersPosts uids={users} />}
                 </>
               }

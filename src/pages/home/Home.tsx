@@ -51,7 +51,6 @@ const Home = () => {
           </Tab>
         </TabList>
         {!!uid && <CreatePostV2 />}
-        {!!uid && <CreatePost />}
         <TabPanels>
           <TabPanel>
             <AllPosts />
