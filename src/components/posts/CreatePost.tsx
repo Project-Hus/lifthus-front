@@ -113,12 +113,7 @@ const CreatePost = () => {
         )}
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-            <Textarea
-              color="black"
-              {...register("text")}
-              backgroundColor="white"
-            />
-
+            <Textarea {...register("text")} resize={"vertical"} />
             <Flex justifyContent={"space-between"}>
               <IconbuttonStyle>
                 <Button onClick={onClickImageUpload}>

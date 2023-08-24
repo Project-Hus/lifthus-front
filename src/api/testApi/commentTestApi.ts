@@ -13,6 +13,9 @@ import axios from "axios";
 import { LIFTHUS_API_URL } from "../../common/routes";
 
 const commentTestApi: CommentApi = {
+  getComments: async (pid: number): Promise<QueryCommentDto[]> => {
+    return [];
+  },
   createComment: async (
     comment: CreateCommentDto
   ): Promise<QueryCommentDto> => {

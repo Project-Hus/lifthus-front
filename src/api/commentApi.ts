@@ -13,9 +13,16 @@ import {
 
 import { CommentApi } from "./interfaces/commentApi.interface";
 
-import commentTestApi from "./testApi/commentTestApi";
-
 const commentApi: CommentApi = {
+  getComments: async (pid: number): Promise<QueryCommentDto[]> => {
+    const res = await axios.get(
+      LIFTHUS_API_URL + `/post/query/comment?pid=${pid}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  },
   createComment: async (
     comment: CreateCommentDto
   ): Promise<QueryCommentDto> => {
