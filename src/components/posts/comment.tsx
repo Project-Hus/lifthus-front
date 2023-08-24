@@ -93,10 +93,14 @@ const Comment = ({ comment }: CommentProps) => {
         content: data.content,
       }),
     onSuccess: (data) => {
-      if ("postId" in comment)
+      if ("postId" in comment) {
         queryClient.invalidateQueries({
           queryKey: ["posts"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["comments", { pid: comment.postId }],
+        });
+      }
       if ("parentId" in comment)
         queryClient.invalidateQueries({
           queryKey: ["posts"],
@@ -117,10 +121,14 @@ const Comment = ({ comment }: CommentProps) => {
   } = useMutation({
     mutationFn: async () => await commentApi.deleteComment(comment.id),
     onSuccess: (data) => {
-      if ("postId" in comment)
+      if ("postId" in comment) {
         queryClient.invalidateQueries({
           queryKey: ["posts"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["comments", { pid: comment.postId }],
+        });
+      }
       if ("parentId" in comment)
         queryClient.invalidateQueries({
           queryKey: ["posts"],
@@ -196,7 +204,9 @@ const Comment = ({ comment }: CommentProps) => {
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation({
     mutationFn: () => commentApi.likeComment(comment.id),
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries({
+        queryKey: ["comments"],
+      });
     },
   });
 

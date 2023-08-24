@@ -52,10 +52,8 @@ export const axiosInterceptorSetter = () => {
     // resp failure
     async (err) => {
       try {
-        const {
-          config,
-          response: { status, data },
-        } = err;
+        const { config, response } = err;
+        const { status, data } = response || {};
 
         const targetURL = String(config.url);
 

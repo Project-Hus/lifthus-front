@@ -51,15 +51,26 @@ const postApi: PostApi = {
       params: { users: usersQ, skip },
       withCredentials: true,
     });
+    console.log(res);
     return res.data;
   },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.createPost(post);
     // }
-    const res = await axios.post(LIFTHUS_API_URL + "/post/post", post, {
+    post.images = post.images || [];
+    const newPostForm = new FormData();
+
+    newPostForm.append("author", JSON.stringify(post.author));
+    newPostForm.append("content", post.content);
+    for (const img of post.images) {
+      newPostForm.append("images", img);
+    }
+
+    const res = await axios.post(LIFTHUS_API_URL + "/post/post", newPostForm, {
       withCredentials: true,
     });
+
     return res.data;
   },
   updatePost: async (post: UpdatePostDto) => {
