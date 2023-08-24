@@ -10,6 +10,7 @@ import { QueryPostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import Post from "./Post";
+import PostV2 from "./PostV2";
 
 interface UsersPostsProps {
   uids: number[];
@@ -62,7 +63,7 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
       {data?.pages.map((page, i) => (
         <React.Fragment key={i}>
           {page.map((post) => (
-            <Post key={post.id} post={post} />
+            <PostV2 pid={post.id} />
           ))}
         </React.Fragment>
       ))}
