@@ -22,6 +22,7 @@ const root = ReactDOM.createRoot(
 root.render(
   //<React.StrictMode>
   <ChakraProvider theme={theme}>
+    <link rel="apple-touch-icon" href="/public/faviconl.svg" />
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <App />
