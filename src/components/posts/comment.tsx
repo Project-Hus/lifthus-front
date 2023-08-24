@@ -204,7 +204,9 @@ const Comment = ({ comment }: CommentProps) => {
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation({
     mutationFn: () => commentApi.likeComment(comment.id),
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries({
+        queryKey: ["comments"],
+      });
     },
   });
 

@@ -222,6 +222,7 @@ const PostV2 = ({ pid, slug }: PostProp) => {
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["post", secondQueryKey] });
       },
     }
   );
