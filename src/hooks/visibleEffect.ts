@@ -5,7 +5,7 @@ import { MutableRefObject, useEffect, useRef } from "react";
  * The target element should be referenced by the returned ref object.
  *
  * @param callback
- * @returns
+ * @returns { observerTarget: React.MutableRefObject<null> }
  */
 export const useVisibleEffect = (
   callback: () => void
