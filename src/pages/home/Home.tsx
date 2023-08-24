@@ -7,7 +7,6 @@ import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
-import CreatePostV2 from "../../components/posts/CreatePostV2";
 import UsersPosts from "../../components/posts/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
@@ -50,7 +49,7 @@ const Home = () => {
             Followings' posts
           </Tab>
         </TabList>
-        {!!uid && <CreatePostV2 />}
+        {!!uid && <CreatePost />}
         <TabPanels>
           <TabPanel>
             <AllPosts />

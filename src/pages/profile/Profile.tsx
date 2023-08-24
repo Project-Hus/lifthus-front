@@ -6,12 +6,12 @@ import { QueryErrorResetBoundary, useQuery } from "@tanstack/react-query";
 import ErrorPage from "../error/ErrorPage";
 import FollowList from "./FollowList";
 import useUserStore from "../../store/user.zustand";
-import CreatePost from "../../components/posts/CreatePost";
+
 import ProfileCard from "../../components/profile/ProfileCard";
 import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
 import UsersPosts from "../../components/posts/UsersPosts";
-import CreatePostV2 from "../../components/posts/CreatePostV2";
+import CreatePost from "../../components/posts/CreatePost";
 
 const Profile = () => {
   // Client's UID
@@ -45,7 +45,7 @@ const Profile = () => {
               element={
                 <>
                   <ProfileTab userInfo={profileUser} />
-                  {clientUid === profileUid && <CreatePostV2 />}
+                  {clientUid === profileUid && <CreatePost />}
                   {!isLoading && <UsersPosts uids={users} />}
                 </>
               }

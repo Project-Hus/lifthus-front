@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -15,83 +15,71 @@ import {
   useDisclosure,
   Textarea,
 } from "@chakra-ui/react";
-import { CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { Image } from "@chakra-ui/image";
+import { PlusSquareIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 import useUserStore from "../../store/user.zustand";
 import { CreatePostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
+import useClickEvent from "../../hooks/clickEvent";
+import { useImageFileListWithPreview } from "../../hooks/images";
+import ImageBoard from "../../common/components/images/ImageBoard";
+
+/**
+ * CreatePost buttons' style
+ */
+const IconbuttonStyle = styled.div`
+  & > Button {
+    background-color: ${ThemeColor.backgroundColorDarker};
+    :hover {
+      background-color: ${ThemeColor.backgroundColor};
+    }
+  }
+`;
+
+type CreatePostData = {
+  text: string;
+  images: FileList;
+};
 
 const CreatePost = () => {
-  //call user_id from zustand
   const { uid, username, profile_image_url } = useUserStore();
-  // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
-  const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, watch } = useForm<FormData>();
 
-  const { getButtonProps, getDisclosureProps, onOpen, onClose } =
-    useDisclosure();
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
+  const { onClose } = useDisclosure();
+
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
     async (post: CreatePostDto) => postApi.createPost(post),
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        removeImages(imagePreviewSources.map((_, idx) => idx));
+        console.log("post created", data);
       },
+      onError(error, variables, context) {},
     }
   );
 
-  const IconbuttonStyle = styled.div`
-    & > Button {
-      background-color: ${ThemeColor.backgroundColorDarker};
-      :hover {
-        background-color: ${ThemeColor.backgroundColor};
-      }
-    }
-  `;
+  const { register, handleSubmit, reset, watch } = useForm<CreatePostData>();
 
-  type FormData = {
-    text: string;
-    image: FileList;
-  };
+  const { clickRef: imageInput, onClickRef: onClickImageUpload } =
+    useClickEvent();
 
-  // useRef를 이용해 input태그에 접근한다.
-  const imageInput = useRef<HTMLInputElement>(null);
-  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
-  const onCickImageUpload = () => {
-    imageInput.current?.click();
-  };
   //이미지 미리보기
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const image = watch("image");
-  const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target?.files;
-    console.log(files);
+  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
+    useImageFileListWithPreview();
 
-    let urlList = [];
-    if (files) {
-      const fileList = Array.from(files);
-      for (const url of fileList) {
-        urlList.push(URL.createObjectURL(url));
-      }
-      setImagePreview(urlList);
-    }
-  };
-
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: CreatePostData) => {
     if (data.text.length == 0) return alert("내용을 입력해주세요");
 
     try {
       const post: CreatePostDto = {
         author: uid,
-        // images: imagePreview,
         content: data.text,
+        images: imageFileList,
       };
       await mutate(post);
-      setImagePreview([]);
       reset();
       onClose();
     } catch (error) {
@@ -120,33 +108,11 @@ const CreatePost = () => {
             </Flex>
           </Flex>
         </CardHeader>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: ThemeColor.backgroundColor,
-            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
-            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker}`,
-          }}
-        >
-          {imagePreview.length != 0 &&
-            imagePreview.map((src) => (
-              <Image
-                src={src}
-                objectFit="contain"
-                maxH={"50vh"}
-                alt="rep's imagefile"
-              />
-            ))}
-          {imagePreview.length > 0 && (
-            <Button onClick={() => setImagePreview([])}>
-              <CloseIcon />
-            </Button>
-          )}
-        </div>
-
+        {!!imagePreviewSources.length && !!imagePreviewSources.length && (
+          <ImageBoard srcs={imagePreviewSources} removeImages={removeImages} />
+        )}
         <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <Textarea
               color="black"
               {...register("text")}
@@ -155,12 +121,13 @@ const CreatePost = () => {
 
             <Flex justifyContent={"space-between"}>
               <IconbuttonStyle>
-                <Button onClick={onCickImageUpload}>
+                <Button onClick={onClickImageUpload}>
                   <PlusSquareIcon />
                   <Input
+                    multiple
                     type="file"
                     accept="image/*"
-                    {...register("image")}
+                    {...register("images")}
                     ref={imageInput}
                     display="none"
                     onChange={onLoadFile}
