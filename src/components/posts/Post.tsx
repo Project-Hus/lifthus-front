@@ -90,7 +90,6 @@ const Post = ({ pid, slug }: PostProp) => {
           withCredentials: true,
         }
       );
-      console.log("res", res);
       return res.data;
     },
   });

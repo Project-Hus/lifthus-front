@@ -34,7 +34,7 @@ const AllPosts = () => {
       {data?.pages.map((page, i) => (
         <React.Fragment key={i}>
           {page.map((post) => (
-            <Post pid={post.id} />
+            <Post key={post.id} pid={post.id} />
           ))}
         </React.Fragment>
       ))}

@@ -1,6 +1,15 @@
-import { useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
-export const useVisibleEffect = (callback: () => void) => {
+/**
+ * Provides a hook to run a callback function when the target element gets into the viewport.
+ * The target element should be referenced by the returned ref object.
+ *
+ * @param callback
+ * @returns
+ */
+export const useVisibleEffect = (
+  callback: () => void
+): { observerTarget: MutableRefObject<null> } => {
   // target to be seen
   const observerTarget = useRef(null);
 

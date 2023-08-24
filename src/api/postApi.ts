@@ -51,7 +51,6 @@ const postApi: PostApi = {
       params: { users: usersQ, skip },
       withCredentials: true,
     });
-    console.log(res);
     return res.data;
   },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
