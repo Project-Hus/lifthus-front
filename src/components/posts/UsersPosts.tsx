@@ -25,7 +25,6 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
   });
 
   /* Infinite scroll */
-  /* Infinite scroll */
   const { observerTarget } = useVisibleEffect(fetchNextPage);
 
   return (
