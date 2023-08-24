@@ -95,8 +95,6 @@ const Post = ({ pid, slug }: PostProp) => {
     },
   });
 
-  console.log("comm", comments);
-
   // query the author info
   const {
     data: author,

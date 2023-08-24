@@ -52,7 +52,7 @@ const Home = () => {
           </Tab>
         </TabList>
         {!!uid && <CreatePost />}
-        <TabPanels>
+        <TabPanels padding={0}>
           <TabPanel padding={0}>
             <AllPosts />
           </TabPanel>
