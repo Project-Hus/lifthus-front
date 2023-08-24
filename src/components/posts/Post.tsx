@@ -37,6 +37,10 @@ import userApi from "../../api/userApi";
 import { GetUserInfoDto } from "../../api/dtos/user.dto";
 import { Link } from "react-router-dom";
 import useUserStore from "../../store/user.zustand";
+import ImageBoard from "../../common/components/images/ImageBoard";
+import { useImageFileListWithPreview } from "../../hooks/images";
+import { LIFTHUS_API_URL } from "../../common/routes";
+import axios from "axios";
 
 //resizing textarea
 function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -50,7 +54,8 @@ function resize(e: React.ChangeEvent<HTMLTextAreaElement>) {
 }
 
 interface PostProp {
-  post: QueryPostDto;
+  pid?: number;
+  slug?: string;
 }
 type FormData = {
   content: string;
@@ -58,48 +63,78 @@ type FormData = {
 };
 
 // Post component
-const Post = ({ post }: PostProp) => {
-  // get username
+const Post = ({ pid, slug }: PostProp) => {
+  const clientUid = useUserStore((state) => state.uid);
+
+  // query the post by pid or slug
+  const secondQueryKey = { pid, slug };
   const {
-    data,
-    isLoading: nameLoading,
-    isError,
-  } = useQuery<GetUserInfoDto>(["user", post.author], () => {
-    return userApi.getUserInfo({ uid: post.author });
+    data: post,
+    isLoading: postLoading,
+    isError: postError,
+  } = useQuery<QueryPostDto>({
+    queryKey: ["post", secondQueryKey],
+    queryFn: async () => {
+      return await postApi.getPost(secondQueryKey);
+    },
   });
-  const uid = useUserStore((state) => state.uid);
-  const username = data?.username;
-  const profileImage = data?.profile_image_url;
+
+  // query the comments of the post
+  const { data: comments, isLoading: commentsLoading } = useQuery({
+    queryKey: ["comments", { pid: post?.id }],
+    queryFn: async () => {
+      if (!post) return Promise.reject("undefined");
+      const res = await axios.get(
+        LIFTHUS_API_URL + `/post/query/comment?pid=${post.id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("res", res);
+      return res.data;
+    },
+  });
+
+  console.log("comm", comments);
+
+  // query the author info
+  const {
+    data: author,
+    isLoading: userLoading,
+    isError: userError,
+  } = useQuery<GetUserInfoDto>({
+    queryKey: ["user", { uid: post?.author }],
+    queryFn: () =>
+      !post
+        ? Promise.reject("undefined")
+        : userApi.getUserInfo({ uid: post.author }),
+    enabled: !!post,
+  });
 
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();
+
   const { ref, ...rest } = register("content");
-  //open/close comment window functions
+
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
-  // post의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
 
+  // whether the client is editing the post
+  const [isEditing, setEditing] = useState(false);
+
+  // delete post
   const { mutate: deleteMutate } = useMutation(
-    async () => postApi.deletePost(post.id),
+    async () =>
+      !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
       },
     }
   );
-
-  // which the post is edited
-  const [isEdited, setEdited] = useState(false);
-
-  // useRef를 이용해 input태그에 접근한다.
-  const imageInput = useRef<HTMLInputElement | null>(null);
-  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
-  const onCickImageUpload = () => {
-    imageInput.current?.click();
-  };
 
   // update post
   const { mutate, isLoading } = useMutation(
@@ -113,34 +148,29 @@ const Post = ({ post }: PostProp) => {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         console.log("query reload");
-        setEdited(false);
+        setEditing(false);
       },
     }
   );
 
-  //이미지 미리보기
-  const [imagePreview, setImagePreview] = useState<string[]>(
-    [] //post.images ? post.images : []
-  );
-
-  const image = watch("images");
-  const onLoadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target?.files;
-    console.log("file", files);
-    if (files) {
-      let urlList: string[] = [];
-      const fileList = Array.from(files);
-      for (const url of fileList) {
-        urlList.push(URL.createObjectURL(url));
-      }
-      setImagePreview(urlList);
-    }
+  // useRef를 이용해 input태그에 접근한다.
+  const imageInput = useRef<HTMLInputElement | null>(null);
+  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
+  const onCickImageUpload = () => {
+    imageInput.current?.click();
   };
 
-  const editRep = async (data: FormData) => {
+  //이미지 미리보기
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
+
+  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
+    useImageFileListWithPreview();
+
+  const editPost = async (data: FormData) => {
     if (data.content.length == 0) return alert("내용을 입력해주세요");
     // 기존 이미지에서 변경되지 않은 경우
     try {
+      if (!post) return;
       const editedPost: UpdatePostDto = {
         id: post.id,
         author: post.author,
@@ -179,8 +209,8 @@ const Post = ({ post }: PostProp) => {
   });
 
   // get the number of comments
-  let numComments = post.comments ? post.comments.length : 0;
-  if (post.comments) {
+  let numComments = post && comments && comments.length;
+  if (post && post.comments) {
     for (const c of post.comments) {
       numComments += c.replies ? c.replies.length : 0;
     }
@@ -188,13 +218,17 @@ const Post = ({ post }: PostProp) => {
 
   // like post mutation
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation(
-    () => postApi.likePost(post.id),
+    () => (!post ? Promise.reject("undefined") : postApi.likePost(post.id)),
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["post", secondQueryKey] });
       },
     }
   );
+
+  const username = author?.username;
+  const profileImage = author?.profile_image_url;
 
   return (
     <>
@@ -203,9 +237,6 @@ const Post = ({ post }: PostProp) => {
         color="white"
         fontSize="0.7em"
         margin="0.5em"
-        marginLeft={"0em"}
-        marginRight={"0em"}
-        marginBottom={"0em"}
       >
         <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
@@ -216,7 +247,7 @@ const Post = ({ post }: PostProp) => {
                   <Heading fontSize="1.1em">{username}</Heading>
                 </LinkChakra>
                 <Text fontSize={"0.9em"} color="gray.400">
-                  {`${new Date(post.createdAt)}`.slice(0, 21)}
+                  {!!post && `${new Date(post.createdAt)}`.slice(0, 21)}
                 </Text>
               </Box>
             </Flex>
@@ -241,6 +272,7 @@ const Post = ({ post }: PostProp) => {
                         color: "white",
                       }}
                       onClick={() => {
+                        if (!post) return;
                         navigator.clipboard.writeText(
                           `${window.location.origin}/post/${post.slug}`
                         );
@@ -249,13 +281,13 @@ const Post = ({ post }: PostProp) => {
                       <CopyIcon />
                       &nbsp;Copy URL
                     </MenuItem>
-                    {post.author == uid && (
+                    {post && post.author == clientUid && (
                       <>
                         <MenuItem
                           bgColor={ThemeColor.backgroundColorDarker}
                           color="yellow.400"
                           _hover={{ bgColor: "yellow.500", color: "white" }}
-                          onClick={() => setEdited(true)}
+                          onClick={() => setEditing(true)}
                         >
                           <EditIcon />
                           &nbsp;Edit
@@ -277,39 +309,32 @@ const Post = ({ post }: PostProp) => {
             </Menu>
           </Flex>
         </CardHeader>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: ThemeColor.backgroundColor,
-            borderLeft: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
-            borderRight: `solid 0.5em ${ThemeColor.backgroundColorDarker} `,
-          }}
-        >
-          {isEdited && imagePreview.length > 0 ? (
+        <div>
+          <ImageBoard
+            srcs={(post && post.images?.map((img) => img.src)) || []}
+          />
+          {isEditing && imagePreviewSources.length > 0 ? (
             <>
               <Button onClick={() => setImagePreview([])}>
                 <CloseIcon />
               </Button>
-              <Image src={imagePreview[0]}></Image>
+              <Image src={imagePreviewSources[0]}></Image>
             </>
           ) : (
             <></>
           )}
-          {isEdited != true && (
-            <></> /*<Image src={post.images ? post.images[0] : ""}></Image>*/
-          )}
+          {isEditing != true && <></>}
         </div>
 
         <CardBody paddingTop="0.5em">
-          {isEdited ? (
+          {isEditing ? (
             <>
-              <form onSubmit={handleSubmit(editRep)}>
+              <form onSubmit={handleSubmit(editPost)}>
                 <Textarea
                   border="0px"
                   color="black"
                   backgroundColor="white"
-                  defaultValue={post.content}
+                  defaultValue={!!post ? post.content : ""}
                   overflowWrap="anywhere"
                   overflow="hidden"
                   resize="none"
@@ -320,7 +345,7 @@ const Post = ({ post }: PostProp) => {
                   }}
                   onChange={resize}
                   box-sizing="border-box"
-                ></Textarea>
+                />
                 <Flex justifyContent={"space-between"}>
                   <IconbuttonStyle>
                     <Button onClick={onCickImageUpload}>
@@ -349,8 +374,9 @@ const Post = ({ post }: PostProp) => {
                       type="submit"
                       color="white"
                       onClick={() => {
-                        setEdited(false);
-                        //setImagePreview(post.images ? post.images : []);
+                        if (!post) return;
+                        setEditing(false);
+                        setImagePreview([]);
                       }}
                       _hover={{ bg: ThemeColor.backgroundColor }}
                       variant="ghost"
@@ -364,12 +390,17 @@ const Post = ({ post }: PostProp) => {
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {IsFold && post.content.length > postFoldStandard.Length
+                {IsFold &&
+                !!post &&
+                post.content.length > postFoldStandard.Length
                   ? post.content.slice(0, postFoldStandard.Length) + "..."
-                  : post.content}
+                  : !!post
+                  ? post.content
+                  : ""}
               </Text>
               <IconbuttonStyle>
-                {post.content.length > postFoldStandard.Length && (
+                {(!!post ? post.content.length : 0) >
+                  postFoldStandard.Length && (
                   <>
                     <Button
                       alignSelf="flex-start"
@@ -394,7 +425,7 @@ const Post = ({ post }: PostProp) => {
             </>
           )}
         </CardBody>
-        {!isEdited && (
+        {!isEditing && (
           <CardFooter justify="space-between">
             <Button
               flex="1"
@@ -403,7 +434,7 @@ const Post = ({ post }: PostProp) => {
               _hover={{ bg: ThemeColor.backgroundColor }}
               onClick={() => likeMutate()}
             >
-              <Text color="white">{post.likenum} Likes</Text>
+              <Text color="white">{!!post && post.likenum} Likes</Text>
             </Button>
             <Button
               {...buttonProps}
@@ -416,10 +447,12 @@ const Post = ({ post }: PostProp) => {
             </Button>
           </CardFooter>
         )}
-        {!isEdited && (
+        {!isEditing && (
           <Card {...disclosureProps}>
-            {!!uid && <CommentCreate postId={post.id} onClose={onClose} />}
-            {post.comments && <CommentList comments={post.comments} />}
+            {!!clientUid && !!post && (
+              <CommentCreate postId={post.id} onClose={onClose} />
+            )}
+            {!!post && comments && <CommentList comments={comments} />}
           </Card>
         )}
       </Card>
