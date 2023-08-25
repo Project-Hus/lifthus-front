@@ -12,6 +12,8 @@ import ProfileTab from "../../components/profile/ProfileTab";
 import { ErrorBoundary } from "react-error-boundary";
 import UsersPosts from "../../components/posts/UsersPosts";
 import CreatePost from "../../components/posts/CreatePost";
+import FlexCenterLayout from "../../common/components/layouts/FlexCenterLayout";
+import { Text } from "@chakra-ui/react";
 
 const Profile = () => {
   // Client's UID
@@ -26,7 +28,21 @@ const Profile = () => {
       typeof username === "undefined"
         ? Promise.reject(new Error("undefined"))
         : userApi.getUserInfoByUsername({ username }),
+    onError: (error) => {
+      return undefined;
+    },
+    retry: false,
   });
+
+  if (profileUser === undefined)
+    return (
+      <FlexCenterLayout>
+        <Text fontWeight={"bold"} fontSize={"2em"}>
+          404 <br />
+          😮 No user found 😭
+        </Text>
+      </FlexCenterLayout>
+    );
 
   const profileUid = profileUser?.uid;
   const users = !profileUid ? [] : [profileUid];

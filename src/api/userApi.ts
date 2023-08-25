@@ -47,6 +47,9 @@ const userApi: UserApi = {
         withCredentials: true,
       }
     );
+
+    if (res.status === statusInfo.fail.NotFound.code)
+      return Promise.reject(404);
     return res.data;
   },
 };

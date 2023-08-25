@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeColor } from "../common/styles/theme.style";
 import { css } from "@emotion/react";
@@ -17,6 +17,16 @@ const BottomNav = () => {
   const username = useUserStore((state) => state.username);
 
   const [activeNav, setActiveNav] = useState(2);
+
+  const currentPath = useLocation().pathname;
+  useEffect(() => {
+    if (currentPath.startsWith("/group")) setActiveNav(0);
+    else if (currentPath.startsWith("/statistics")) setActiveNav(1);
+    else if (currentPath === "/" || currentPath.startsWith("/post"))
+      setActiveNav(2);
+    else if (currentPath.startsWith("/routine")) setActiveNav(3);
+    else if (currentPath.startsWith(`/profile`)) setActiveNav(4);
+  }, [currentPath]);
   return (
     // borderLeft: "none"
     <div style={{ height: "10vh" }}>

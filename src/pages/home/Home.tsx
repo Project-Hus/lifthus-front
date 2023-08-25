@@ -28,7 +28,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Tabs isFitted variant="enclosed" defaultIndex={!!uid ? 1 : 0} size="lg">
+      <Tabs isFitted variant="line" defaultIndex={!!uid ? 1 : 0} size="xl">
         <TabList>
           <Tab
             transition="0.3s"
@@ -36,7 +36,7 @@ const Home = () => {
               queryClient.invalidateQueries(["posts", "all"]);
             }}
           >
-            All posts
+            <b>All</b>
           </Tab>
           <Tab
             transition="0.3s"
@@ -48,7 +48,7 @@ const Home = () => {
               queryClient.invalidateQueries(["posts", "followings"]);
             }}
           >
-            Followings' posts
+            <b>Followings</b>
           </Tab>
         </TabList>
         {!!uid && <CreatePost />}

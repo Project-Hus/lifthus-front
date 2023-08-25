@@ -2,7 +2,8 @@ import axios from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
 import { CreatePostDto, QueryPostDto, UpdatePostDto } from "./dtos/post.dto";
 import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
-import postTestApi from "./testApi/postTestApi";
+
+import statusInfo from "./interfaces/statusInfo.json";
 
 const postApi: PostApi = {
   getPost: async ({ pid, slug }: { pid?: number; slug?: string }) => {
@@ -69,6 +70,9 @@ const postApi: PostApi = {
     const res = await axios.post(LIFTHUS_API_URL + "/post/post", newPostForm, {
       withCredentials: true,
     });
+
+    if (res.status !== statusInfo.succ.Created.code)
+      throw Promise.reject("failed to create post");
 
     return res.data;
   },
