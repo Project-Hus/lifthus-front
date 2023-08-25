@@ -30,9 +30,10 @@ import CommentCreate from "./commentCreate";
 import { Link } from "react-router-dom";
 
 interface CommentProps {
+  postId: number;
   comment: QueryCommentDto | QueryReplyDto;
 }
-const Comment = ({ comment }: CommentProps) => {
+const Comment = ({ postId, comment }: CommentProps) => {
   const CommentBoard = styled(Card)`
     border-radius: 0%;
     box-shadow: none;
@@ -93,19 +94,9 @@ const Comment = ({ comment }: CommentProps) => {
         content: data.content,
       }),
     onSuccess: (data) => {
-      if ("postId" in comment) {
-        queryClient.invalidateQueries({
-          queryKey: ["posts"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["comments", { pid: comment.postId }],
-        });
-      }
-      if ("parentId" in comment)
-        queryClient.invalidateQueries({
-          queryKey: ["posts"],
-        });
-
+      queryClient.invalidateQueries({
+        queryKey: ["comments", { pid: postId }],
+      });
       onClose();
     },
     onError: (error) => {
@@ -121,18 +112,9 @@ const Comment = ({ comment }: CommentProps) => {
   } = useMutation({
     mutationFn: async () => await commentApi.deleteComment(comment.id),
     onSuccess: (data) => {
-      if ("postId" in comment) {
-        queryClient.invalidateQueries({
-          queryKey: ["posts"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["comments", { pid: comment.postId }],
-        });
-      }
-      if ("parentId" in comment)
-        queryClient.invalidateQueries({
-          queryKey: ["posts"],
-        });
+      queryClient.invalidateQueries({
+        queryKey: ["comments", { pid: postId }],
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -354,19 +336,24 @@ const Comment = ({ comment }: CommentProps) => {
         <Box {...disclosureProps}>
           <Card>
             {"postId" in comment && !!uid && (
-              <CommentCreate parentId={comment.id} onClose={onClose} />
-            )}
-            {"parentId" in comment && !!uid && (
-              <CommentCreate parentId={comment.parentId} onClose={onClose} />
+              <CommentCreate
+                postId={comment.postId}
+                parentId={
+                  ("parentId" in comment && Number(comment.parentId)) ||
+                  comment.id
+                }
+                onClose={onClose}
+              />
             )}
           </Card>
         </Box>
       </CommentBoard>
       {"postId" in comment && comment.replies && (
         <ReplyList
+          postId={comment.postId}
           replies={comment.replies}
           IsPadding={!!comment.postId}
-        ></ReplyList>
+        />
       )}
     </>
   );

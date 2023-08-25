@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { Suspense } from "react";
 import commentApi from "../../api/commentApi";
 import postApi from "../../api/postApi";
+import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCentered";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useUserStore from "../../store/user.zustand";
 import CommentCreate from "./post/commentCreate";
@@ -29,23 +30,6 @@ const PostFooter = ({
   // get the client UID
   const { uid: clientUid } = useUserStore();
 
-  // query the comments of the post
-  const { data: comments } = useQuery({
-    queryKey: ["comments", { pid }],
-    queryFn: async () => {
-      if (!pid) return Promise.reject(undefined);
-      return await commentApi.getComments(pid);
-    },
-  });
-
-  // get the number of comments
-  let numComments = (comments && comments.length) || 0;
-  if (comments) {
-    for (const c of comments) {
-      numComments += c.replies ? c.replies.length : 0;
-    }
-  }
-
   // like post mutation
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation(
     async () => await postApi.likePost(pid),
@@ -61,6 +45,8 @@ const PostFooter = ({
   const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
+
+  const [numComments, setNumComments] = React.useState<Number>(0);
 
   return (
     <>
@@ -85,12 +71,14 @@ const PostFooter = ({
           leftIcon={<>💬</>}
           _hover={{ bg: ThemeColor.backgroundColor }}
         >
-          <Text color="white">{numComments} Comments</Text>
+          <Text color="white">{`${numComments} Comments`}</Text>
         </Button>
       </CardFooter>
       <Card {...disclosureProps}>
         {!!clientUid && pid && <CommentCreate postId={pid} onClose={onClose} />}
-        <CommentList comments={comments || []} />
+        <Suspense fallback={<BlueSpinnerCentered />}>
+          <CommentList pid={pid} getNumber={setNumComments} />
+        </Suspense>
       </Card>
     </>
   );

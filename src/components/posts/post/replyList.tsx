@@ -6,11 +6,14 @@ import Comment from "./Comment";
 interface ReplyListProps {
   IsPadding: boolean;
   replies: QueryReplyDto[];
+  postId: number;
 }
-const ReplyList = ({ IsPadding, replies }: ReplyListProps) => {
+const ReplyList = ({ IsPadding, replies, postId }: ReplyListProps) => {
   const replyCommentList = [];
   for (const reply of replies) {
-    replyCommentList.push(<Comment key={reply.id} comment={reply}></Comment>);
+    replyCommentList.push(
+      <Comment key={reply.id} postId={postId} comment={reply}></Comment>
+    );
   }
   return (
     <Box

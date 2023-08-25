@@ -114,7 +114,14 @@ const CreatePost = () => {
         )}
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-            <Textarea {...register("text")} resize="none" />
+            <Textarea
+              paddingLeft="0.5em"
+              placeholder="write your story"
+              {...register("text")}
+              resize="none"
+              _focus={{ bg: ThemeColor.backgroundColor }}
+              fontSize="1em"
+            />
             <Flex justifyContent={"space-between"}>
               <IconbuttonStyle>
                 <Button onClick={onClickImageUpload}>
