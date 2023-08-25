@@ -56,9 +56,10 @@ const CreatePost = () => {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         removeImages(imagePreviewSources.map((_, idx) => idx));
-        console.log("post created", data);
       },
-      onError(error, variables, context) {},
+      onError(error, variables, context) {
+        // later implemet the state and view of error
+      },
     }
   );
 
