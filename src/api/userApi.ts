@@ -8,8 +8,6 @@ import {
   Username,
 } from "./interfaces/userApi.interface";
 
-import statusInfo from "./interfaces/statusInfo.json";
-
 const userApi: UserApi = {
   setUserInfo: async (newUserinfo: UserMutationParams) => {
     // if (process.env.NODE_ENV === "development") {
@@ -28,13 +26,15 @@ const userApi: UserApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return await userTestApi.getUserInfo({ uid });
     // }
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
-      withCredentials: true,
-    });
-    if (res.status === statusInfo.fail.NotFound.code) {
-      return undefined;
+    try {
+      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
+        withCredentials: true,
+      });
+
+      return res.data;
+    } catch (e: any) {
+      throw new Error(e.response.data.message);
     }
-    return res.data;
   },
   getUserInfoByUsername: async ({
     username,

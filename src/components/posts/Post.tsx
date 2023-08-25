@@ -39,9 +39,10 @@ import { Link } from "react-router-dom";
 import useUserStore from "../../store/user.zustand";
 import ImageBoard from "../../common/components/images/ImageBoard";
 import { useImageFileListWithPreview } from "../../hooks/images";
-import { LIFTHUS_API_URL } from "../../common/routes";
-import axios from "axios";
+
 import commentApi from "../../api/commentApi";
+
+import statusInfo from "../../api/interfaces/statusInfo.json";
 
 interface PostProp {
   pid?: number;
@@ -87,18 +88,21 @@ const Post = ({ pid, slug }: PostProp) => {
   });
 
   // query the author info
+  let author: GetUserInfoDto | undefined = undefined;
   const {
-    data: author,
+    data: authorData,
     isLoading: userLoading,
     isError: userError,
   } = useQuery<GetUserInfoDto>({
     queryKey: ["user", { uid: post?.author }],
     queryFn: () =>
       !post
-        ? Promise.reject("undefined")
+        ? Promise.reject("post undefined")
         : userApi.getUserInfo({ uid: post.author }),
     enabled: !!post,
+    retry: false,
   });
+  author = userError ? undefined : authorData;
 
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();
@@ -185,15 +189,6 @@ const Post = ({ pid, slug }: PostProp) => {
     }
   `;
 
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  useEffect(() => {
-    if (textareaRef.current) {
-      console.log(textareaRef.current.scrollHeight + "px");
-      textareaRef.current.style.height =
-        textareaRef.current.scrollHeight + "px";
-    }
-  });
-
   // get the number of comments
   let numComments = (post && comments && comments.length) || 0;
   if (post && post.comments) {
@@ -213,9 +208,8 @@ const Post = ({ pid, slug }: PostProp) => {
     }
   );
 
-  const username = author?.username;
+  const username = author?.username || "Unknown user";
   const profileImage = author?.profile_image_url;
-
   return (
     <>
       <Card
@@ -227,9 +221,9 @@ const Post = ({ pid, slug }: PostProp) => {
         <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar name={username} src={profileImage} />
+              <Avatar src={profileImage} />
               <Box>
-                <LinkChakra as={Link} to={`/profile/${username}`}>
+                <LinkChakra as={Link} to={author ? `/profile/${username}` : ""}>
                   <Heading fontSize="1.1em">{username}</Heading>
                 </LinkChakra>
                 <Text fontSize={"0.9em"} color="gray.400">
