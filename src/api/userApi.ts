@@ -7,7 +7,8 @@ import {
   UserMutationParams,
   Username,
 } from "./interfaces/userApi.interface";
-import userTestApi from "./testApi/userTestApi";
+
+import statusInfo from "./interfaces/statusInfo.json";
 
 const userApi: UserApi = {
   setUserInfo: async (newUserinfo: UserMutationParams) => {
@@ -30,6 +31,9 @@ const userApi: UserApi = {
     const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
       withCredentials: true,
     });
+    if (res.status === statusInfo.fail.NotFound.code) {
+      return undefined;
+    }
     return res.data;
   },
   getUserInfoByUsername: async ({
