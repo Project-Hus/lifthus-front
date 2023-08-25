@@ -12,34 +12,38 @@ export const useImageFileListWithPreview = () => {
   const [imagePreviewSources, setImagePreviewSources] = useState<string[]>([]);
   const [imageFileList, setImageFileList] = useState<File[]>([]);
 
-  const onLoadFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target?.files || new FileList();
-    console.log(
-      fileList.length,
-      imageFileList.length,
-      imagePreviewSources.length,
-      fileList
-    );
-    if (!fileList.length || fileList.length + imageFileList.length > 5) return;
+  const onLoadFile = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const fileList = e.target?.files || new FileList();
 
-    const fileListArray = Array.from(fileList);
+      if (!fileList.length || fileList.length + imageFileList.length > 5)
+        return alert("Maximum 5 images are allowd T.T");
 
-    const filteredImageFiles = fileListArray.filter(
-      (f) => f.type.match("image.*") && f.size < 10000000
-    );
+      const fileListArray = Array.from(fileList);
 
-    const urlList = filteredImageFiles.map((f) => {
-      return URL.createObjectURL(f);
-    });
+      const filteredImageFiles = fileListArray.filter(
+        (f) => f.type.match("image.*") && f.size < 10000000
+      );
 
-    setImageFileList((prev) => [...prev, ...filteredImageFiles]);
-    setImagePreviewSources((prev) => [...prev, ...urlList]);
-  }, []);
+      const urlList = filteredImageFiles.map((f) => {
+        return URL.createObjectURL(f);
+      });
 
-  const removeImages = useCallback((idxs: number[]) => {
-    setImagePreviewSources((prev) => prev.filter((_, i) => !idxs.includes(i)));
-    setImageFileList((prev) => prev.filter((_, i) => !idxs.includes(i)));
-  }, []);
+      setImageFileList((prev) => [...prev, ...filteredImageFiles]);
+      setImagePreviewSources((prev) => [...prev, ...urlList]);
+    },
+    [imageFileList, imagePreviewSources]
+  );
+
+  const removeImages = useCallback(
+    (idxs: number[]) => {
+      setImagePreviewSources((prev) => [
+        ...prev.filter((_, i) => !idxs.includes(i)),
+      ]);
+      setImageFileList((prev) => [...prev.filter((_, i) => !idxs.includes(i))]);
+    },
+    [imageFileList, imagePreviewSources]
+  );
 
   return { onLoadFile, imagePreviewSources, imageFileList, removeImages };
 };
