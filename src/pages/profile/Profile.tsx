@@ -34,7 +34,7 @@ const Profile = () => {
     retry: false,
   });
 
-  if (profileUser === undefined)
+  if (profileUser === undefined && !isLoading)
     return (
       <FlexCenterLayout>
         <Text fontWeight={"bold"} fontSize={"2em"}>
