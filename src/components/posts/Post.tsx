@@ -63,6 +63,7 @@ type FormData = {
 const Post = ({ pid, slug }: PostProp) => {
   // get the client's uid
   const clientUid = useUserStore((state) => state.uid);
+  console.log("clientUid", clientUid);
 
   // query the post by pid or slug
   const postQueryKey = pid ? { pid } : { slug };
@@ -400,7 +401,11 @@ const Post = ({ pid, slug }: PostProp) => {
               variant="ghost"
               leftIcon={<>{likeLoading ? <Spinner /> : "🤍"}</>}
               _hover={{ bg: ThemeColor.backgroundColor }}
-              onClick={() => likeMutate()}
+              onClick={
+                clientUid
+                  ? () => likeMutate()
+                  : () => (window.location.href = "/sign")
+              }
             >
               <Text color="white">{!!post && post.likenum} Likes</Text>
             </Button>
