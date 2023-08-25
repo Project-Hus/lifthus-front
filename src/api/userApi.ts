@@ -7,7 +7,6 @@ import {
   UserMutationParams,
   Username,
 } from "./interfaces/userApi.interface";
-import userTestApi from "./testApi/userTestApi";
 
 const userApi: UserApi = {
   setUserInfo: async (newUserinfo: UserMutationParams) => {
@@ -27,10 +26,15 @@ const userApi: UserApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return await userTestApi.getUserInfo({ uid });
     // }
-    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
-      withCredentials: true,
-    });
-    return res.data;
+    try {
+      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
+        withCredentials: true,
+      });
+
+      return res.data;
+    } catch (e: any) {
+      throw new Error(e.response.data.message);
+    }
   },
   getUserInfoByUsername: async ({
     username,
