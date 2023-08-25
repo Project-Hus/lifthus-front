@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/layout";
-import { QueryReplyDto } from "../../api/dtos/comment.dto";
-import { ThemeColor } from "../../common/styles/theme.style";
-import Comment from "./comment";
+import { QueryReplyDto } from "../../../api/dtos/comment.dto";
+import { ThemeColor } from "../../../common/styles/theme.style";
+import Comment from "./Comment";
 
 interface ReplyListProps {
   IsPadding: boolean;
