@@ -63,7 +63,6 @@ type FormData = {
 const Post = ({ pid, slug }: PostProp) => {
   // get the client's uid
   const clientUid = useUserStore((state) => state.uid);
-  console.log("clientUid", clientUid);
 
   // query the post by pid or slug
   const postQueryKey = pid ? { pid } : { slug };
