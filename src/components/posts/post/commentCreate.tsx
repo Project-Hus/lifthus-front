@@ -1,43 +1,34 @@
 import { Button, Card, Flex, Input, useDisclosure } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import commentApi from "../../api/commentApi";
-import useUserStore from "../../store/user.zustand";
+import commentApi from "../../../api/commentApi";
+import useUserStore from "../../../store/user.zustand";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
-import { CreateCommentDto, CreateReplyDto } from "../../api/dtos/comment.dto";
+import {
+  CreateCommentDto,
+  CreateReplyDto,
+} from "../../../api/dtos/comment.dto";
+import { ThemeColor } from "../../../common/styles/theme.style";
 
 interface CommentCreateProps {
-  postId?: number;
+  postId: number;
   parentId?: number;
   onClose?: () => void;
 }
-// 새로운 Comment를 생성하는 컴포넌트
+
 const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
-  if (onClose === undefined) {
-    onClose = () => {
-      console.log("onClose is undefined");
-    };
-  }
+  const { register, handleSubmit, reset } = useForm({
+    shouldUseNativeValidation: true,
+  });
 
-  const CommentEdit = css`
-    border: 0px solid black;
-    border-radius: 5px;
-    padding: 1.5em;
-  `;
-  // useForm을 이용하여 form을 관리
-  const { register, handleSubmit, reset } = useForm();
+  const { uid: clientUid } = useUserStore();
 
-  //call user_id from zustand
-  const { uid } = useUserStore();
-
-  // comment_obj의 refeching을 위해서 useQueryClient 객체 생성
   const queryClient = useQueryClient();
 
   //open/close comment window functions
   const { getDisclosureProps, getButtonProps, isOpen, onOpen } =
     useDisclosure();
   const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
 
   const { mutate: createComment, isLoading: createCommentLoading } =
     useMutation({
@@ -61,7 +52,9 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
       await commentApi.createReply(comment);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({
+        queryKey: ["comments", { pid: postId }],
+      });
       reset();
       parentId && onClose ? onClose() : onOpen();
     },
@@ -70,49 +63,50 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
     },
   });
 
-  //save comment function
-  const save = (data: any) => {
-    if (data.NewComment == "") {
+  const writeComment = (data: any) => {
+    if (data.comment == "") {
       alert("please write the comment");
       return;
     }
-    const text: string = data.NewComment;
+    const text: string = data.comment;
 
-    if (postId) {
-      createComment({
-        postId: postId,
-        author: uid,
-        content: text,
-      });
-      return;
-    }
     if (parentId) {
-      createReply({
+      return createReply({
         parentId: parentId,
-        author: uid,
+        author: clientUid,
         content: text,
       });
     }
+    createComment({
+      postId: postId,
+      author: clientUid,
+      content: text,
+    });
+    return;
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(save)}>
-        <Flex direction={"column"}>
+      <form onSubmit={handleSubmit(writeComment)}>
+        <Flex bg={ThemeColor.backgroundColorDarker} padding="0.5em">
           <Input
-            css={CommentEdit}
             placeholder="write the reply"
-            {...register("NewComment")}
-            backgroundColor="white"
+            color="white"
+            _focus={{
+              bg: ThemeColor.backgroundColor,
+            }}
+            {...register("comment", { maxLength: 531 })}
           />
           <Button
             isLoading={createCommentLoading && createReplyLoading}
-            size="sm"
+            size="md"
             type="submit"
             {...buttonProps}
-            variant="solid"
+            variant="ghost"
+            color="white"
             display="inline-block"
             alignSelf="end"
+            _hover={{ bg: ThemeColor.backgroundColor }}
           >
             Write
           </Button>

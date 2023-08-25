@@ -61,7 +61,8 @@ export const axiosInterceptorSetter = () => {
           config.sent || // already sent or
           !(status === 401 && data === "expired_token") // not an expired token error
         ) {
-          return Promise.reject(err); // just pass the error through.
+          return response;
+          //return Promise.reject(err); // just pass the error through.
         }
         config.sent = true; // mark the request as sent.
 

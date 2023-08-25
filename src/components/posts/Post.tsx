@@ -1,11 +1,11 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
-import { Card, CardBody, CardFooter, CardHeader } from "@chakra-ui/card";
+import { Card, CardBody, CardHeader } from "@chakra-ui/card";
 import { Image } from "@chakra-ui/image";
-import { Spinner, Textarea, Link as LinkChakra } from "@chakra-ui/react";
+import { Textarea, Link as LinkChakra } from "@chakra-ui/react";
 
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -19,16 +19,11 @@ import {
 import { ThemeColor } from "../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
-import CommentList from "./commentList";
-
-import { useDisclosure } from "@chakra-ui/hooks";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import CommentCreate from "./commentCreate";
 import { useForm } from "react-hook-form";
 
-import styled from "@emotion/styled";
 import { postFoldStandard } from "../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../api/dtos/post.dto";
 import postApi from "../../api/postApi";
@@ -41,8 +36,8 @@ import ImageBoard from "../../common/components/images/ImageBoard";
 import { useImageFileListWithPreview } from "../../hooks/images";
 
 import commentApi from "../../api/commentApi";
-
-import statusInfo from "../../api/interfaces/statusInfo.json";
+import PostFooter from "./PostFooter";
+import styled from "@emotion/styled";
 
 interface PostProp {
   pid?: number;
@@ -52,6 +47,18 @@ type FormData = {
   content: string;
   images: FileList;
 };
+const IconbuttonStyle = styled.div`
+  padding-top: 0em;
+  & > Button {
+    background-color: ${ThemeColor.backgroundColorDarker};
+    :hover {
+      text-decoration-line: underline;
+    }
+    :hover {
+      background-color: ${ThemeColor.backgroundColor};
+    }
+  }
+`;
 
 /**
  * Takes pid or slug as a prop and renders the post after fetching the data of corresponding post.
@@ -61,73 +68,30 @@ type FormData = {
  * @returns JSX.Element
  */
 const Post = ({ pid, slug }: PostProp) => {
+  const queryClient = useQueryClient();
   // get the client's uid
   const clientUid = useUserStore((state) => state.uid);
 
   // query the post by pid or slug
   const postQueryKey = pid ? { pid } : { slug };
-
-  const {
-    data: post,
-    isLoading: postLoading,
-    isError: postError,
-  } = useQuery<QueryPostDto>({
+  const { data: post } = useQuery<QueryPostDto>({
     queryKey: ["post", postQueryKey],
     queryFn: async () => {
       return await postApi.getPost(postQueryKey);
     },
   });
-
-  // query the comments of the post
-  const { data: comments, isLoading: commentsLoading } = useQuery({
-    queryKey: ["comments", { pid: post?.id }],
-    queryFn: async () => {
-      if (!post) return Promise.reject(undefined);
-      return await commentApi.getComments(post.id);
-    },
-  });
-
   // query the author info
-  let author: GetUserInfoDto | undefined = undefined;
-  const {
-    data: authorData,
-    isLoading: userLoading,
-    isError: userError,
-  } = useQuery<GetUserInfoDto>({
+  const { data: author } = useQuery<GetUserInfoDto | null>({
     queryKey: ["user", { uid: post?.author }],
-    queryFn: () =>
+    queryFn: async () =>
       !post
         ? Promise.reject(undefined)
-        : userApi.getUserInfo({ uid: post.author }),
-    onError: (e: any) => undefined,
-    retry: false,
+        : await userApi.getUserInfo({ uid: post.author }),
   });
-  author = userError ? undefined : authorData;
 
-  const { register, handleSubmit, reset, watch, setValue } =
-    useForm<FormData>();
-
-  const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
-
-  const queryClient = useQueryClient();
-
-  // whether the client is editing the post
+  // editing post
+  const { register, handleSubmit } = useForm<FormData>();
   const [isEditing, setEditing] = useState(false);
-
-  // delete post
-  const { mutate: deleteMutate } = useMutation(
-    async () =>
-      !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["posts"] });
-      },
-    }
-  );
-
-  // update post
   const { mutate, isLoading } = useMutation(
     async (post: UpdatePostDto) =>
       postApi.updatePost({
@@ -143,21 +107,8 @@ const Post = ({ pid, slug }: PostProp) => {
     }
   );
 
-  // useRef를 이용해 input태그에 접근한다.
-  const imageInput = useRef<HTMLInputElement | null>(null);
-  // 버튼클릭시 input태그에 클릭이벤트를 걸어준다.
-  const onCickImageUpload = () => {
-    imageInput.current?.click();
-  };
-
-  //이미지 미리보기
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-
-  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
-    useImageFileListWithPreview();
-
   const editPost = async (data: FormData) => {
-    if (data.content.length == 0) return alert("내용을 입력해주세요");
+    if (data.content.length === 0) return alert("내용을 입력해주세요");
     // 기존 이미지에서 변경되지 않은 경우
     try {
       if (!post) return;
@@ -173,41 +124,22 @@ const Post = ({ pid, slug }: PostProp) => {
     }
   };
 
-  // function for floding the comment
-  const [IsFold, setFold] = useState(true);
-
-  const IconbuttonStyle = styled.div`
-    padding-top: 0em;
-    & > Button {
-      background-color: ${ThemeColor.backgroundColorDarker};
-      :hover {
-        text-decoration-line: underline;
-      }
-      :hover {
-        background-color: ${ThemeColor.backgroundColor};
-      }
-    }
-  `;
-
-  // get the number of comments
-  let numComments = (post && comments && comments.length) || 0;
-  if (post && post.comments) {
-    for (const c of post.comments) {
-      numComments += c.replies ? c.replies.length : 0;
-    }
-  }
-
-  // like post mutation
-  const { mutate: likeMutate, isLoading: likeLoading } = useMutation(
-    () => (!post ? Promise.reject("undefined") : postApi.likePost(post.id)),
+  // deleting post
+  const { mutate: deleteMutate } = useMutation(
+    async () =>
+      !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
     {
-      onSuccess(data, variables, context) {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
-        queryClient.invalidateQueries({ queryKey: ["post", postQueryKey] });
       },
     }
   );
 
+  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
+    useImageFileListWithPreview();
+
+  // function for floding the comment
+  const [IsFold, setFold] = useState(true);
   const username = author?.username || "Unknown user";
   const profileImage = author?.profile_image_url;
   return (
@@ -261,7 +193,7 @@ const Post = ({ pid, slug }: PostProp) => {
                       <CopyIcon />
                       &nbsp;Copy URL
                     </MenuItem>
-                    {post && post.author == clientUid && (
+                    {post && post.author === clientUid && (
                       <>
                         <MenuItem
                           bgColor={ThemeColor.backgroundColorDarker}
@@ -295,7 +227,7 @@ const Post = ({ pid, slug }: PostProp) => {
           />
           {isEditing && imagePreviewSources.length > 0 ? (
             <>
-              <Button onClick={() => setImagePreview([])}>
+              <Button>
                 <CloseIcon />
               </Button>
               <Image src={imagePreviewSources[0]}></Image>
@@ -303,7 +235,7 @@ const Post = ({ pid, slug }: PostProp) => {
           ) : (
             <></>
           )}
-          {isEditing != true && <></>}
+          {isEditing !== true && <></>}
         </div>
 
         <CardBody paddingTop="0.5em">
@@ -316,14 +248,13 @@ const Post = ({ pid, slug }: PostProp) => {
                 />
                 <Flex justifyContent={"space-between"}>
                   <IconbuttonStyle>
-                    <Button onClick={onCickImageUpload}>
+                    <Button>
                       <PlusSquareIcon />
                       <Input
                         {...register("images")}
                         id="file"
                         type="file"
                         onChange={onLoadFile}
-                        ref={imageInput}
                         display="none"
                       ></Input>
                     </Button>
@@ -344,7 +275,6 @@ const Post = ({ pid, slug }: PostProp) => {
                       onClick={() => {
                         if (!post) return;
                         setEditing(false);
-                        setImagePreview([]);
                       }}
                       _hover={{ bg: ThemeColor.backgroundColor }}
                       variant="ghost"
@@ -393,35 +323,8 @@ const Post = ({ pid, slug }: PostProp) => {
             </>
           )}
         </CardBody>
-        {!isEditing && (
-          <CardFooter justify="space-between">
-            <Button
-              flex="1"
-              variant="ghost"
-              leftIcon={<>{likeLoading ? <Spinner /> : "🤍"}</>}
-              _hover={{ bg: ThemeColor.backgroundColor }}
-              onClick={() => likeMutate()}
-            >
-              <Text color="white">{!!post && post.likenum} Likes</Text>
-            </Button>
-            <Button
-              {...buttonProps}
-              flex="1"
-              variant="ghost"
-              leftIcon={<>💬</>}
-              _hover={{ bg: ThemeColor.backgroundColor }}
-            >
-              <Text color="white">{numComments} Comments</Text>
-            </Button>
-          </CardFooter>
-        )}
-        {!isEditing && (
-          <Card {...disclosureProps}>
-            {!!clientUid && !!post && (
-              <CommentCreate postId={post.id} onClose={onClose} />
-            )}
-            {!!post && comments && <CommentList comments={comments} />}
-          </Card>
+        {!isEditing && post?.id && (
+          <PostFooter pid={post.id} slug={post.slug} likenum={post.likenum} />
         )}
       </Card>
     </>
