@@ -80,16 +80,6 @@ const Post = ({ pid, slug }: PostProp) => {
       return await postApi.getPost(postQueryKey);
     },
   });
-
-  // query the comments of the post
-  const { data: comments, isLoading: commentsLoading } = useQuery({
-    queryKey: ["comments", { pid: post?.id }],
-    queryFn: async () => {
-      if (!post) return Promise.reject(undefined);
-      return await commentApi.getComments(post.id);
-    },
-  });
-
   // query the author info
   const { data: author } = useQuery<GetUserInfoDto | null>({
     queryKey: ["user", { uid: post?.author }],
@@ -334,7 +324,7 @@ const Post = ({ pid, slug }: PostProp) => {
           )}
         </CardBody>
         {!isEditing && post?.id && (
-          <PostFooter pid={post.id} likenum={post.likenum} />
+          <PostFooter pid={post.id} slug={post.slug} likenum={post.likenum} />
         )}
       </Card>
     </>

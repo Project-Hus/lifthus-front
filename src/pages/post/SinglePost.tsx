@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Post from "../../components/posts/Post";
 
 const SinglePost = () => {
-  const slug = useParams().slug;
+  const slug = encodeURIComponent(useParams().slug || "");
   return (
     <div>
       <Post slug={slug} />

@@ -7,20 +7,27 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { Suspense } from "react";
 import commentApi from "../../api/commentApi";
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useUserStore from "../../store/user.zustand";
-import CommentListV2 from "./post/CommentListV2";
+import CommentCreate from "./post/commentCreate";
+import CommentList from "./post/CommentList";
 
-const PostFooter = ({ pid, likenum }: { pid: number; likenum: number }) => {
+const PostFooter = ({
+  pid,
+  slug,
+  likenum,
+}: {
+  pid: number;
+  slug: string;
+  likenum: number;
+}) => {
   const queryClient = useQueryClient();
-  const { uid: clientUid } = useUserStore();
 
-  const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
+  // get the client UID
+  const { uid: clientUid } = useUserStore();
 
   // query the comments of the post
   const { data: comments } = useQuery({
@@ -43,11 +50,17 @@ const PostFooter = ({ pid, likenum }: { pid: number; likenum: number }) => {
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation(
     async () => await postApi.likePost(pid),
     {
-      onSuccess(data, variables, context) {
+      onSuccess: async () => {
         queryClient.invalidateQueries({ queryKey: ["post", { pid }] });
+        queryClient.invalidateQueries({ queryKey: ["post", { slug }] });
       },
     }
   );
+
+  // comment disclosure
+  const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
+  const buttonProps = getButtonProps();
+  const disclosureProps = getDisclosureProps();
 
   return (
     <>
@@ -76,7 +89,8 @@ const PostFooter = ({ pid, likenum }: { pid: number; likenum: number }) => {
         </Button>
       </CardFooter>
       <Card {...disclosureProps}>
-        <CommentListV2 pid={pid} onClose={onClose} />
+        {!!clientUid && pid && <CommentCreate postId={pid} onClose={onClose} />}
+        <CommentList comments={comments || []} />
       </Card>
     </>
   );
