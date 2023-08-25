@@ -88,21 +88,17 @@ const Post = ({ pid, slug }: PostProp) => {
   });
 
   // query the author info
-  let author: GetUserInfoDto | undefined = undefined;
   const {
-    data: authorData,
+    data: author,
     isLoading: userLoading,
     isError: userError,
-  } = useQuery<GetUserInfoDto>({
+  } = useQuery<GetUserInfoDto | null>({
     queryKey: ["user", { uid: post?.author }],
-    queryFn: () =>
+    queryFn: async () =>
       !post
         ? Promise.reject(undefined)
-        : userApi.getUserInfo({ uid: post.author }),
-    onError: (e: any) => undefined,
-    retry: false,
+        : await userApi.getUserInfo({ uid: post.author }),
   });
-  author = userError ? undefined : authorData;
 
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<FormData>();

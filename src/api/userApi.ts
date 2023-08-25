@@ -8,6 +8,8 @@ import {
   Username,
 } from "./interfaces/userApi.interface";
 
+import statusInfo from "./interfaces/statusInfo.json";
+
 const userApi: UserApi = {
   setUserInfo: async (newUserinfo: UserMutationParams) => {
     // if (process.env.NODE_ENV === "development") {
@@ -30,6 +32,7 @@ const userApi: UserApi = {
       withCredentials: true,
     });
 
+    if (res.status === statusInfo.fail.NotFound.code) return null;
     return res.data;
   },
   getUserInfoByUsername: async ({
