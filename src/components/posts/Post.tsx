@@ -82,7 +82,7 @@ const Post = ({ pid, slug }: PostProp) => {
   const { data: comments, isLoading: commentsLoading } = useQuery({
     queryKey: ["comments", { pid: post?.id }],
     queryFn: async () => {
-      if (!post) return Promise.reject("undefined");
+      if (!post) return Promise.reject(undefined);
       return await commentApi.getComments(post.id);
     },
   });
@@ -97,9 +97,9 @@ const Post = ({ pid, slug }: PostProp) => {
     queryKey: ["user", { uid: post?.author }],
     queryFn: () =>
       !post
-        ? Promise.reject("post undefined")
+        ? Promise.reject(undefined)
         : userApi.getUserInfo({ uid: post.author }),
-    enabled: !!post,
+    onError: (e: any) => undefined,
     retry: false,
   });
   author = userError ? undefined : authorData;

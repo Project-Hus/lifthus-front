@@ -26,15 +26,11 @@ const userApi: UserApi = {
     // if (process.env.NODE_ENV === "development") {
     //   return await userTestApi.getUserInfo({ uid });
     // }
-    try {
-      const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
-        withCredentials: true,
-      });
+    const res = await axios.get(LIFTHUS_AUTH_URL + "/auth/user/info/" + uid, {
+      withCredentials: true,
+    });
 
-      return res.data;
-    } catch (e: any) {
-      throw new Error(e.response.data.message);
-    }
+    return res.data;
   },
   getUserInfoByUsername: async ({
     username,
