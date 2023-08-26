@@ -111,8 +111,9 @@ const updateSession = async (): Promise<SessionResponse> => {
         const currentURL = window.location.href;
         const currentPath = window.location.pathname;
         let redirectURL =
-          currentPath === "/" ? LIFTHUS_FRONT_URL + "/welcome" : currentURL;
-        redirectURL += `?workout=${currentURL}`;
+          currentPath === "/"
+            ? LIFTHUS_FRONT_URL + "/welcome" + `?workout=${currentURL}`
+            : currentURL;
         const sid = res.data;
         if (sid) {
           // if new session is created, redirect to Cloudhus and connect to the hussession.
