@@ -5,7 +5,7 @@ import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import { useVisibleEffect } from "../../hooks/visibleEffect";
 
-import Post from "./Post";
+import Post from "./post/Post";
 
 interface UsersPostsProps {
   uids: number[];

@@ -22,7 +22,7 @@ import {
   UpdateCommentDto,
 } from "../../../api/dtos/comment.dto";
 import useUserStore from "../../../store/user.zustand";
-import { commentFoldStandard } from "../../../common/constraints";
+import { COMMENT_FOLD } from "../../../common/constraints";
 import { GetUserInfoDto } from "../../../api/dtos/user.dto";
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
@@ -219,12 +219,12 @@ const Comment = ({ postId, comment }: CommentProps) => {
               fontSize="sm"
               color="white"
             >
-              {IsFold && comment.content.length > commentFoldStandard.Length
-                ? comment.content.slice(0, commentFoldStandard.Length) + "..."
+              {IsFold && comment.content.length > COMMENT_FOLD
+                ? comment.content.slice(0, COMMENT_FOLD) + "..."
                 : comment.content}
             </Text>
 
-            {comment.content.length > commentFoldStandard.Length && (
+            {comment.content.length > COMMENT_FOLD && (
               <IconbuttonStyle>
                 {IsFold ? (
                   <Button

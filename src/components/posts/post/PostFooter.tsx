@@ -6,15 +6,14 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { Suspense } from "react";
-import commentApi from "../../api/commentApi";
-import postApi from "../../api/postApi";
-import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCentered";
-import { ThemeColor } from "../../common/styles/theme.style";
-import useUserStore from "../../store/user.zustand";
-import CommentCreate from "./post/commentCreate";
-import CommentList from "./post/CommentList";
+import postApi from "../../../api/postApi";
+import BlueSpinnerCentered from "../../../common/components/spinners/BlueSpinnerCentered";
+import { ThemeColor } from "../../../common/styles/theme.style";
+import useUserStore from "../../../store/user.zustand";
+import CommentCreate from "./commentCreate";
+import CommentList from "./CommentList";
 
 const PostFooter = ({
   pid,

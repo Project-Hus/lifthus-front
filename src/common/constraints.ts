@@ -1,7 +1,10 @@
-export const password_limit = { min: 4, max: 16 };
-export const username_limit = { min: 3, max: 16 };
-// 댓글과 Post의 표시 길이 제한 위한 속성
-export const postFoldStandard = { Length: 500 };
-export const commentFoldStandard = { Length: 100 };
+export const PASSWORD_LIMIT = { MIN: 3, MAX: 16 };
+export const USERNAME_LIMIT = { MIN: 3, MAX: 16 };
 //routine의 설명 표시 길이 제한
-export const routineFoldStandard = { Length: 10 };
+export const ROUTINE_DESC_FOLD = 100;
+// Post constraints
+export const POST_FOLD = 200;
+export const POST_MAX_CONTENT = 2000;
+// Comment constraints
+export const COMMENT_FOLD = 100;
+export const COMMENT_MAX_CONTENT = 531;

@@ -10,7 +10,7 @@ import FormInput, {
 } from "../../common/components/forms/FormInput";
 
 import Logo from "../../common/components/Logo";
-import { username_limit } from "../../common/constraints";
+import { USERNAME_LIMIT } from "../../common/constraints";
 
 import useUserStore from "../../store/user.zustand";
 import useRegisterStore from "../../store/register.zustand";
@@ -100,7 +100,7 @@ const RegisterUsername = () => {
             },
           })}
         />
-        {(watch("username") || "").length >= username_limit.min &&
+        {(watch("username") || "").length >= USERNAME_LIMIT.MIN &&
           (regiNameLoading ? (
             <BlueSpinner />
           ) : (

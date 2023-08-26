@@ -8,7 +8,7 @@ import FormInput, {
 
 import SubmitLink from "../../common/components/links/SubmitLink";
 import Logo from "../../common/components/Logo";
-import { password_limit } from "../../common/constraints";
+import { PASSWORD_LIMIT } from "../../common/constraints";
 
 const SignIn = () => {
   const { t, i18n } = useTranslation();
@@ -34,8 +34,8 @@ const SignIn = () => {
         <FormInput
           {...register("id", {
             required: true,
-            minLength: password_limit.min,
-            maxLength: password_limit.max,
+            minLength: PASSWORD_LIMIT.MIN,
+            maxLength: PASSWORD_LIMIT.MAX,
             onChange: (e) => {
               setFailed(false);
               setFid(false);
@@ -44,8 +44,8 @@ const SignIn = () => {
           label={t("sign.ID")}
           placeholder="ID"
           focusString={t("characterLimit_message", {
-            min: password_limit.min,
-            max: password_limit.max,
+            min: PASSWORD_LIMIT.MIN,
+            max: PASSWORD_LIMIT.MAX,
           })}
         />
         {fid === true && (
@@ -54,8 +54,8 @@ const SignIn = () => {
         <FormInput
           {...register("password", {
             required: true,
-            minLength: password_limit.min,
-            maxLength: password_limit.max,
+            minLength: PASSWORD_LIMIT.MIN,
+            maxLength: PASSWORD_LIMIT.MAX,
             onChange: (e) => {
               setFailed(false);
             },
@@ -64,8 +64,8 @@ const SignIn = () => {
           type="password"
           placeholder="password"
           focusString={t("characterLimit_message", {
-            min: password_limit.min,
-            max: password_limit.max,
+            min: PASSWORD_LIMIT.MIN,
+            max: PASSWORD_LIMIT.MAX,
           })}
         />
         <div>&nbsp;</div>
