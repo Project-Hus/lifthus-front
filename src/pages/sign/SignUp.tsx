@@ -6,7 +6,7 @@ import FormInput, {
 } from "../../common/components/forms/FormInput";
 
 import Logo from "../../common/components/Logo";
-import { password_limit } from "../../common/constraints";
+import { PASSWORD_LIMIT } from "../../common/constraints";
 
 import { useForm } from "react-hook-form";
 import SubmitLink from "../../common/components/links/SubmitLink";
@@ -30,13 +30,13 @@ const SignUp = () => {
           label={t("sign.ID")}
           placeholder="ID"
           focusString={t("characterLimit_message", {
-            min: password_limit.min,
-            max: password_limit.max,
+            min: PASSWORD_LIMIT.MIN,
+            max: PASSWORD_LIMIT.MAX,
           })}
           {...register("id", {
             required: true,
-            minLength: password_limit.min,
-            maxLength: password_limit.max,
+            minLength: PASSWORD_LIMIT.MIN,
+            maxLength: PASSWORD_LIMIT.MAX,
             onChange: (e) => {
               setFid(false);
               setFailed(false);
@@ -49,8 +49,8 @@ const SignUp = () => {
         <FormInput
           {...register("password", {
             required: true,
-            minLength: password_limit.min,
-            maxLength: password_limit.max,
+            minLength: PASSWORD_LIMIT.MIN,
+            maxLength: PASSWORD_LIMIT.MAX,
             onChange: (e) => {
               setFailed(false);
             },
@@ -59,15 +59,15 @@ const SignUp = () => {
           type="password"
           placeholder="password"
           focusString={t("characterLimit_message", {
-            min: password_limit.min,
-            max: password_limit.max,
+            min: PASSWORD_LIMIT.MIN,
+            max: PASSWORD_LIMIT.MAX,
           })}
         />
         <FormInput
           {...register("check", {
             required: true,
-            minLength: password_limit.min,
-            maxLength: password_limit.max,
+            minLength: PASSWORD_LIMIT.MIN,
+            maxLength: PASSWORD_LIMIT.MAX,
             onChange: (e) => {
               setFailed(false);
             },
@@ -76,14 +76,14 @@ const SignUp = () => {
           type="password"
           placeholder="check password"
           focusString={t("characterLimit_message", {
-            min: password_limit.min,
-            max: password_limit.max,
+            min: PASSWORD_LIMIT.MIN,
+            max: PASSWORD_LIMIT.MAX,
           })}
         />
         <div>&nbsp;</div>
-        {(watch("id") || "").length >= password_limit.min &&
+        {(watch("id") || "").length >= PASSWORD_LIMIT.MIN &&
           (watch("check") || "") === (watch("password") || "") &&
-          (watch("password") || "").length >= password_limit.min && (
+          (watch("password") || "").length >= PASSWORD_LIMIT.MIN && (
             <SubmitLink>{t("sign.SignUp")}</SubmitLink>
           )}
         {failed && !fid && (

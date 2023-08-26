@@ -1,4 +1,6 @@
-import { useCallback, useState } from "react";
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { fetchFilesAndCreateFileList } from "../utils/file";
 
 /**
  * Provides onLoadFile callback to handle the image file input,
@@ -8,9 +10,17 @@ import { useCallback, useState } from "react";
  *
  * @returns { onLoadFile: (e: React.ChangeEvent<HTMLInputElement>) => void, imagePreviewSources: string[], imageFileList: File[], removeImages: (idxs: number[]) => void}
  */
-export const useImageFileListWithPreview = () => {
+export const useImageFileListWithPreview = (srcs?: string[]) => {
   const [imagePreviewSources, setImagePreviewSources] = useState<string[]>([]);
   const [imageFileList, setImageFileList] = useState<File[]>([]);
+
+  useEffect(() => {
+    if (!srcs) return;
+    setImagePreviewSources(srcs);
+    fetchFilesAndCreateFileList(srcs).then((files) => {
+      setImageFileList(files);
+    });
+  }, []);
 
   const onLoadFile = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

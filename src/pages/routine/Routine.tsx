@@ -7,6 +7,7 @@ import DetailProgram from "./DetailProgram";
 import StartProgram from "./StartPrgram";
 import CreateExcercise from "./CreateProgram/CreateExcercise";
 import { Img } from "@chakra-ui/react";
+import axios from "axios";
 
 const Routine = () => {
   if (false)

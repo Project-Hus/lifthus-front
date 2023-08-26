@@ -1,6 +1,6 @@
 import { StarIcon, BellIcon } from "@chakra-ui/icons";
 import { Card, Flex, Img, Text, Box, Button } from "@chakra-ui/react";
-import { routineFoldStandard } from "../../common/constraints";
+import { ROUTINE_DESC_FOLD } from "../../common/constraints";
 import { programDB } from "../../store/interfaces/program.interface";
 import { ThemeColor } from "../../common/styles/theme.style";
 import { Key, useState } from "react";
@@ -55,8 +55,8 @@ const RoutineShort = ({
           >
             {IsFold &&
             result.description &&
-            result.description.length > routineFoldStandard.Length
-              ? result.description.slice(0, routineFoldStandard.Length) + "..."
+            result.description.length > ROUTINE_DESC_FOLD
+              ? result.description.slice(0, ROUTINE_DESC_FOLD) + "..."
               : result.description}
           </Text>
 

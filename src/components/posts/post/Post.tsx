@@ -6,25 +6,17 @@ import { Textarea, Link as LinkChakra } from "@chakra-ui/react";
 
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React from "react";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  CloseIcon,
-  CopyIcon,
-  DeleteIcon,
-  EditIcon,
-  PlusSquareIcon,
-} from "@chakra-ui/icons";
+import { CheckIcon, CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 
 import { ThemeColor } from "../../../common/styles/theme.style";
-import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useForm } from "react-hook-form";
 
-import { postFoldStandard } from "../../../common/constraints";
+import { POST_FOLD } from "../../../common/constraints";
 import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
 import postApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
@@ -37,6 +29,8 @@ import { useImageFileListWithPreview } from "../../../hooks/images";
 
 import PostFooter from "./PostFooter";
 import styled from "@emotion/styled";
+import PostMenu, { PostHeader } from "./PostHeader";
+import PostEdit from "./PostEdit";
 
 interface PostProp {
   pid?: number;
@@ -46,7 +40,8 @@ type FormData = {
   content: string;
   images: FileList;
 };
-const IconbuttonStyle = styled.div`
+
+export const IconButtonStyleDiv = styled.div`
   padding-top: 0em;
   & > Button {
     background-color: ${ThemeColor.backgroundColorDarker};
@@ -88,9 +83,32 @@ const Post = ({ pid, slug }: PostProp) => {
         : await userApi.getUserInfo({ uid: post.author }),
   });
 
-  // editing post
-  const { register, handleSubmit } = useForm<FormData>();
+  // post deletion
+  const { mutate: deleteMutate } = useMutation(
+    async () =>
+      !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+      },
+    }
+  );
+
+  // comments folding
+  const [IsFold, setFold] = useState(true);
+
+  // author info
+  const username = author?.username || "Unknown user";
+  const profileImage = author?.profile_image_url;
+
+  /* post editing */
   const [isEditing, setEditing] = useState(false);
+
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
+    useImageFileListWithPreview();
+
   const { mutate, isLoading } = useMutation(
     async (post: UpdatePostDto) =>
       postApi.updatePost({
@@ -123,24 +141,6 @@ const Post = ({ pid, slug }: PostProp) => {
     }
   };
 
-  // deleting post
-  const { mutate: deleteMutate } = useMutation(
-    async () =>
-      !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["posts"] });
-      },
-    }
-  );
-
-  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
-    useImageFileListWithPreview();
-
-  // function for floding the comment
-  const [IsFold, setFold] = useState(true);
-  const username = author?.username || "Unknown user";
-  const profileImage = author?.profile_image_url;
   return (
     <>
       <Card
@@ -151,153 +151,44 @@ const Post = ({ pid, slug }: PostProp) => {
       >
         <CardHeader paddingBottom={"0"}>
           <Flex letterSpacing="4">
-            <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar src={profileImage} />
-              <Box>
-                <LinkChakra as={Link} to={author ? `/profile/${username}` : ""}>
-                  <Heading fontSize="1.1em">{username}</Heading>
-                </LinkChakra>
-                <Text fontSize={"0.9em"} color="gray.400">
-                  {!!post && `${new Date(post.createdAt)}`.slice(0, 21)}
-                </Text>
-              </Box>
-            </Flex>
-            <Menu>
-              {({ isOpen }) => (
-                <>
-                  <MenuButton
-                    variant="unstyled"
-                    isActive={isOpen}
-                    as={Button}
-                    color="white"
-                    rightIcon={<ChevronDownIcon fontSize="2.2em" />}
-                  />
-                  <MenuList
-                    fontSize={"1em"}
-                    bgColor={ThemeColor.backgroundColorDarker}
-                  >
-                    <MenuItem
-                      bgColor={ThemeColor.backgroundColorDarker}
-                      _hover={{
-                        bgColor: ThemeColor.backgroundColor,
-                        color: "white",
-                      }}
-                      onClick={() => {
-                        if (!post) return;
-                        navigator.clipboard.writeText(
-                          `${window.location.origin}/post/${post.slug}`
-                        );
-                      }}
-                    >
-                      <CopyIcon />
-                      &nbsp;Copy URL
-                    </MenuItem>
-                    {post && post.author === clientUid && (
-                      <>
-                        <MenuItem
-                          bgColor={ThemeColor.backgroundColorDarker}
-                          color="yellow.400"
-                          _hover={{ bgColor: "yellow.500", color: "white" }}
-                          onClick={() => setEditing(true)}
-                        >
-                          <EditIcon />
-                          &nbsp;Edit
-                        </MenuItem>
-                        <MenuItem
-                          bgColor={ThemeColor.backgroundColorDarker}
-                          color="red.400"
-                          onClick={() => deleteMutate()}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                        >
-                          <DeleteIcon />
-                          &nbsp;Delete
-                        </MenuItem>
-                      </>
-                    )}
-                  </MenuList>
-                </>
-              )}
-            </Menu>
+            <PostHeader
+              profileImageSrc={profileImage || ""}
+              username={username}
+              timestamp={post?.createdAt || new Date()}
+            />
+            <PostMenu
+              author={post?.author || NaN}
+              slug={post?.slug || ""}
+              setEditing={() => setEditing(true)}
+              deletePost={() => deleteMutate()}
+            />
           </Flex>
         </CardHeader>
-        <div>
+
+        {!isEditing && (
           <ImageBoard
             srcs={(post && post.images?.map((img) => img.src)) || []}
           />
-          {isEditing && imagePreviewSources.length > 0 ? (
-            <>
-              <Button>
-                <CloseIcon />
-              </Button>
-              <Image src={imagePreviewSources[0]}></Image>
-            </>
-          ) : (
-            <></>
-          )}
-          {isEditing !== true && <></>}
-        </div>
+        )}
 
         <CardBody paddingTop="0.5em">
-          {isEditing ? (
-            <>
-              <form onSubmit={handleSubmit(editPost)}>
-                <Textarea
-                  defaultValue={!!post ? post.content : ""}
-                  {...register("content")}
-                />
-                <Flex justifyContent={"space-between"}>
-                  <IconbuttonStyle>
-                    <Button>
-                      <PlusSquareIcon />
-                      <Input
-                        {...register("images")}
-                        id="file"
-                        type="file"
-                        onChange={onLoadFile}
-                        display="none"
-                      ></Input>
-                    </Button>
-                    <Button>share routine</Button>
-                  </IconbuttonStyle>
-                  <div>
-                    <Button
-                      type="submit"
-                      color="white"
-                      _hover={{ bg: ThemeColor.backgroundColor }}
-                      variant="ghost"
-                    >
-                      <CheckIcon />
-                    </Button>
-                    <Button
-                      type="submit"
-                      color="white"
-                      onClick={() => {
-                        if (!post) return;
-                        setEditing(false);
-                      }}
-                      _hover={{ bg: ThemeColor.backgroundColor }}
-                      variant="ghost"
-                    >
-                      <CloseIcon />
-                    </Button>
-                  </div>
-                </Flex>
-              </form>
-            </>
+          {isEditing && post ? (
+            <PostEdit
+              post={post}
+              postQueryKey={postQueryKey}
+              closeEdit={() => setEditing(false)}
+            />
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {IsFold &&
-                !!post &&
-                post.content.length > postFoldStandard.Length
-                  ? post.content.slice(0, postFoldStandard.Length) + "..."
+                {IsFold && !!post && post.content.length > POST_FOLD
+                  ? post.content.slice(0, POST_FOLD) + "..."
                   : !!post
                   ? post.content
                   : ""}
               </Text>
-              <IconbuttonStyle>
-                {(!!post ? post.content.length : 0) >
-                  postFoldStandard.Length && (
+              <IconButtonStyleDiv>
+                {(!!post ? post.content.length : 0) > POST_FOLD && (
                   <>
                     <Button
                       alignSelf="flex-start"
@@ -318,7 +209,7 @@ const Post = ({ pid, slug }: PostProp) => {
                     </Button>
                   </>
                 )}
-              </IconbuttonStyle>
+              </IconButtonStyleDiv>
             </>
           )}
         </CardBody>
