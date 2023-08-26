@@ -41,9 +41,10 @@ const PostEdit = ({ post, postQueryKey, closeEdit }: PostEditingProps) => {
           author: post.author,
           content: content,
         };
-        postApi.updatePost(editedPost);
+        return postApi.updatePost(editedPost);
       } catch (err) {
         alert("editing post failed T.T");
+        return err;
       }
     },
     {
