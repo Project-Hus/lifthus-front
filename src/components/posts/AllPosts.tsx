@@ -4,9 +4,7 @@ import React from "react";
 import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import { useVisibleEffect } from "../../hooks/visibleEffect";
-import Post from "./Post";
-
-// 쿼리 로딩 => 온석세스 셋포스트 인밸리드 => 또 쿼리
+import Post from "./post/Post";
 
 const AllPosts = () => {
   const {

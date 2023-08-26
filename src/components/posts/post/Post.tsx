@@ -16,7 +16,7 @@ import {
   PlusSquareIcon,
 } from "@chakra-ui/icons";
 
-import { ThemeColor } from "../../common/styles/theme.style";
+import { ThemeColor } from "../../../common/styles/theme.style";
 import { Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -24,18 +24,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useForm } from "react-hook-form";
 
-import { postFoldStandard } from "../../common/constraints";
-import { QueryPostDto, UpdatePostDto } from "../../api/dtos/post.dto";
-import postApi from "../../api/postApi";
-import userApi from "../../api/userApi";
+import { postFoldStandard } from "../../../common/constraints";
+import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
+import postApi from "../../../api/postApi";
+import userApi from "../../../api/userApi";
 
-import { GetUserInfoDto } from "../../api/dtos/user.dto";
+import { GetUserInfoDto } from "../../../api/dtos/user.dto";
 import { Link } from "react-router-dom";
-import useUserStore from "../../store/user.zustand";
-import ImageBoard from "../../common/components/images/ImageBoard";
-import { useImageFileListWithPreview } from "../../hooks/images";
+import useUserStore from "../../../store/user.zustand";
+import ImageBoard from "../../../common/components/images/ImageBoard";
+import { useImageFileListWithPreview } from "../../../hooks/images";
 
-import commentApi from "../../api/commentApi";
 import PostFooter from "./PostFooter";
 import styled from "@emotion/styled";
 
