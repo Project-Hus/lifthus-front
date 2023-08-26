@@ -74,7 +74,7 @@ const PostMenu = ({ author, slug, setEditing, deletePost }: PostMenuProps) => {
               hoverColor="white"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `${window.location.origin}/post/${slug}`
+                  encodeURIComponent(`${window.location.origin}/post/${slug}`)
                 );
               }}
             >
