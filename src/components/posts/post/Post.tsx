@@ -167,7 +167,7 @@ const Post = ({ pid, slug }: PostProp) => {
 
         {!isEditing && (
           <ImageBoard
-            srcs={(post && post.images?.map((img) => img.src)) || []}
+            srcs={(post && post.images) /*?.map((img) => img.src)*/ || []}
           />
         )}
 

@@ -7,7 +7,7 @@ export type QueryPostDto = {
   createdAt: Date;
   updatedAt: Date;
   slug: string;
-  images?: { id: number; src: string }[];
+  images?: string[]; // { id: number; src: string }[];
   content: string;
   likenum: number;
   comments?: QueryCommentDto[];
