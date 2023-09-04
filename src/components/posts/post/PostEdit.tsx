@@ -57,7 +57,9 @@ const PostEdit = ({ post, postQueryKey, closeEdit }: PostEditingProps) => {
 
   return (
     <>
-      <ImageBoard srcs={(post && post.images?.map((img) => img.src)) || []} />
+      <ImageBoard
+        srcs={(post && post.images) /*?.map((img) => img.src)*/ || []}
+      />
       <form onSubmit={handleSubmit((fd) => editPost(fd))}>
         <Textarea
           defaultValue={!!post ? post.content : ""}

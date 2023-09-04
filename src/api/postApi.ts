@@ -1,37 +1,40 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
-import { CreatePostDto, QueryPostDto, UpdatePostDto } from "./dtos/post.dto";
+import {
+  CreatePostDto,
+  QueryPostDto,
+  QueryPostSummaryDto,
+  UpdatePostDto,
+} from "./dtos/post.dto";
 import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 
 import statusInfo from "./interfaces/statusInfo.json";
 
 const postApi: PostApi = {
   getPost: async ({ pid, slug }: { pid?: number; slug?: string }) => {
+    let res: AxiosResponse<any, any>;
     if (pid) {
-      const res = await axios.get(
-        LIFTHUS_API_URL + `/post/query/post/id/${pid}`
-      );
-      return res.data;
+      res = await axios.get(LIFTHUS_API_URL + `/post/query/post/id/${pid}`);
     } else if (slug) {
-      const res = await axios.get(
-        LIFTHUS_API_URL + `/post/query/post/slug/${slug}`
-      );
-      return res.data;
+      res = await axios.get(LIFTHUS_API_URL + `/post/query/post/slug/${slug}`);
     } else {
       return Promise.reject("Invalid parameters");
     }
+    if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
+    return res.data;
   },
-  getAllPosts: async (skip?: number): Promise<QueryPostDto[]> => {
+  getAllPosts: async (skip?: number): Promise<QueryPostSummaryDto[]> => {
     if (!skip) skip = 0;
     const res = await axios.get(
-      LIFTHUS_API_URL + `/post/query/post/all/${skip}`
+      LIFTHUS_API_URL + `/post/query/post/all?skip=${skip}`
     );
+    if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
     return res.data || [];
   },
   getUserPosts: async ({
     uid,
     skip = 0,
-  }: GetUserPostsParams): Promise<QueryPostDto[]> => {
+  }: GetUserPostsParams): Promise<QueryPostSummaryDto[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUserPosts({ uid, skip });
     // }
@@ -41,9 +44,13 @@ const postApi: PostApi = {
         withCredentials: true,
       }
     );
+    if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
     return res.data || [];
   },
-  getUsersPosts: async ({ users, skip = 0 }): Promise<QueryPostDto[]> => {
+  getUsersPosts: async ({
+    users,
+    skip = 0,
+  }): Promise<QueryPostSummaryDto[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUsersPosts({ users, skip });
     // }
@@ -52,6 +59,7 @@ const postApi: PostApi = {
       params: { users: usersQ, skip },
       withCredentials: true,
     });
+    if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
     return res.data;
   },
   createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {

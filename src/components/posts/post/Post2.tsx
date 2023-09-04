@@ -17,7 +17,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { POST_FOLD } from "../../../common/constraints";
-import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
+import {
+  QueryPostDto,
+  QueryPostSummaryDto,
+  UpdatePostDto,
+} from "../../../api/dtos/post.dto";
 import postApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
 
@@ -33,8 +37,7 @@ import PostMenu, { PostHeader } from "./PostHeader";
 import PostEdit from "./PostEdit";
 
 interface PostProp {
-  pid?: number;
-  slug?: string;
+  postSumm: QueryPostSummaryDto;
 }
 type FormData = {
   content: string;
@@ -61,32 +64,21 @@ export const IconButtonStyleDiv = styled.div`
  * @param param0
  * @returns JSX.Element
  */
-const Post = ({ pid, slug }: PostProp) => {
+const Post2 = ({ postSumm }: PostProp) => {
   const queryClient = useQueryClient();
-  // get the client's uid
-  const clientUid = useUserStore((state) => state.uid);
 
-  // query the post by pid or slug
-  const postQueryKey = pid ? { pid } : { slug };
-  const { data: post } = useQuery<QueryPostDto>({
-    queryKey: ["post", postQueryKey],
-    queryFn: async () => {
-      return await postApi.getPost(postQueryKey);
-    },
-  });
+  const [isOpen, setOpen] = useState(false);
+
+  const clientUid = useUserStore((state) => state.uid);
   // query the author info
   const { data: author } = useQuery<GetUserInfoDto | null>({
-    queryKey: ["user", { uid: post?.author }],
-    queryFn: async () =>
-      !post
-        ? Promise.reject(undefined)
-        : await userApi.getUserInfo({ uid: post.author }),
+    queryKey: ["user", { uid: postSumm.author }],
+    queryFn: async () => await userApi.getUserInfo({ uid: postSumm.author }),
   });
 
   // post deletion
   const { mutate: deleteMutate } = useMutation(
-    async () =>
-      !post ? Promise.reject("undefined") : postApi.deletePost(post.id),
+    async () => postApi.deletePost(postSumm.id),
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -118,7 +110,9 @@ const Post = ({ pid, slug }: PostProp) => {
       }),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["post", postQueryKey] });
+        queryClient.invalidateQueries({
+          queryKey: ["post", { pid: postSumm.id }],
+        });
         setEditing(false);
       },
     }
@@ -128,10 +122,9 @@ const Post = ({ pid, slug }: PostProp) => {
     if (data.content.length === 0) return alert("내용을 입력해주세요");
     // 기존 이미지에서 변경되지 않은 경우
     try {
-      if (!post) return;
       const editedPost: UpdatePostDto = {
-        id: post.id,
-        author: post.author,
+        id: postSumm.id,
+        author: postSumm.author,
         //images: imagePreview ? imagePreview : [],
         content: data.content,
       };
@@ -154,11 +147,11 @@ const Post = ({ pid, slug }: PostProp) => {
             <PostHeader
               profileImageSrc={profileImage || ""}
               username={username}
-              timestamp={post?.createdAt || new Date()}
+              timestamp={postSumm.createdAt || new Date()}
             />
             <PostMenu
-              author={post?.author || NaN}
-              slug={post?.slug || ""}
+              author={postSumm.author || NaN}
+              slug={postSumm.slug || ""}
               setEditing={() => setEditing(true)}
               deletePost={() => deleteMutate()}
             />
@@ -167,27 +160,31 @@ const Post = ({ pid, slug }: PostProp) => {
 
         {!isEditing && (
           <ImageBoard
-            srcs={(post && post.images) /*?.map((img) => img.src)*/ || []}
+            srcs={postSumm.images /*?.map((img) => img.src)*/ || []}
           />
         )}
 
         <CardBody paddingTop="0.5em">
-          {isEditing && post ? (
-            <PostEdit
-              post={post}
-              postQueryKey={postQueryKey}
-              closeEdit={() => setEditing(false)}
-            />
+          {isEditing && postSumm ? (
+            // <PostEdit
+            //   post={post}
+            //   postQueryKey={{ pid: postSumm.id }}
+            //   closeEdit={() => setEditing(false)}
+            // />
+            <></>
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {IsFold && !!post && post.content.length > POST_FOLD
-                  ? post.content.slice(0, POST_FOLD) + "..."
-                  : !!post
-                  ? post.content
-                  : ""}
+                {isOpen
+                  ? decodeURIComponent(postSumm.slug)
+                  : // IsFold && !!post && post.content.length > POST_FOLD
+                    //   ? post.content.slice(0, POST_FOLD) + "..."
+                    //   : !!post
+                    //   ? post.content
+                    //   : ""
+                    decodeURIComponent(postSumm.slug)}
               </Text>
-              <IconButtonStyleDiv>
+              {/* <IconButtonStyleDiv>
                 {(!!post ? post.content.length : 0) > POST_FOLD && (
                   <>
                     <Button
@@ -209,16 +206,16 @@ const Post = ({ pid, slug }: PostProp) => {
                     </Button>
                   </>
                 )}
-              </IconButtonStyleDiv>
+              </IconButtonStyleDiv> */}
             </>
           )}
         </CardBody>
-        {!isEditing && post?.id && (
+        {/* {!isEditing && post?.id && (
           <PostFooter pid={post.id} slug={post.slug} likenum={post.likenum} />
-        )}
+        )} */}
       </Card>
     </>
   );
 };
 
-export default Post;
+export default Post2;

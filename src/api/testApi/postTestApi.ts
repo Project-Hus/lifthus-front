@@ -2,6 +2,7 @@ import {
   CreatePostDto,
   DeletePostResponse,
   QueryPostDto,
+  QueryPostSummaryDto,
   UpdatePostDto,
   UpdatePostResponse,
 } from "../dtos/post.dto";
@@ -13,7 +14,7 @@ const postTestApi: PostApi = {
   getPost: async ({ pid, slug }: { pid?: number; slug?: string }) => {
     return Promise.reject("Not implemented");
   },
-  getAllPosts: async (skip?: number): Promise<QueryPostDto[]> => {
+  getAllPosts: async (skip?: number): Promise<QueryPostSummaryDto[]> => {
     if (!skip) skip = 0;
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/post/all/${skip}`
@@ -23,7 +24,7 @@ const postTestApi: PostApi = {
   getUserPosts: async ({
     uid,
     skip = 0,
-  }: GetUserPostsParams): Promise<QueryPostDto[]> => {
+  }: GetUserPostsParams): Promise<QueryPostSummaryDto[]> => {
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/post/user/${uid}/${skip}`,
       {
@@ -32,7 +33,10 @@ const postTestApi: PostApi = {
     );
     return res.data;
   },
-  getUsersPosts: async ({ users, skip = 0 }): Promise<QueryPostDto[]> => {
+  getUsersPosts: async ({
+    users,
+    skip = 0,
+  }): Promise<QueryPostSummaryDto[]> => {
     const lst = localStorage.getItem("lifthus_st");
     const usersQ = users.join(",");
     const res = await axios.get(LIFTHUS_API_URL + `/post/query/post`, {

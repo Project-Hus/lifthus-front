@@ -7,7 +7,6 @@ import {
 import axios from "axios";
 import statusInfo from "./interfaces/statusInfo.json";
 
-import authTestApi from "./testApi/authTestApi";
 import {
   HUS_AUTH_URL,
   LIFTHUS_AUTH_URL,
