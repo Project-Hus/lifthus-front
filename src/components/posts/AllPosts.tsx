@@ -5,6 +5,7 @@ import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import { useVisibleEffect } from "../../hooks/visibleEffect";
 import Post from "./post/Post";
+import Post2 from "./post/Post2";
 
 const AllPosts = () => {
   const {
@@ -15,6 +16,7 @@ const AllPosts = () => {
     isFetching,
     isFetchingNextPage,
     status,
+    isSuccess,
   } = useInfiniteQuery({
     queryKey: ["posts", "all"],
     queryFn: async ({ pageParam = 0 }) => {
@@ -29,13 +31,17 @@ const AllPosts = () => {
 
   return (
     <>
-      {data?.pages.map((page, i) => (
-        <React.Fragment key={i}>
-          {page.map((post) => (
-            <Post key={post.id} pid={post.id} />
-          ))}
-        </React.Fragment>
-      ))}
+      {isSuccess &&
+        data?.pages.map((page, i) => {
+          console.log("PAGE", page);
+          return (
+            <React.Fragment key={i}>
+              {page.map((post) => (
+                <Post2 postSumm={post} />
+              ))}
+            </React.Fragment>
+          );
+        })}
       {isFetching ? (
         <div style={{ textAlign: "center", padding: "1em" }}>
           <BlueSpinner />

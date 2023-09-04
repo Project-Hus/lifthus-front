@@ -21,6 +21,7 @@ const commentApi: CommentApi = {
         withCredentials: true,
       }
     );
+    if (res.status !== 200) throw new Error("getComments failed");
     return res.data;
   },
   createComment: async (
@@ -32,6 +33,7 @@ const commentApi: CommentApi = {
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, comment, {
       withCredentials: true,
     });
+    if (res.status !== 201) throw new Error("createComment failed");
     return res.data;
   },
 
@@ -42,6 +44,8 @@ const commentApi: CommentApi = {
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, reply, {
       withCredentials: true,
     });
+
+    if (res.status !== 201) throw new Error("createReply failed");
     return res.data;
   },
 
@@ -54,6 +58,7 @@ const commentApi: CommentApi = {
     const res = await axios.put(LIFTHUS_API_URL + `/post/comment`, comment, {
       withCredentials: true,
     });
+    if (res.status !== 200) throw new Error("updateComment failed");
     return res.data;
   },
   deleteComment: async (cid: number): Promise<DeleteCommentResponse> => {
@@ -63,6 +68,7 @@ const commentApi: CommentApi = {
     const res = await axios.delete(LIFTHUS_API_URL + `/post/comment/${cid}`, {
       withCredentials: true,
     });
+    if (res.status !== 200) throw new Error("deleteComment failed");
     return res.data;
   },
   likeComment: async (cid: number): Promise<number> => {
