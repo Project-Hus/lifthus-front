@@ -9,7 +9,7 @@ import Post from "./post/Post";
 import Post2 from "./post/Post2";
 
 interface UsersPostsProps {
-  uids: number[];
+  uids: string[];
 }
 const UsersPosts = ({ uids }: UsersPostsProps) => {
   const { data, fetchNextPage, isFetching, isSuccess } = useInfiniteQuery({

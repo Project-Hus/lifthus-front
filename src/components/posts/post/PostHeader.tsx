@@ -49,7 +49,7 @@ export const PostHeader = ({
 };
 
 type PostMenuProps = {
-  author: number;
+  author: string;
   slug: string;
   setEditing: () => void;
   deletePost: () => void;

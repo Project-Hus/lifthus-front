@@ -8,7 +8,7 @@ import {
 import { PostSummaryDto } from "../dtos/postSummary.dto";
 
 export interface PostApi {
-  getPost: ({ pid, slug }: { pid?: number; slug?: string }) => Promise<PostDto>;
+  getPost: ({ pid, slug }: { pid?: string; slug?: string }) => Promise<PostDto>;
   getAllPosts: (skip?: number) => Promise<PostSummaryDto[]>;
   getUserPosts: ({
     uid,
@@ -18,7 +18,7 @@ export interface PostApi {
     users,
     skip,
   }: {
-    users: number[];
+    users: string[];
     skip: number;
   }) => Promise<PostSummaryDto[]>;
   createPost: ({
@@ -31,11 +31,11 @@ export interface PostApi {
     author,
     content,
   }: UpdatePostDtoInput) => Promise<UpdatePostResponse>;
-  deletePost: (pid: number) => Promise<DeletePostResponse>;
-  likePost: (pid: number) => Promise<number>;
+  deletePost: (pid: string) => Promise<DeletePostResponse>;
+  likePost: (pid: string) => Promise<string>;
 }
 
 export type GetUserPostsParams = {
-  uid: number;
+  uid: string;
   skip?: number;
 };

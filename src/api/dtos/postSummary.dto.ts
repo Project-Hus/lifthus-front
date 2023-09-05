@@ -1,8 +1,6 @@
-import { QueryCommentDto } from "./comment.dto";
-
 export class PostSummaryDto {
-  id: number;
-  author: number;
+  id: string;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
   images: string[];
@@ -11,9 +9,6 @@ export class PostSummaryDto {
   likeNum: number;
   commentNum: number;
   constructor(pjson: PostSumamryJSON) {
-    const slug = pjson.slug;
-    const decSlug = decodeURIComponent(slug);
-    const codeIdx = slug.lastIndexOf("code");
     this.id = pjson.id;
     this.author = pjson.author;
     this.createdAt = new Date(pjson.createdAt);
@@ -22,18 +17,18 @@ export class PostSummaryDto {
     this.slug = pjson.slug;
     this.likeNum = pjson.likeNum;
     this.commentNum = pjson.commentNum;
-    if (codeIdx === -1) this.abstract = decSlug;
-    else this.abstract = decSlug.slice(0, codeIdx);
+    this.abstract = pjson.abstract;
   }
 }
 
 export type PostSumamryJSON = {
-  id: number;
-  author: number;
+  id: string;
+  author: string;
   createdAt: string;
   updatedAt: string;
   images: string[];
   slug: string;
+  abstract: string;
   likeNum: number;
   commentNum: number;
 };

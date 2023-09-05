@@ -38,7 +38,7 @@ const App = () => {
       const res = await authApi.updateSession();
       const user: SessionUserInfo | undefined = res.user;
       if (!!user) {
-        const userInfo = await userApi.getUserInfo({ uid: Number(user.uid) });
+        const userInfo = await userApi.getUserInfo({ uid: user.uid });
         setUserInfo(userInfo);
         console.log(userInfo, "user signed");
       }

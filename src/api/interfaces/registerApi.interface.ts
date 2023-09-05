@@ -17,12 +17,12 @@ export interface RegisterApi {
 }
 
 export type RegisterUsernameParams = {
-  uid: number;
+  uid: string;
   username: string;
 };
 
 export type RegisterParams = {
-  uid: number;
+  uid: string;
   trainingType: string;
   bodyWeight: number;
   height: number;

@@ -33,7 +33,7 @@ import PostEdit from "./PostEdit";
 import { PostDto } from "../../../api/dtos/post.dto";
 
 interface PostProp {
-  pid?: number;
+  pid?: string;
   slug?: string;
 }
 type FormData = {
@@ -157,7 +157,7 @@ const Post = ({ pid, slug }: PostProp) => {
               timestamp={post?.createdAt || new Date()}
             />
             <PostMenu
-              author={post?.author || NaN}
+              author={post?.author || ""}
               slug={post?.slug || ""}
               setEditing={() => setEditing(true)}
               deletePost={() => deleteMutate()}

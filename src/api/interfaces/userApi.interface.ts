@@ -7,7 +7,7 @@ export interface UserApi {
 }
 
 export type UserMutationParams = {
-  uid: number;
+  uid: string;
   username?: string;
   birthdate?: Date;
 
@@ -17,7 +17,7 @@ export type UserMutationParams = {
 };
 
 export type Uid = {
-  uid: number;
+  uid: string;
 };
 export type Username = {
   username: string;

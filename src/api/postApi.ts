@@ -13,7 +13,7 @@ import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 import statusInfo from "./interfaces/statusInfo.json";
 
 const postApi: PostApi = {
-  getPost: async ({ pid, slug }: { pid?: number; slug?: string }) => {
+  getPost: async ({ pid, slug }: { pid?: string; slug?: string }) => {
     let res: AxiosResponse<any, any>;
     if (pid) {
       res = await axios.get(LIFTHUS_API_URL + `/post/query/post/id/${pid}`);
@@ -93,7 +93,7 @@ const postApi: PostApi = {
     );
     return res.data;
   },
-  deletePost: async (pid: number) => {
+  deletePost: async (pid: string) => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.deletePost(pid);
     // }
@@ -103,7 +103,7 @@ const postApi: PostApi = {
     });
     return res.data;
   },
-  likePost: async (pid: number) => {
+  likePost: async (pid: string) => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.likePost(pid);
     // }

@@ -15,7 +15,7 @@ import useUserStore from "../../store/user.zustand";
 const Home = () => {
   const { uid } = useUserStore();
 
-  const { data: followings, isLoading } = useQuery<number[]>({
+  const { data: followings, isLoading } = useQuery<string[]>({
     queryKey: ["followings", { uid }],
     queryFn: async () => {
       if (uid) return await relationApi.getUserFollowing({ uid });

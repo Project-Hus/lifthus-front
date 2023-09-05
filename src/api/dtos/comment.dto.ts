@@ -1,7 +1,7 @@
 export type QueryCommentDto = {
-  id: number;
-  postId: number;
-  author: number;
+  id: string;
+  postId: string;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
   content: string;
@@ -11,31 +11,32 @@ export type QueryCommentDto = {
 };
 
 export type QueryReplyDto = {
-  id: number;
-  parentId: number;
-  author: number;
+  id: string;
+  postId: string;
+  parentId: string;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
   content: string;
   likenum: number;
-  mentions?: string[];
+  replies?: QueryReplyDto[];
 };
 
 export type CreateCommentDto = {
-  postId: number;
-  author: number;
+  postId: string;
+  author: string;
   content: string;
 };
 
 export type CreateReplyDto = {
-  parentId: number;
-  author: number;
+  parentId: string;
+  author: string;
   content: string;
 };
 
 export type UpdateCommentDto = {
-  id: number;
-  author: number;
+  id: string;
+  author: string;
   content: string;
 };
 

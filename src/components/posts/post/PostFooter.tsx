@@ -20,7 +20,7 @@ const PostFooter = ({
   slug,
   likenum,
 }: {
-  pid: number;
+  pid: string;
   slug: string;
   likenum: number;
 }) => {

@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import userApi from "../../../api/userApi";
 import { ThemeColor } from "../../../common/styles/theme.style";
 
-const UserList = ({ users }: { users: number[] }) => {
+const UserList = ({ users }: { users: string[] }) => {
   const userList = users.map((uid) => <UserListItem key={uid} uid={uid} />);
   return <>{userList}</>;
 };
 
-const UserListItem = ({ uid }: { uid: number }) => {
+const UserListItem = ({ uid }: { uid: string }) => {
   const navigate = useNavigate();
   const { data: user } = useQuery({
     queryKey: ["user", { uid }],

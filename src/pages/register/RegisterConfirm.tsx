@@ -18,7 +18,7 @@ const RegisterConfirm = () => {
   }));
 
   const registerInfo = useRegisterStore((state) => ({
-    uid: NaN,
+    uid: "",
     username: state.username,
     trainingType: state.type,
     bodyWeight: state.bodyWeight,

@@ -148,7 +148,7 @@ const Post2 = ({ postSumm }: PostProp) => {
               timestamp={postSumm.createdAt || new Date()}
             />
             <PostMenu
-              author={postSumm.author || NaN}
+              author={postSumm.author}
               slug={postSumm.slug || ""}
               setEditing={() => setEditing(true)}
               deletePost={() => deleteMutate()}

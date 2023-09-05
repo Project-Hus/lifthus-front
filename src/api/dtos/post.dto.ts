@@ -1,7 +1,7 @@
 export class PostDto {
-  id: number;
+  id: string;
   slug: string;
-  author: number;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
   images: string[];
@@ -22,9 +22,9 @@ export class PostDto {
 }
 
 export type PostJSON = {
-  id: number;
+  id: string;
   slug: string;
-  author: number;
+  author: string;
   createdAt: string;
   updatedAt: string;
   images: string[];
@@ -47,7 +47,7 @@ export class CreatePostDto {
 }
 
 export type CreatePostDtoInput = {
-  author: number;
+  author: string;
   images?: File[];
   content: string;
 };
@@ -63,8 +63,8 @@ export class UpdatePostDto {
 }
 
 export type UpdatePostDtoInput = {
-  id: number;
-  author: number;
+  id: string;
+  author: string;
   content: string;
 };
 

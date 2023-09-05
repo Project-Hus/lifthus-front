@@ -14,7 +14,7 @@ import {
 import { CommentApi } from "./interfaces/commentApi.interface";
 
 const commentApi: CommentApi = {
-  getComments: async (pid: number): Promise<QueryCommentDto[]> => {
+  getComments: async (pid: string): Promise<QueryCommentDto[]> => {
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/comment?pid=${pid}`,
       {
@@ -61,7 +61,7 @@ const commentApi: CommentApi = {
     if (res.status !== 200) throw new Error("updateComment failed");
     return res.data;
   },
-  deleteComment: async (cid: number): Promise<DeleteCommentResponse> => {
+  deleteComment: async (cid: string): Promise<DeleteCommentResponse> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.deleteComment(cid);
     // }
@@ -71,7 +71,7 @@ const commentApi: CommentApi = {
     if (res.status !== 200) throw new Error("deleteComment failed");
     return res.data;
   },
-  likeComment: async (cid: number): Promise<number> => {
+  likeComment: async (cid: string): Promise<number> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.likeComment(cid);
     // }

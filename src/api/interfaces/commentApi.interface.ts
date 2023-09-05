@@ -11,7 +11,7 @@ import { Uid } from "./userApi.interface";
 
 // make commentapi interface function
 export interface CommentApi {
-  getComments: (pid: number) => Promise<QueryCommentDto[]>;
+  getComments: (pid: string) => Promise<QueryCommentDto[]>;
   createComment: ({
     postId,
     author,
@@ -27,6 +27,6 @@ export interface CommentApi {
     author,
     content,
   }: UpdateCommentDto) => Promise<UpdateCommentResponse>;
-  deleteComment: (cid: number) => Promise<DeleteCommentResponse>;
-  likeComment: (cid: number) => Promise<number>;
+  deleteComment: (cid: string) => Promise<DeleteCommentResponse>;
+  likeComment: (cid: string) => Promise<number>;
 }

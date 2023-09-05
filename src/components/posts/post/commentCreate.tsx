@@ -11,8 +11,8 @@ import {
 import { ThemeColor } from "../../../common/styles/theme.style";
 
 interface CommentCreateProps {
-  postId: number;
-  parentId?: number;
+  postId: string;
+  parentId?: string;
   onClose?: () => void;
 }
 

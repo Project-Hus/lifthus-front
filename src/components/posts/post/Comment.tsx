@@ -30,7 +30,7 @@ import CommentCreate from "./commentCreate";
 import { Link } from "react-router-dom";
 
 interface CommentProps {
-  postId: number;
+  postId: string;
   comment: QueryCommentDto | QueryReplyDto;
 }
 const Comment = ({ postId, comment }: CommentProps) => {
@@ -338,10 +338,7 @@ const Comment = ({ postId, comment }: CommentProps) => {
             {"postId" in comment && !!uid && (
               <CommentCreate
                 postId={comment.postId}
-                parentId={
-                  ("parentId" in comment && Number(comment.parentId)) ||
-                  comment.id
-                }
+                parentId={"parentId" in comment ? comment.parentId : comment.id}
                 onClose={onClose}
               />
             )}

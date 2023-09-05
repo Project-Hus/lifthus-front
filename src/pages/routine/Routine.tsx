@@ -1,26 +1,7 @@
-import React, { useState } from "react";
-import TodaysRoutine from "./TodaysRoutine/TodaysRoutine";
-import { Route, Routes } from "react-router-dom";
-import RoutineMenu from "./RoutineMenu";
-import CreateProgram from "./CreateProgram/CreateProgram";
-import DetailProgram from "./DetailProgram";
-import StartProgram from "./StartPrgram";
-import CreateExcercise from "./CreateProgram/CreateExcercise";
+import React from "react";
 import { Img } from "@chakra-ui/react";
-import axios from "axios";
 
 const Routine = () => {
-  if (false)
-    return (
-      <Routes>
-        <Route path="/" element={<TodaysRoutine />} />
-        <Route path="menu" element={<RoutineMenu />} />
-        <Route path="menu/createprogram" element={<CreateProgram />} />
-        <Route path="menu/detail/:slug" element={<DetailProgram />} />
-        <Route path="menu/start/:slug" element={<StartProgram />} />
-        <Route path="menu/createexcercise" element={<CreateExcercise />} />
-      </Routes>
-    );
   return (
     <Img
       objectFit="cover"

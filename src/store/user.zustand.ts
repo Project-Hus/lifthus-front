@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { UserInfo } from "./interfaces/user.interface";
 
 interface UserState {
-  uid: number;
+  uid: string;
   registered: boolean;
   registered_at?: Date | null;
   username?: string;
@@ -21,7 +21,7 @@ interface UserState {
 }
 
 const useUserStore = create<UserState>()((set) => ({
-  uid: NaN,
+  uid: "",
   registered: false,
   registered_at: null,
   username: "",
@@ -43,7 +43,7 @@ const useUserStore = create<UserState>()((set) => ({
   setUsername: (username: string) => set((state) => ({ ...state, username })),
   signOut: () =>
     set(() => ({
-      uid: NaN,
+      uid: "",
       registered: false,
       registered_at: null,
       username: "",

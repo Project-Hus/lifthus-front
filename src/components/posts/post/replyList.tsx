@@ -6,7 +6,7 @@ import Comment from "./Comment";
 interface ReplyListProps {
   IsPadding: boolean;
   replies: QueryReplyDto[];
-  postId: number;
+  postId: string;
 }
 const ReplyList = ({ IsPadding, replies, postId }: ReplyListProps) => {
   const replyCommentList = [];
