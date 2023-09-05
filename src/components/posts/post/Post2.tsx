@@ -208,9 +208,14 @@ const Post2 = ({ postSumm }: PostProp) => {
             </>
           )}
         </CardBody>
-        {/* {!isEditing && post?.id && (
-          <PostFooter pid={post.id} slug={post.slug} likenum={post.likenum} />
-        )} */}
+        {!isEditing && postSumm.id && (
+          <PostFooter
+            pid={postSumm.id}
+            slug={postSumm.slug}
+            likesNum={postSumm.likesNum}
+            commentsNum={postSumm.commentsNum}
+          />
+        )}
       </Card>
     </>
   );

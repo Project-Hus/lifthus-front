@@ -5,8 +5,7 @@ export type QueryCommentDto = {
   createdAt: Date;
   updatedAt: Date;
   content: string;
-  likenum: number;
-  mentions?: string[];
+  likesNum: number;
   replies?: QueryReplyDto[];
 };
 
@@ -18,7 +17,7 @@ export type QueryReplyDto = {
   createdAt: Date;
   updatedAt: Date;
   content: string;
-  likenum: number;
+  likesNum: number;
   replies?: QueryReplyDto[];
 };
 

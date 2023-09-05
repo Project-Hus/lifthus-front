@@ -6,8 +6,8 @@ export class PostSummaryDto {
   images: string[];
   slug: string;
   abstract: string;
-  likeNum: number;
-  commentNum: number;
+  likesNum: number;
+  commentsNum: number;
   constructor(pjson: PostSumamryJSON) {
     this.id = pjson.id;
     this.author = pjson.author;
@@ -15,8 +15,8 @@ export class PostSummaryDto {
     this.updatedAt = new Date(pjson.updatedAt);
     this.images = pjson.images;
     this.slug = pjson.slug;
-    this.likeNum = pjson.likeNum;
-    this.commentNum = pjson.commentNum;
+    this.likesNum = pjson.likesNum;
+    this.commentsNum = pjson.commentsNum;
     this.abstract = pjson.abstract;
   }
 }
@@ -29,6 +29,6 @@ export type PostSumamryJSON = {
   images: string[];
   slug: string;
   abstract: string;
-  likeNum: number;
-  commentNum: number;
+  likesNum: number;
+  commentsNum: number;
 };

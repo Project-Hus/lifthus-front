@@ -18,11 +18,13 @@ import CommentList from "./CommentList";
 const PostFooter = ({
   pid,
   slug,
-  likenum,
+  likesNum,
+  commentsNum,
 }: {
   pid: string;
   slug: string;
-  likenum: number;
+  likesNum: number;
+  commentsNum: number;
 }) => {
   const queryClient = useQueryClient();
 
@@ -41,11 +43,12 @@ const PostFooter = ({
   );
 
   // comment disclosure
-  const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
+  const { getDisclosureProps, getButtonProps, onClose, isOpen } =
+    useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
-  const [numComments, setNumComments] = React.useState<Number>(0);
+  const [numComments, setNumComments] = React.useState<Number>(commentsNum);
 
   return (
     <>
@@ -61,7 +64,7 @@ const PostFooter = ({
               : () => (window.location.href = "/sign")
           }
         >
-          <Text color="white">{likenum} Likes</Text>
+          <Text color="white">{likesNum} Likes</Text>
         </Button>
         <Button
           {...buttonProps}
@@ -70,13 +73,13 @@ const PostFooter = ({
           leftIcon={<>💬</>}
           _hover={{ bg: ThemeColor.backgroundColor }}
         >
-          <Text color="white">{`${numComments} Comments`}</Text>
+          <Text color="white">{`${commentsNum} Comments`}</Text>
         </Button>
       </CardFooter>
       <Card {...disclosureProps}>
         {!!clientUid && pid && <CommentCreate postId={pid} onClose={onClose} />}
         <Suspense fallback={<BlueSpinnerCentered />}>
-          <CommentList pid={pid} getNumber={setNumComments} />
+          {isOpen && <CommentList pid={pid} getNumber={setNumComments} />}
         </Suspense>
       </Card>
     </>

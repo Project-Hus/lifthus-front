@@ -213,9 +213,9 @@ const Post = ({ pid, slug }: PostProp) => {
             </>
           )}
         </CardBody>
-        {!isEditing && post?.id && (
+        {/* {!isEditing && post?.id && (
           <PostFooter pid={post.id} slug={post.slug} likenum={post.likeNum} />
-        )}
+        )} */}
       </Card>
     </>
   );

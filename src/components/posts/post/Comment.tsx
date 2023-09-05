@@ -294,7 +294,7 @@ const Comment = ({ postId, comment }: CommentProps) => {
             onClick={() => likeMutate()}
             leftIcon={likeLoading ? <Spinner /> : <>🤍</>}
           >
-            {comment.likenum}
+            {comment.likesNum}
           </Button>
           {IsCommentEdit == false && (
             <Button

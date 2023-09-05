@@ -34,7 +34,7 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
         data?.pages.map((page, i) => (
           <React.Fragment key={i}>
             {page.map((post) => (
-              <Post2 postSumm={post} />
+              <Post2 key={post.id} postSumm={post} />
             ))}
           </React.Fragment>
         ))}

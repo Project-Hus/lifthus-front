@@ -36,25 +36,6 @@ const postApi: PostApi = {
     );
     return postSumms;
   },
-  getUserPosts: async ({
-    uid,
-    skip = 0,
-  }: GetUserPostsParams): Promise<PostSummaryDto[]> => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return postTestApi.getUserPosts({ uid, skip });
-    // }
-    const res = await axios.get(
-      LIFTHUS_API_URL + `/post/query/post/user/${uid}/${skip}`,
-      {
-        withCredentials: true,
-      }
-    );
-    if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
-    const postSumms: PostSummaryDto[] = res.data.map(
-      (p: PostSumamryJSON) => new PostSummaryDto(p)
-    );
-    return postSumms;
-  },
   getUsersPosts: async ({ users, skip = 0 }): Promise<PostSummaryDto[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUsersPosts({ users, skip });

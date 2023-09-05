@@ -10,10 +10,6 @@ import { PostSummaryDto } from "../dtos/postSummary.dto";
 export interface PostApi {
   getPost: ({ pid, slug }: { pid?: string; slug?: string }) => Promise<PostDto>;
   getAllPosts: (skip?: number) => Promise<PostSummaryDto[]>;
-  getUserPosts: ({
-    uid,
-    skip,
-  }: GetUserPostsParams) => Promise<PostSummaryDto[]>;
   getUsersPosts: ({
     users,
     skip,
