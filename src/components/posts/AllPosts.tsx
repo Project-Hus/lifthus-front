@@ -33,7 +33,6 @@ const AllPosts = () => {
     <>
       {isSuccess &&
         data?.pages.map((page, i) => {
-          console.log("PAGE", page);
           return (
             <React.Fragment key={i}>
               {page.map((post) => (

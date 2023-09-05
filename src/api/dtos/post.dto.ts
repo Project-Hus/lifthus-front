@@ -1,37 +1,68 @@
-import { QueryCommentDto } from "./comment.dto";
-
-export type PostSummary = {
+export class PostDto {
   id: number;
+  slug: string;
   author: number;
   createdAt: Date;
+  updatedAt: Date;
   images: string[];
+  content: string;
+  likeNum: number;
+  commentNum: number;
+  private constructor(p: PostJSON) {
+    this.id = p.id;
+    this.slug = p.slug;
+    this.author = p.author;
+    this.createdAt = new Date(p.createdAt);
+    this.updatedAt = new Date(p.updatedAt);
+    this.images = p.images;
+    this.content = p.content;
+    this.likeNum = p.likeNum;
+    this.commentNum = p.commentNum;
+  }
+}
+
+export type PostJSON = {
+  id: number;
   slug: string;
+  author: number;
+  createdAt: string;
+  updatedAt: string;
+  images: string[];
+  content: string;
   likeNum: number;
   commentNum: number;
 };
 
-export type QueryPostDto = {
-  id: number;
-  userGroup?: number;
-  author: number;
-  createdAt: Date;
-  updatedAt: Date;
-  slug: string;
-  images?: string[]; // { id: number; src: string }[];
-  content: string;
-  likenum: number;
-  comments?: QueryCommentDto[];
-  mentions?: string[];
-};
+export class CreatePostDto {
+  static create(post: CreatePostDtoInput): FormData {
+    post.images = post.images || [];
+    const newPostForm = new FormData();
+    newPostForm.append("author", JSON.stringify(post.author));
+    newPostForm.append("content", post.content);
+    for (const img of post.images) {
+      newPostForm.append("images", img);
+    }
+    return newPostForm;
+  }
+}
 
-export type CreatePostDto = {
-  userGroup?: number;
+export type CreatePostDtoInput = {
   author: number;
   images?: File[];
   content: string;
 };
 
-export type UpdatePostDto = {
+export class UpdatePostDto {
+  static create(post: UpdatePostDtoInput): FormData {
+    const newPostForm = new FormData();
+    newPostForm.append("id", JSON.stringify(post.id));
+    newPostForm.append("author", JSON.stringify(post.author));
+    newPostForm.append("content", post.content);
+    return newPostForm;
+  }
+}
+
+export type UpdatePostDtoInput = {
   id: number;
   author: number;
   content: string;

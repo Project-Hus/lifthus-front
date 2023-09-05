@@ -2,10 +2,12 @@ import axios, { AxiosResponse } from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
 import {
   CreatePostDto,
-  QueryPostDto,
-  PostSummary,
+  CreatePostDtoInput,
+  PostDto,
   UpdatePostDto,
+  UpdatePostDtoInput,
 } from "./dtos/post.dto";
+import { PostSumamryJSON, PostSummaryDto } from "./dtos/postSummary.dto";
 import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 
 import statusInfo from "./interfaces/statusInfo.json";
@@ -23,18 +25,21 @@ const postApi: PostApi = {
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
     return res.data;
   },
-  getAllPosts: async (skip?: number): Promise<PostSummary[]> => {
+  getAllPosts: async (skip?: number): Promise<PostSummaryDto[]> => {
     if (!skip) skip = 0;
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/post/all?skip=${skip}`
     );
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
-    return res.data || [];
+    const postSumms: PostSummaryDto[] = res.data.map(
+      (p: PostSumamryJSON) => new PostSummaryDto(p)
+    );
+    return postSumms;
   },
   getUserPosts: async ({
     uid,
     skip = 0,
-  }: GetUserPostsParams): Promise<PostSummary[]> => {
+  }: GetUserPostsParams): Promise<PostSummaryDto[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUserPosts({ uid, skip });
     // }
@@ -45,9 +50,12 @@ const postApi: PostApi = {
       }
     );
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
-    return res.data || [];
+    const postSumms: PostSummaryDto[] = res.data.map(
+      (p: PostSumamryJSON) => new PostSummaryDto(p)
+    );
+    return postSumms;
   },
-  getUsersPosts: async ({ users, skip = 0 }): Promise<PostSummary[]> => {
+  getUsersPosts: async ({ users, skip = 0 }): Promise<PostSummaryDto[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUsersPosts({ users, skip });
     // }
@@ -57,21 +65,14 @@ const postApi: PostApi = {
       withCredentials: true,
     });
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
-    return res.data;
+    const postSumms: PostSummaryDto[] = res.data.map(
+      (p: PostSumamryJSON) => new PostSummaryDto(p)
+    );
+    return postSumms;
   },
-  createPost: async (post: CreatePostDto): Promise<QueryPostDto> => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return postTestApi.createPost(post);
-    // }
-    post.images = post.images || [];
-    const newPostForm = new FormData();
-
-    newPostForm.append("author", JSON.stringify(post.author));
-    newPostForm.append("content", post.content);
-    for (const img of post.images) {
-      newPostForm.append("images", img);
-    }
-
+  createPost: async (post: CreatePostDtoInput): Promise<PostDto> => {
+    const newPostForm = CreatePostDto.create(post);
+    console.log(newPostForm);
     const res = await axios.post(LIFTHUS_API_URL + "/post/post", newPostForm, {
       withCredentials: true,
     });
@@ -81,13 +82,15 @@ const postApi: PostApi = {
 
     return res.data;
   },
-  updatePost: async (post: UpdatePostDto) => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return postTestApi.updatePost(post);
-    // }
-    const res = await axios.put(LIFTHUS_API_URL + "/post/post", post, {
-      withCredentials: true,
-    });
+  updatePost: async (post: UpdatePostDtoInput) => {
+    const updatedPostForm = UpdatePostDto.create(post);
+    const res = await axios.put(
+      LIFTHUS_API_URL + "/post/post",
+      updatedPostForm,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   },
   deletePost: async (pid: number) => {

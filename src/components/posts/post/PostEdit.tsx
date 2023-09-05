@@ -3,7 +3,7 @@ import { Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
+import { PostDto, UpdatePostDtoInput } from "../../../api/dtos/post.dto";
 import postApi from "../../../api/postApi";
 import ImageBoard from "../../../common/components/images/ImageBoard";
 import { ThemeColor } from "../../../common/styles/theme.style";
@@ -11,7 +11,7 @@ import { useImageFileListWithPreview } from "../../../hooks/images";
 import { IconButtonStyleDiv } from "./Post";
 
 type PostEditingProps = {
-  post: QueryPostDto;
+  post: PostDto;
   postQueryKey: any;
   closeEdit: () => void;
 };
@@ -36,7 +36,7 @@ const PostEdit = ({ post, postQueryKey, closeEdit }: PostEditingProps) => {
       try {
         const content = getValues("content");
         if (content.length === 0) return alert("내용을 입력해주세요");
-        const editedPost: UpdatePostDto = {
+        const editedPost: UpdatePostDtoInput = {
           id: post.id,
           author: post.author,
           content: content,

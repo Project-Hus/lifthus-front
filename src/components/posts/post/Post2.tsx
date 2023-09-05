@@ -17,11 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { POST_FOLD } from "../../../common/constraints";
-import {
-  QueryPostDto,
-  PostSummary,
-  UpdatePostDto,
-} from "../../../api/dtos/post.dto";
+
 import postApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
 
@@ -35,9 +31,11 @@ import PostFooter from "./PostFooter";
 import styled from "@emotion/styled";
 import PostMenu, { PostHeader } from "./PostHeader";
 import PostEdit from "./PostEdit";
+import { PostSummaryDto } from "../../../api/dtos/postSummary.dto";
+import { UpdatePostDtoInput } from "../../../api/dtos/post.dto";
 
 interface PostProp {
-  postSumm: PostSummary;
+  postSumm: PostSummaryDto;
 }
 type FormData = {
   content: string;
@@ -65,7 +63,6 @@ export const IconButtonStyleDiv = styled.div`
  * @returns JSX.Element
  */
 const Post2 = ({ postSumm }: PostProp) => {
-  console.log("!!", typeof postSumm.createdAt);
   const queryClient = useQueryClient();
 
   const [isOpen, setOpen] = useState(false);
@@ -103,7 +100,7 @@ const Post2 = ({ postSumm }: PostProp) => {
     useImageFileListWithPreview();
 
   const { mutate, isLoading } = useMutation(
-    async (post: UpdatePostDto) =>
+    async (post: UpdatePostDtoInput) =>
       postApi.updatePost({
         id: post.id,
         author: post.author,
@@ -123,7 +120,7 @@ const Post2 = ({ postSumm }: PostProp) => {
     if (data.content.length === 0) return alert("내용을 입력해주세요");
     // 기존 이미지에서 변경되지 않은 경우
     try {
-      const editedPost: UpdatePostDto = {
+      const editedPost: UpdatePostDtoInput = {
         id: postSumm.id,
         author: postSumm.author,
         //images: imagePreview ? imagePreview : [],
@@ -177,13 +174,13 @@ const Post2 = ({ postSumm }: PostProp) => {
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
                 {isOpen
-                  ? decodeURIComponent(postSumm.slug)
+                  ? postSumm.abstract
                   : // IsFold && !!post && post.content.length > POST_FOLD
                     //   ? post.content.slice(0, POST_FOLD) + "..."
                     //   : !!post
                     //   ? post.content
                     //   : ""
-                    decodeURIComponent(postSumm.slug)}
+                    postSumm.abstract}
               </Text>
               {/* <IconButtonStyleDiv>
                 {(!!post ? post.content.length : 0) > POST_FOLD && (

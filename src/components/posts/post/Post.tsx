@@ -17,12 +17,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { POST_FOLD } from "../../../common/constraints";
-import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
 import postApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
 
 import { GetUserInfoDto } from "../../../api/dtos/user.dto";
-import { Link } from "react-router-dom";
+import { UpdatePostDtoInput } from "../../../api/dtos/post.dto";
 import useUserStore from "../../../store/user.zustand";
 import ImageBoard from "../../../common/components/images/ImageBoard";
 import { useImageFileListWithPreview } from "../../../hooks/images";
@@ -31,6 +30,7 @@ import PostFooter from "./PostFooter";
 import styled from "@emotion/styled";
 import PostMenu, { PostHeader } from "./PostHeader";
 import PostEdit from "./PostEdit";
+import { PostDto } from "../../../api/dtos/post.dto";
 
 interface PostProp {
   pid?: number;
@@ -68,7 +68,7 @@ const Post = ({ pid, slug }: PostProp) => {
 
   // query the post by pid or slug
   const postQueryKey = pid ? { pid } : { slug };
-  const { data: post } = useQuery<QueryPostDto>({
+  const { data: post } = useQuery<PostDto>({
     queryKey: ["post", postQueryKey],
     queryFn: async () => {
       return await postApi.getPost(postQueryKey);
@@ -110,7 +110,7 @@ const Post = ({ pid, slug }: PostProp) => {
     useImageFileListWithPreview();
 
   const { mutate, isLoading } = useMutation(
-    async (post: UpdatePostDto) =>
+    async (post: UpdatePostDtoInput) =>
       postApi.updatePost({
         id: post.id,
         author: post.author,
@@ -129,7 +129,7 @@ const Post = ({ pid, slug }: PostProp) => {
     // 기존 이미지에서 변경되지 않은 경우
     try {
       if (!post) return;
-      const editedPost: UpdatePostDto = {
+      const editedPost: UpdatePostDtoInput = {
         id: post.id,
         author: post.author,
         //images: imagePreview ? imagePreview : [],
@@ -214,7 +214,7 @@ const Post = ({ pid, slug }: PostProp) => {
           )}
         </CardBody>
         {!isEditing && post?.id && (
-          <PostFooter pid={post.id} slug={post.slug} likenum={post.likenum} />
+          <PostFooter pid={post.id} slug={post.slug} likenum={post.likeNum} />
         )}
       </Card>
     </>
