@@ -2,7 +2,7 @@ import {
   CreatePostDto,
   DeletePostResponse,
   QueryPostDto,
-  QueryPostSummaryDto,
+  PostSummary,
   UpdatePostDto,
   UpdatePostResponse,
 } from "../dtos/post.dto";
@@ -15,18 +15,15 @@ export interface PostApi {
     pid?: number;
     slug?: string;
   }) => Promise<QueryPostDto>;
-  getAllPosts: (skip?: number) => Promise<QueryPostSummaryDto[]>;
-  getUserPosts: ({
-    uid,
-    skip,
-  }: GetUserPostsParams) => Promise<QueryPostSummaryDto[]>;
+  getAllPosts: (skip?: number) => Promise<PostSummary[]>;
+  getUserPosts: ({ uid, skip }: GetUserPostsParams) => Promise<PostSummary[]>;
   getUsersPosts: ({
     users,
     skip,
   }: {
     users: number[];
     skip: number;
-  }) => Promise<QueryPostSummaryDto[]>;
+  }) => Promise<PostSummary[]>;
   createPost: ({
     userGroup,
     author,

@@ -3,7 +3,7 @@ import { LIFTHUS_API_URL } from "../common/routes";
 import {
   CreatePostDto,
   QueryPostDto,
-  QueryPostSummaryDto,
+  PostSummary,
   UpdatePostDto,
 } from "./dtos/post.dto";
 import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
@@ -23,7 +23,7 @@ const postApi: PostApi = {
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
     return res.data;
   },
-  getAllPosts: async (skip?: number): Promise<QueryPostSummaryDto[]> => {
+  getAllPosts: async (skip?: number): Promise<PostSummary[]> => {
     if (!skip) skip = 0;
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/post/all?skip=${skip}`
@@ -34,7 +34,7 @@ const postApi: PostApi = {
   getUserPosts: async ({
     uid,
     skip = 0,
-  }: GetUserPostsParams): Promise<QueryPostSummaryDto[]> => {
+  }: GetUserPostsParams): Promise<PostSummary[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUserPosts({ uid, skip });
     // }
@@ -47,10 +47,7 @@ const postApi: PostApi = {
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
     return res.data || [];
   },
-  getUsersPosts: async ({
-    users,
-    skip = 0,
-  }): Promise<QueryPostSummaryDto[]> => {
+  getUsersPosts: async ({ users, skip = 0 }): Promise<PostSummary[]> => {
     // if (process.env.NODE_ENV === "development") {
     //   return postTestApi.getUsersPosts({ users, skip });
     // }

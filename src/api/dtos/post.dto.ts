@@ -1,11 +1,13 @@
 import { QueryCommentDto } from "./comment.dto";
 
-export type QueryPostSummaryDto = {
+export type PostSummary = {
   id: number;
   author: number;
   createdAt: Date;
   images: string[];
   slug: string;
+  likeNum: number;
+  commentNum: number;
 };
 
 export type QueryPostDto = {

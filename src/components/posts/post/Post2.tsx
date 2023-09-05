@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { POST_FOLD } from "../../../common/constraints";
 import {
   QueryPostDto,
-  QueryPostSummaryDto,
+  PostSummary,
   UpdatePostDto,
 } from "../../../api/dtos/post.dto";
 import postApi from "../../../api/postApi";
@@ -37,7 +37,7 @@ import PostMenu, { PostHeader } from "./PostHeader";
 import PostEdit from "./PostEdit";
 
 interface PostProp {
-  postSumm: QueryPostSummaryDto;
+  postSumm: PostSummary;
 }
 type FormData = {
   content: string;
@@ -65,6 +65,7 @@ export const IconButtonStyleDiv = styled.div`
  * @returns JSX.Element
  */
 const Post2 = ({ postSumm }: PostProp) => {
+  console.log("!!", typeof postSumm.createdAt);
   const queryClient = useQueryClient();
 
   const [isOpen, setOpen] = useState(false);
