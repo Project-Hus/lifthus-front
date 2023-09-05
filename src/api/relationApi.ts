@@ -1,7 +1,6 @@
 import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../common/routes";
 import { RelationApi } from "./interfaces/relationApi.interface";
-import relationTestApi from "./testApi/relationTestApi";
 
 const relationApi: RelationApi = {
   getUserFollowing: async ({ uid }: { uid: number }): Promise<number[]> => {

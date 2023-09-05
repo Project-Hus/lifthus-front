@@ -7,8 +7,6 @@ import {
   RegisterParams,
 } from "./interfaces/registerApi.interface";
 
-import registerTestApi from "./testApi/registerTestApi";
-
 const registerApi: RegisterApi = {
   registerUsername: async (
     regiName: RegisterUsernameParams

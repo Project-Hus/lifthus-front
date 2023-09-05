@@ -2,7 +2,6 @@ import axios from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
 import { CreateWeeklyProgramDto } from "./dtos/program/program.dto";
 import { ProgramApi } from "./interfaces/programApi.interface";
-import programTestApi from "./testApi/programTestApi";
 
 const programApi: ProgramApi = {
   queryProgramBySlug: async (slug: string) => {

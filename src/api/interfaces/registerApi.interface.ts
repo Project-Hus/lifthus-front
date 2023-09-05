@@ -1,5 +1,4 @@
 import { GetUserInfoDto } from "../dtos/user.dto";
-import { Uid, Username } from "./userApi.interface";
 
 export interface RegisterApi {
   registerUsername: ({
