@@ -214,6 +214,7 @@ const Post2 = ({ postSumm }: PostProp) => {
             slug={postSumm.slug}
             likesNum={postSumm.likesNum}
             commentsNum={postSumm.commentsNum}
+            liked={postSumm.clientLiked}
           />
         )}
       </Card>

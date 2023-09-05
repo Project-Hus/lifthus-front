@@ -8,6 +8,7 @@ export class PostDto {
   content: string;
   likeNum: number;
   commentNum: number;
+  clientLiked: boolean;
   private constructor(p: PostJSON) {
     this.id = p.id;
     this.slug = p.slug;
@@ -18,6 +19,7 @@ export class PostDto {
     this.content = p.content;
     this.likeNum = p.likeNum;
     this.commentNum = p.commentNum;
+    this.clientLiked = p.clientLiked;
   }
 }
 
@@ -31,6 +33,7 @@ export type PostJSON = {
   content: string;
   likeNum: number;
   commentNum: number;
+  clientLiked: boolean;
 };
 
 export class CreatePostDto {

@@ -12,8 +12,9 @@ export class CommentDto {
   updatedAt: Date;
 
   likesNum: number;
-
   replies?: CommentDto[];
+
+  clientLiked: boolean;
   constructor(c: CommentJSON) {
     this.id = c.id;
     this.author = c.author;
@@ -24,6 +25,7 @@ export class CommentDto {
     this.updatedAt = new Date(c.updatedAt);
     this.likesNum = c.likesNum;
     this.replies = c.replies?.map((r) => new CommentDto(r));
+    this.clientLiked = c.clientLiked;
   }
 }
 
@@ -43,6 +45,8 @@ export type CommentJSON = {
   likesNum: number;
 
   replies?: CommentJSON[];
+
+  clientLiked: boolean;
 };
 
 export type CreateCommentDto = {

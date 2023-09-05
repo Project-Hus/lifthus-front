@@ -20,11 +20,13 @@ const PostFooter = ({
   slug,
   likesNum,
   commentsNum,
+  liked,
 }: {
   pid: string;
   slug: string;
   likesNum: number;
   commentsNum: number;
+  liked: boolean;
 }) => {
   const queryClient = useQueryClient();
 
@@ -56,7 +58,7 @@ const PostFooter = ({
         <Button
           flex="1"
           variant="ghost"
-          leftIcon={<>{likeLoading ? <Spinner /> : "🤍"}</>}
+          leftIcon={<>{likeLoading ? <Spinner /> : liked ? "❤️" : "🤍"}</>}
           _hover={{ bg: ThemeColor.backgroundColor }}
           onClick={
             clientUid

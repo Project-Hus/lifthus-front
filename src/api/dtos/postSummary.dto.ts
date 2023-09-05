@@ -8,6 +8,7 @@ export class PostSummaryDto {
   abstract: string;
   likesNum: number;
   commentsNum: number;
+  clientLiked: boolean;
   constructor(pjson: PostSumamryJSON) {
     this.id = pjson.id;
     this.author = pjson.author;
@@ -18,6 +19,7 @@ export class PostSummaryDto {
     this.likesNum = pjson.likesNum;
     this.commentsNum = pjson.commentsNum;
     this.abstract = pjson.abstract;
+    this.clientLiked = pjson.clientLiked;
   }
 }
 
@@ -31,4 +33,5 @@ export type PostSumamryJSON = {
   abstract: string;
   likesNum: number;
   commentsNum: number;
+  clientLiked: boolean;
 };

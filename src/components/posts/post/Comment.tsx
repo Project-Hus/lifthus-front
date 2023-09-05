@@ -288,7 +288,13 @@ const Comment = ({ postId, comment }: CommentProps) => {
             color="white"
             _hover={{ bg: ThemeColor.backgroundColorDarker }}
             onClick={() => likeMutate()}
-            leftIcon={likeLoading ? <Spinner /> : <>🤍</>}
+            leftIcon={
+              likeLoading ? (
+                <Spinner />
+              ) : (
+                <>{comment.clientLiked ? "❤️" : "🤍"}</>
+              )
+            }
           >
             {comment.likesNum}
           </Button>
