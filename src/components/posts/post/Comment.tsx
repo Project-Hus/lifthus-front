@@ -16,11 +16,7 @@ import commentApi from "../../../api/commentApi";
 import { useEffect, useRef, useState } from "react";
 
 import userApi from "../../../api/userApi";
-import {
-  QueryCommentDto,
-  QueryReplyDto,
-  UpdateCommentDto,
-} from "../../../api/dtos/comment.dto";
+import { CommentDto, UpdateCommentDto } from "../../../api/dtos/comment.dto";
 import useUserStore from "../../../store/user.zustand";
 import { COMMENT_FOLD } from "../../../common/constraints";
 import { GetUserInfoDto } from "../../../api/dtos/user.dto";
@@ -31,7 +27,7 @@ import { Link } from "react-router-dom";
 
 interface CommentProps {
   postId: string;
-  comment: QueryCommentDto | QueryReplyDto;
+  comment: CommentDto;
 }
 const Comment = ({ postId, comment }: CommentProps) => {
   const CommentBoard = styled(Card)`

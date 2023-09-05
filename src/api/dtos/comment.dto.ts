@@ -1,24 +1,48 @@
-export type QueryCommentDto = {
+export class CommentDto {
   id: string;
-  postId: string;
-  author: string;
-  createdAt: Date;
-  updatedAt: Date;
-  content: string;
-  likesNum: number;
-  replies?: QueryReplyDto[];
-};
 
-export type QueryReplyDto = {
-  id: string;
-  postId: string;
-  parentId: string;
   author: string;
+
+  postId: string;
+  parentId?: string;
+
+  content: string;
+
   createdAt: Date;
   updatedAt: Date;
-  content: string;
+
   likesNum: number;
-  replies?: QueryReplyDto[];
+
+  replies?: CommentDto[];
+  constructor(c: CommentJSON) {
+    this.id = c.id;
+    this.author = c.author;
+    this.postId = c.postId;
+    this.parentId = c.parentId;
+    this.content = c.content;
+    this.createdAt = new Date(c.createdAt);
+    this.updatedAt = new Date(c.updatedAt);
+    this.likesNum = c.likesNum;
+    this.replies = c.replies?.map((r) => new CommentDto(r));
+  }
+}
+
+export type CommentJSON = {
+  id: string;
+
+  author: string;
+
+  postId: string;
+  parentId?: string;
+
+  content: string;
+
+  createdAt: string;
+  updatedAt: string;
+
+  likesNum: number;
+
+  replies?: CommentJSON[];
 };
 
 export type CreateCommentDto = {

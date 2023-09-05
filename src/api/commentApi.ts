@@ -2,11 +2,11 @@
 import axios from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
 import {
+  CommentDto,
+  CommentJSON,
   CreateCommentDto,
   CreateReplyDto,
   DeleteCommentResponse,
-  QueryCommentDto,
-  QueryReplyDto,
   UpdateCommentDto,
   UpdateCommentResponse,
 } from "./dtos/comment.dto";
@@ -14,7 +14,7 @@ import {
 import { CommentApi } from "./interfaces/commentApi.interface";
 
 const commentApi: CommentApi = {
-  getComments: async (pid: string): Promise<QueryCommentDto[]> => {
+  getComments: async (pid: string): Promise<CommentDto[]> => {
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/comment?pid=${pid}`,
       {
@@ -22,14 +22,10 @@ const commentApi: CommentApi = {
       }
     );
     if (res.status !== 200) throw new Error("getComments failed");
-    return res.data;
+    const comments = res.data.map((c: CommentJSON) => new CommentDto(c));
+    return comments;
   },
-  createComment: async (
-    comment: CreateCommentDto
-  ): Promise<QueryCommentDto> => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return commentTestApi.createComment(comment);
-    // }
+  createComment: async (comment: CreateCommentDto): Promise<CommentDto> => {
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, comment, {
       withCredentials: true,
     });
@@ -37,7 +33,7 @@ const commentApi: CommentApi = {
     return res.data;
   },
 
-  createReply: async (reply: CreateReplyDto): Promise<QueryReplyDto> => {
+  createReply: async (reply: CreateReplyDto): Promise<CommentDto> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.createReply(reply);
     // }

@@ -1,9 +1,8 @@
 import {
+  CommentDto,
   CreateCommentDto,
   CreateReplyDto,
   DeleteCommentResponse,
-  QueryCommentDto,
-  QueryReplyDto,
   UpdateCommentDto,
   UpdateCommentResponse,
 } from "../dtos/comment.dto";
@@ -11,17 +10,17 @@ import { Uid } from "./userApi.interface";
 
 // make commentapi interface function
 export interface CommentApi {
-  getComments: (pid: string) => Promise<QueryCommentDto[]>;
+  getComments: (pid: string) => Promise<CommentDto[]>;
   createComment: ({
     postId,
     author,
     content,
-  }: CreateCommentDto) => Promise<QueryCommentDto>;
+  }: CreateCommentDto) => Promise<CommentDto>;
   createReply: ({
     parentId,
     author,
     content,
-  }: CreateReplyDto) => Promise<QueryReplyDto>;
+  }: CreateReplyDto) => Promise<CommentDto>;
   updateComment: ({
     id,
     author,
