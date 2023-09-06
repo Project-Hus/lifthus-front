@@ -1,8 +1,11 @@
 import { Text } from "@chakra-ui/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import React from "react";
+import { UserDto } from "../../api/dtos/user.dto";
 import postApi from "../../api/postApi";
+import userApi from "../../api/userApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
+import useUserMap from "../../hooks/userMap";
 import { useVisibleEffect } from "../../hooks/visibleEffect";
 
 import Post from "./post/Post";
@@ -13,7 +16,7 @@ interface UsersPostsProps {
 }
 const UsersPosts = ({ uids }: UsersPostsProps) => {
   const { data, fetchNextPage, isFetching, isSuccess } = useInfiniteQuery({
-    queryKey: ["posts", "followings"],
+    queryKey: ["posts", "users", uids],
     queryFn: async ({ pageParam = 0 }) => {
       const posts = await postApi.getUsersPosts({
         users: uids,
@@ -25,6 +28,13 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
       pages.reduce((acc, curr) => acc + curr.length, 0),
   });
 
+  const uidSet = new Set(uids);
+
+  const { users: authorMap } = useUserMap(
+    ["posts", "users", uids, "authors"],
+    uidSet
+  );
+
   /* Infinite scroll */
   const { observerTarget } = useVisibleEffect(fetchNextPage);
 
@@ -33,9 +43,15 @@ const UsersPosts = ({ uids }: UsersPostsProps) => {
       {isSuccess &&
         data?.pages.map((page, i) => (
           <React.Fragment key={i}>
-            {page.map((post) => (
-              <Post2 key={post.id} postSumm={post} />
-            ))}
+            {page.map((post) => {
+              return (
+                <Post2
+                  key={post.id}
+                  post={post}
+                  author={authorMap.get(post.author)}
+                />
+              );
+            })}
           </React.Fragment>
         ))}
       {isFetching ? (

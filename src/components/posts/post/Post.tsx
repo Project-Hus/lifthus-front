@@ -20,7 +20,7 @@ import { POST_FOLD } from "../../../common/constraints";
 import postApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
 
-import { GetUserInfoDto } from "../../../api/dtos/user.dto";
+import { UserDto } from "../../../api/dtos/user.dto";
 import { UpdatePostDtoInput } from "../../../api/dtos/post.dto";
 import useUserStore from "../../../store/user.zustand";
 import ImageBoard from "../../../common/components/images/ImageBoard";
@@ -75,7 +75,7 @@ const Post = ({ pid, slug }: PostProp) => {
     },
   });
   // query the author info
-  const { data: author } = useQuery<GetUserInfoDto | null>({
+  const { data: author } = useQuery<UserDto | null>({
     queryKey: ["user", { uid: post?.author }],
     queryFn: async () =>
       !post

@@ -54,13 +54,13 @@ const Profile = () => {
           fallbackRender={({ error, resetErrorBoundary }) => <ErrorPage />}
           onReset={reset}
         >
-          <ProfileCard userInfo={profileUser} />
+          {!!profileUser && <ProfileCard userInfo={profileUser} />}
           <Routes>
             <Route
               index
               element={
                 <>
-                  <ProfileTab userInfo={profileUser} />
+                  {!!profileUser && <ProfileTab userInfo={profileUser} />}
                   {clientUid === profileUid && <CreatePost />}
                   {!isLoading && <UsersPosts uids={users} />}
                 </>

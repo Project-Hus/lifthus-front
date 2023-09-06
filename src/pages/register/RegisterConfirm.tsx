@@ -44,8 +44,10 @@ const RegisterConfirm = () => {
         ? Promise.reject(new Error("undefined"))
         : userApi.getUserInfo({ uid: uidMutated }),
     onSuccess: (data) => {
-      setUserInfo(data);
-      navigate("/");
+      if (!!data) {
+        setUserInfo(data);
+        navigate("/");
+      }
     },
     enabled: !!uidMutated,
   });

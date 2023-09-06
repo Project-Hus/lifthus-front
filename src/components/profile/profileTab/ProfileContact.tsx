@@ -14,17 +14,13 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useForm, UseFormRegister } from "react-hook-form";
-import { GetUserInfoDto, UpdateUserInfoDto } from "../../../api/dtos/user.dto";
+import { UserDto, UpdateUserInfoDto } from "../../../api/dtos/user.dto";
 import relationApi from "../../../api/relationApi";
 import userApi from "../../../api/userApi";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import useUserStore from "../../../store/user.zustand";
 
-const ProfileContact = ({
-  userInfo,
-}: {
-  userInfo: GetUserInfoDto | undefined;
-}) => {
+const ProfileContact = ({ userInfo }: { userInfo: UserDto | undefined }) => {
   const queryClient = useQueryClient();
 
   const profileUid = userInfo?.uid;

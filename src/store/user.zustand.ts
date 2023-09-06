@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { UserInfo } from "./interfaces/user.interface";
+import { UserDto } from "../api/dtos/user.dto";
 
 interface UserState {
   uid: string;
@@ -15,7 +15,7 @@ interface UserState {
   profile_image_url?: string;
   created_at?: Date;
   updated_at?: Date;
-  setUserInfo: (info: UserInfo) => void;
+  setUserInfo: (info: UserDto) => void;
   setUsername: (username: string) => void;
   signOut: () => void;
 }
@@ -35,7 +35,7 @@ const useUserStore = create<UserState>()((set) => ({
   created_at: undefined,
   updated_at: undefined,
 
-  setUserInfo: (info: UserInfo) =>
+  setUserInfo: (info: UserDto) =>
     set((state) => ({
       ...state,
       ...info,

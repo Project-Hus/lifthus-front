@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../common/routes";
-import { GetUserInfoDto } from "./dtos/user.dto";
+import { UserDto } from "./dtos/user.dto";
 import {
   RegisterApi,
   RegisterUsernameParams,
@@ -10,7 +10,7 @@ import {
 const registerApi: RegisterApi = {
   registerUsername: async (
     regiName: RegisterUsernameParams
-  ): Promise<GetUserInfoDto> => {
+  ): Promise<UserDto> => {
     try {
       // if (process.env.NODE_ENV == "development") {
       //   return registerTestApi.registerUsername(regiName);

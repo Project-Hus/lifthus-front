@@ -39,7 +39,7 @@ const App = () => {
       const user: SessionUserInfo | undefined = res.user;
       if (!!user) {
         const userInfo = await userApi.getUserInfo({ uid: user.uid });
-        setUserInfo(userInfo);
+        if (!!userInfo) setUserInfo(userInfo);
         console.log(userInfo, "user signed");
       }
       return res;

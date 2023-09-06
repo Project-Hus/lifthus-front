@@ -6,10 +6,10 @@ export class PostDto {
   updatedAt: Date;
   images: string[];
   content: string;
-  likeNum: number;
-  commentNum: number;
+  likesNum: number;
+  commentsNum: number;
   clientLiked: boolean;
-  private constructor(p: PostJSON) {
+  constructor(p: PostJSON) {
     this.id = p.id;
     this.slug = p.slug;
     this.author = p.author;
@@ -17,8 +17,8 @@ export class PostDto {
     this.updatedAt = new Date(p.updatedAt);
     this.images = p.images;
     this.content = p.content;
-    this.likeNum = p.likeNum;
-    this.commentNum = p.commentNum;
+    this.likesNum = p.likesNum;
+    this.commentsNum = p.commentsNum;
     this.clientLiked = p.clientLiked;
   }
 }
@@ -31,8 +31,8 @@ export type PostJSON = {
   updatedAt: string;
   images: string[];
   content: string;
-  likeNum: number;
-  commentNum: number;
+  likesNum: number;
+  commentsNum: number;
   clientLiked: boolean;
 };
 

@@ -6,22 +6,17 @@ import { Textarea, Link as LinkChakra } from "@chakra-ui/react";
 
 import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
 import React from "react";
-import { CheckIcon, CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 
 import { ThemeColor } from "../../../common/styles/theme.style";
-import { Input } from "@chakra-ui/react";
 
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useForm } from "react-hook-form";
 
-import { POST_FOLD } from "../../../common/constraints";
-
 import postApi from "../../../api/postApi";
 import userApi from "../../../api/userApi";
 
-import { GetUserInfoDto } from "../../../api/dtos/user.dto";
 import { Link } from "react-router-dom";
 import useUserStore from "../../../store/user.zustand";
 import ImageBoard from "../../../common/components/images/ImageBoard";
@@ -32,11 +27,13 @@ import styled from "@emotion/styled";
 import PostMenu, { PostHeader } from "./PostHeader";
 import PostEdit from "./PostEdit";
 import { PostSummaryDto } from "../../../api/dtos/postSummary.dto";
-import { UpdatePostDtoInput } from "../../../api/dtos/post.dto";
+import {
+  PostDto,
+  PostJSON,
+  UpdatePostDtoInput,
+} from "../../../api/dtos/post.dto";
+import { UserDto } from "../../../api/dtos/user.dto";
 
-interface PostProp {
-  postSumm: PostSummaryDto;
-}
 type FormData = {
   content: string;
   images: FileList;
@@ -55,28 +52,33 @@ export const IconButtonStyleDiv = styled.div`
   }
 `;
 
-/**
- * Takes pid or slug as a prop and renders the post after fetching the data of corresponding post.
- * It also queries the comments of the post and renders them with Comment-related components.
- *
- * @param param0
- * @returns JSX.Element
- */
-const Post2 = ({ postSumm }: PostProp) => {
+interface PostProp {
+  post: PostDto;
+  author: UserDto | undefined;
+  open?: boolean; // if true, the post is always open and shows the post that is only passed as a prop
+}
+
+const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
   const queryClient = useQueryClient();
 
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(open);
+  const { data: postQueried } = useQuery<PostDto>({
+    queryKey: ["post", { pid: postInput.id }],
+    queryFn: async () => {
+      // either if if is not open or it is basically open, show the given post.
+      // if it isn't, that is, if it is open and the post is not basically open, query the post.
+      if (!isOpen || open) return postInput;
+      return await postApi.getPost({ pid: postInput.id });
+    },
+  });
+
+  const post = postQueried || postInput;
 
   const clientUid = useUserStore((state) => state.uid);
-  // query the author info
-  const { data: author } = useQuery<GetUserInfoDto | null>({
-    queryKey: ["user", { uid: postSumm.author }],
-    queryFn: async () => await userApi.getUserInfo({ uid: postSumm.author }),
-  });
 
   // post deletion
   const { mutate: deleteMutate } = useMutation(
-    async () => postApi.deletePost(postSumm.id),
+    async () => postApi.deletePost(post.id),
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -91,13 +93,12 @@ const Post2 = ({ postSumm }: PostProp) => {
   const username = author?.username || "Unknown user";
   const profileImage = author?.profile_image_url;
 
-  /* post editing */
-  const [isEditing, setEditing] = useState(false);
-
   const { register, handleSubmit } = useForm<FormData>();
 
   const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
     useImageFileListWithPreview();
+
+  const [isEditing, setEditing] = useState(false);
 
   const { mutate, isLoading } = useMutation(
     async (post: UpdatePostDtoInput) =>
@@ -109,7 +110,7 @@ const Post2 = ({ postSumm }: PostProp) => {
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({
-          queryKey: ["post", { pid: postSumm.id }],
+          queryKey: ["post", { pid: post.id }],
         });
         setEditing(false);
       },
@@ -118,11 +119,10 @@ const Post2 = ({ postSumm }: PostProp) => {
 
   const editPost = async (data: FormData) => {
     if (data.content.length === 0) return alert("내용을 입력해주세요");
-    // 기존 이미지에서 변경되지 않은 경우
     try {
       const editedPost: UpdatePostDtoInput = {
-        id: postSumm.id,
-        author: postSumm.author,
+        id: post.id,
+        author: post.author,
         //images: imagePreview ? imagePreview : [],
         content: data.content,
       };
@@ -145,11 +145,11 @@ const Post2 = ({ postSumm }: PostProp) => {
             <PostHeader
               profileImageSrc={profileImage || ""}
               username={username}
-              timestamp={postSumm.createdAt || new Date()}
+              timestamp={post.createdAt || new Date()}
             />
             <PostMenu
-              author={postSumm.author}
-              slug={postSumm.slug || ""}
+              author={post.author}
+              slug={post.slug || ""}
               setEditing={() => setEditing(true)}
               deletePost={() => deleteMutate()}
             />
@@ -157,13 +157,11 @@ const Post2 = ({ postSumm }: PostProp) => {
         </CardHeader>
 
         {!isEditing && (
-          <ImageBoard
-            srcs={postSumm.images /*?.map((img) => img.src)*/ || []}
-          />
+          <ImageBoard srcs={post.images /*?.map((img) => img.src)*/ || []} />
         )}
 
         <CardBody paddingTop="0.5em">
-          {isEditing && postSumm ? (
+          {isEditing && post ? (
             // <PostEdit
             //   post={post}
             //   postQueryKey={{ pid: postSumm.id }}
@@ -172,22 +170,13 @@ const Post2 = ({ postSumm }: PostProp) => {
             <></>
           ) : (
             <>
-              <Text style={{ whiteSpace: "pre-wrap" }}>
-                {isOpen
-                  ? postSumm.abstract
-                  : // IsFold && !!post && post.content.length > POST_FOLD
-                    //   ? post.content.slice(0, POST_FOLD) + "..."
-                    //   : !!post
-                    //   ? post.content
-                    //   : ""
-                    postSumm.abstract}
-              </Text>
-              {/* <IconButtonStyleDiv>
-                {(!!post ? post.content.length : 0) > POST_FOLD && (
+              <Text style={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
+              {
+                <IconButtonStyleDiv>
                   <>
                     <Button
                       alignSelf="flex-start"
-                      onClick={() => setFold(false)}
+                      onClick={() => setOpen(true)}
                       size="sm"
                       display={IsFold ? "block" : "none"}
                     >
@@ -195,26 +184,26 @@ const Post2 = ({ postSumm }: PostProp) => {
                     </Button>
                     <Button
                       alignSelf="flex-start"
-                      onClick={() => setFold(true)}
+                      onClick={() => setFold(false)}
                       size="sm"
                       display={IsFold ? "none" : "block"}
                     >
                       {" "}
-                      shortly...
+                      briefly...
                     </Button>
                   </>
-                )}
-              </IconButtonStyleDiv> */}
+                </IconButtonStyleDiv>
+              }
             </>
           )}
         </CardBody>
-        {!isEditing && postSumm.id && (
+        {!isEditing && post.id && (
           <PostFooter
-            pid={postSumm.id}
-            slug={postSumm.slug}
-            likesNum={postSumm.likesNum}
-            commentsNum={postSumm.commentsNum}
-            liked={postSumm.clientLiked}
+            pid={post.id}
+            slug={post.slug}
+            likesNum={post.likesNum}
+            commentsNum={post.commentsNum}
+            liked={post.clientLiked}
           />
         )}
       </Card>

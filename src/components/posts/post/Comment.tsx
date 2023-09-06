@@ -19,11 +19,12 @@ import userApi from "../../../api/userApi";
 import { CommentDto, UpdateCommentDto } from "../../../api/dtos/comment.dto";
 import useUserStore from "../../../store/user.zustand";
 import { COMMENT_FOLD } from "../../../common/constraints";
-import { GetUserInfoDto } from "../../../api/dtos/user.dto";
+
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import CommentCreate from "./commentCreate";
 import { Link } from "react-router-dom";
+import { UserDto } from "../../../api/dtos/user.dto";
 
 interface CommentProps {
   postId: string;
@@ -46,8 +47,8 @@ const Comment = ({ postId, comment }: CommentProps) => {
     data,
     isLoading: nameLoading,
     isError,
-  } = useQuery<GetUserInfoDto>(["user", author], () => {
-    return userApi.getUserInfo({ uid: author });
+  } = useQuery<UserDto | null>(["user", author], async () => {
+    return await userApi.getUserInfo({ uid: author });
   });
 
   const authorname = data?.username;

@@ -1,25 +1,20 @@
-export class PostSummaryDto {
-  id: string;
-  author: string;
-  createdAt: Date;
-  updatedAt: Date;
-  images: string[];
-  slug: string;
-  abstract: string;
-  likesNum: number;
-  commentsNum: number;
-  clientLiked: boolean;
+import { PostDto, PostJSON } from "./post.dto";
+
+export class PostSummaryDto extends PostDto {
   constructor(pjson: PostSumamryJSON) {
-    this.id = pjson.id;
-    this.author = pjson.author;
-    this.createdAt = new Date(pjson.createdAt);
-    this.updatedAt = new Date(pjson.updatedAt);
-    this.images = pjson.images;
-    this.slug = pjson.slug;
-    this.likesNum = pjson.likesNum;
-    this.commentsNum = pjson.commentsNum;
-    this.abstract = pjson.abstract;
-    this.clientLiked = pjson.clientLiked;
+    const pj: PostJSON = {
+      id: pjson.id,
+      author: pjson.author,
+      createdAt: pjson.createdAt,
+      updatedAt: pjson.updatedAt,
+      images: pjson.images,
+      slug: pjson.slug,
+      likesNum: pjson.likesNum,
+      commentsNum: pjson.commentsNum,
+      content: pjson.abstract,
+      clientLiked: pjson.clientLiked,
+    };
+    super(pj);
   }
 }
 
