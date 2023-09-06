@@ -92,24 +92,6 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
   // post editing
   const [isEditing, setEditing] = useState(false);
 
-  const { mutate, isLoading } = useMutation(
-    async (post: UpdatePostDtoInput) =>
-      postApi.updatePost({
-        id: post.id,
-        author: post.author,
-        content: post.content,
-      }),
-    {
-      onSuccess(data, variables, context) {
-        queryClient.invalidateQueries([
-          ["post", { pid: post.id }],
-          ["post", { slug: post.slug }],
-        ]);
-        setEditing(false);
-      },
-    }
-  );
-
   return (
     <>
       <Card
@@ -148,35 +130,20 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {isOpen ? post.content : abstract}
+                {isOpen ? post.content : abstract + "..."}
                 {!open &&
                   (abstract.length >= SLUG_MAX_LENGTH ||
                     !!post.images.length) && (
                     <>
-                      <Button
-                        alignSelf="flex-start"
-                        onClick={() => {
-                          setOpen(true);
-                        }}
-                        size="md"
-                        color={ThemeColor.linkColor}
-                        variant={"link"}
-                        display={isOpen ? "none" : "block"}
-                      >
-                        more...
-                      </Button>
-                      <Button
-                        alignSelf="flex-start"
-                        onClick={() => {
-                          setOpen(false);
-                        }}
-                        size="md"
-                        color={ThemeColor.linkColor}
-                        variant={"link"}
-                        display={isOpen ? "block" : "none"}
-                      >
-                        briefly...
-                      </Button>
+                      {!isOpen ? (
+                        <PostDetailButton onClick={() => setOpen(true)}>
+                          &nbsp;&nbsp;&nbsp;more...
+                        </PostDetailButton>
+                      ) : (
+                        <PostDetailButton onClick={() => setOpen(false)}>
+                          &nbsp;&nbsp;&nbsp;briefly
+                        </PostDetailButton>
+                      )}
                     </>
                   )}
               </Text>
@@ -199,3 +166,22 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
 };
 
 export default Post2;
+
+type PostDetailButtonProps = {
+  onClick: () => void;
+  children: React.ReactNode;
+};
+
+const PostDetailButton = ({ onClick, children }: PostDetailButtonProps) => {
+  return (
+    <Button
+      alignSelf="flex-start"
+      onClick={onClick}
+      size="lg"
+      color={ThemeColor.linkColor}
+      variant={"link"}
+    >
+      {children}
+    </Button>
+  );
+};
