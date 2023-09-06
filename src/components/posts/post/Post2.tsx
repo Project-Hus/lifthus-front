@@ -122,11 +122,7 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
 
         <CardBody paddingTop="0.5em">
           {isEditing && post ? (
-            <PostEdit
-              post={post}
-              postQueryKey={{ pid: post.id }}
-              closeEdit={() => setEditing(false)}
-            />
+            <PostEdit post={post} closeEdit={() => setEditing(false)} />
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
@@ -185,3 +181,16 @@ const PostDetailButton = ({ onClick, children }: PostDetailButtonProps) => {
     </Button>
   );
 };
+
+export const IconButtonStyleDiv = styled.div`
+  padding-top: 0em;
+  & > Button {
+    background-color: ${ThemeColor.backgroundColorDarker};
+    :hover {
+      text-decoration-line: underline;
+    }
+    :hover {
+      background-color: ${ThemeColor.backgroundColor};
+    }
+  }
+`;
