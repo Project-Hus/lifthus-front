@@ -33,24 +33,12 @@ import {
   UpdatePostDtoInput,
 } from "../../../api/dtos/post.dto";
 import { UserDto } from "../../../api/dtos/user.dto";
+import { SLUG_MAX_LENGTH } from "../../../common/constraints";
 
 type FormData = {
   content: string;
   images: FileList;
 };
-
-export const IconButtonStyleDiv = styled.div`
-  padding-top: 0em;
-  & > Button {
-    background-color: ${ThemeColor.backgroundColorDarker};
-    :hover {
-      text-decoration-line: underline;
-    }
-    :hover {
-      background-color: ${ThemeColor.backgroundColor};
-    }
-  }
-`;
 
 interface PostProp {
   post: PostDto;
@@ -61,14 +49,24 @@ interface PostProp {
 const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
   const queryClient = useQueryClient();
 
-  const [isOpen, setOpen] = useState(open);
-  const { data: postQueried } = useQuery<PostDto>({
+  // author info
+  const username = author?.username || "Unknown user";
+  const profileImage = author?.profile_image_url;
+
+  // content abstract to be shown when the post is not open
+  const [abstract, updateAbstract] = useState<string>(postInput.content);
+
+  // whether the post is open or not
+  const [isOpen, setOpen] = useState<boolean>(open);
+
+  const { data: postQueried, refetch: refetchPost } = useQuery<PostDto>({
     queryKey: ["post", { pid: postInput.id }],
     queryFn: async () => {
-      // either if if is not open or it is basically open, show the given post.
-      // if it isn't, that is, if it is open and the post is not basically open, query the post.
-      if (!isOpen || open) return postInput;
       return await postApi.getPost({ pid: postInput.id });
+    },
+    enabled: isOpen && !open,
+    onSuccess: (data: PostDto) => {
+      updateAbstract(data.content.slice(0, SLUG_MAX_LENGTH));
     },
   });
 
@@ -82,22 +80,16 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({
+          queryKey: ["post", { slug: post.slug }],
+        });
       },
     }
   );
 
-  // comments folding
-  const [IsFold, setFold] = useState(true);
-
-  // author info
-  const username = author?.username || "Unknown user";
-  const profileImage = author?.profile_image_url;
-
   const { register, handleSubmit } = useForm<FormData>();
 
-  const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
-    useImageFileListWithPreview();
-
+  // post editing
   const [isEditing, setEditing] = useState(false);
 
   const { mutate, isLoading } = useMutation(
@@ -157,43 +149,51 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
         </CardHeader>
 
         {!isEditing && (
-          <ImageBoard srcs={post.images /*?.map((img) => img.src)*/ || []} />
+          <ImageBoard srcs={(isOpen ? post.images : postInput.images) || []} />
         )}
 
         <CardBody paddingTop="0.5em">
           {isEditing && post ? (
-            // <PostEdit
-            //   post={post}
-            //   postQueryKey={{ pid: postSumm.id }}
-            //   closeEdit={() => setEditing(false)}
-            // />
-            <></>
+            <PostEdit
+              post={post}
+              postQueryKey={{ pid: post.id }}
+              closeEdit={() => setEditing(false)}
+            />
           ) : (
             <>
-              <Text style={{ whiteSpace: "pre-wrap" }}>{post.content}</Text>
-              {
-                <IconButtonStyleDiv>
-                  <>
-                    <Button
-                      alignSelf="flex-start"
-                      onClick={() => setOpen(true)}
-                      size="sm"
-                      display={IsFold ? "block" : "none"}
-                    >
-                      more...
-                    </Button>
-                    <Button
-                      alignSelf="flex-start"
-                      onClick={() => setFold(false)}
-                      size="sm"
-                      display={IsFold ? "none" : "block"}
-                    >
-                      {" "}
-                      briefly...
-                    </Button>
-                  </>
-                </IconButtonStyleDiv>
-              }
+              <Text style={{ whiteSpace: "pre-wrap" }}>
+                {isOpen ? post.content : abstract}
+                {!open &&
+                  (abstract.length >= SLUG_MAX_LENGTH ||
+                    !!post.images.length) && (
+                    <>
+                      <Button
+                        alignSelf="flex-start"
+                        onClick={() => {
+                          setOpen(true);
+                        }}
+                        size="md"
+                        color={ThemeColor.linkColor}
+                        variant={"link"}
+                        display={isOpen ? "none" : "block"}
+                      >
+                        more...
+                      </Button>
+                      <Button
+                        alignSelf="flex-start"
+                        onClick={() => {
+                          setOpen(false);
+                        }}
+                        size="md"
+                        color={ThemeColor.linkColor}
+                        variant={"link"}
+                        display={isOpen ? "block" : "none"}
+                      >
+                        briefly...
+                      </Button>
+                    </>
+                  )}
+              </Text>
             </>
           )}
         </CardBody>
@@ -204,6 +204,7 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
             likesNum={post.likesNum}
             commentsNum={post.commentsNum}
             liked={post.clientLiked}
+            refetchPost={refetchPost}
           />
         )}
       </Card>

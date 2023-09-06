@@ -1,14 +1,11 @@
 import { Text } from "@chakra-ui/react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { UserDto } from "../../api/dtos/user.dto";
 import postApi from "../../api/postApi";
-import userApi from "../../api/userApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import useUserMap from "../../hooks/userMap";
 import { useVisibleEffect } from "../../hooks/visibleEffect";
 
-import Post from "./post/Post";
 import Post2 from "./post/Post2";
 
 interface UsersPostsProps {

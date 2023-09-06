@@ -18,7 +18,7 @@ export class UserDto {
   location: string;
   contact: string;
   constructor(u: UserJSON) {
-    this.uid = u.uid;
+    this.uid = String(u.uid);
     this.registered = u.registered;
     this.registered_at = !!u.registered_at ? new Date(u.registered_at) : null;
     this.username = u.username;

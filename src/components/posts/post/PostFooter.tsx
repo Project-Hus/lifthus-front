@@ -21,12 +21,14 @@ const PostFooter = ({
   likesNum,
   commentsNum,
   liked,
+  refetchPost,
 }: {
   pid: string;
   slug: string;
   likesNum: number;
   commentsNum: number;
   liked: boolean;
+  refetchPost: () => void;
 }) => {
   const queryClient = useQueryClient();
 
@@ -38,8 +40,9 @@ const PostFooter = ({
     async () => await postApi.likePost(pid),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries({ queryKey: ["post", { pid }] });
-        queryClient.invalidateQueries({ queryKey: ["post", { slug }] });
+        queryClient.invalidateQueries(["post", { pid }]);
+        queryClient.invalidateQueries(["post", { slug }]);
+        refetchPost();
       },
     }
   );

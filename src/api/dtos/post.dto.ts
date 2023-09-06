@@ -10,7 +10,7 @@ export class PostDto {
   commentsNum: number;
   clientLiked: boolean;
   constructor(p: PostJSON) {
-    this.id = p.id;
+    this.id = String(p.id);
     this.slug = p.slug;
     this.author = p.author;
     this.createdAt = new Date(p.createdAt);
@@ -40,7 +40,7 @@ export class CreatePostDto {
   static create(post: CreatePostDtoInput): FormData {
     post.images = post.images || [];
     const newPostForm = new FormData();
-    newPostForm.append("author", JSON.stringify(post.author));
+    newPostForm.append("author", post.author);
     newPostForm.append("content", post.content);
     for (const img of post.images) {
       newPostForm.append("images", img);
@@ -58,8 +58,8 @@ export type CreatePostDtoInput = {
 export class UpdatePostDto {
   static create(post: UpdatePostDtoInput): FormData {
     const newPostForm = new FormData();
-    newPostForm.append("id", JSON.stringify(post.id));
-    newPostForm.append("author", JSON.stringify(post.author));
+    newPostForm.append("id", post.id);
+    newPostForm.append("author", post.author);
     newPostForm.append("content", post.content);
     return newPostForm;
   }

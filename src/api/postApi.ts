@@ -23,6 +23,7 @@ const postApi: PostApi = {
       return Promise.reject("Invalid parameters");
     }
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
+    else if (res.status === statusInfo.fail.NotFound.code) return null;
     return res.data;
   },
   getAllPosts: async (skip?: number): Promise<PostSummaryDto[]> => {
@@ -53,7 +54,6 @@ const postApi: PostApi = {
   },
   createPost: async (post: CreatePostDtoInput): Promise<PostDto> => {
     const newPostForm = CreatePostDto.create(post);
-    console.log(newPostForm);
     const res = await axios.post(LIFTHUS_API_URL + "/post/post", newPostForm, {
       withCredentials: true,
     });
