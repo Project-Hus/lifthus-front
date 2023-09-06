@@ -101,28 +101,14 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
       }),
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({
-          queryKey: ["post", { pid: post.id }],
-        });
+        queryClient.invalidateQueries([
+          ["post", { pid: post.id }],
+          ["post", { slug: post.slug }],
+        ]);
         setEditing(false);
       },
     }
   );
-
-  const editPost = async (data: FormData) => {
-    if (data.content.length === 0) return alert("내용을 입력해주세요");
-    try {
-      const editedPost: UpdatePostDtoInput = {
-        id: post.id,
-        author: post.author,
-        //images: imagePreview ? imagePreview : [],
-        content: data.content,
-      };
-      await mutate(editedPost);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <>
