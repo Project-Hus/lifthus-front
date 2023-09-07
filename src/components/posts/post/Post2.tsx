@@ -127,21 +127,19 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
                 {isOpen ? post.content : abstract + "..."}
-                {!open &&
-                  (abstract.length >= SLUG_MAX_LENGTH ||
-                    !!post.images.length) && (
-                    <>
-                      {!isOpen ? (
-                        <PostDetailButton onClick={() => setOpen(true)}>
-                          &nbsp;&nbsp;&nbsp;more...
-                        </PostDetailButton>
-                      ) : (
-                        <PostDetailButton onClick={() => setOpen(false)}>
-                          &nbsp;&nbsp;&nbsp;briefly
-                        </PostDetailButton>
-                      )}
-                    </>
-                  )}
+                {!open && (
+                  <>
+                    {!isOpen ? (
+                      <PostDetailButton onClick={() => setOpen(true)}>
+                        &nbsp;&nbsp;&nbsp;more...
+                      </PostDetailButton>
+                    ) : (
+                      <PostDetailButton onClick={() => setOpen(false)}>
+                        &nbsp;&nbsp;&nbsp;briefly
+                      </PostDetailButton>
+                    )}
+                  </>
+                )}
               </Text>
             </>
           )}
