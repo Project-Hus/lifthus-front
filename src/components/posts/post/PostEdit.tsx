@@ -70,7 +70,7 @@ const PostEdit = ({ post: postOriginal, closeEdit }: PostEditingProps) => {
   return (
     <>
       <ImageBoard
-        srcs={(post && post.images) /*?.map((img) => img.src)*/ || []}
+        srcs={(post && post.imageSrcs) /*?.map((img) => img.src)*/ || []}
       />
       <form onSubmit={handleSubmit((fd) => editPost(fd))}>
         <Textarea defaultValue={post.content} {...register("content")} />

@@ -117,7 +117,9 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
         </CardHeader>
 
         {!isEditing && (
-          <ImageBoard srcs={(isOpen ? post.images : postInput.images) || []} />
+          <ImageBoard
+            srcs={(isOpen ? post.imageSrcs : postInput.imageSrcs) || []}
+          />
         )}
 
         <CardBody paddingTop="0.5em">

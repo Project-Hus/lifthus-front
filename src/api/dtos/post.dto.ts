@@ -4,7 +4,7 @@ export class PostDto {
   author: string;
   createdAt: Date;
   updatedAt: Date;
-  images: string[];
+  imageSrcs: string[];
   content: string;
   likesNum: number;
   commentsNum: number;
@@ -15,7 +15,7 @@ export class PostDto {
     this.author = p.author;
     this.createdAt = new Date(p.createdAt);
     this.updatedAt = new Date(p.updatedAt);
-    this.images = p.images;
+    this.imageSrcs = p.imageSrcs;
     this.content = p.content;
     this.likesNum = p.likesNum;
     this.commentsNum = p.commentsNum;
@@ -29,7 +29,7 @@ export type PostJSON = {
   author: string;
   createdAt: string;
   updatedAt: string;
-  images: string[];
+  imageSrcs: string[];
   content: string;
   likesNum: number;
   commentsNum: number;

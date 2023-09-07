@@ -7,7 +7,7 @@ export class PostSummaryDto extends PostDto {
       author: pjson.author,
       createdAt: pjson.createdAt,
       updatedAt: pjson.updatedAt,
-      images: pjson.images,
+      imageSrcs: pjson.imageSrcs,
       slug: pjson.slug,
       likesNum: pjson.likesNum,
       commentsNum: pjson.commentsNum,
@@ -23,7 +23,7 @@ export type PostSumamryJSON = {
   author: string;
   createdAt: string;
   updatedAt: string;
-  images: string[];
+  imageSrcs: string[];
   slug: string;
   abstract: string;
   likesNum: number;
