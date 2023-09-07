@@ -1,3 +1,4 @@
+import { LikeDto } from "../dtos/like.dto";
 import {
   CreatePostDtoInput,
   DeletePostResponse,
@@ -23,7 +24,7 @@ export interface PostApi {
   }: CreatePostDtoInput) => Promise<PostDto>;
   updatePost: ({ id, author, content }: UpdatePostDtoInput) => Promise<PostDto>;
   deletePost: (pid: string) => Promise<DeletePostResponse>;
-  likePost: (pid: string) => Promise<string>;
+  likePost: (pid: string) => Promise<LikeDto>;
 }
 
 export type GetUserPostsParams = {

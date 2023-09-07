@@ -10,6 +10,7 @@ import {
   UpdateCommentDto,
   UpdateCommentResponse,
 } from "./dtos/comment.dto";
+import { LikeDto } from "./dtos/like.dto";
 
 import { CommentApi } from "./interfaces/commentApi.interface";
 
@@ -67,12 +68,12 @@ const commentApi: CommentApi = {
     if (res.status !== 200) throw new Error("deleteComment failed");
     return res.data;
   },
-  likeComment: async (cid: string): Promise<number> => {
+  likeComment: async (cid: string): Promise<LikeDto> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.likeComment(cid);
     // }
     const res = await axios.post(
-      LIFTHUS_API_URL + `/post/comment/like/${cid}`,
+      LIFTHUS_API_URL + `/post/like/comment/${cid}`,
       {},
       {
         withCredentials: true,

@@ -84,7 +84,7 @@ const postApi: PostApi = {
   },
   likePost: async (pid: string) => {
     const res = await axios.post(
-      LIFTHUS_API_URL + `/post/post/like/${pid}`,
+      LIFTHUS_API_URL + `/post/like/post/${pid}`,
       {},
       {
         withCredentials: true,

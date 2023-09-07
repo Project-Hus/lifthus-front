@@ -6,6 +6,7 @@ import {
   UpdateCommentDto,
   UpdateCommentResponse,
 } from "../dtos/comment.dto";
+import { LikeDto } from "../dtos/like.dto";
 import { Uid } from "./userApi.interface";
 
 // make commentapi interface function
@@ -27,5 +28,5 @@ export interface CommentApi {
     content,
   }: UpdateCommentDto) => Promise<UpdateCommentResponse>;
   deleteComment: (cid: string) => Promise<DeleteCommentResponse>;
-  likeComment: (cid: string) => Promise<number>;
+  likeComment: (cid: string) => Promise<LikeDto>;
 }
