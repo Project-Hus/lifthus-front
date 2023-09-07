@@ -64,15 +64,19 @@ const postApi: PostApi = {
     return res.data;
   },
   updatePost: async (post: UpdatePostDtoInput) => {
-    const updatedPostForm = UpdatePostDto.create(post);
+    console.log(post);
+    const updatePostForm = new UpdatePostDto(post);
+    console.log(updatePostForm);
     const res = await axios.put(
       LIFTHUS_API_URL + "/post/post",
-      updatedPostForm,
+      updatePostForm,
       {
         withCredentials: true,
       }
     );
-    return res.data;
+    if (res.status !== statusInfo.succ.Ok.code)
+      throw Promise.reject("failed to update post");
+    return new PostDto(res.data);
   },
   deletePost: async (pid: string) => {
     // if (process.env.NODE_ENV === "development") {

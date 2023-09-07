@@ -3,7 +3,6 @@ import {
   DeletePostResponse,
   PostDto,
   UpdatePostDtoInput,
-  UpdatePostResponse,
 } from "../dtos/post.dto";
 import { PostSummaryDto } from "../dtos/postSummary.dto";
 
@@ -22,11 +21,7 @@ export interface PostApi {
     images,
     content,
   }: CreatePostDtoInput) => Promise<PostDto>;
-  updatePost: ({
-    id,
-    author,
-    content,
-  }: UpdatePostDtoInput) => Promise<UpdatePostResponse>;
+  updatePost: ({ id, author, content }: UpdatePostDtoInput) => Promise<PostDto>;
   deletePost: (pid: string) => Promise<DeletePostResponse>;
   likePost: (pid: string) => Promise<string>;
 }

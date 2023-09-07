@@ -56,12 +56,13 @@ export type CreatePostDtoInput = {
 };
 
 export class UpdatePostDto {
-  static create(post: UpdatePostDtoInput): FormData {
-    const newPostForm = new FormData();
-    newPostForm.append("id", post.id);
-    newPostForm.append("author", post.author);
-    newPostForm.append("content", post.content);
-    return newPostForm;
+  public id: string;
+  public author: string;
+  public content: string;
+  constructor(p: UpdatePostDtoInput) {
+    this.id = p.id;
+    this.author = p.author;
+    this.content = p.content;
   }
 }
 
@@ -69,10 +70,6 @@ export type UpdatePostDtoInput = {
   id: string;
   author: string;
   content: string;
-};
-
-export type UpdatePostResponse = {
-  count: number;
 };
 
 export type DeletePostResponse = {
