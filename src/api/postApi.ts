@@ -38,9 +38,6 @@ const postApi: PostApi = {
     return postSumms;
   },
   getUsersPosts: async ({ users, skip = 0 }): Promise<PostSummaryDto[]> => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return postTestApi.getUsersPosts({ users, skip });
-    // }
     const usersQ = users.join(",");
     const res = await axios.get(LIFTHUS_API_URL + `/post/query/post`, {
       params: { users: usersQ, skip },
@@ -79,9 +76,6 @@ const postApi: PostApi = {
     return new PostDto(res.data);
   },
   deletePost: async (pid: string) => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return postTestApi.deletePost(pid);
-    // }
     const res = await axios.delete(LIFTHUS_API_URL + "/post/post/" + pid, {
       data: { pid },
       withCredentials: true,
@@ -89,9 +83,6 @@ const postApi: PostApi = {
     return res.data;
   },
   likePost: async (pid: string) => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return postTestApi.likePost(pid);
-    // }
     const res = await axios.post(
       LIFTHUS_API_URL + `/post/post/like/${pid}`,
       {},
