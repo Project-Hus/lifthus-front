@@ -70,19 +70,19 @@ const CommentCreate = ({ postId, parentId, onClose }: CommentCreateProps) => {
     }
     const text: string = data.comment;
 
-    if (parentId) {
+    if (!!parentId) {
       return createReply({
+        postId: postId,
         parentId: parentId,
         author: clientUid,
         content: text,
       });
     }
-    createComment({
+    return createComment({
       postId: postId,
       author: clientUid,
       content: text,
     });
-    return;
   };
 
   return (

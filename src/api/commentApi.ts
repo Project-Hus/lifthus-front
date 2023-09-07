@@ -35,9 +35,6 @@ const commentApi: CommentApi = {
   },
 
   createReply: async (reply: CreateReplyDto): Promise<CommentDto> => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return commentTestApi.createReply(reply);
-    // }
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, reply, {
       withCredentials: true,
     });

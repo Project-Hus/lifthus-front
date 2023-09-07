@@ -56,6 +56,7 @@ export type CreateCommentDto = {
 };
 
 export type CreateReplyDto = {
+  postId: string;
   parentId: string;
   author: string;
   content: string;

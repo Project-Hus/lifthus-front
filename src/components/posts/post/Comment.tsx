@@ -341,7 +341,7 @@ const Comment = ({ postId, comment }: CommentProps) => {
             {"postId" in comment && !!uid && (
               <CommentCreate
                 postId={comment.postId}
-                parentId={"parentId" in comment ? comment.parentId : comment.id}
+                parentId={comment.parentId || comment.id}
                 onClose={onClose}
               />
             )}
