@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/layout";
-import { QueryReplyDto } from "../../../api/dtos/comment.dto";
+import { CommentDto } from "../../../api/dtos/comment.dto";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import Comment from "./Comment";
 
 interface ReplyListProps {
   IsPadding: boolean;
-  replies: QueryReplyDto[];
-  postId: number;
+  replies: CommentDto[];
+  postId: string;
 }
 const ReplyList = ({ IsPadding, replies, postId }: ReplyListProps) => {
   const replyCommentList = [];

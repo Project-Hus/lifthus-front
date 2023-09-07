@@ -1,47 +1,33 @@
+import { LikeDto } from "../dtos/like.dto";
 import {
-  CreatePostDto,
+  CreatePostDtoInput,
   DeletePostResponse,
-  QueryPostDto,
-  QueryPostSummaryDto,
-  UpdatePostDto,
-  UpdatePostResponse,
+  PostDto,
+  UpdatePostDtoInput,
 } from "../dtos/post.dto";
+import { PostSummaryDto } from "../dtos/postSummary.dto";
 
 export interface PostApi {
-  getPost: ({
-    pid,
-    slug,
-  }: {
-    pid?: number;
-    slug?: string;
-  }) => Promise<QueryPostDto>;
-  getAllPosts: (skip?: number) => Promise<QueryPostSummaryDto[]>;
-  getUserPosts: ({
-    uid,
-    skip,
-  }: GetUserPostsParams) => Promise<QueryPostSummaryDto[]>;
+  getPost: ({ pid, slug }: { pid?: string; slug?: string }) => Promise<PostDto>;
+  getAllPosts: (skip?: number) => Promise<PostSummaryDto[]>;
   getUsersPosts: ({
     users,
     skip,
   }: {
-    users: number[];
+    users: string[];
     skip: number;
-  }) => Promise<QueryPostSummaryDto[]>;
+  }) => Promise<PostSummaryDto[]>;
   createPost: ({
-    userGroup,
     author,
+    images,
     content,
-  }: CreatePostDto) => Promise<QueryPostDto>;
-  updatePost: ({
-    id,
-    author,
-    content,
-  }: UpdatePostDto) => Promise<UpdatePostResponse>;
-  deletePost: (pid: number) => Promise<DeletePostResponse>;
-  likePost: (pid: number) => Promise<number>;
+  }: CreatePostDtoInput) => Promise<PostDto>;
+  updatePost: ({ id, author, content }: UpdatePostDtoInput) => Promise<PostDto>;
+  deletePost: (pid: string) => Promise<DeletePostResponse>;
+  likePost: (pid: string) => Promise<LikeDto>;
 }
 
 export type GetUserPostsParams = {
-  uid: number;
+  uid: string;
   skip?: number;
 };

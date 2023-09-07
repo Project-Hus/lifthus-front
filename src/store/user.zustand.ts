@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { UserInfo } from "./interfaces/user.interface";
+import { UserDto } from "../api/dtos/user.dto";
 
 interface UserState {
-  uid: number;
+  uid: string;
   registered: boolean;
   registered_at?: Date | null;
   username?: string;
@@ -15,13 +15,13 @@ interface UserState {
   profile_image_url?: string;
   created_at?: Date;
   updated_at?: Date;
-  setUserInfo: (info: UserInfo) => void;
+  setUserInfo: (info: UserDto) => void;
   setUsername: (username: string) => void;
   signOut: () => void;
 }
 
 const useUserStore = create<UserState>()((set) => ({
-  uid: NaN,
+  uid: "",
   registered: false,
   registered_at: null,
   username: "",
@@ -35,7 +35,7 @@ const useUserStore = create<UserState>()((set) => ({
   created_at: undefined,
   updated_at: undefined,
 
-  setUserInfo: (info: UserInfo) =>
+  setUserInfo: (info: UserDto) =>
     set((state) => ({
       ...state,
       ...info,
@@ -43,7 +43,7 @@ const useUserStore = create<UserState>()((set) => ({
   setUsername: (username: string) => set((state) => ({ ...state, username })),
   signOut: () =>
     set(() => ({
-      uid: NaN,
+      uid: "",
       registered: false,
       registered_at: null,
       username: "",

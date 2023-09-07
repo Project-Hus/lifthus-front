@@ -8,14 +8,13 @@ import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCen
 import AllPosts from "../../components/posts/AllPosts";
 
 import CreatePost from "../../components/posts/CreatePost";
-import Post from "../../components/posts/post/Post";
 import UsersPosts from "../../components/posts/UsersPosts";
 import useUserStore from "../../store/user.zustand";
 
 const Home = () => {
   const { uid } = useUserStore();
 
-  const { data: followings, isLoading } = useQuery<number[]>({
+  const { data: followings, isLoading } = useQuery<string[]>({
     queryKey: ["followings", { uid }],
     queryFn: async () => {
       if (uid) return await relationApi.getUserFollowing({ uid });

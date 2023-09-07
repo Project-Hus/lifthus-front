@@ -1,18 +1,17 @@
 import { CheckIcon, CloseIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { Button, Flex, Input, Textarea } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { QueryPostDto, UpdatePostDto } from "../../../api/dtos/post.dto";
+import { PostDto, UpdatePostDtoInput } from "../../../api/dtos/post.dto";
 import postApi from "../../../api/postApi";
 import ImageBoard from "../../../common/components/images/ImageBoard";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { useImageFileListWithPreview } from "../../../hooks/images";
-import { IconButtonStyleDiv } from "./Post";
+import { IconButtonStyleDiv } from "./Post2";
 
 type PostEditingProps = {
-  post: QueryPostDto;
-  postQueryKey: any;
+  post: PostDto;
   closeEdit: () => void;
 };
 
@@ -21,22 +20,32 @@ type FormData = {
   images: FileList;
 };
 
-const PostEdit = ({ post, postQueryKey, closeEdit }: PostEditingProps) => {
+const PostEdit = ({ post: postOriginal, closeEdit }: PostEditingProps) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, getValues } = useForm<FormData>();
+  const { register, handleSubmit, getValues, setValue } = useForm<FormData>();
 
-  /* implement image update later */
-  // const { onLoadFile, imagePreviewSources, imageFileList, removeImages } =
-  //   useImageFileListWithPreview(
-  //     (post && post.images?.map((img) => img.src)) || []
-  //   );
+  const { data: postQueried } = useQuery<PostDto>({
+    queryKey: ["post", { pid: postOriginal.id }],
+    queryFn: async () => {
+      return postApi.getPost({ pid: postOriginal.id });
+    },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    onSuccess(data: PostDto) {
+      if (!data) return;
+      setValue("content", data.content);
+    },
+  });
+
+  const post = postQueried || postOriginal;
 
   const { mutate: editPost, isLoading } = useMutation(
     async (_: FormData) => {
       try {
         const content = getValues("content");
         if (content.length === 0) return alert("내용을 입력해주세요");
-        const editedPost: UpdatePostDto = {
+        const editedPost: UpdatePostDtoInput = {
           id: post.id,
           author: post.author,
           content: content,
@@ -49,7 +58,10 @@ const PostEdit = ({ post, postQueryKey, closeEdit }: PostEditingProps) => {
     },
     {
       onSuccess(data, variables, context) {
-        queryClient.invalidateQueries({ queryKey: ["post", postQueryKey] });
+        queryClient.invalidateQueries({ queryKey: ["post", { pid: post.id }] });
+        queryClient.invalidateQueries({
+          queryKey: ["post", { slug: post.slug }],
+        });
         closeEdit();
       },
     }
@@ -58,13 +70,10 @@ const PostEdit = ({ post, postQueryKey, closeEdit }: PostEditingProps) => {
   return (
     <>
       <ImageBoard
-        srcs={(post && post.images) /*?.map((img) => img.src)*/ || []}
+        srcs={(post && post.imageSrcs) /*?.map((img) => img.src)*/ || []}
       />
       <form onSubmit={handleSubmit((fd) => editPost(fd))}>
-        <Textarea
-          defaultValue={!!post ? post.content : ""}
-          {...register("content")}
-        />
+        <Textarea defaultValue={post.content} {...register("content")} />
         <Flex justifyContent={"space-between"}>
           <IconButtonStyleDiv>
             {/* // implement image update later

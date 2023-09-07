@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -18,13 +18,14 @@ import {
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 import useUserStore from "../../store/user.zustand";
-import { CreatePostDto } from "../../api/dtos/post.dto";
+
 import postApi from "../../api/postApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useClickEvent from "../../hooks/clickEvent";
 import { useImageFileListWithPreview } from "../../hooks/images";
 import ImageBoard from "../../common/components/images/ImageBoard";
 import { text } from "stream/consumers";
+import { CreatePostDtoInput } from "../../api/dtos/post.dto";
 
 /**
  * CreatePost buttons' style
@@ -51,7 +52,7 @@ const CreatePost = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
-    async (post: CreatePostDto) => postApi.createPost(post),
+    async (post: CreatePostDtoInput) => postApi.createPost(post),
     {
       onSuccess(data, variables, context) {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -76,7 +77,7 @@ const CreatePost = () => {
     if (data.text.length == 0) return alert("내용을 입력해주세요");
 
     try {
-      const post: CreatePostDto = {
+      const post: CreatePostDtoInput = {
         author: uid,
         content: data.text,
         images: imageFileList,

@@ -1,41 +1,69 @@
-export type QueryCommentDto = {
-  id: number;
-  postId: number;
-  author: number;
-  createdAt: Date;
-  updatedAt: Date;
-  content: string;
-  likenum: number;
-  mentions?: string[];
-  replies?: QueryReplyDto[];
-};
+export class CommentDto {
+  id: string;
 
-export type QueryReplyDto = {
-  id: number;
-  parentId: number;
-  author: number;
+  author: string;
+
+  postId: string;
+  parentId?: string;
+
+  content: string;
+
   createdAt: Date;
   updatedAt: Date;
+
+  likesNum: number;
+  replies?: CommentDto[];
+
+  clientLiked: boolean;
+  constructor(c: CommentJSON) {
+    this.id = c.id;
+    this.author = c.author;
+    this.postId = c.postId;
+    this.parentId = c.parentId;
+    this.content = c.content;
+    this.createdAt = new Date(c.createdAt);
+    this.updatedAt = new Date(c.updatedAt);
+    this.likesNum = c.likesNum;
+    this.replies = c.replies?.map((r) => new CommentDto(r));
+    this.clientLiked = c.clientLiked;
+  }
+}
+
+export type CommentJSON = {
+  id: string;
+
+  author: string;
+
+  postId: string;
+  parentId?: string;
+
   content: string;
-  likenum: number;
-  mentions?: string[];
+
+  createdAt: string;
+  updatedAt: string;
+
+  likesNum: number;
+
+  replies?: CommentJSON[];
+
+  clientLiked: boolean;
 };
 
 export type CreateCommentDto = {
-  postId: number;
-  author: number;
+  postId: string;
+  author: string;
   content: string;
 };
 
 export type CreateReplyDto = {
-  parentId: number;
-  author: number;
+  parentId: string;
+  author: string;
   content: string;
 };
 
 export type UpdateCommentDto = {
-  id: number;
-  author: number;
+  id: string;
+  author: string;
   content: string;
 };
 

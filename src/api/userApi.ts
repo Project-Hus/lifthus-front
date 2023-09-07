@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LIFTHUS_AUTH_URL } from "../common/routes";
-import { GetUserInfoDto } from "./dtos/user.dto";
+import { UserDto } from "./dtos/user.dto";
 import {
   Uid,
   UserApi,
@@ -10,7 +10,7 @@ import {
 
 import statusInfo from "./interfaces/statusInfo.json";
 
-const userApi: UserApi = {
+export const userApi: UserApi = {
   setUserInfo: async (newUserinfo: UserMutationParams) => {
     // if (process.env.NODE_ENV === "development") {
     //   return userTestApi.setUserInfo(newUserinfo);
@@ -22,7 +22,7 @@ const userApi: UserApi = {
         withCredentials: true,
       }
     );
-    return res.data;
+    return new UserDto(res.data);
   },
   getUserInfo: async ({ uid }: Uid) => {
     // if (process.env.NODE_ENV === "development") {
@@ -33,11 +33,11 @@ const userApi: UserApi = {
     });
 
     if (res.status === statusInfo.fail.NotFound.code) return null;
-    return res.data;
+    return new UserDto(res.data);
   },
   getUserInfoByUsername: async ({
     username,
-  }: Username): Promise<GetUserInfoDto> => {
+  }: Username): Promise<UserDto | null> => {
     // if (process.env.NODE_ENV === "development") {
     //   return userTestApi.getUserInfoByUsername({ username });
     // }
@@ -48,9 +48,16 @@ const userApi: UserApi = {
       }
     );
 
-    if (res.status === statusInfo.fail.NotFound.code)
-      return Promise.reject(404);
-    return res.data;
+    if (res.status === statusInfo.fail.NotFound.code) return null;
+    return new UserDto(res.data);
+  },
+
+  async getUsers(uids: string[]): Promise<(UserDto | null)[]> {
+    return await Promise.all(
+      uids.map(async (uid) => {
+        return await this.getUserInfo({ uid });
+      })
+    );
   },
 };
 

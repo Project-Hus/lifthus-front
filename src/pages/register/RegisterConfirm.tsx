@@ -18,7 +18,7 @@ const RegisterConfirm = () => {
   }));
 
   const registerInfo = useRegisterStore((state) => ({
-    uid: NaN,
+    uid: "",
     username: state.username,
     trainingType: state.type,
     bodyWeight: state.bodyWeight,
@@ -44,8 +44,10 @@ const RegisterConfirm = () => {
         ? Promise.reject(new Error("undefined"))
         : userApi.getUserInfo({ uid: uidMutated }),
     onSuccess: (data) => {
-      setUserInfo(data);
-      navigate("/");
+      if (!!data) {
+        setUserInfo(data);
+        navigate("/");
+      }
     },
     enabled: !!uidMutated,
   });

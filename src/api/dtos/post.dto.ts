@@ -1,42 +1,75 @@
-import { QueryCommentDto } from "./comment.dto";
-
-export type QueryPostSummaryDto = {
-  id: number;
-  author: number;
-  createdAt: Date;
-  images: string[];
+export class PostDto {
+  id: string;
   slug: string;
-};
-
-export type QueryPostDto = {
-  id: number;
-  userGroup?: number;
-  author: number;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
-  slug: string;
-  images?: string[]; // { id: number; src: string }[];
+  imageSrcs: string[];
   content: string;
-  likenum: number;
-  comments?: QueryCommentDto[];
-  mentions?: string[];
+  likesNum: number;
+  commentsNum: number;
+  clientLiked: boolean;
+  constructor(p: PostJSON) {
+    this.id = String(p.id);
+    this.slug = p.slug;
+    this.author = p.author;
+    this.createdAt = new Date(p.createdAt);
+    this.updatedAt = new Date(p.updatedAt);
+    this.imageSrcs = p.imageSrcs;
+    this.content = p.content;
+    this.likesNum = p.likesNum;
+    this.commentsNum = p.commentsNum;
+    this.clientLiked = p.clientLiked;
+  }
+}
+
+export type PostJSON = {
+  id: string;
+  slug: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string;
+  imageSrcs: string[];
+  content: string;
+  likesNum: number;
+  commentsNum: number;
+  clientLiked: boolean;
 };
 
-export type CreatePostDto = {
-  userGroup?: number;
-  author: number;
+export class CreatePostDto {
+  static create(post: CreatePostDtoInput): FormData {
+    post.images = post.images || [];
+    const newPostForm = new FormData();
+    newPostForm.append("author", post.author);
+    newPostForm.append("content", post.content);
+    for (const img of post.images) {
+      newPostForm.append("images", img);
+    }
+    return newPostForm;
+  }
+}
+
+export type CreatePostDtoInput = {
+  author: string;
   images?: File[];
   content: string;
 };
 
-export type UpdatePostDto = {
-  id: number;
-  author: number;
-  content: string;
-};
+export class UpdatePostDto {
+  public id: string;
+  public author: string;
+  public content: string;
+  constructor(p: UpdatePostDtoInput) {
+    this.id = p.id;
+    this.author = p.author;
+    this.content = p.content;
+  }
+}
 
-export type UpdatePostResponse = {
-  count: number;
+export type UpdatePostDtoInput = {
+  id: string;
+  author: string;
+  content: string;
 };
 
 export type DeletePostResponse = {

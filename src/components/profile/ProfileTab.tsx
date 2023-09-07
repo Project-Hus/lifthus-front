@@ -11,12 +11,12 @@ import {
 
 import ProfileSetting from "./profileTab/ProfileSetting";
 import { ThemeColor } from "../../common/styles/theme.style";
-import { GetUserInfoDto } from "../../api/dtos/user.dto";
+import { UserDto } from "../../api/dtos/user.dto";
 import ProfileContact from "./profileTab/ProfileContact";
 import ProfileHeatmap from "./profileTab/ProfileHeatmap";
 import ProfileFigure from "./profileTab/ProfileFigure";
 
-const ProfileTab = ({ userInfo }: { userInfo: GetUserInfoDto | undefined }) => {
+const ProfileTab = ({ userInfo }: { userInfo: UserDto | undefined }) => {
   return (
     <Tabs
       size="lg"

@@ -8,7 +8,7 @@ const CommentList = ({
   pid,
   getNumber,
 }: {
-  pid: number;
+  pid: string;
   getNumber: (number: number) => void;
 }) => {
   // query the comments of the post

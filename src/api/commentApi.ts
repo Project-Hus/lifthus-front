@@ -2,19 +2,20 @@
 import axios from "axios";
 import { LIFTHUS_API_URL } from "../common/routes";
 import {
+  CommentDto,
+  CommentJSON,
   CreateCommentDto,
   CreateReplyDto,
   DeleteCommentResponse,
-  QueryCommentDto,
-  QueryReplyDto,
   UpdateCommentDto,
   UpdateCommentResponse,
 } from "./dtos/comment.dto";
+import { LikeDto } from "./dtos/like.dto";
 
 import { CommentApi } from "./interfaces/commentApi.interface";
 
 const commentApi: CommentApi = {
-  getComments: async (pid: number): Promise<QueryCommentDto[]> => {
+  getComments: async (pid: string): Promise<CommentDto[]> => {
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/comment?pid=${pid}`,
       {
@@ -22,14 +23,10 @@ const commentApi: CommentApi = {
       }
     );
     if (res.status !== 200) throw new Error("getComments failed");
-    return res.data;
+    const comments = res.data.map((c: CommentJSON) => new CommentDto(c));
+    return comments;
   },
-  createComment: async (
-    comment: CreateCommentDto
-  ): Promise<QueryCommentDto> => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return commentTestApi.createComment(comment);
-    // }
+  createComment: async (comment: CreateCommentDto): Promise<CommentDto> => {
     const res = await axios.post(LIFTHUS_API_URL + `/post/comment`, comment, {
       withCredentials: true,
     });
@@ -37,7 +34,7 @@ const commentApi: CommentApi = {
     return res.data;
   },
 
-  createReply: async (reply: CreateReplyDto): Promise<QueryReplyDto> => {
+  createReply: async (reply: CreateReplyDto): Promise<CommentDto> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.createReply(reply);
     // }
@@ -61,7 +58,7 @@ const commentApi: CommentApi = {
     if (res.status !== 200) throw new Error("updateComment failed");
     return res.data;
   },
-  deleteComment: async (cid: number): Promise<DeleteCommentResponse> => {
+  deleteComment: async (cid: string): Promise<DeleteCommentResponse> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.deleteComment(cid);
     // }
@@ -71,12 +68,12 @@ const commentApi: CommentApi = {
     if (res.status !== 200) throw new Error("deleteComment failed");
     return res.data;
   },
-  likeComment: async (cid: number): Promise<number> => {
+  likeComment: async (cid: string): Promise<LikeDto> => {
     // if (process.env.NODE_ENV === "development") {
     //   return commentTestApi.likeComment(cid);
     // }
     const res = await axios.post(
-      LIFTHUS_API_URL + `/post/comment/like/${cid}`,
+      LIFTHUS_API_URL + `/post/like/comment/${cid}`,
       {},
       {
         withCredentials: true,

@@ -12,16 +12,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { GetUserInfoDto } from "../../api/dtos/user.dto";
+import { UserDto } from "../../api/dtos/user.dto";
 import relationApi from "../../api/relationApi";
 import { ThemeColor } from "../../common/styles/theme.style";
 import useUserStore from "../../store/user.zustand";
 
-const ProfileCard = ({
-  userInfo,
-}: {
-  userInfo: GetUserInfoDto | undefined;
-}) => {
+const ProfileCard = ({ userInfo }: { userInfo: UserDto | undefined }) => {
   const profileUid = userInfo?.uid;
   const profileUsername = userInfo?.username;
   const profileImage = userInfo?.profile_image_url;

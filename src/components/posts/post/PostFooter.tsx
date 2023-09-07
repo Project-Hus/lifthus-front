@@ -18,11 +18,17 @@ import CommentList from "./CommentList";
 const PostFooter = ({
   pid,
   slug,
-  likenum,
+  likesNum,
+  commentsNum,
+  liked,
+  refetchPost,
 }: {
-  pid: number;
+  pid: string;
   slug: string;
-  likenum: number;
+  likesNum: number;
+  commentsNum: number;
+  liked: boolean;
+  refetchPost: () => void;
 }) => {
   const queryClient = useQueryClient();
 
@@ -34,18 +40,20 @@ const PostFooter = ({
     async () => await postApi.likePost(pid),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries({ queryKey: ["post", { pid }] });
-        queryClient.invalidateQueries({ queryKey: ["post", { slug }] });
+        queryClient.invalidateQueries(["post", { pid }]);
+        queryClient.invalidateQueries(["post", { slug }]);
+        refetchPost();
       },
     }
   );
 
   // comment disclosure
-  const { getDisclosureProps, getButtonProps, onClose } = useDisclosure();
+  const { getDisclosureProps, getButtonProps, onClose, isOpen } =
+    useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
 
-  const [numComments, setNumComments] = React.useState<Number>(0);
+  const [numComments, setNumComments] = React.useState<Number>(commentsNum);
 
   return (
     <>
@@ -53,7 +61,7 @@ const PostFooter = ({
         <Button
           flex="1"
           variant="ghost"
-          leftIcon={<>{likeLoading ? <Spinner /> : "🤍"}</>}
+          leftIcon={<>{likeLoading ? <Spinner /> : liked ? "❤️" : "🤍"}</>}
           _hover={{ bg: ThemeColor.backgroundColor }}
           onClick={
             clientUid
@@ -61,7 +69,7 @@ const PostFooter = ({
               : () => (window.location.href = "/sign")
           }
         >
-          <Text color="white">{likenum} Likes</Text>
+          <Text color="white">{likesNum} Likes</Text>
         </Button>
         <Button
           {...buttonProps}
@@ -70,13 +78,13 @@ const PostFooter = ({
           leftIcon={<>💬</>}
           _hover={{ bg: ThemeColor.backgroundColor }}
         >
-          <Text color="white">{`${numComments} Comments`}</Text>
+          <Text color="white">{`${commentsNum} Comments`}</Text>
         </Button>
       </CardFooter>
       <Card {...disclosureProps}>
         {!!clientUid && pid && <CommentCreate postId={pid} onClose={onClose} />}
         <Suspense fallback={<BlueSpinnerCentered />}>
-          <CommentList pid={pid} getNumber={setNumComments} />
+          {isOpen && <CommentList pid={pid} getNumber={setNumComments} />}
         </Suspense>
       </Card>
     </>

@@ -1,5 +1,5 @@
 export interface UserInfo {
-  uid?: number;
+  uid?: string;
   registered?: boolean;
   registered_at?: Date | null;
   username?: string;

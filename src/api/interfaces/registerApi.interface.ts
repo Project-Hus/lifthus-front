@@ -1,11 +1,10 @@
-import { GetUserInfoDto } from "../dtos/user.dto";
-import { Uid, Username } from "./userApi.interface";
+import { UserDto } from "../dtos/user.dto";
 
 export interface RegisterApi {
   registerUsername: ({
     uid,
     username,
-  }: RegisterUsernameParams) => Promise<GetUserInfoDto>;
+  }: RegisterUsernameParams) => Promise<UserDto>;
   register: ({
     uid,
     trainingType,
@@ -18,12 +17,12 @@ export interface RegisterApi {
 }
 
 export type RegisterUsernameParams = {
-  uid: number;
+  uid: string;
   username: string;
 };
 
 export type RegisterParams = {
-  uid: number;
+  uid: string;
   trainingType: string;
   bodyWeight: number;
   height: number;

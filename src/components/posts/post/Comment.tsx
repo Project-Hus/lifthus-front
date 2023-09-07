@@ -16,22 +16,19 @@ import commentApi from "../../../api/commentApi";
 import { useEffect, useRef, useState } from "react";
 
 import userApi from "../../../api/userApi";
-import {
-  QueryCommentDto,
-  QueryReplyDto,
-  UpdateCommentDto,
-} from "../../../api/dtos/comment.dto";
+import { CommentDto, UpdateCommentDto } from "../../../api/dtos/comment.dto";
 import useUserStore from "../../../store/user.zustand";
 import { COMMENT_FOLD } from "../../../common/constraints";
-import { GetUserInfoDto } from "../../../api/dtos/user.dto";
+
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ReplyList from "./replyList";
 import CommentCreate from "./commentCreate";
 import { Link } from "react-router-dom";
+import { UserDto } from "../../../api/dtos/user.dto";
 
 interface CommentProps {
-  postId: number;
-  comment: QueryCommentDto | QueryReplyDto;
+  postId: string;
+  comment: CommentDto;
 }
 const Comment = ({ postId, comment }: CommentProps) => {
   const CommentBoard = styled(Card)`
@@ -50,8 +47,8 @@ const Comment = ({ postId, comment }: CommentProps) => {
     data,
     isLoading: nameLoading,
     isError,
-  } = useQuery<GetUserInfoDto>(["user", author], () => {
-    return userApi.getUserInfo({ uid: author });
+  } = useQuery<UserDto | null>(["user", author], async () => {
+    return await userApi.getUserInfo({ uid: author });
   });
 
   const authorname = data?.username;
@@ -292,9 +289,15 @@ const Comment = ({ postId, comment }: CommentProps) => {
             color="white"
             _hover={{ bg: ThemeColor.backgroundColorDarker }}
             onClick={() => likeMutate()}
-            leftIcon={likeLoading ? <Spinner /> : <>🤍</>}
+            leftIcon={
+              likeLoading ? (
+                <Spinner />
+              ) : (
+                <>{comment.clientLiked ? "❤️" : "🤍"}</>
+              )
+            }
           >
-            {comment.likenum}
+            {comment.likesNum}
           </Button>
           {IsCommentEdit == false && (
             <Button
@@ -338,10 +341,7 @@ const Comment = ({ postId, comment }: CommentProps) => {
             {"postId" in comment && !!uid && (
               <CommentCreate
                 postId={comment.postId}
-                parentId={
-                  ("parentId" in comment && Number(comment.parentId)) ||
-                  comment.id
-                }
+                parentId={"parentId" in comment ? comment.parentId : comment.id}
                 onClose={onClose}
               />
             )}
