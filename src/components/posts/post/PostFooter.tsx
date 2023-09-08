@@ -82,10 +82,10 @@ const PostFooter = ({
         </Button>
       </CardFooter>
       <Card {...disclosureProps}>
-        {!!clientUid && pid && <CommentCreate postId={pid} onClose={onClose} />}
         <Suspense fallback={<BlueSpinnerCentered />}>
           {isOpen && <CommentList pid={pid} getNumber={setNumComments} />}
         </Suspense>
+        {!!clientUid && pid && <CommentCreate postId={pid} onClose={onClose} />}
       </Card>
     </>
   );
