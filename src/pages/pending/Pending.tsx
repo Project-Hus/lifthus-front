@@ -9,12 +9,6 @@ const Pending = () => {
     <PendingDiv>
       <Logo />
       <BlueSpinner />
-      <Text textAlign={"center"}>
-        화면 한번 띄우는데 람다 실행환경과
-        <br />
-        DB 커넥션 수십개가 생성되는 효율 문제로
-        <br /> 쿼리 최적화 진행 중
-      </Text>
     </PendingDiv>
   );
 };
