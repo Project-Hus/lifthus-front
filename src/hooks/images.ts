@@ -32,7 +32,7 @@ export const useImageFileListWithPreview = (srcs?: string[]) => {
       const fileListArray = Array.from(fileList);
 
       const filteredImageFiles = fileListArray.filter(
-        (f) => f.type.match("image.*") && f.size < 10000000
+        (f) => f.type.match("image.*") && f.size < 10000000 // 10MB
       );
 
       const urlList = filteredImageFiles.map((f) => {
