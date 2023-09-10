@@ -6,7 +6,7 @@ import { UserDto } from "../../api/dtos/user.dto";
 import postApi from "../../api/postApi";
 import userApi from "../../api/userApi";
 import BlueSpinnerCentered from "../../common/components/spinners/BlueSpinnerCentered";
-import Post2 from "../../components/posts/post/Post2";
+import Post2 from "../../components/posts/post/Post";
 import NotFoundPage from "../error/NotFoundPage";
 
 const SinglePost = () => {

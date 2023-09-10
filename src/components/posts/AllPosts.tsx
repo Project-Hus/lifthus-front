@@ -5,7 +5,7 @@ import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import useUserMap from "../../hooks/userMap";
 import { useVisibleEffect } from "../../hooks/visibleEffect";
-import Post2 from "./post/Post2";
+import Post2 from "./post/Post";
 
 const AllPosts = () => {
   const queryClient = useQueryClient();

@@ -8,7 +8,7 @@ import postApi from "../../../api/postApi";
 import ImageBoard from "../../../common/components/images/ImageBoard";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import { useImageFileListWithPreview } from "../../../hooks/images";
-import { IconButtonStyleDiv } from "./Post2";
+import { IconButtonStyleDiv } from "./Post";
 
 type PostEditingProps = {
   post: PostDto;

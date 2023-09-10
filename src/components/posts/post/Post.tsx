@@ -46,7 +46,7 @@ interface PostProp {
   open?: boolean; // if true, the post is always open and shows the post that is only passed as a prop
 }
 
-const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
+const Post = ({ post: postInput, author, open = false }: PostProp) => {
   const queryClient = useQueryClient();
 
   // author info
@@ -161,7 +161,7 @@ const Post2 = ({ post: postInput, author, open = false }: PostProp) => {
   );
 };
 
-export default Post2;
+export default Post;
 
 type PostDetailButtonProps = {
   onClick: () => void;
