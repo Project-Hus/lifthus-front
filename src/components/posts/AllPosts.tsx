@@ -26,9 +26,9 @@ const AllPosts = () => {
   );
 
   const { users: authorMap } = useUserMap(
-    ["posts", "all", "authors"],
+    ["posts", "all", "authors", ...Array.from(uidSet)],
     uidSet,
-    isSuccess
+    !!data
   );
 
   /* Infinite scroll */

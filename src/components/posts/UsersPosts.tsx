@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useCallback } from "react";
 import postApi from "../../api/postApi";
 import BlueSpinner from "../../common/components/spinners/BlueSpinner";
 import useUserMap from "../../hooks/userMap";

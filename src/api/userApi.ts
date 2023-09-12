@@ -22,6 +22,7 @@ export const userApi: UserApi = {
         withCredentials: true,
       }
     );
+    if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res);
     return new UserDto(res.data);
   },
   getUserInfo: async ({ uid }: Uid) => {
