@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useRef, useState } from "react";
 import { UserDto } from "../api/dtos/user.dto";
 import userApi from "../api/userApi";
 
 const useUserMap = (
   queryKey: any[],
   uids: Set<string>,
-  enabled?: boolean | undefined
+  enabled: boolean = true
 ) => {
   const uidList = Array.from(uids);
 
@@ -17,12 +17,11 @@ const useUserMap = (
     },
     enabled,
   });
-
-  const userMap = new Map<string, UserDto>();
+  const userMapRef = useRef(new Map<string, UserDto>());
+  const userMap = userMapRef.current;
   users?.forEach((user) => {
     if (user) userMap.set(String(user.uid), user);
   });
-
   return { users: userMap };
 };
 
