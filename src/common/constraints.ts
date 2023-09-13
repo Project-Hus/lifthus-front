@@ -5,8 +5,7 @@ export const ROUTINE_DESC_FOLD = 100;
 // Post constraints
 export const SLUG_MAX_LENGTH = 100;
 export const POST_EXCERPT_LENGTH = 100;
-export const POST_FOLD = 200;
-export const POST_MAX_CONTENT = 2000;
+export const POST_MAX_CONTENT_LENGTH = 2000;
 // Comment constraints
-export const COMMENT_FOLD = 100;
-export const COMMENT_MAX_CONTENT = 531;
+export const COMMENT_FOLD = 200;
+export const COMMENT_MAX_CONTENT_LENGTH = 531;
