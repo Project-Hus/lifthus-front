@@ -1,10 +1,7 @@
-import { Avatar } from "@chakra-ui/avatar";
 import { Button } from "@chakra-ui/button";
 import { Card, CardBody, CardHeader } from "@chakra-ui/card";
-import { Image } from "@chakra-ui/image";
-import { Textarea, Link as LinkChakra } from "@chakra-ui/react";
 
-import { Box, Flex, Heading, Text } from "@chakra-ui/layout";
+import { Flex, Text } from "@chakra-ui/layout";
 import React from "react";
 
 import { ThemeColor } from "../../../common/styles/theme.style";
@@ -15,25 +12,19 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import postApi from "../../../api/postApi";
-import userApi from "../../../api/userApi";
-
-import { Link } from "react-router-dom";
-import useUserStore from "../../../store/user.zustand";
 import ImageBoard from "../../../common/components/images/ImageBoard";
-import { useImageFileListWithPreview } from "../../../hooks/images";
 
 import PostFooter from "./PostFooter";
 import styled from "@emotion/styled";
 import PostMenu, { PostHeader } from "./PostHeader";
 import PostEdit from "./PostEdit";
-import { PostSummaryDto } from "../../../api/dtos/postSummary.dto";
-import {
-  PostDto,
-  PostJSON,
-  UpdatePostDtoInput,
-} from "../../../api/dtos/post.dto";
+
+import { PostDto } from "../../../api/dtos/post.dto";
 import { UserDto } from "../../../api/dtos/user.dto";
-import { SLUG_MAX_LENGTH } from "../../../common/constraints";
+import {
+  POST_EXCERPT_LENGTH,
+  SLUG_MAX_LENGTH,
+} from "../../../common/constraints";
 
 type FormData = {
   content: string;
@@ -53,9 +44,6 @@ const Post = ({ post: postInput, author, open = false }: PostProp) => {
   const username = author?.username || "Unknown user";
   const profileImage = author?.profile_image_url;
 
-  // content abstract to be shown when the post is not open
-  const [abstract, updateAbstract] = useState<string>(postInput.content);
-
   // whether the post is open or not
   const [isOpen, setOpen] = useState<boolean>(open);
 
@@ -65,14 +53,10 @@ const Post = ({ post: postInput, author, open = false }: PostProp) => {
       return await postApi.getPost({ pid: postInput.id });
     },
     enabled: isOpen && !open,
-    onSuccess: (data: PostDto) => {
-      updateAbstract(data.content.slice(0, SLUG_MAX_LENGTH));
-    },
   });
 
   const post = postQueried || postInput;
-
-  const clientUid = useUserStore((state) => state.uid);
+  const excerpt = post.content.slice(0, POST_EXCERPT_LENGTH);
 
   // post deletion
   const { mutate: deleteMutate } = useMutation(
@@ -86,8 +70,6 @@ const Post = ({ post: postInput, author, open = false }: PostProp) => {
       },
     }
   );
-
-  const { register, handleSubmit } = useForm<FormData>();
 
   // post editing
   const [isEditing, setEditing] = useState(false);
@@ -118,7 +100,7 @@ const Post = ({ post: postInput, author, open = false }: PostProp) => {
 
         {!isEditing && (
           <ImageBoard
-            srcs={(isOpen ? post.imageSrcs : postInput.imageSrcs) || []}
+            srcs={isOpen ? post.imageSrcs || [] : post.imageSrcs.slice(0, 1)}
           />
         )}
 
@@ -128,20 +110,25 @@ const Post = ({ post: postInput, author, open = false }: PostProp) => {
           ) : (
             <>
               <Text style={{ whiteSpace: "pre-wrap" }}>
-                {isOpen ? post.content : abstract + "..."}
-                {!open && (
-                  <>
-                    {!isOpen ? (
-                      <PostDetailButton onClick={() => setOpen(true)}>
-                        &nbsp;&nbsp;&nbsp;more...
-                      </PostDetailButton>
-                    ) : (
-                      <PostDetailButton onClick={() => setOpen(false)}>
-                        &nbsp;&nbsp;&nbsp;briefly
-                      </PostDetailButton>
-                    )}
-                  </>
-                )}
+                {isOpen
+                  ? post.content
+                  : excerpt +
+                    (post.content.length > excerpt.length ? "..." : "")}
+                {!open &&
+                  (excerpt.length < post.content.length ||
+                    post.imageSrcs.length > 1) && (
+                    <>
+                      {!isOpen ? (
+                        <PostDetailButton onClick={() => setOpen(true)}>
+                          &nbsp;&nbsp;&nbsp;more...
+                        </PostDetailButton>
+                      ) : (
+                        <PostDetailButton onClick={() => setOpen(false)}>
+                          &nbsp;&nbsp;&nbsp;briefly
+                        </PostDetailButton>
+                      )}
+                    </>
+                  )}
               </Text>
             </>
           )}

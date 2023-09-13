@@ -5,18 +5,17 @@ import {
   PostDto,
   UpdatePostDtoInput,
 } from "../dtos/post.dto";
-import { PostSummaryDto } from "../dtos/postSummary.dto";
 
 export interface PostApi {
   getPost: ({ pid, slug }: { pid?: string; slug?: string }) => Promise<PostDto>;
-  getAllPosts: (skip?: number) => Promise<PostSummaryDto[]>;
+  getAllPosts: (skip?: number) => Promise<PostDto[]>;
   getUsersPosts: ({
     users,
     skip,
   }: {
     users: string[];
     skip: number;
-  }) => Promise<PostSummaryDto[]>;
+  }) => Promise<PostDto[]>;
   createPost: ({
     author,
     images,
