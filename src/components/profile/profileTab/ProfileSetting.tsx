@@ -1,5 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, useMediaQuery } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -67,11 +67,12 @@ type SettingButtonProps = {
 };
 
 const SettingButton = ({ onClick, color, children }: SettingButtonProps) => {
+  const [smallerThanMediaThreshold] = useMediaQuery("(max-width: 700px)");
   return (
     <Button
       onClick={onClick}
       variant="outline"
-      width="50%"
+      width={smallerThanMediaThreshold ? "80%" : "50%"}
       fontSize="0.8em"
       color={color}
       _hover={{ bg: ThemeColor.backgroundColor }}
