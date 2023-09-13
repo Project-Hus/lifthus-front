@@ -4,10 +4,10 @@ import {
   CreatePostDto,
   CreatePostDtoInput,
   PostDto,
+  PostJSON,
   UpdatePostDto,
   UpdatePostDtoInput,
 } from "./dtos/post.dto";
-import { PostSumamryJSON, PostSummaryDto } from "./dtos/postSummary.dto";
 import { GetUserPostsParams, PostApi } from "./interfaces/postApi.interface";
 
 import statusInfo from "./interfaces/statusInfo.json";
@@ -26,27 +26,23 @@ const postApi: PostApi = {
     else if (res.status === statusInfo.fail.NotFound.code) return null;
     return res.data;
   },
-  getAllPosts: async (skip?: number): Promise<PostSummaryDto[]> => {
+  getAllPosts: async (skip?: number): Promise<PostDto[]> => {
     if (!skip) skip = 0;
     const res = await axios.get(
       LIFTHUS_API_URL + `/post/query/post/all?skip=${skip}`
     );
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
-    const postSumms: PostSummaryDto[] = res.data.map(
-      (p: PostSumamryJSON) => new PostSummaryDto(p)
-    );
+    const postSumms: PostDto[] = res.data.map((p: PostJSON) => new PostDto(p));
     return postSumms;
   },
-  getUsersPosts: async ({ users, skip = 0 }): Promise<PostSummaryDto[]> => {
+  getUsersPosts: async ({ users, skip = 0 }): Promise<PostDto[]> => {
     const usersQ = users.join(",");
     const res = await axios.get(LIFTHUS_API_URL + `/post/query/post`, {
       params: { users: usersQ, skip },
       withCredentials: true,
     });
     if (res.status !== statusInfo.succ.Ok.code) return Promise.reject(res.data);
-    const postSumms: PostSummaryDto[] = res.data.map(
-      (p: PostSumamryJSON) => new PostSummaryDto(p)
-    );
+    const postSumms: PostDto[] = res.data.map((p: PostJSON) => new PostDto(p));
     return postSumms;
   },
   createPost: async (post: CreatePostDtoInput): Promise<PostDto> => {
