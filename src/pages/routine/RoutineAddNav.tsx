@@ -20,18 +20,22 @@ const RoutineAddNav = () => {
         <RoutineAddButton
           icon={<SearchIcon />}
           name={"프로그램 검색"}
-          to="program/search"
+          to="/routine/program/search"
         />
         <RoutineAddButton
           icon={<RepeatClockIcon />}
           name="임시 루틴"
-          to="tmp"
+          to="/routine/tmp"
         />
-        <RoutineAddButton icon={<EditIcon />} name="기록하기" to="record" />
+        <RoutineAddButton
+          icon={<EditIcon />}
+          name="기록하기"
+          to="/routine/record"
+        />
         <RoutineAddButton
           icon={<AddIcon />}
           name="프로그램 생성"
-          to="program/create"
+          to={"/routine/program/create"}
         />
       </RoutinePanel>
       <div style={{ width: "100%", textAlign: "right" }}>
