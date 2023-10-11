@@ -119,6 +119,7 @@ const CreatePost = () => {
             <Textarea
               paddingLeft="0.5em"
               placeholder="write your story"
+              maxLength={1000}
               {...register("text")}
               resize="none"
               _focus={{ bg: ThemeColor.backgroundColor }}

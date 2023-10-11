@@ -1,13 +1,25 @@
+import styled from "@emotion/styled";
 import React from "react";
-import { Img } from "@chakra-ui/react";
+import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
+import { ThemeColor } from "../../common/styles/theme.style";
+import RoutinePanelHead from "../../components/routine/RoutinePanelHead";
+import RoutineAbsList from "../../components/routine/RoutineAbsList";
 
 const Routine = () => {
   return (
-    <Img
-      objectFit="cover"
-      src="https://media.tenor.com/t3buP-QoO9oAAAAM/jim-carrey-work.gif"
-    />
+    <BasicPageLayout>
+      <RoutinePanel>
+        <RoutinePanelHead date={new Date()} />
+        <RoutineAbsList />
+      </RoutinePanel>
+    </BasicPageLayout>
   );
 };
+
+const RoutinePanel = styled.div`
+  border-radius: 0.5em;
+  border-top: 0.2em solid ${ThemeColor.backgroundColorDarker};
+  border-bottom: 0.2em solid ${ThemeColor.backgroundColorDarker};
+`;
 
 export default Routine;
