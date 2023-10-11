@@ -18,8 +18,8 @@ const Routine = () => {
 
 export const RoutinePanel = styled.div`
   border-radius: 1rem;
-  border-top: 0.2rem solid ${ThemeColor.backgroundColorDarker};
-  border-bottom: 0.2rem solid ${ThemeColor.backgroundColorDarker};
+  border-top: 0.4rem solid ${ThemeColor.backgroundColorDarker};
+  border-bottom: 0.4rem solid ${ThemeColor.backgroundColorDarker};
 `;
 
 export default Routine;
