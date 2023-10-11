@@ -17,7 +17,7 @@ const Routine = () => {
 };
 
 export const RoutinePanel = styled.div`
-  border-radius: 0.25em;
+  border-radius: 1rem;
   border-top: 0.2rem solid ${ThemeColor.backgroundColorDarker};
   border-bottom: 0.2rem solid ${ThemeColor.backgroundColorDarker};
 `;

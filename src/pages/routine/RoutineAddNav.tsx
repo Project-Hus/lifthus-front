@@ -36,6 +36,7 @@ const RoutineAddNav = () => {
           icon={<AddIcon />}
           name="프로그램 생성"
           to={"/routine/program/create"}
+          noBorder={true}
         />
       </RoutinePanel>
       <div style={{ width: "100%", textAlign: "right" }}>
@@ -62,11 +63,17 @@ type RoutineAddButtonProps = {
   icon: React.ReactNode;
   name: string;
   to: string;
+  noBorder?: boolean;
 };
-const RoutineAddButton = ({ icon, name, to }: RoutineAddButtonProps) => {
+const RoutineAddButton = ({
+  icon,
+  name,
+  to,
+  noBorder = false,
+}: RoutineAddButtonProps) => {
   const navigate = useNavigate();
   return (
-    <RoutineAddButtonDiv onClick={() => navigate(to)}>
+    <RoutineAddButtonDiv onClick={() => navigate(to)} noBorder={noBorder}>
       <div style={{ width: "100%", textAlign: "center" }}>{icon}</div>
       <Text
         fontWeight={"bold"}
@@ -80,12 +87,14 @@ const RoutineAddButton = ({ icon, name, to }: RoutineAddButtonProps) => {
   );
 };
 
-const RoutineAddButtonDiv = styled.div`
+const RoutineAddButtonDiv = styled.div<{ noBorder: boolean }>`
   width: 100%;
   padding: 2rem;
   color: white;
 
-  border-bottom: 0.1rem solid ${ThemeColor.backgroundColorDarker};
+  ${(props) =>
+    !props.noBorder &&
+    `border-bottom: 0.1rem solid ${ThemeColor.backgroundColorDarker};`}
 
   &:hover {
     background-color: ${ThemeColor.backgroundColorDarker};
