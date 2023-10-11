@@ -16,10 +16,10 @@ const Routine = () => {
   );
 };
 
-const RoutinePanel = styled.div`
-  border-radius: 0.5em;
-  border-top: 0.2em solid ${ThemeColor.backgroundColorDarker};
-  border-bottom: 0.2em solid ${ThemeColor.backgroundColorDarker};
+export const RoutinePanel = styled.div`
+  border-radius: 0.25em;
+  border-top: 0.2rem solid ${ThemeColor.backgroundColorDarker};
+  border-bottom: 0.2rem solid ${ThemeColor.backgroundColorDarker};
 `;
 
 export default Routine;
