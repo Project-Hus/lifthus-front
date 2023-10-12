@@ -14,18 +14,11 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { CreateDailyRoutineDto } from "../../../api/dtos/program.dto";
 import { ThemeColor } from "../../../common/styles/theme.style";
+import useProgramCreationStore from "../../../store/createProgram.zustand";
 
-type WeeklyProgramBuilderProps = {
-  typeResetter: () => void;
-  dailyRoutines: CreateDailyRoutineDto[];
-  dailyRoutineSetter: (dailyRoutines: CreateDailyRoutineDto[]) => void;
-};
+const WeeklyProgramBuilder = () => {
+  const { dailyRoutines, setType } = useProgramCreationStore();
 
-const WeeklyProgramBuilder = ({
-  typeResetter,
-  dailyRoutines,
-  dailyRoutineSetter,
-}: WeeklyProgramBuilderProps) => {
   const [maxWeek, setMaxWeek] = useState(1);
   const weeks = [];
   for (let i = 1; i <= maxWeek; i++) {
@@ -47,7 +40,7 @@ const WeeklyProgramBuilder = ({
           w="40%"
           onClick={() => {
             if (maxWeek === 1) {
-              typeResetter();
+              setType("none");
               return;
             }
             setMaxWeek(maxWeek - 1);

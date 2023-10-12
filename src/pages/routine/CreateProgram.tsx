@@ -7,15 +7,11 @@ import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
 import TypeSelector from "../../components/routine/createProgram/CreateProgramTypeSelector";
 import WeeklyProgramBuilder from "../../components/routine/createProgram/WeeklyProgramBuilder";
+import useProgramCreationStore from "../../store/createProgram.zustand";
 import { RoutinePanel } from "./Routine";
 
 const CreateProgram = () => {
-  const [programType, setProgramType] = useState<"none" | "weekly" | "daily">(
-    "none"
-  );
-  const [dailyRoutines, setDailyRoutines] = useState<CreateDailyRoutineDto[]>(
-    []
-  );
+  const { programType } = useProgramCreationStore();
 
   const { register, handleSubmit, watch } = useForm();
 
@@ -57,17 +53,9 @@ const CreateProgram = () => {
         </CreateProgramInternalDiv>
         <CreateProgramInternalDiv>
           {(programType === "none" || programType === "daily") && (
-            <TypeSelector typeSetter={setProgramType} />
+            <TypeSelector />
           )}
-          {programType === "weekly" && (
-            <WeeklyProgramBuilder
-              typeResetter={() => {
-                setProgramType("none");
-              }}
-              dailyRoutines={dailyRoutines}
-              dailyRoutineSetter={setDailyRoutines}
-            />
-          )}
+          {programType === "weekly" && <WeeklyProgramBuilder />}
         </CreateProgramInternalDiv>
       </RoutinePanel>
     </BasicPageLayout>

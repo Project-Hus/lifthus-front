@@ -33,7 +33,10 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   text: "",
   dailyRoutines: [],
   setType: (type: "none" | "weekly" | "daily") =>
-    set((state) => ({ ...state, programType: type })),
+    set((state) => {
+      if (type === "none") state.dailyRoutines = [];
+      return { ...state, programType: type };
+    }),
   setTitle: (title: string) => set((state) => ({ ...state, title })),
   setAuthor: (author: string) => set((state) => ({ ...state, author })),
   setDerivedFrom: (derivedFrom: string) =>

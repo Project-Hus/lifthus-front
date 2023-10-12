@@ -1,12 +1,10 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
 import { ThemeColor } from "../../../common/styles/theme.style";
+import useProgramCreationStore from "../../../store/createProgram.zustand";
 
-type ProgramTypeSelectorProps = {
-  typeSetter: (type: "none" | "weekly" | "daily") => void;
-};
-
-const ProgramTypeSelector = ({ typeSetter }: ProgramTypeSelectorProps) => {
+const ProgramTypeSelector = () => {
+  const { setType: typeSetter } = useProgramCreationStore();
   return (
     <div>
       <Button
