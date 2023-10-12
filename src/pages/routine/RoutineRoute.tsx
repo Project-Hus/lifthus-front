@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import CreateAct from "./CreateAct";
 import CreateProgram from "./CreateProgram";
 import RecordRoutine from "./RecordRoutine";
 import Routine from "./Routine";
@@ -16,6 +17,8 @@ const RoutineRoute = () => {
       <Route path={"tmp"} element={<TmpRoutine />} />
       <Route path={"record"} element={<RecordRoutine />} />
       <Route path={"program/create"} element={<CreateProgram />} />
+
+      <Route path={"act/create"} element={<CreateAct />} />
     </Routes>
   );
 };

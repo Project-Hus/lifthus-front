@@ -1,8 +1,7 @@
 import { Img, Input, Text, Textarea } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { CreateDailyRoutineDto } from "../../api/dtos/program.dto";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
 import TypeSelector from "../../components/routine/createProgram/CreateProgramTypeSelector";
@@ -63,7 +62,7 @@ const CreateProgram = () => {
 };
 export default CreateProgram;
 
-const CreateProgramHeadDiv = styled.div`
+export const CreateProgramHeadDiv = styled.div`
   color: ${ThemeColor.topButtonColor};
   font-weight: bold;
   font-size: 2.5rem;
@@ -71,7 +70,7 @@ const CreateProgramHeadDiv = styled.div`
   border-bottom: 0.2rem solid ${ThemeColor.backgroundColorDarker};
 `;
 
-const CreateProgramInternalDiv = styled.div<{ noBorder?: boolean }>`
+export const CreateProgramInternalDiv = styled.div<{ noBorder?: boolean }>`
   text-align: center;
   ${({ noBorder = false }) =>
     !noBorder &&
