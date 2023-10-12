@@ -1,4 +1,16 @@
-import { Button, useDisclosure } from "@chakra-ui/react";
+import {
+  ArrowDownIcon,
+  CalendarIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  HamburgerIcon,
+  RepeatIcon,
+  TriangleDownIcon,
+  UpDownIcon,
+  ViewIcon,
+} from "@chakra-ui/icons";
+import { Button, Text, useDisclosure } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { CreateDailyRoutineDto } from "../../../api/dtos/program.dto";
 import { ThemeColor } from "../../../common/styles/theme.style";
@@ -70,11 +82,17 @@ type WeekRoutineBuilderProps = {
 };
 
 const WeekRoutineBuilder = ({ week }: WeekRoutineBuilderProps) => {
-  const { getButtonProps, getDisclosureProps } = useDisclosure();
+  const { isOpen, getButtonProps, getDisclosureProps } = useDisclosure();
   return (
-    <>
-      <div {...getButtonProps()}>{week}주차</div>
+    <WeekRoutineDiv>
+      <Text {...getButtonProps()} textAlign="left" paddingLeft="1.5rem">
+        {week} 주차 {isOpen ? <TriangleDownIcon /> : <></>}
+      </Text>
       <div {...getDisclosureProps()}>asdf</div>
-    </>
+    </WeekRoutineDiv>
   );
 };
+
+const WeekRoutineDiv = styled.div`
+  border-bottom: 0.1rem solid ${ThemeColor.backgroundColorDarker};
+`;
