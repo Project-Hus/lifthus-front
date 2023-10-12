@@ -1,4 +1,14 @@
-import { Button, Img, Input, Text, Textarea } from "@chakra-ui/react";
+import {
+  Button,
+  Img,
+  Input,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import React from "react";
 import { useForm } from "react-hook-form";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
@@ -38,6 +48,21 @@ const CreateAct = () => {
             objectFit="cover"
             src="https://media.tenor.com/t3buP-QoO9oAAAAM/jim-carrey-work.gif"
           />
+          <RadioDiv>
+            <RadioGroup>
+              <Stack direction="row">
+                <Radio value="weight" {...register("actType")}>
+                  무게
+                </Radio>
+                <Radio value="time" {...register("actType")}>
+                  시간
+                </Radio>
+                <Radio value="simple" {...register("actType")}>
+                  단순
+                </Radio>
+              </Stack>
+            </RadioGroup>
+          </RadioDiv>
           <Textarea
             placeholder="동작 설명을 입력하세요"
             w="90%"
@@ -47,11 +72,30 @@ const CreateAct = () => {
             {...register("actText")}
           />
         </CreateProgramInternalDiv>
-        <Button>asdf</Button>
-        <Button>asdf</Button>
+        <ButtonDiv>
+          <Button bgColor="orange" onClick={() => window.history.back()}>
+            취소
+          </Button>
+          <Button isDisabled={!watch("actType")}>생성</Button>
+        </ButtonDiv>
       </RoutinePanel>
     </BasicPageLayout>
   );
 };
-
 export default CreateAct;
+
+const RadioDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  button {
+    width: 25%;
+    margin: 1rem;
+    font-size: 2rem;
+  }
+`;
