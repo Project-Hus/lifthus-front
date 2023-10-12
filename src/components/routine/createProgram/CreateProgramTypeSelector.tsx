@@ -18,6 +18,7 @@ const ProgramTypeSelector = () => {
         fontSize="1.5rem"
         w="40%"
         onClick={() => {
+          alert("coming soon");
           typeSetter("daily");
         }}
       >
