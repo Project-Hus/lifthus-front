@@ -20,7 +20,7 @@ const RoutineActBuilder = ({ day }: RoutineActBuilderProps) => {
   } = useDisclosure();
   return (
     <RoutineActsDiv>
-      {!!dr && dr.routineActs.map((ra) => <RoutineAct />)}
+      {!!dr && dr.routineActs.map((ra, idx) => <RoutineAct key={idx} />)}
       <div {...getDisclosureProps()}>
         <ActFinder />
       </div>

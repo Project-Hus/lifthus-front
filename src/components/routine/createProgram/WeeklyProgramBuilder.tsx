@@ -17,7 +17,7 @@ const WeeklyProgramBuilder = () => {
   );
   const weeks = [];
   for (let i = 1; i <= weekCnt; i++) {
-    weeks.push(<WeekRoutineBuilder week={i} />);
+    weeks.push(<WeekRoutineBuilder key={i} week={i} />);
   }
   return (
     <div>

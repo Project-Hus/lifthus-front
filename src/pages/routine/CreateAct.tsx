@@ -17,6 +17,7 @@ import actApi from "../../api/actApi";
 import { CreateActDto } from "../../api/dtos/act.dto";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
+import { useImageFileListWithPreview } from "../../hooks/images";
 import useUserStore from "../../store/user.zustand";
 import {
   CreateProgramHeadDiv,

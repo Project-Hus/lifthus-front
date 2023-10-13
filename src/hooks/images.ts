@@ -10,7 +10,8 @@ import { fetchFilesAndCreateFileList } from "../utils/file";
  *
  * @returns { onLoadFile: (e: React.ChangeEvent<HTMLInputElement>) => void, imagePreviewSources: string[], imageFileList: File[], removeImages: (idxs: number[]) => void}
  */
-export const useImageFileListWithPreview = (srcs?: string[]) => {
+export const useImageFileListWithPreview = () => {
+  const srcs = undefined;
   const [imagePreviewSources, setImagePreviewSources] = useState<string[]>([]);
   const [imageFileList, setImageFileList] = useState<File[]>([]);
 
