@@ -9,10 +9,15 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import actApi from "../../api/actApi";
+import { CreateActDto } from "../../api/dtos/act.dto";
 import BasicPageLayout from "../../common/components/layouts/BasicPageLayout";
 import { ThemeColor } from "../../common/styles/theme.style";
+import useUserStore from "../../store/user.zustand";
 import {
   CreateProgramHeadDiv,
   CreateProgramInternalDiv,
@@ -20,7 +25,19 @@ import {
 import { RoutinePanel } from "./Routine";
 
 const CreateAct = () => {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, watch } = useForm();
+
+  const { uid } = useUserStore();
+
+  const { mutate } = useMutation(
+    async (act: CreateActDto) => actApi.createAct(act),
+    {
+      onSuccess(data, variables, context) {
+        window.history.back();
+      },
+      onError(error, variables, context) {},
+    }
+  );
   return (
     <BasicPageLayout>
       <RoutinePanel>
@@ -76,7 +93,21 @@ const CreateAct = () => {
           <Button bgColor="orange" onClick={() => window.history.back()}>
             취소
           </Button>
-          <Button isDisabled={!watch("actType")}>생성</Button>
+          <Button
+            isDisabled={!watch("actType")}
+            onClick={() => {
+              const newAct: CreateActDto = {
+                actType: watch("actType"),
+                name: watch("actName"),
+                author: uid,
+                text: watch("actText"),
+                imageSrcs: [],
+              };
+              mutate(newAct);
+            }}
+          >
+            생성
+          </Button>
         </ButtonDiv>
       </RoutinePanel>
     </BasicPageLayout>
