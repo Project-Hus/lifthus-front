@@ -3,7 +3,9 @@ import { Button, Input, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { ThemeColor } from "../../../common/styles/theme.style";
-import useProgramCreationStore from "../../../store/createProgram.zustand";
+import useProgramCreationStore, {
+  CreateRoutineActState,
+} from "../../../store/createProgram.zustand";
 import ActFinder from "./ActFinder";
 
 type RoutineActBuilderProps = {
@@ -20,9 +22,12 @@ const RoutineActBuilder = ({ day }: RoutineActBuilderProps) => {
   } = useDisclosure();
   return (
     <RoutineActsDiv>
-      {!!dr && dr.routineActs.map((ra, idx) => <RoutineAct key={idx} />)}
+      {!!dr &&
+        dr.routineActs.map((ra, idx) => (
+          <RoutineAct key={idx} routineAct={ra} />
+        ))}
       <div {...getDisclosureProps()}>
-        <ActFinder />
+        <ActFinder day={day} />
       </div>
       <Button
         variant="outline"
@@ -43,6 +48,10 @@ export default RoutineActBuilder;
 
 const RoutineActsDiv = styled.div``;
 
-const RoutineAct = () => {
-  return <div>ra</div>;
+type RoutineActProps = {
+  routineAct: CreateRoutineActState;
+};
+
+const RoutineAct = ({ routineAct: ra }: RoutineActProps) => {
+  return <div>{ra.actVersion}</div>;
 };

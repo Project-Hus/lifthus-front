@@ -16,9 +16,12 @@ const actApi: ActApi = {
     return res.data;
   },
   queryActsByName: async (name: string): Promise<QueryActDto[]> => {
-    const res = await axios.get(LIFTHUS_API_URL + `/routine/act?name=${name}`, {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      LIFTHUS_API_URL + `/routine/acts?name=${name}`,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.status !== statusInfo.succ.Ok.code)
       throw Promise.reject("failed to query act");
     return res.data;

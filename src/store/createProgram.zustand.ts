@@ -1,9 +1,4 @@
 import { create } from "zustand";
-import {
-  CreateDailyRoutineDto,
-  CreateProgramDto,
-} from "../api/dtos/program.dto";
-import { RegisterNumberType } from "./interfaces/register.interface";
 
 interface CreateProgramState {
   programType: "none" | "weekly" | "daily";
@@ -12,17 +7,29 @@ interface CreateProgramState {
   derivedFrom?: string | undefined;
   imageSrcs: string[];
   text: string;
-  dailyRoutines: CreateDailyRoutineDto[];
+  dailyRoutines: CreateDailyRoutineState[];
   setType: (type: "none" | "weekly" | "daily") => void;
   setTitle: (title: string) => void;
   setAuthor: (author: string) => void;
   setDerivedFrom: (derivedFrom: string) => void;
   setImageSrcs: (imageSrcs: string[]) => void;
   setText: (text: string) => void;
-  addDailyRoutine: (dailyRoutine: CreateDailyRoutineDto) => void;
+
   removeDailyRoutine: (day: number) => void;
-  replaceDailyRoutine: (dailyRoutine: CreateDailyRoutineDto) => void;
+  addRoutineAct: (day: number, ra: CreateRoutineActState) => void;
 }
+
+type CreateDailyRoutineState = {
+  day: number;
+  routineActs: CreateRoutineActState[];
+};
+
+export type CreateRoutineActState = {
+  actVersion: string;
+  stage: "warmup" | "main" | "cooldown";
+  repsOrMeters: number;
+  ratioOrSecs: number;
+};
 
 const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   programType: "none",
@@ -44,29 +51,27 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   setImageSrcs: (imageSrcs: string[]) =>
     set((state) => ({ ...state, imageSrcs })),
   setText: (text: string) => set((state) => ({ ...state, text })),
-  addDailyRoutine: (dailyRoutine: CreateDailyRoutineDto) =>
-    set((state) => {
-      const prev = state.dailyRoutines;
-      if (prev.find((dr) => dr.day === dailyRoutine.day))
-        throw new Error("day already exists");
-      const cur = [...prev, dailyRoutine];
-      cur.sort((a, b) => a.day - b.day);
-      return { ...state, dailyRoutines: cur };
-    }),
   removeDailyRoutine: (day: number) =>
     set((state) => {
       const prev = state.dailyRoutines;
       const cur = prev.filter((dr) => dr.day !== day);
       return { ...state, dailyRoutines: cur };
     }),
-  replaceDailyRoutine: (dailyRoutine: CreateDailyRoutineDto) =>
+  addRoutineAct: (day: number, ra: CreateRoutineActState) =>
     set((state) => {
-      const prev = state.dailyRoutines;
-      const idx = prev.findIndex((dr) => dr.day === dailyRoutine.day);
-      if (idx === -1) throw new Error("day does not exist");
-      const cur = [...prev];
-      cur[idx] = dailyRoutine;
-      return { ...state, dailyRoutines: cur };
+      const prevDRs = state.dailyRoutines;
+      let targetDR: CreateDailyRoutineState | undefined = prevDRs.find(
+        (dr) => dr.day === day
+      );
+      if (!targetDR) {
+        targetDR = { day, routineActs: [ra] };
+        const newDRs = [...prevDRs, targetDR];
+        newDRs.sort((a, b) => a.day - b.day);
+        return { ...state, dailyRoutines: newDRs };
+      }
+      targetDR.routineActs.push(ra);
+      const newDRs = [...prevDRs];
+      return { ...state, dailyRoutines: newDRs };
     }),
 }));
 
