@@ -1,18 +1,12 @@
 export type QueryActDto = {
   code: string;
+  author: string;
   actType: string;
   name: string;
-  author: string;
-  createdAt: string;
-  versions: QueryActVersionDto[];
-};
-
-export type QueryActVersionDto = {
-  code: string;
-  version: number;
-  imageSrcs: string[];
   text: string;
+  imageSrcs: string[];
   createdAt: string;
+  standard: boolean;
 };
 
 export type CreateActDto = {
@@ -21,4 +15,10 @@ export type CreateActDto = {
   author: string;
   text: string;
   imageSrcs: string[];
+};
+
+export type UpdateActRequestDto = {
+  actCode: string;
+  text?: string;
+  imageSrcs?: string[];
 };

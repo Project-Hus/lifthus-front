@@ -84,12 +84,10 @@ type SearchedActProps = {
 
 const SearchedAct = ({ day, act }: SearchedActProps) => {
   const { addRoutineAct } = useProgramCreationStore();
-  const vlen = act.versions.length;
-  const lastV = act.versions[vlen - 1];
-  const lastVerImgCnt = lastV.imageSrcs.length;
+  const lastVerImgCnt = act.imageSrcs.length;
   const imgSrc =
     lastVerImgCnt > 0
-      ? lastV.imageSrcs[0]
+      ? act.imageSrcs[0]
       : "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png";
   return (
     <SearchedActDiv>
@@ -114,18 +112,6 @@ const SearchedAct = ({ day, act }: SearchedActProps) => {
       >
         &nbsp;{act.name}&nbsp;
       </Text>
-      <Select
-        variant="filled"
-        bgColor={ThemeColor.backgroundColorDarker}
-        marginTop="auto"
-        marginBottom="auto"
-        defaultValue={act.versions[act.versions.length - 1].version}
-        minW="5rem"
-      >
-        {act.versions.map((version) => (
-          <option value={version.version}>{`v${version.version}`}</option>
-        ))}
-      </Select>
       <div style={{ width: "15%", margin: "auto" }}>
         <Button
           variant="unstyled"

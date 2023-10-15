@@ -1,7 +1,9 @@
 import { CheckIcon, EditIcon } from "@chakra-ui/icons";
 import { Button, Input, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import actApi from "../../../api/actApi";
 import { ThemeColor } from "../../../common/styles/theme.style";
 import useProgramCreationStore, {
   CreateRoutineActState,
@@ -53,5 +55,11 @@ type RoutineActProps = {
 };
 
 const RoutineAct = ({ routineAct: ra }: RoutineActProps) => {
+  const { data } = useQuery(
+    ["act", { actVersion: ra.actVersion }],
+    async () => {
+      return await actApi.queryActByCode(ra.actVersion);
+    }
+  );
   return <div>{ra.actVersion}</div>;
 };

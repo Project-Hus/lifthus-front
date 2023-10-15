@@ -4,22 +4,24 @@ export type CreateProgramDto = {
   programType: string;
   title: string;
   author: string;
-  derivedFrom?: string;
+
+  parentProgram?: string;
+  parentVersion?: number;
 
   imageSrcs: string[];
   text: string;
 
-  dailyRoutines: CreateDailyRoutineDto[];
+  routines: CreateRoutineDto[];
 };
 
-export type CreateDailyRoutineDto = {
+export type CreateRoutineDto = {
   day: number;
   routineActs: CreateRoutineActDto[];
 };
 
 export type CreateRoutineActDto = {
   order: number;
-  actVersion: string;
+  actCode: string;
   stage: string;
   repsOrMeters: number;
   ratioOrSecs: number;
