@@ -81,6 +81,13 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
 
   removeRoutineAct: (day: number, order: number) =>
     set((state) => {
+      const targetRoutineIdx = state.routines.findIndex((r) => r.day === day);
+      if (targetRoutineIdx === -1) return { ...state };
+      state.routines[targetRoutineIdx].routineActs = state.routines[
+        targetRoutineIdx
+      ].routineActs
+        .splice(0, order - 1)
+        .concat(state.routines[targetRoutineIdx].routineActs.splice(order));
       return { ...state };
     }),
   moveRoutineActForward: (day: number, order: number) =>
