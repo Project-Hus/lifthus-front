@@ -7,13 +7,10 @@ import useProgramCreationStore from "../../../store/createProgram.zustand";
 import RoutineActBuilder from "./RoutineActBuilder";
 
 const WeeklyProgramBuilder = () => {
-  const { dailyRoutines, setType, removeDailyRoutine } =
-    useProgramCreationStore();
-  dailyRoutines.sort((a, b) => a.day - b.day);
+  const { routines, setType, removeRoutine } = useProgramCreationStore();
+  routines.sort((a, b) => a.day - b.day);
   const [weekCnt, setWeekCnt] = useState(
-    dailyRoutines.length > 0
-      ? Math.ceil(dailyRoutines[dailyRoutines.length - 1].day / 7)
-      : 1
+    routines.length > 0 ? Math.ceil(routines[routines.length - 1].day / 7) : 1
   );
   const weeks = [];
   for (let i = 1; i <= weekCnt; i++) {
@@ -38,9 +35,9 @@ const WeeklyProgramBuilder = () => {
               setType("none");
               return;
             }
-            dailyRoutines
+            routines
               .filter((dr) => dr.day > (weekCnt - 1) * 7)
-              .map((dr) => removeDailyRoutine(dr.day));
+              .map((dr) => removeRoutine(dr.day));
             setWeekCnt(weekCnt - 1);
           }}
         >
@@ -109,9 +106,9 @@ type WeekDayRoutineProps = {
 };
 
 const WeekDayRoutine = ({ week, weekDay, text }: WeekDayRoutineProps) => {
-  const { dailyRoutines } = useProgramCreationStore();
+  const { routines } = useProgramCreationStore();
   const day = (week - 1) * 7 + weekDay;
-  const dr = dailyRoutines.find((dr) => dr.day === day);
+  const dr = routines.find((dr) => dr.day === day);
 
   const { isOpen, getButtonProps, getDisclosureProps } = useDisclosure();
   return (

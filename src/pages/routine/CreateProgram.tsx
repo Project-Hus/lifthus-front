@@ -39,7 +39,8 @@ const CreateProgram = () => {
             marginBottom="1rem"
             w="50%"
             objectFit="cover"
-            src="https://media.tenor.com/t3buP-QoO9oAAAAM/jim-carrey-work.gif"
+            borderRadius="1rem"
+            src="https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png"
           />
           <Textarea
             placeholder="프로그램 설명을 입력하세요"

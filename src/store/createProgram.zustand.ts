@@ -1,31 +1,36 @@
 import { create } from "zustand";
 
 interface CreateProgramState {
-  programType: "none" | "weekly" | "daily";
+  programType: "none" | "weekly" | "";
   title: string;
   author: string;
   derivedFrom?: string | undefined;
   imageSrcs: string[];
   text: string;
-  dailyRoutines: CreateDailyRoutineState[];
-  setType: (type: "none" | "weekly" | "daily") => void;
+  routines: CreateRoutineState[];
+  setType: (type: "none" | "weekly" | "") => void;
   setTitle: (title: string) => void;
   setAuthor: (author: string) => void;
   setDerivedFrom: (derivedFrom: string) => void;
   setImageSrcs: (imageSrcs: string[]) => void;
   setText: (text: string) => void;
 
-  removeDailyRoutine: (day: number) => void;
+  removeRoutine: (day: number) => void;
+
   addRoutineAct: (day: number, ra: CreateRoutineActState) => void;
+  removeRoutineAct: (day: number, order: number) => void;
+
+  moveRoutineActForward: (day: number, order: number) => void;
+  moveRoutineActBackward: (day: number, order: number) => void;
 }
 
-type CreateDailyRoutineState = {
+type CreateRoutineState = {
   day: number;
   routineActs: CreateRoutineActState[];
 };
 
 export type CreateRoutineActState = {
-  actVersion: string;
+  actCode: string;
   stage: "warmup" | "main" | "cooldown";
   repsOrMeters: number;
   ratioOrSecs: number;
@@ -38,10 +43,10 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   derivedFrom: undefined,
   imageSrcs: [],
   text: "",
-  dailyRoutines: [],
-  setType: (type: "none" | "weekly" | "daily") =>
+  routines: [],
+  setType: (type: "none" | "weekly" | "") =>
     set((state) => {
-      if (type === "none") state.dailyRoutines = [];
+      if (type === "none") state.routines = [];
       return { ...state, programType: type };
     }),
   setTitle: (title: string) => set((state) => ({ ...state, title })),
@@ -51,27 +56,40 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   setImageSrcs: (imageSrcs: string[]) =>
     set((state) => ({ ...state, imageSrcs })),
   setText: (text: string) => set((state) => ({ ...state, text })),
-  removeDailyRoutine: (day: number) =>
+  removeRoutine: (day: number) =>
     set((state) => {
-      const prev = state.dailyRoutines;
+      const prev = state.routines;
       const cur = prev.filter((dr) => dr.day !== day);
-      return { ...state, dailyRoutines: cur };
+      return { ...state, Routines: cur };
     }),
   addRoutineAct: (day: number, ra: CreateRoutineActState) =>
     set((state) => {
-      const prevDRs = state.dailyRoutines;
-      let targetDR: CreateDailyRoutineState | undefined = prevDRs.find(
+      const prevDRs = state.routines;
+      let targetDR: CreateRoutineState | undefined = prevDRs.find(
         (dr) => dr.day === day
       );
       if (!targetDR) {
         targetDR = { day, routineActs: [ra] };
         const newDRs = [...prevDRs, targetDR];
         newDRs.sort((a, b) => a.day - b.day);
-        return { ...state, dailyRoutines: newDRs };
+        return { ...state, Routines: newDRs };
       }
       targetDR.routineActs.push(ra);
       const newDRs = [...prevDRs];
-      return { ...state, dailyRoutines: newDRs };
+      return { ...state, Routines: newDRs };
+    }),
+
+  removeRoutineAct: (day: number, order: number) =>
+    set((state) => {
+      return { ...state };
+    }),
+  moveRoutineActForward: (day: number, order: number) =>
+    set((state) => {
+      return { ...state };
+    }),
+  moveRoutineActBackward: (day: number, order: number) =>
+    set((state) => {
+      return { ...state };
     }),
 }));
 

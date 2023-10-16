@@ -103,6 +103,7 @@ const SearchedAct = ({ day, act }: SearchedActProps) => {
       >
         {act.actType}
       </Text>
+      &nbsp;
       <Text
         marginTop="auto"
         marginBottom="auto"
@@ -110,7 +111,7 @@ const SearchedAct = ({ day, act }: SearchedActProps) => {
         w="125rem"
         fontSize="1.25rem"
       >
-        &nbsp;{act.name}&nbsp;
+        {act.name}
       </Text>
       <div style={{ width: "15%", margin: "auto" }}>
         <Button
@@ -125,7 +126,7 @@ const SearchedAct = ({ day, act }: SearchedActProps) => {
           _hover={{ bgColor: ThemeColor.linkColorHover }}
           onClick={() => {
             const ra: CreateRoutineActState = {
-              actVersion: act.code,
+              actCode: act.code,
               stage: "main",
               repsOrMeters: 0,
               ratioOrSecs: 0,
@@ -144,5 +145,4 @@ const SearchedAct = ({ day, act }: SearchedActProps) => {
 
 const SearchedActDiv = styled.div`
   display: flex;
-  justify-content: center;
 `;
