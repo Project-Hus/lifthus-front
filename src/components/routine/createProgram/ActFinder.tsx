@@ -20,7 +20,11 @@ type ActFinderProps = {
 const ActFinder = ({ day }: ActFinderProps) => {
   const [waitingSearch, setWaitingSearch] = useState(false);
   const queryClient = useQueryClient();
-  const { data: acts, isLoading } = useQuery(["acts"], async () => {
+  const {
+    data: acts,
+    isFetching,
+    refetch,
+  } = useQuery(["acts"], async () => {
     const searchingName = watch("actName");
     if (searchingName === "") return [];
     return await actApi.queryActsByName(watch("actName"));
@@ -54,7 +58,9 @@ const ActFinder = ({ day }: ActFinderProps) => {
               else {
                 setWaitingSearch(true);
                 setTimeout(() => {
+                  console.log(waitingSearch);
                   queryClient.invalidateQueries(["acts"]);
+                  refetch();
                   setWaitingSearch(false);
                 }, 250);
               }
@@ -65,7 +71,7 @@ const ActFinder = ({ day }: ActFinderProps) => {
       {acts?.map((act, idx) => (
         <SearchedAct key={idx} day={day} act={act} />
       ))}
-      {(isLoading || waitingSearch) && <BlueSpinner />}
+      {(isFetching || waitingSearch) && <BlueSpinner />}
     </ActFinderDiv>
   );
 };

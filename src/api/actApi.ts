@@ -31,18 +31,23 @@ const actApi: ActApi = {
     return res.data;
   },
   queryActsByName: async (name: string): Promise<QueryActDto[]> => {
-    const res = await axios.get<QueryActDto[]>(
-      LIFTHUS_API_URL + `/routine/acts?name=${name}`,
-      {
-        withCredentials: true,
+    try {
+      const res = await axios.get<QueryActDto[]>(
+        LIFTHUS_API_URL + `/routine/acts?name=${name}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.status !== statusInfo.succ.Ok.code)
+        throw Promise.reject("failed to query act");
+      for (const act of res.data) {
+        tmpActCache[act.code] = act;
       }
-    );
-    if (res.status !== statusInfo.succ.Ok.code)
-      throw Promise.reject("failed to query act");
-    for (const act of res.data) {
-      tmpActCache[act.code] = act;
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
-    return res.data;
   },
 };
 

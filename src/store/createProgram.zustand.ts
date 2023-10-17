@@ -1,27 +1,31 @@
 import { create } from "zustand";
 
 interface CreateProgramState {
-  programType: "none" | "weekly" | "";
+  programType: "none" | "weekly" | "daily";
   title: string;
   author: string;
   derivedFrom?: string | undefined;
   imageSrcs: string[];
   text: string;
   routines: CreateRoutineState[];
-  setType: (type: "none" | "weekly" | "") => void;
+  setType: (type: "none" | "weekly" | "daily") => void;
   setTitle: (title: string) => void;
   setAuthor: (author: string) => void;
   setDerivedFrom: (derivedFrom: string) => void;
   setImageSrcs: (imageSrcs: string[]) => void;
   setText: (text: string) => void;
 
-  removeRoutine: (day: number) => void;
+  removeWeek: (week: number) => void;
 
   addRoutineAct: (day: number, ra: CreateRoutineActState) => void;
   removeRoutineAct: (day: number, order: number) => void;
-
   moveRoutineActForward: (day: number, order: number) => void;
   moveRoutineActBackward: (day: number, order: number) => void;
+
+  setReps: (day: number, order: number, reps: number) => void;
+  setMeters: (day: number, order: number, meters: number) => void;
+  setRatio: (day: number, order: number, ratio: number) => void;
+  setSecs: (day: number, order: number, secs: number) => void;
 }
 
 type CreateRoutineState = {
@@ -44,7 +48,7 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   imageSrcs: [],
   text: "",
   routines: [],
-  setType: (type: "none" | "weekly" | "") =>
+  setType: (type: "none" | "weekly" | "daily") =>
     set((state) => {
       if (type === "none") state.routines = [];
       return { ...state, programType: type };
@@ -56,11 +60,12 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   setImageSrcs: (imageSrcs: string[]) =>
     set((state) => ({ ...state, imageSrcs })),
   setText: (text: string) => set((state) => ({ ...state, text })),
-  removeRoutine: (day: number) =>
+  removeWeek: (week: number) =>
     set((state) => {
+      const week1st = (week - 1) * 7 + 1;
       const prev = state.routines;
-      const cur = prev.filter((dr) => dr.day !== day);
-      return { ...state, Routines: cur };
+      state.routines = prev.filter((dr) => dr.day < week1st);
+      return { ...state };
     }),
   addRoutineAct: (day: number, ra: CreateRoutineActState) =>
     set((state) => {
@@ -72,11 +77,11 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
         targetDR = { day, routineActs: [ra] };
         const newDRs = [...prevDRs, targetDR];
         newDRs.sort((a, b) => a.day - b.day);
-        return { ...state, Routines: newDRs };
+        return { ...state, routines: newDRs };
       }
       targetDR.routineActs.push(ra);
       const newDRs = [...prevDRs];
-      return { ...state, Routines: newDRs };
+      return { ...state, routines: newDRs };
     }),
 
   removeRoutineAct: (day: number, order: number) =>
@@ -88,14 +93,64 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
       ].routineActs
         .splice(0, order - 1)
         .concat(state.routines[targetRoutineIdx].routineActs.splice(order));
+      if (state.routines[targetRoutineIdx].routineActs.length === 0)
+        state.routines = state.routines
+          .splice(0, targetRoutineIdx)
+          .concat(state.routines.splice(targetRoutineIdx + 1));
       return { ...state };
     }),
   moveRoutineActForward: (day: number, order: number) =>
     set((state) => {
+      const dayroutine = state.routines.find((r) => r.day === day);
+      if (!dayroutine) return { ...state };
+      const routineActs = dayroutine.routineActs;
+      if (order === 1 || order > routineActs.length) return { ...state };
+      const tmpRa = routineActs[order - 2];
+      routineActs[order - 2] = routineActs[order - 1];
+      routineActs[order - 1] = tmpRa;
       return { ...state };
     }),
   moveRoutineActBackward: (day: number, order: number) =>
     set((state) => {
+      const dayroutine = state.routines.find((r) => r.day === day);
+      if (!dayroutine) return { ...state };
+      const routineActs = dayroutine.routineActs;
+      if (order >= routineActs.length || order < 1) return { ...state };
+      const tmpRa = routineActs[order];
+      routineActs[order] = routineActs[order - 1];
+      routineActs[order - 1] = tmpRa;
+      return { ...state };
+    }),
+  setReps: (day: number, order: number, reps: number) =>
+    set((state) => {
+      const dayroutine = state.routines.find((r) => r.day === day);
+      if (!dayroutine) return { ...state };
+      const routineActs = dayroutine.routineActs;
+      routineActs[order - 1].repsOrMeters = reps;
+      return { ...state };
+    }),
+  setMeters: (day: number, order: number, meters: number) =>
+    set((state) => {
+      const dayroutine = state.routines.find((r) => r.day === day);
+      if (!dayroutine) return { ...state };
+      const routineActs = dayroutine.routineActs;
+      routineActs[order - 1].repsOrMeters = meters;
+      return { ...state };
+    }),
+  setRatio: (day: number, order: number, ratio: number) =>
+    set((state) => {
+      const dayroutine = state.routines.find((r) => r.day === day);
+      if (!dayroutine) return { ...state };
+      const routineActs = dayroutine.routineActs;
+      routineActs[order - 1].ratioOrSecs = ratio;
+      return { ...state };
+    }),
+  setSecs: (day: number, order: number, secs: number) =>
+    set((state) => {
+      const dayroutine = state.routines.find((r) => r.day === day);
+      if (!dayroutine) return { ...state };
+      const routineActs = dayroutine.routineActs;
+      routineActs[order - 1].ratioOrSecs = secs;
       return { ...state };
     }),
 }));

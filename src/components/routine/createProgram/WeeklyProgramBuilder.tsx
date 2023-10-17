@@ -1,5 +1,5 @@
 import { TriangleDownIcon } from "@chakra-ui/icons";
-import { Button, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { ThemeColor } from "../../../common/styles/theme.style";
@@ -7,7 +7,7 @@ import useProgramCreationStore from "../../../store/createProgram.zustand";
 import RoutineActBuilder from "./RoutineActBuilder";
 
 const WeeklyProgramBuilder = () => {
-  const { routines, setType, removeRoutine } = useProgramCreationStore();
+  const { routines, setType, removeWeek } = useProgramCreationStore();
   routines.sort((a, b) => a.day - b.day);
   const [weekCnt, setWeekCnt] = useState(
     routines.length > 0 ? Math.ceil(routines[routines.length - 1].day / 7) : 1
@@ -35,9 +35,8 @@ const WeeklyProgramBuilder = () => {
               setType("none");
               return;
             }
-            routines
-              .filter((dr) => dr.day > (weekCnt - 1) * 7)
-              .map((dr) => removeRoutine(dr.day));
+            console.log(routines, weekCnt);
+            removeWeek(weekCnt);
             setWeekCnt(weekCnt - 1);
           }}
         >
@@ -71,11 +70,25 @@ type WeekRoutineBuilderProps = {
 
 const WeekRoutineBuilder = ({ week }: WeekRoutineBuilderProps) => {
   const { isOpen, getButtonProps, getDisclosureProps } = useDisclosure();
+  const { routines } = useProgramCreationStore();
+  const week1st = (week - 1) * 7 + 1;
+  const weekLast = (week - 1) * 7 + 7;
+  const drs = routines.filter((dr) => dr.day >= week1st && dr.day <= weekLast);
   return (
     <WeekRoutineDiv>
-      <Text {...getButtonProps()} textAlign="left" marginLeft="1.5rem">
-        {week} 주차 {isOpen ? <TriangleDownIcon /> : <></>}
-      </Text>
+      <Flex
+        {...getButtonProps()}
+        bgColor={
+          drs.length ? ThemeColor.topButtonColor : ThemeColor.backgroundColor
+        }
+      >
+        <Text textAlign="left" marginLeft="1.5rem">
+          {week} 주차 {isOpen ? <TriangleDownIcon /> : <></>}
+        </Text>
+        <Text fontSize="1rem" marginTop="auto">
+          {!!drs.length && `${drs.length}일치 루틴`}
+        </Text>
+      </Flex>
       <WeekDayRoutinesDiv {...getDisclosureProps()}>
         <WeekDayRoutine text="월요일" week={week} weekDay={1} />
         <WeekDayRoutine text="화요일" week={week} weekDay={2} />
@@ -113,9 +126,17 @@ const WeekDayRoutine = ({ week, weekDay, text }: WeekDayRoutineProps) => {
   const { isOpen, getButtonProps, getDisclosureProps } = useDisclosure();
   return (
     <WeekDayRoutineDiv>
-      <Text marginLeft="3rem" textAlign="left" {...getButtonProps()}>
-        {text} {isOpen ? <TriangleDownIcon /> : <></>}
-      </Text>
+      <Flex
+        {...getButtonProps()}
+        bgColor={!!dr ? ThemeColor.basicColor : ThemeColor.backgroundColor}
+      >
+        <Text marginLeft="3rem" textAlign="left">
+          {text} {isOpen ? <TriangleDownIcon /> : <></>}{" "}
+        </Text>
+        <Text fontSize="1rem" marginTop="auto">
+          {!!dr && `${dr?.routineActs.length}개 루틴`}
+        </Text>
+      </Flex>
       <div {...getDisclosureProps()}>
         <RoutineActBuilder day={day} />
       </div>
