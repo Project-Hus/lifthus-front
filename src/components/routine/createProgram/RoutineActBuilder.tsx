@@ -207,7 +207,7 @@ const WeightTypeRoutineAct = ({
         bgColor={ThemeColor.backgroundColorDarker}
         {...register("ratio", {
           onChange: () => {
-            setRatio(day, order, watch("ratio"));
+            setRatio(day, order, Number(watch("ratio")));
           },
         })}
       />
@@ -230,7 +230,7 @@ const WeightTypeRoutineAct = ({
         bgColor={ThemeColor.backgroundColorDarker}
         {...register("reps", {
           onChange: () => {
-            setReps(day, order, watch("reps"));
+            setReps(day, order, Number(watch("reps")));
           },
         })}
       />
@@ -257,7 +257,7 @@ const TimeTypeRoutineAct = ({ day, order }: { day: number; order: number }) => {
         bgColor={ThemeColor.backgroundColorDarker}
         {...register("meters", {
           onChange: () => {
-            setMeters(day, order, watch("meters"));
+            setMeters(day, order, Number(watch("meters")));
           },
         })}
       />
@@ -277,7 +277,7 @@ const TimeTypeRoutineAct = ({ day, order }: { day: number; order: number }) => {
         bgColor={ThemeColor.backgroundColorDarker}
         {...register("secs", {
           onChange: () => {
-            setSecs(day, order, watch("secs"));
+            setSecs(day, order, Number(watch("secs")));
           },
         })}
       />
@@ -316,7 +316,7 @@ const SimpleTypeRoutineAct = ({
         bgColor={ThemeColor.backgroundColorDarker}
         {...register("reps", {
           onChange: () => {
-            setReps(day, order, watch("reps"));
+            setReps(day, order, Number(watch("reps")));
           },
         })}
       />

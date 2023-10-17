@@ -3,15 +3,15 @@ import { create } from "zustand";
 interface CreateProgramState {
   programType: "none" | "weekly" | "daily";
   title: string;
-  author: string;
-  derivedFrom?: string | undefined;
   imageSrcs: string[];
   text: string;
+  parentProgramCode?: string;
+  parentVersion?: number;
   routines: CreateRoutineState[];
   setType: (type: "none" | "weekly" | "daily") => void;
   setTitle: (title: string) => void;
-  setAuthor: (author: string) => void;
-  setDerivedFrom: (derivedFrom: string) => void;
+  setParentProgramCode: (parentProgramCode: string) => void;
+  setParentVersion: (parentVersion: number) => void;
   setImageSrcs: (imageSrcs: string[]) => void;
   setText: (text: string) => void;
 
@@ -26,6 +26,8 @@ interface CreateProgramState {
   setMeters: (day: number, order: number, meters: number) => void;
   setRatio: (day: number, order: number, ratio: number) => void;
   setSecs: (day: number, order: number, secs: number) => void;
+
+  clear: () => void;
 }
 
 type CreateRoutineState = {
@@ -43,8 +45,8 @@ export type CreateRoutineActState = {
 const useProgramCreationStore = create<CreateProgramState>()((set) => ({
   programType: "none",
   title: "",
-  author: "",
-  derivedFrom: undefined,
+  parentProgramCode: undefined,
+  parentVersion: undefined,
   imageSrcs: [],
   text: "",
   routines: [],
@@ -54,9 +56,10 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
       return { ...state, programType: type };
     }),
   setTitle: (title: string) => set((state) => ({ ...state, title })),
-  setAuthor: (author: string) => set((state) => ({ ...state, author })),
-  setDerivedFrom: (derivedFrom: string) =>
-    set((state) => ({ ...state, derivedFrom })),
+  setParentProgramCode: (parentProgramCode: string) =>
+    set((state) => ({ ...state, parentProgramCode })),
+  setParentVersion: (parentVersion: number) =>
+    set((state) => ({ ...state, parentVersion })),
   setImageSrcs: (imageSrcs: string[]) =>
     set((state) => ({ ...state, imageSrcs })),
   setText: (text: string) => set((state) => ({ ...state, text })),
@@ -153,6 +156,17 @@ const useProgramCreationStore = create<CreateProgramState>()((set) => ({
       routineActs[order - 1].ratioOrSecs = secs;
       return { ...state };
     }),
+
+  clear: () =>
+    set((state) => ({
+      programType: "none",
+      title: "",
+      parentProgramCode: undefined,
+      parentVersion: undefined,
+      imageSrcs: [],
+      text: "",
+      routines: [],
+    })),
 }));
 
 export default useProgramCreationStore;
