@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import CreateAct from "./CreateAct";
 import CreateProgram from "./CreateProgram";
+import ProgramDetail from "./ProgramDetail";
 import RecordRoutine from "./RecordRoutine";
 import Routine from "./Routine";
 import RoutineAddNav from "./RoutineAddNav";
@@ -13,10 +14,11 @@ const RoutineRoute = () => {
     <Routes>
       <Route index element={<Routine />} />
       <Route path={"add"} element={<RoutineAddNav />} />
-      <Route path={"program/search"} element={<SearchProgram />} />
+      <Route path={"search/program"} element={<SearchProgram />} />
       <Route path={"tmp"} element={<TmpRoutine />} />
       <Route path={"record"} element={<RecordRoutine />} />
-      <Route path={"program/create"} element={<CreateProgram />} />
+      <Route path={"create/program"} element={<CreateProgram />} />
+      <Route path={"program/:slug"} element={<ProgramDetail />} />
 
       <Route path={"act/create"} element={<CreateAct />} />
     </Routes>

@@ -20,7 +20,7 @@ const RoutineAddNav = () => {
         <RoutineAddButton
           icon={<SearchIcon />}
           name={"프로그램 검색"}
-          to="/routine/program/search"
+          to="/routine/search/program"
         />
         <RoutineAddButton
           icon={<RepeatClockIcon />}
@@ -35,7 +35,7 @@ const RoutineAddNav = () => {
         <RoutineAddButton
           icon={<AddIcon />}
           name="프로그램 생성"
-          to={"/routine/program/create"}
+          to={"/routine/create/program"}
           noBorder={true}
         />
       </RoutinePanel>
