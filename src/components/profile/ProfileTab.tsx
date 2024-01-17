@@ -27,6 +27,7 @@ const ProfileTab = ({ userInfo }: { userInfo: UserDto | undefined }) => {
     >
       <TabList>
         {/* Heatmap Tab */}
+        {/*
         <Tab
           w="25%"
           _hover={{ bgColor: "green.300" }}
@@ -34,15 +35,17 @@ const ProfileTab = ({ userInfo }: { userInfo: UserDto | undefined }) => {
         >
           <CalendarIcon />
         </Tab>
+        */}
         {/* Connection Tab */}
         <Tab
-          w="25%"
+          w="50%"
           _hover={{ bgColor: "green.300" }}
           _selected={{ color: "white", bg: "green.400" }}
         >
           <LinkIcon />
         </Tab>
         {/* Figure Tab */}
+        {/*
         <Tab
           w="25%"
           _hover={{ bgColor: "blue.400" }}
@@ -50,9 +53,10 @@ const ProfileTab = ({ userInfo }: { userInfo: UserDto | undefined }) => {
         >
           <DragHandleIcon />
         </Tab>
+        */}
         {/* Setting Tab */}
         <Tab
-          w="25%"
+          w="50%"
           _hover={{ bgColor: "yellow.400" }}
           _selected={{ color: "white", bg: "yellow.500" }}
           paddingLeft="1.5em"
@@ -62,15 +66,19 @@ const ProfileTab = ({ userInfo }: { userInfo: UserDto | undefined }) => {
         </Tab>
       </TabList>
       <TabPanels textAlign={"center"}>
+        {/*
         <TabPanel>
           <ProfileHeatmap />
         </TabPanel>
+        */}
         <TabPanel>
           <ProfileContact userInfo={userInfo} />
         </TabPanel>
+        {/*
         <TabPanel>
           <ProfileFigure />
         </TabPanel>
+        */}
         <TabPanel>
           <ProfileSetting />
         </TabPanel>

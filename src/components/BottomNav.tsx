@@ -31,6 +31,7 @@ const BottomNav = () => {
     // borderLeft: "none"
     <div style={{ height: "10vh" }}>
       <NavBar>
+        {/*}
         <NavLink to={!uid ? "/sign" : "/group"} onClick={() => setActiveNav(0)}>
           <NavItem active={true ? activeNav == 0 : false}>
             <Users />
@@ -44,11 +45,13 @@ const BottomNav = () => {
             <StatGraph />
           </NavItem>
         </NavLink>
+        */}
         <NavLink to={"/"} onClick={() => setActiveNav(2)}>
           <NavItem active={true ? activeNav == 2 : false}>
             <Home />
           </NavItem>
         </NavLink>
+        {/*
         <NavLink
           to={!uid ? "/sign" : "/routine"}
           onClick={() => setActiveNav(3)}
@@ -57,6 +60,7 @@ const BottomNav = () => {
             <Dumbbell />
           </NavItem>
         </NavLink>
+          */}
         <NavLink
           to={!uid ? "/sign" : `/profile/${username}`}
           onClick={() => setActiveNav(4)}
@@ -91,7 +95,7 @@ const NavLink = styled(Link)`
   /* 수평정렬, 5개의 button을 각각 20% width만큼 할당 */
   box-sizing: border-box;
   float: left;
-  width: 20%;
+  width: 50%;
   border-left: 1px solid grey;
   transition: 0.3s;
   /* 세로길이 설정 */
